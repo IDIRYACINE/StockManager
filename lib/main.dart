@@ -1,7 +1,19 @@
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_manager/Stores/navigation_store.dart';
+import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/Ui/Themes/themes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NavigationStore()),
+      ],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -10,61 +22,68 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: Titles.appName,
+      theme: AppThemes.lightTheme,
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  final int sidebarFLex = 1;
+  final int panelFLex = 5;
+  
 
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  bool isInitialized = false;
+
+  late ValueListenable<int> selectedPanel;
+
+  late NavigationStore navigationStore;
+
+  void _init(){
+    if(isInitialized){ return;}
+    navigationStore = Provider.of<NavigationStore>(context, listen: false);
+    selectedPanel = navigationStore.selectedIndex; 
+    isInitialized = true;
   }
 
   @override
   Widget build(BuildContext context) {
-   
+
+    _init();
+
     return Scaffold(
-      appBar: AppBar(
-      
-        title: Text(widget.title),
-      ),
-      body: Center(
-      
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+        Expanded(flex: widget.sidebarFLex,child: const Padding(
+          padding: EdgeInsets.all(Measures.small),
+          child: SidebarHolder(),
+        ),),
+        Expanded(
+          flex: widget.panelFLex,
+          child:  Padding(
+          padding: const EdgeInsets.all(Measures.small),
+          child:  ValueListenableBuilder<int>(
+            valueListenable: selectedPanel,
+            builder: (context, value, child) {
+              return Center(
+                child: navigationStore.getSelectedPanel(),
+              );
+            },
+          ),
+        ))
+      ],),
     );
   }
 }

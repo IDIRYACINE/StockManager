@@ -5,6 +5,7 @@ class StoreDispatch{
   EStores store;
   EEvents event;
 
+  StoreDispatch(this.store, this.event);
 
 }
 
