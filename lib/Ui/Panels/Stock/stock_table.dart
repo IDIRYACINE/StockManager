@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_header.dart';
 import 'package:stock_manager/Ui/Themes/colors.dart';
@@ -25,7 +24,7 @@ class StockTable extends StatelessWidget{
                 DataColumn(label: TableHeader( headerTitle:Titles.salesTableColumns[i])),
            
           ],
-          rows: [],
+          rows: const [],
           
         ),
       ),

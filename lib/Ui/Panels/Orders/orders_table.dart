@@ -1,18 +1,19 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_header.dart';
 import 'package:stock_manager/Ui/Themes/colors.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class SalesTable extends StatefulWidget{
-  const SalesTable({Key? key}) : super(key: key);
+class OrdersTable extends StatefulWidget{
+  const OrdersTable({Key? key}) : super(key: key);
   
   @override
-  State<StatefulWidget> createState()  => _SalesTableState();
+  State<StatefulWidget> createState()  => _OrdersTableState();
 
   }
 
-class _SalesTableState extends State<SalesTable>{
+class _OrdersTableState extends State<OrdersTable>{
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +28,11 @@ class _SalesTableState extends State<SalesTable>{
             color:AppColors.black,
             ),
           columns: [
-             for(int i = 0; i < Titles.salesTableColumns.length; i++)
-                DataColumn(label: TableHeader( headerTitle:Titles.salesTableColumns[i])),
+             for(int i = 0; i < Titles.ordersTableColumns.length; i++)
+                DataColumn(label: TableHeader( headerTitle:Titles.ordersTableColumns[i])),
            
           ],
-          rows: const [],
+          rows: const[],
           
         ),
       ),
