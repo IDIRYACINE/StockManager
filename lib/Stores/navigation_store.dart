@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
+import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 
 class NavigationStore with ChangeNotifier {
 
@@ -10,6 +11,7 @@ class NavigationStore with ChangeNotifier {
   final List<Widget> _panels = [
     const SalesPanel(),
     const Text('Panel 2'),
+    const StockPanel(),
     const Text('Panel 3'),
   ];
 

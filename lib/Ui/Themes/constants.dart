@@ -29,6 +29,10 @@ abstract class Titles {
   static const List<String> salesTableColumns = [
     barcode,name,quantity,deposit,buyingPrice,lowSellPrice,price,total,profit
   ];
+
+  static const List<String> stockTableColumns = [
+    barcode,name,quantity,buyingPrice,lowSellPrice,price,
+  ];
   
   static const String appName = 'Flutter Demo';
   static const String logout = 'Logout';
@@ -41,6 +45,9 @@ abstract class ButtonsTitles{
   static const String edit = 'Edit';
   static const String remove = 'Remove';
   static const String clear = 'Clear';
+  static const String refresh = 'Refresh';
+  static const String search = 'Search';
+
 }
 
 
