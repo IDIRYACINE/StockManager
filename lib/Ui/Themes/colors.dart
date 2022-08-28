@@ -8,4 +8,5 @@ abstract class AppColors{
   static const Color black = Colors.black;
   static const Color red = Colors.red;
   static const Color inactive = Color.fromARGB(255, 132, 186, 230);
+
 }

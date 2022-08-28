@@ -1,10 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 
 class BrowseImage extends StatefulWidget{
-  const BrowseImage({Key? key}) : super(key: key);
-
+  const BrowseImage({Key? key, this.width = double.infinity}) : super(key: key);
+  final double width;
   @override
   State<StatefulWidget> createState() => _BrowseImageState();
 }
@@ -12,9 +11,6 @@ class BrowseImage extends StatefulWidget{
 class _BrowseImageState extends State<BrowseImage>{
   @override
   Widget build(BuildContext context) {
-    return DefaultButton(
-      label:"Browse",
-      onPressed: (){},
-    );
+    return Image.asset('images/browse_image.png',width:widget.width,);
   }
 }

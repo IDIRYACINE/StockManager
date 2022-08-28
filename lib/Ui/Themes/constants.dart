@@ -62,6 +62,10 @@ abstract class Titles {
     id,date,customer,product,familyCode,quantity,buyingPrice,sellingPrice,profit
   ];
 
+  static const List<String> productModelsHeaders = [
+    Labels.color,Labels.size,Labels.quantity
+  ];
+
   // Others
   static const String appName = 'Flutter Demo';
   static const String logout = 'Logout';
@@ -105,11 +109,16 @@ abstract class Labels{
   static const String save = 'Save';
   static const String colors = 'Colors';
   static const String sizes = 'Sizes';
+  static const String color = 'Color';
+  static const String size = 'Size';
+  static const String selectProductFamily= 'Select Product Family';
+
 
 }
 
 
 abstract class Measures {
+  static const double smallBorder = 1;
   static const double small = 8;
   static const double medium = 16;
   static const double large = 24;

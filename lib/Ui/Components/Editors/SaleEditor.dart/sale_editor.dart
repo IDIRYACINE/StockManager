@@ -7,7 +7,7 @@ import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SaleEditor extends StatelessWidget{
-  const SaleEditor({Key? key, required this.editMode, this.record}) : super(key: key);
+  const SaleEditor({Key? key, this.editMode = false, this.record}) : super(key: key);
 
   final bool editMode;
   final Record? record;

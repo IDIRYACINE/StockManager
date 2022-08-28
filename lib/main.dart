@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -12,6 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => NavigationStore()),
+        ChangeNotifierProvider(create: (context) => ControllersProvider()),
       ],
       child: const MyApp()));
 }

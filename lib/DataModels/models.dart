@@ -3,24 +3,24 @@ import 'package:realm/realm.dart';
 import 'package:stock_manager/DataModels/metadata.dart';
 
 @RealmModel()
-class ProductModels{
-  late String color;
-  Map<ProductsSizes,int> size = {ProductsSizes.s:1};
-  late int totalQuantity;
+class ProductModel{
+  String color = '';
+  ProductsSizes size = ProductsSizes.s;
+  int quantity = 1;
 }
 
 
 @RealmModel()
 class Product{
-  late String reference;
-  late int barcode;
-  late String name;
-  late double minSellingPrice;
-  late double buyingPrice;
-  late double sellingPrice;
-  late int totalQuantity;
-  late ProductModels models;
-  late int categoryId;
+  String reference = '';
+  int barcode = 0;
+  String name = '';
+  double minSellingPrice = 0;
+  double buyingPrice = 0;
+  double sellingPrice = 0;
+  int totalQuantity = 0;
+  List<ProductModel> models = [ProductModel()];
+  String productFamily = '';
 }
 
 
