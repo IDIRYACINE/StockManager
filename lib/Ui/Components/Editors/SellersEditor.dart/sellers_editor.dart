@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
+import 'package:stock_manager/Ui/Components/Editors/SellersEditor.dart/seller_form.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -17,27 +19,19 @@ class SellersEditor extends StatelessWidget{
 
     return Form(
       key: formKey,
-      child : Padding(padding: const EdgeInsets.all(Measures.small),
-      child: Column(
+      child : Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children:[
-          Expanded(child: AttributeTextField(
-            initialValue: sellers?.name,
-            label: Labels.name,
-          )),
-          Expanded(child: AttributeTextField(
-            initialValue: sellers?.phone.toString() ,
-            label: Labels.reference,
-          )),
-          
+          Flexible(child: SellerForm(seller: Seller())),
+          const SizedBox(height: Measures.small),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               DefaultButton(label: Labels.cancel,onPressed: (){}),
               DefaultButton(label: Labels.save,onPressed: (){},),
             ],
           )
         ]
-      ),
       )
     );
   }

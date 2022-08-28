@@ -26,22 +26,22 @@ class Product{
 
 @RealmModel()
 class Record{
-  late DateTime date;
-  late String sellerName;
-  late String product;
-  late String productSize;
-  late String productColor;
-  late int quantity;
-  late double buyingPrice;
-  late double sellingPrice;
+  DateTime date = DateTime.now();
+  String sellerName = '';
+   String product = '';
+   String productSize = '';
+   String productColor ='';
+   int quantity = 0;
+   double buyingPrice = 0;
+   double sellingPrice = 0;
 }
 
 
 @RealmModel()
 class Seller{
-  late String name;
-  late int phone;
-  late String imageUrl;
+  String name ='';
+   int phone = 0;
+   String imageUrl =  '';
 }
 
 
