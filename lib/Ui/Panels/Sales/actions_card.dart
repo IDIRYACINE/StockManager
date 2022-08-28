@@ -14,25 +14,25 @@ class ActionsCard extends StatelessWidget {
         children: [
           Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.add),
+              child: const Text(Labels.add),
               onPressed: () {},
             ),
           ),
            Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.edit),
+              child: const Text(Labels.edit),
               onPressed: () {},
             ),
           ),
            Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.remove),
+              child: const Text(Labels.remove),
               onPressed: () {},
             ),
           ),
            Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.clear),
+              child: const Text(Labels.clear),
               onPressed: () {},
             ),
           ),

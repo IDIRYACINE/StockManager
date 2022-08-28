@@ -46,25 +46,25 @@ class _ActionsCardState extends State<ActionsCard> {
           
           Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.add),
+              child: const Text(Labels.add),
               onPressed: () {},
             ),
           ),
            Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.filter),
+              child: const Text(Labels.filter),
               onPressed: () {},
             ),
           ),
            Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.refresh),
+              child: const Text(Labels.refresh),
               onPressed: () {},
             ),
           ),
            Flexible(
             child: ElevatedButton(
-              child: const Text(ButtonsTitles.details),
+              child: const Text(Labels.details),
               onPressed: () {},
             ),
           ),

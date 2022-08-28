@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
+import 'package:stock_manager/Ui/Panels/Records/records.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 
@@ -13,6 +14,7 @@ class NavigationStore with ChangeNotifier {
     const SalesPanel(),
     const OrdersPanel(),
     const StockPanel(),
+    const RecordsPanel(),
     const Text('Panel 3'),
   ];
 

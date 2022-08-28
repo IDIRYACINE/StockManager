@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Ui/Panels/Stock/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock_table.dart';
