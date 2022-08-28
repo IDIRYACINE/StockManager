@@ -1,9 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/stock_controller.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class ActionsCard extends StatelessWidget{

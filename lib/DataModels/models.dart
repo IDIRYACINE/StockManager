@@ -1,8 +1,6 @@
 
-import 'package:realm/realm.dart';
 import 'package:stock_manager/DataModels/metadata.dart';
 
-@RealmModel()
 class ProductModel{
   String color = '';
   ProductsSizes size = ProductsSizes.s;
@@ -10,12 +8,10 @@ class ProductModel{
 }
 
 
-@RealmModel()
 class Product{
   String reference = '';
   int barcode = 0;
   String name = '';
-  double minSellingPrice = 0;
   double buyingPrice = 0;
   double sellingPrice = 0;
   int totalQuantity = 0;
@@ -24,7 +20,6 @@ class Product{
 }
 
 
-@RealmModel()
 class Record{
   DateTime date = DateTime.now();
   String sellerName = '';
@@ -37,7 +32,6 @@ class Record{
 }
 
 
-@RealmModel()
 class Seller{
   String name ='';
    int phone = 0;
@@ -45,13 +39,11 @@ class Seller{
 }
 
 
-@RealmModel()
 class ProductFamily{
   late String name;
   String? imageUrl;
 }
 
-@RealmModel()
 class OrderProduct{
   late String product;
   late String productSize;
@@ -60,7 +52,6 @@ class OrderProduct{
 }
 
 
-@RealmModel()
 class Customer{
   late String name;
   int? phoneNumber;
@@ -69,7 +60,6 @@ class Customer{
   late int postalCode;
 }
 
-@RealmModel()
 class Order{
   late DateTime date;
   late String sellerName;

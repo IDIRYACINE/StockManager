@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
 import 'package:stock_manager/Ui/Components/Editors/SellersEditor.dart/seller_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 

@@ -30,8 +30,8 @@ class SaleForm extends StatelessWidget {
           ),
           const SizedBox(height: Measures.small),
           AttributeTextField(
-            initialValue: product.minSellingPrice.toString(),
-            label: Labels.minSellingPrice,
+            initialValue: product.productFamily,
+            label: Labels.reference,
           ),
           const SizedBox(height: Measures.small),
           AttributeTextField(

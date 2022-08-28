@@ -1,95 +1,74 @@
-
 abstract class Titles {
-
-  // Sidebar Titles
-  static const String stock = 'Stock';
-  static const String sales = 'Sales';
-  static const String records = 'Records';
-  static const String settings = 'Settings';
-  static const String orders = 'Orders';
-
   static const List<String> sidebarTitles = [
-    sales,
-    orders,
-    stock,
-    records,
-    settings,
-    logout
+    Labels.sales,
+    Labels.orders,
+    Labels.stock,
+    Labels.records,
+    Labels.settings,
+    Labels.logout
   ];
 
-  //Tables Headers
-  static const String barcode = 'Barcode';
-  static const String name = 'Name';
-  static const String price = 'Price';
-  static const String quantity = 'Quantity';
-  static const String deposit = 'Deposit';
-  static const String buyingPrice = 'Buying Price';
-  static const String total = 'Total';
-  static const String seller = 'Seller';
-  static const String remainingPrice = 'Remaining Price';
-  static const String profit = 'Profit';
-  static const String lowSellPrice = 'Lowest Price';
-  static const String sellingPrice = 'Selling Price';
-  static const String id = 'ID';
-  static const String date = 'Date';
-  static const String customer = 'Customer';
-  static const String totalPrice = 'Total Price';
-  static const String status = 'Status';
-  static const String actions = 'Actions';
-  static const String city = 'City';
-  static const String product = 'Product';
-  static const String familyCode = 'Family Code';
-  static const String familyName = 'Family Name';
-
-
-
   static const List<String> salesTableColumns = [
-    Labels.barcode,Labels.productName,
-    Labels.sellerName,Labels.quantity,
-    Labels.buyingPrice,Labels.lowSellPrice,
-    Labels.priceHelp,Labels.price,Labels.total,
+    Labels.barcode,
+    Labels.productName,
+    Labels.reference,
+    Labels.sellerName,
+    Labels.buyingPrice,
+    Labels.sellingPrice
   ];
 
   // Stock Table
   static const List<String> stockTableColumns = [
-    Labels.barcode,Labels.productName,Labels.quantity,Labels.buyingPrice,
-    Labels.lowSellPrice,Labels.price,
-
+    Labels.barcode,
+    Labels.productName,
+    Labels.productFamily,
+    Labels.buyingPrice,
+    Labels.quantity,
   ];
-  
+
   // Orders Table
   static const List<String> ordersTableColumns = [
-    Labels.id,Labels.date,Labels.sellerName,Labels.customer,Labels.city,Labels.quantity,
-    Labels.total,Labels.status,Labels.payedDelivery
+    Labels.id,
+    Labels.date,
+    Labels.sellerName,
+    Labels.customer,
+    Labels.city,
+    Labels.quantity,
+    Labels.total,
+    Labels.status,
+    Labels.payedDelivery
   ];
 
   // Records Table
   static const List<String> recordsTableColumns = [
-    id,date,customer,product,familyCode,quantity,buyingPrice,sellingPrice,profit
+    Labels.date,
+    Labels.payementType,
+    Labels.productName,
+    Labels.productFamily,
+    Labels.buyingPrice,
+    Labels.sellingPrice,
   ];
 
   static const List<String> productModelsHeaders = [
-    Labels.color,Labels.size,Labels.quantity
+    Labels.color,
+    Labels.size,
+    Labels.quantity
   ];
 
-  static const List<String>  depositsTableColumns = [
-    Labels.barcode,Labels.productName,
-    Labels.sellerName,Labels.quantity,
-    Labels.deposit,Labels.remainingPayement,
-    Labels.buyingPrice,Labels.lowSellPrice,Labels.price,
+  static const List<String> depositsTableColumns = [
+    Labels.barcode,
+    Labels.productName,
+    Labels.reference,
+    Labels.customer,
+    Labels.sellerName,
+    Labels.deposit,
+    Labels.remainingPayement,
+    Labels.buyingPrice,
+    Labels.sellingPrice,
   ];
-
-  // Others
-  static const String appName = 'Flutter Demo';
-  static const String logout = 'Logout';
-  static const String login = 'Login';
-
-
-
 }
 
-
-abstract class Labels{
+abstract class Labels {
   static const String date = 'Date';
   static const String sellerName = 'Seller';
   static const String quantity = 'Quantity';
@@ -128,7 +107,7 @@ abstract class Labels{
   static const String color = 'Color';
   static const String size = 'Size';
   static const String entityNumber = 'N';
-  static const String selectProductFamily= 'Select Product Family';
+  static const String selectProductFamily = 'Select Product Family';
   static const String productName = 'Product';
   static const String price = "Price";
   static const String lowSellPrice = "Lowest Price";
@@ -139,9 +118,21 @@ abstract class Labels{
   static const String payedDelivery = "PDelivery";
   static const String customer = 'Customer';
   static const String id = "Id";
+  static const String productFamily = 'Family';
+  static const String payementType = 'Payement Type';
 
+  // Sidebar Titles
+  static const String stock = 'Stock';
+  static const String sales = 'Sales';
+  static const String records = 'Records';
+  static const String settings = 'Settings';
+  static const String orders = 'Orders';
+  static const String logout = 'Logout';
+
+  // Others
+  static const String appName = 'Flutter Demo';
+  static const String login = 'Login';
 }
-
 
 abstract class Measures {
   static const double smallBorder = 1;

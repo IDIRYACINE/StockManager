@@ -36,11 +36,7 @@ class ProductForm extends StatelessWidget {
             initialValue: product.barcode.toString(),
             label: Labels.barcode,
           )),
-          Expanded(
-              child: AttributeTextField(
-            initialValue: product.minSellingPrice.toString(),
-            label: Labels.minSellingPrice,
-          )),
+          
           Expanded(
               child: AttributeTextField(
             initialValue: product.buyingPrice.toString(),
@@ -51,11 +47,7 @@ class ProductForm extends StatelessWidget {
             initialValue: product.sellingPrice.toString(),
             label: Labels.sellingPrice,
           )),
-          Expanded(
-              child: AttributeTextField(
-            initialValue: product.totalQuantity.toString(),
-            label: Labels.totalQuantity,
-          )),
+        
          ],
       ),
     );
