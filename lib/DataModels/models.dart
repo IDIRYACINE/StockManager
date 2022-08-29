@@ -12,7 +12,7 @@ class Product{
   String reference = '';
   int barcode = 0;
   String name = '';
-  double buyingPrice = 0;
+  double originalPrice = 0;
   double sellingPrice = 0;
   int totalQuantity = 0;
   List<ProductModel> models = [ProductModel()];
@@ -27,7 +27,7 @@ class Record{
    String productSize = '';
    String productColor ='';
    int quantity = 0;
-   double buyingPrice = 0;
+   double originalPrice = 0;
    double sellingPrice = 0;
 }
 

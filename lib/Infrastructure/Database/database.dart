@@ -1,121 +1,151 @@
+import 'dart:developer';
 
-import 'package:realm/realm.dart';
-import 'package:stock_manager/DataModels/realm_models.dart';
-import 'package:stock_manager/Types/Database/i_databse.dart';
-import 'package:stock_manager/Types/Database/t_wrappers.dart';
+import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Types/Database/i_database.dart';
 
-class Database implements IDatabase{
-  
-  late Realm recordsRealm;
-  late Realm productsRealm;
-  late Realm productFamiliesRealm;
-  late Realm sellersRealm;
+class Database {
+  late Db database;
+  String host = "127.0.0.1";
+  String port = "27017";
+  String dbName = "stock_manager";
 
-  @override
-  void connect(String identifier, String password) {
-    recordsRealm = Realm(Configuration.local([Record.schema]));
-    productsRealm = Realm(Configuration.local([Product.schema]));
-    productFamiliesRealm = Realm(Configuration.local([ProductFamily.schema]));
-    sellersRealm = Realm(Configuration.local([Seller.schema]));
+  Future<void> connect(String identifier, String password) async {
+    try {
+      database = Db("mongodb://$identifier:$password@$host:$port/$dbName");
+      await database.open();
+    } catch (e) {
+      log(e.toString());
+      _createDatabase(identifier, password);
+    }
   }
 
-  @override
+  Future<void> _createDatabase(String identifier,String password) async {
+    try{
+      database = await Db.create(
+          "mongodb+srv://$identifier:$password@$host:$port/$dbName");    
+      await database.open();
+      createIndexes();
+    }catch(e){
+      log(e.toString());
+    }
+  }
+
   void createIndexes() {
-    
-  }
+    DbCollection collection = database.collection(Collections.products.name);
 
-  @override
-  void disconnect() {
-    productFamiliesRealm.close();
-    productsRealm.close();
-    sellersRealm.close();
-    recordsRealm.close();
-    Realm.shutdown();
-  }
-
-  @override
-  void insertProduct(Product product) {
-    productsRealm.write(() => {
-      productsRealm.add(product)
+    collection.createIndex(keys: {
+      Indexes.barcode.name: 1,
     });
-  }
 
-  @override
-  void insertProductFamily(ProductFamily productFamily) {
-    productFamiliesRealm.write(() => {
-      productFamiliesRealm.add(productFamily)
+    collection = database.collection(Collections.productsFamily.name);
+    collection.createIndex(keys: {
+      Indexes.reference.name: 1,
     });
-  }
 
-  @override
-  void insertPurchaseRecord(Record record) {
-    recordsRealm.write(() => {
-      recordsRealm.add(record)
+    collection = database.collection(Collections.records.name);
+    collection.createIndex(keys: {
+      Indexes.date.name: -1,
     });
+
   }
 
-  @override
-  RealmResults<Record> loadDayPurchaseRecords(LoadWrapper loadWrapper) {
-    RealmResults<Record> records = recordsRealm.all<Record>();
-    return records;
+  void disconnect() async {
+    database.close();
   }
 
-  @override
-  RealmResults<ProductFamily> loadProductFamillies(LoadWrapper loadWrapper) {
-    RealmResults<ProductFamily> famillies = productFamiliesRealm.all<ProductFamily>();
-    return famillies;
+  void insertProduct(JsonMap product) async {
+    await database.collection(Collections.products.name).insert(product);
   }
 
-  @override
-  RealmResults<Product> loadProducts(LoadWrapper loadWrapper) {
-    RealmResults<Product> products = productsRealm.all<Product>();
-    return products;
+  void insertProductFamily(JsonMap productFamily) async {
+    DbCollection collection =
+        database.collection(Collections.productsFamily.name);
+
+    await collection.insert(productFamily);
   }
 
+  void insertPurchaseRecord(JsonMap record) async {
+    DbCollection collection = database.collection(Collections.records.name);
 
-  @override
-  RealmResults<Seller> loadSellers() {
-    RealmResults<Seller> sellers = sellersRealm.all<Seller>();
-    return sellers;
+    await collection.insert(record);
   }
 
-  @override
-  void removeProduct(Product product) {
-    productsRealm.delete(product);
+  void insertSeller(JsonMap seller) async {
+    DbCollection collection = database.collection(Collections.sellers.name);
+
+    await collection.insert(seller);
   }
 
-  @override
-  void removeProductFamily(ProductFamily productFamily) {
-    productFamiliesRealm.delete(productFamily);
+  MongoDbDataStream loadDayPurchaseRecords(JsonMap selector) async {
+    DbCollection collection = database.collection(Collections.records.name);
+    return collection.find(selector);
   }
 
-  @override
-  RealmResults<Product> searchProduct(SearchWrapper searchWrapper) {
-    RealmResults<Product> products = productsRealm.all<Product>().query("make == 'Tesla'");
-    return products;
+  MongoDbDataStream loadProductFamillies(JsonMap selector) async {
+    DbCollection collection =
+        database.collection(Collections.productsFamily.name);
+    return collection.find();
   }
 
-  @override
-  RealmResults<ProductFamily> searchProductFamily(SearchWrapper searchWrapper) {
-    RealmResults<ProductFamily> famillies = productFamiliesRealm.all<ProductFamily>();
-    return famillies;
+  MongoDbDataStream loadProducts(JsonMap selector) async {
+    DbCollection collection = database.collection(Collections.products.name);
+    return collection.find();
   }
 
-  @override
-  RealmResults<Record> searchPurchaseRecord(SearchWrapper searchWrapper) {
-    RealmResults<Record> records = recordsRealm.all<Record>();
-    return records;
+  MongoDbDataStream loadSellers() async {
+    DbCollection collection = database.collection(Collections.sellers.name);
+    return collection.find();
   }
 
-  @override
-  void updateProduct(Product product, List<AttributeWrapper> rawAttributes) {
-    productsRealm.write(() {});
+  void removeProduct(JsonMap selector) async {
+    DbCollection collection = database.collection(Collections.products.name);
+    collection.deleteOne(selector);
   }
 
-  @override
-  void updateProductFamily(ProductFamily productFamily, List<AttributeWrapper> rawAttributes) {
-    productFamiliesRealm.write(() {});
+  void removeProductFamily(JsonMap selector) async {
+    DbCollection collection =
+        database.collection(Collections.productsFamily.name);
+    collection.deleteOne(selector);
   }
-  
 
+  MongoDbDataStream searchProduct(JsonMap selector) async {
+    DbCollection collection = database.collection(Collections.products.name);
+    return collection.find(selector);
+  }
+
+  MongoDbDataStream searchProductFamily(JsonMap selector) async {
+    DbCollection collection = database.collection(Collections.sellers.name);
+    return collection.find(selector);
+  }
+
+  MongoDbDataStream searchPurchaseRecord(JsonMap selector) async {
+    DbCollection collection = database.collection(Collections.records.name);
+    return collection.find(selector);
+  }
+
+  void updateProduct(
+      JsonMap selector, JsonMap updatedValues) async {
+    DbCollection collection = database.collection(Collections.products.name);
+    await collection.updateOne(
+        selector, updatedValues);
+
+  }
+
+  void updateProductFamily(
+      JsonMap selector, JsonMap updatedValues) async {
+    DbCollection collection =
+        database.collection(Collections.productsFamily.name);
+
+    await collection.updateOne(
+        selector, updatedValues);
+  }
+
+  void updateSeller(JsonMap selector,JsonMap updatedValues) async {
+     DbCollection collection =
+        database.collection(Collections.sellers.name);
+
+    await collection.updateOne(
+        selector, updatedValues);
+  }
 }

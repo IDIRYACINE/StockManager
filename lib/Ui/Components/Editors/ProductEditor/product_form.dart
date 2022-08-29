@@ -39,7 +39,7 @@ class ProductForm extends StatelessWidget {
           
           Expanded(
               child: AttributeTextField(
-            initialValue: product.buyingPrice.toString(),
+            initialValue: product.originalPrice.toString(),
             label: Labels.buyingPrice,
           )),
           Expanded(

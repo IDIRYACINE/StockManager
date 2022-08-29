@@ -132,6 +132,10 @@ abstract class Labels {
   // Others
   static const String appName = 'Flutter Demo';
   static const String login = 'Login';
+  static const String username = 'Username';
+  static const String password = 'Password';
+  static const String loading = 'Loading';
+
 }
 
 abstract class Measures {

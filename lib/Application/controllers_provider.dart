@@ -6,11 +6,16 @@ import 'package:stock_manager/Application/sales_controller.dart';
 import 'package:stock_manager/Application/sellers_controller.dart';
 import 'package:stock_manager/Application/splash_controller.dart';
 import 'package:stock_manager/Application/stock_controller.dart';
+import 'package:stock_manager/Infrastructure/Database/database.dart';
 
 class ControllersProvider with ChangeNotifier {
 
   ControllersProvider(){
-    loginController = LoginController();
+    _database = Database();
+    loginController = LoginController(_database);
+  }
+
+  void init(){
     recordsController = RecordsController();
     salesController = SalesController();
     sellersController = SellersController();
@@ -24,5 +29,7 @@ class ControllersProvider with ChangeNotifier {
   late SplashController splashController;
   late StockController stockController;
   late SellersController sellersController;
+
+  late Database _database;
 
 }

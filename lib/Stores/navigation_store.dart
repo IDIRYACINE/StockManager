@@ -10,15 +10,19 @@ import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 class NavigationStore with ChangeNotifier {
   final ValueNotifier<int> _selectedPanelIndex = ValueNotifier(0);
 
-  final List<Widget> _panels = [
-    const RecordsPanel(),
-    const SalesPanel(),
-    const DepositsPanel(),
-    const StockPanel(),
-    SaleEditor(
-      record: Record(),
-    ),
-  ];
+  final List<Widget> _panels = [];
+
+  void init() {
+    _panels.addAll([
+      const RecordsPanel(),
+      const SalesPanel(),
+      const DepositsPanel(),
+      const StockPanel(),
+      SaleEditor(
+        record: Record(),
+      ),
+    ]);
+  }
 
   ValueListenable<int> get selectedIndex => _selectedPanelIndex;
 

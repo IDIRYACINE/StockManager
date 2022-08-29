@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
+import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
 
@@ -32,10 +33,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  final int sidebarFLex = 1;
-  final int panelFLex = 5;
-  
-
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
@@ -44,6 +41,30 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: const LoginPanel()
+    );
+  }
+}
+
+class App extends StatefulWidget{
+  final int sidebarFLex = 1;
+  final int panelFLex = 5;
+
+  const App({Key? key}) : super(key: key);
+  
+
+  @override
+  State<StatefulWidget> createState() => _AppState();
+
+}
+
+class _AppState extends State<App>{
+ 
   bool isInitialized = false;
 
   late ValueListenable<int> selectedPanel;
@@ -56,36 +77,37 @@ class _MyHomePageState extends State<MyHomePage> {
     selectedPanel = navigationStore.selectedIndex; 
     isInitialized = true;
   }
-
   @override
   Widget build(BuildContext context) {
-
+   
     _init();
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       body: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-        Expanded(flex: widget.sidebarFLex,child: const Padding(
-          padding: EdgeInsets.all(Measures.small),
-          child: SidebarHolder(),
-        ),),
-        Expanded(
-          flex: widget.panelFLex,
-          child:  Padding(
-          padding: const EdgeInsets.all(Measures.small),
-          child:  ValueListenableBuilder<int>(
-            valueListenable: selectedPanel,
-            builder: (context, value, child) {
-              return Center(
-                child: navigationStore.getSelectedPanel(),
-              );
-            },
-          ),
-        ))
-      ],),
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+          Expanded(flex: widget.sidebarFLex,child: const Padding(
+            padding: EdgeInsets.all(Measures.small),
+            child: SidebarHolder(),
+          ),),
+          Expanded(
+            flex: widget.panelFLex,
+            child:  Padding(
+            padding: const EdgeInsets.all(Measures.small),
+            child:  ValueListenableBuilder<int>(
+              valueListenable: selectedPanel,
+              builder: (context, value, child) {
+                return Center(
+                  child: navigationStore.getSelectedPanel(),
+                );
+              },
+            ),
+          ))
+        ],),
     );
+    
   }
 }
+
+
