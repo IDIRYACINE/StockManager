@@ -3,25 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 
 class SelectorDropDown<T> extends StatefulWidget{
-  const SelectorDropDown({Key? key, required this.items, this.label, this.adapter}) : super(key: key);
+  const SelectorDropDown({Key? key, required this.items, this.label, this.adapter, required this.onSelect}) : super(key: key);
 
   final List<T> items;
   final Widget? label;
   final DropDownMenuItemAdapter<T>? adapter;
+  final ValueCallback<T> onSelect;
 
   @override
-  // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _SelectorDropDownState<T>(adapter);
+  State<SelectorDropDown<T>> createState() => _SelectorDropDownState<T>();
 }
 
-class _SelectorDropDownState<T> extends State<SelectorDropDown>{
+class _SelectorDropDownState<T> extends State<SelectorDropDown<T>>{
 
-  _SelectorDropDownState(DropDownMenuItemAdapter<T>? adapter){
-    itemadapter = adapter ?? defaultDropDownMenuItemAdapter;
+
+  @override
+  void initState(){
+    super.initState();
+
+    
+    itemadapter = widget.adapter??defaultDropDownMenuItemAdapter;
+    
+    onSelect = widget.onSelect;
   }
 
   T? selectedValue;
+
   late DropDownMenuItemAdapter<T> itemadapter;
+
+  late ValueCallback<T> onSelect;
 
   DropdownMenuItem<T> defaultDropDownMenuItemAdapter(T item) {
     return DropdownMenuItem<T>(
@@ -50,9 +60,12 @@ class _SelectorDropDownState<T> extends State<SelectorDropDown>{
           value: selectedValue,
           items: buildDropDownItems(),
           onChanged: (T? value) { 
+            if(value != null){
             setState((){
-              selectedValue = value;
-            });
+                            selectedValue = value;
+
+              onSelect(value);
+            });}
         });
   }
 }

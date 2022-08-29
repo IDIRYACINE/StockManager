@@ -13,6 +13,8 @@ class ProductEditor extends StatelessWidget {
 
   final bool editMode;
   final Product? product;
+  final int upperRowFlex = 8;
+  final int lowerRowFlex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class ProductEditor extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
             Expanded(
+              flex: upperRowFlex,
               child: Row(
                 children: [
                   Expanded(
@@ -56,15 +59,23 @@ class ProductEditor extends StatelessWidget {
               ),
             ),
             const SizedBox(width: Measures.small),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                DefaultButton(label: Labels.cancel, onPressed: () {}),
-                DefaultButton(
-                  label: Labels.save,
-                  onPressed: () {},
-                ),
-              ],
+            Flexible(
+              flex: lowerRowFlex,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DefaultButton(label: Labels.cancel, onPressed: () {
+                    Navigator.pop(context);
+                  }),
+                  DefaultButton(
+                    label: Labels.save,
+                    onPressed: () {
+                                          Navigator.pop(context);
+
+                    },
+                  ),
+                ],
+              ),
             )
           ]),
         ));

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -19,10 +20,14 @@ class _ModelSelectorState extends State<ModelSelector>{
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: const [
-        Expanded(child: SelectorDropDown<String>(items: ["red","yellow"],label: Text(Labels.colors))),
+      children:  [
+        Expanded(child: SelectorDropDown<String>(
+          onSelect: (value )=>{},
+          items: ["red","yellow"],label: Text(Labels.colors))),
         SizedBox(width: Measures.small,),
-        Expanded(child: SelectorDropDown<String>(items: ["s","m"],label: Text(Labels.sizes),)),
+        Expanded(child: SelectorDropDown<String>(
+          onSelect: (value )=>{},
+          items: ["s","m"],label: Text(Labels.sizes),)),
       ],
     );
   }

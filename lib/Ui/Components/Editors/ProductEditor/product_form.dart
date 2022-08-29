@@ -18,8 +18,10 @@ class ProductForm extends StatelessWidget {
       padding: const EdgeInsets.all(Measures.medium),
       child: Column(
         children: [
-           const Expanded(
-              child: SelectorDropDown<String>(items: ["Family1"],label: Text(Labels.selectProductFamily),)),
+            Expanded(
+              child: SelectorDropDown<String>(
+                onSelect: (value)=>{},
+                items: ["Family1"],label: Text(Labels.selectProductFamily),)),
         
           Expanded(
               child: AttributeTextField(

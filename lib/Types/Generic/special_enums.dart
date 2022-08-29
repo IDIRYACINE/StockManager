@@ -7,3 +7,13 @@ enum OrderStatus{
   reject,
   payed,
 }
+
+enum PaymentTypes{
+  deposit,
+  payement
+}
+
+enum StockTypes{
+  products,
+  famillies
+}

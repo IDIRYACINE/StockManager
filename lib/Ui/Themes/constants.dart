@@ -18,12 +18,18 @@ abstract class Titles {
   ];
 
   // Stock Table
-  static const List<String> stockTableColumns = [
+  static const List<String> stockProductTableColumns = [
     Labels.barcode,
     Labels.productName,
+    Labels.reference,
     Labels.productFamily,
     Labels.buyingPrice,
     Labels.quantity,
+  ];
+
+   static const List<String> stockFamilliesTableColumns = [
+    Labels.productFamily,
+    Labels.reference,
   ];
 
   // Orders Table
@@ -82,7 +88,7 @@ abstract class Labels {
   static const String imageUrl = 'Image Url';
   static const String productSize = 'Product Size';
   static const String productColor = 'Product Color';
-  static const String buyingPrice = 'Buying Price';
+  static const String buyingPrice = 'Original Price';
   static const String sellingPrice = 'Selling Price';
   static const String reference = 'Reference';
   static const String barcode = 'Barcode';
@@ -120,6 +126,7 @@ abstract class Labels {
   static const String id = "Id";
   static const String productFamily = 'Family';
   static const String payementType = 'Payement Type';
+  static const String stockTypes = 'Select Stock';
 
   // Sidebar Titles
   static const String stock = 'Stock';
@@ -148,4 +155,9 @@ abstract class Measures {
   static const double large = 24;
 
   static const double mediumCardHeight = 70;
+}
+
+abstract class Messages{
+  static const String deleteElement = 'Delete element ?';
+
 }

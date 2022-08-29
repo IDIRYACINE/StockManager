@@ -13,7 +13,9 @@ class SaleEditor extends StatelessWidget {
   final bool editMode;
   final Record record;
 
-  void onSearch() {}
+  void onSearch() {
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +56,14 @@ class SaleEditor extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DefaultButton(label: Labels.cancel, onPressed: () {}),
+                      DefaultButton(label: Labels.cancel, onPressed: () {
+                        Navigator.pop(context);
+                      }),
                       DefaultButton(
                         label: Labels.save,
-                        onPressed: () {},
+                        onPressed: () {
+
+                        },
                       ),
                     ],
                   ),

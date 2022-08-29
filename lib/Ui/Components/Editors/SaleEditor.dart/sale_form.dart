@@ -18,7 +18,9 @@ class SaleForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          const SelectorDropDown(items: [], label: Text(Labels.sellerName)),
+           SelectorDropDown(
+            onSelect: (value)=>{},
+            items: [], label: Text(Labels.sellerName)),
           AttributeTextField(
             initialValue: product.name,
             label: Labels.name,

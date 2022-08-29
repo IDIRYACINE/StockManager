@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -22,13 +23,16 @@ class SidebarHolder extends StatelessWidget{
             child: Logo(),
           )),
           Spacer(flex: sidebarButtonsSpacingFlex),
-          Expanded(
-            flex: sidebarButtonsFlex,
-            child: ListView.separated(
-              itemBuilder: (context, index) => SidebarButton(title: Titles.sidebarTitles[index],index:index),
-              itemCount: Titles.sidebarTitles.length,
-              separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Measures.small,),),
-          ),
+          const Expanded(child: SidebarButton(title: Labels.sales,index:NavigationStore.salesIndex)),
+          const SizedBox(height: Measures.medium),
+           const Expanded(child: SidebarButton(title: Labels.stock,index:NavigationStore.stockIndex)),
+          const SizedBox(height: Measures.medium),
+           const Expanded(child: SidebarButton(title: Labels.records,index:NavigationStore.recordsIndex)),
+          const SizedBox(height: Measures.medium),
+           const Expanded(child: SidebarButton(title: Labels.deposit,index:NavigationStore.depositsIndex)),
+          const SizedBox(height: Measures.medium),
+           const Expanded(child: SidebarButton(title: Labels.settings,index:NavigationStore.settingsIndex)),
+          const SizedBox(height: Measures.medium),
         ],
       ),
     );

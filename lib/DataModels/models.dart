@@ -40,8 +40,11 @@ class Seller{
 
 
 class ProductFamily{
-  late String name;
+  String name;
+  String reference;
   String? imageUrl;
+
+  ProductFamily({required this.name, required this.reference, this.imageUrl});
 }
 
 class OrderProduct{
