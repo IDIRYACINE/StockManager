@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Ui/Components/Tabels/table_header.dart';
+import 'package:stock_manager/Ui/Components/Generics/lables.dart';
 import 'package:stock_manager/Ui/Themes/colors.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -30,7 +30,7 @@ class _DepositsTableState extends State<DepositsTable>{
             ),
           columns: [
              for(int i = 0; i < Titles.depositsTableColumns.length; i++)
-                DataColumn(label: TableHeader( headerTitle:Titles.depositsTableColumns[i])),
+                DataColumn(label: TableColumnText( data:Titles.depositsTableColumns[i])),
            
           ],
           rows: const [],

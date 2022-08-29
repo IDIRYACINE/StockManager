@@ -2,26 +2,30 @@
 
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Ui/Components/Generics/lables.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 
 
-class CustomTableRow extends StatefulWidget{
+class SelectableRow extends StatefulWidget{
 
-  const CustomTableRow({Key? key, this.onClicked, required this.dataCellHelper}) : super(key: key);
+  const SelectableRow({Key? key, this.onClicked, required this.dataCellHelper, this.paddings = Measures.tiny}) : super(key: key);
 
   final RowClickCallback? onClicked;
 
-  final DefaultCellHelper dataCellHelper;
+  final DefaultCellAdapter dataCellHelper;
+
+  final double paddings;
   
   @override
-  State<StatefulWidget> createState()  =>_CustomTableRowState();
+  State<StatefulWidget> createState()  =>_SelectableRowState();
 
 }
 
-class _CustomTableRowState extends State<CustomTableRow>{
-
+class _SelectableRowState extends State<SelectableRow>{
 
   late bool isSelected ;
   late List<String> data;
+  late Color backgroundColor,textColor;
 
   @override
   void initState(){
@@ -36,15 +40,18 @@ class _CustomTableRowState extends State<CustomTableRow>{
     });
   }
 
-  Color get backgroundColor => isSelected? Colors.blue : Colors.white;
-  Color get textColor => isSelected? Colors.white : Colors.black;
+  void initColors(ThemeData theme){
+    backgroundColor = isSelected ? theme.colorScheme.primary : theme.colorScheme.surface;
+    textColor = isSelected ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return InkResponse(
-      focusColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      splashColor: Colors.transparent,
+    
+    initColors(Theme.of(context));
+
+    return GestureDetector(
+     
       onTap: (){
        if (widget.onClicked != null){
          setState(() {
@@ -59,9 +66,13 @@ class _CustomTableRowState extends State<CustomTableRow>{
         child: Row(
           children: [
             for(int i = 0; i < data.length; i++)
-              Expanded(child: Text(data[i],style: TextStyle(color: textColor ),))
+              Expanded(child: Padding(
+                padding: EdgeInsets.all(widget.paddings),
+                child: TableRowText(color: textColor,data: data[i],),
+              ))
           ],
         ),
       ));
   }
 }
+

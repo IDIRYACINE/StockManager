@@ -17,25 +17,26 @@ class LoginPanel extends StatelessWidget {
     LoginController loginController = Provider.of<ControllersProvider>(context, listen: false).loginController;
    
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const Logo(),
-        const SizedBox(height: Measures.large),
-         Flexible(
-           child: AttributeTextField(initialValue: loginController.username, label: Labels.username,
-           onChanged: (value){loginController.username=value!;},),
-         ),
-        const SizedBox(height: Measures.medium),
-         Flexible(child: AttributeTextField(initialValue: loginController.password, label: Labels.password,onChanged: (value) {loginController.password=value!;},)),
-        const SizedBox(height: Measures.medium),
-        DefaultButton(
-          label: Labels.login,
-          onPressed: () {
-            loginController.login(context);
-          },
-        ),
-      ],
-    ));
+        body: Form(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+          const Logo(),
+          const SizedBox(height: Measures.large),
+           AttributeTextField(initialValue: loginController.username, label: Labels.username,
+             onChanged: (value){loginController.username=value!;},),
+           
+          const SizedBox(height: Measures.medium),
+           Flexible(child: AttributeTextField(initialValue: loginController.password, label: Labels.password,onChanged: (value) {loginController.password=value!;},)),
+          const SizedBox(height: Measures.medium),
+          DefaultButton(
+            label: Labels.login,
+            onPressed: () {
+              loginController.login(context);
+            },
+          ),
+              ],
+            ),
+        ));
   }
 }

@@ -12,15 +12,19 @@ import 'package:stock_manager/Ui/Components/Editors/product_family_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class StockController {
-  late IStockDelegate _stockDelegate, _productsDelegate, _familliesDelegate;
-  final ValueNotifier<StockTypes> _selectedStockType =
-      ValueNotifier(StockTypes.products);
 
   StockController() {
     _productsDelegate = _ProductsDelegate();
     _familliesDelegate = _FamilliesDelegate();
     _stockDelegate = _productsDelegate;
   }
+
+  late IStockDelegate _stockDelegate, _productsDelegate, _familliesDelegate;
+
+  final ValueNotifier<StockTypes> _selectedStockType =
+      ValueNotifier(StockTypes.products);
+
+  VoidCallback? _turnOffLastSelectedRow;
 
   void edit(BuildContext context) {
     _stockDelegate.edit(context);
@@ -71,6 +75,12 @@ class StockController {
         (value == StockTypes.products) ? _productsDelegate : _familliesDelegate;
 
     _selectedStockType.value = value;
+  }
+
+  void registerLastSelectedRow(VoidCallback turnOffLastRow){
+    _turnOffLastSelectedRow?.call();
+    
+    _turnOffLastSelectedRow = turnOffLastRow;
   }
 
   ValueListenable<StockTypes> get selectedStockType => _selectedStockType;

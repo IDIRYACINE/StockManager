@@ -4,7 +4,9 @@ import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/stock_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
+import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/Generic/special_enums.dart';
+import 'package:stock_manager/Ui/Components/Tabels/generic_data_table.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_header.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/colors.dart';
@@ -68,7 +70,7 @@ class _ProductsTable extends StatelessWidget {
             child: ListView.builder(
                 itemCount: products.productsCount,
                 itemBuilder: (context, index) {
-                  return CustomTableRow(
+                  return SelectableRow(
                     dataCellHelper: () =>
                         controller.productToRowData(products.product(index)),
                   );
@@ -82,19 +84,15 @@ class _ProductsTable extends StatelessWidget {
 class _FamilliesTable extends StatelessWidget {
 
   const _FamilliesTable();
+  
+  List<String> familyToCellsAdapter(ProductFamily family){
+    return [
+      family.name,
+      family.reference
+    ];
 
-  Widget buildHeaders() {
-    return Row(
-      children: [
-        for (int i = 0; i < Titles.stockFamilliesTableColumns.length; i++)
-          Expanded(
-            child: TableHeader(
-              headerTitle: Titles.stockFamilliesTableColumns[i],
-            ),
-          ),
-      ],
-    );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,21 +103,23 @@ class _FamilliesTable extends StatelessWidget {
 
     FamilliesLiveDataModel famillies =
         Provider.of<FamilliesLiveDataModel>(context);
-
+    
     return Column(
       children: [
-        Flexible(child: buildHeaders()),
-        Flexible(
-            child: ListView.builder(
-                itemCount: famillies.productFamilysCount,
-                itemBuilder: (context, index) {
-                  return CustomTableRow(
-                    dataCellHelper: () =>
-                        controller.familyToRowData(famillies.productFamily(index)),
-                        onClicked: (callback){},
-                  );
-                }))
+        Flexible(child: SelectableRow(dataCellHelper: () => Titles.stockFamilliesTableColumns)),
+        Expanded(
+          child: ListView.builder(
+            itemCount: famillies.productFamilysCount,
+            itemBuilder: (context, index) {
+              return SelectableRow(
+                dataCellHelper: () => familyToCellsAdapter(famillies.productFamily(index)),
+                onClicked: controller.registerLastSelectedRow,
+                
+              );
+            } ),
+        ),
       ],
     );
+
   }
 }

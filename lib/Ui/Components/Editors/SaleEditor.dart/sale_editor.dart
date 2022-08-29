@@ -13,6 +13,7 @@ class SaleEditor extends StatelessWidget {
   final bool editMode;
   final Record record;
 
+
   void onSearch() {
     
   }
@@ -62,7 +63,10 @@ class SaleEditor extends StatelessWidget {
                       DefaultButton(
                         label: Labels.save,
                         onPressed: () {
-
+                          if (formKey.currentState!.validate()) {
+                            
+                          }
+                        
                         },
                       ),
                     ],
