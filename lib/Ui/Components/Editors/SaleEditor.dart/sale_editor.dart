@@ -12,67 +12,70 @@ class SaleEditor extends StatelessWidget {
 
   final bool editMode;
   final Record record;
-
-
-  void onSearch() {
-    
-  }
+  final int searchBarFlex = 2;
+  final int bodyFlex = 5;
+  final int actionsFlex = 1;
+  void onSearch() {}
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final Product product = Product();
 
     return Form(
         key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(Measures.small),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Flexible(
-                  flex: 2,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Flexible(
+              flex: searchBarFlex,
+              child: DefaultDecorator(
+                child: _SearchBar(onSearch: onSearch),
+              ),
+            ),
+            Expanded(
+              flex: bodyFlex,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: DefaultDecorator(
+                          child: ProductForm(
+                    product: product,
+                  ))),
+                  const SizedBox(width: Measures.small),
+                  Expanded(
                     child: DefaultDecorator(
-                        child: _SearchBar(onSearch: onSearch),
-                ),),
-                const SizedBox(height: Measures.small),
-                const Flexible(
-                  flex: 2,
-                    child: DefaultDecorator(
-                        child: AttributeTextField(
-                          initialValue: '',
-                          label: Labels.customerName,
-                        ))),
-                const SizedBox(height: Measures.small),
-                Expanded(
-                    flex: 8,
-                    child: DefaultDecorator(
-                        showShadows: false,
                         child: Padding(
-                          padding: const EdgeInsets.all(Measures.small),
+                          padding:
+                              const EdgeInsets.all(Measures.small),
                           child: SaleForm(product: Product()),
-                        ))),
-                const SizedBox(height: Measures.small),
-                Flexible(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      DefaultButton(label: Labels.cancel, onPressed: () {
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: actionsFlex,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DefaultButton(
+                      label: Labels.cancel,
+                      onPressed: () {
                         Navigator.pop(context);
                       }),
-                      DefaultButton(
-                        label: Labels.save,
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            
-                          }
-                        
-                        },
-                      ),
-                    ],
+                  DefaultButton(
+                    label: Labels.save,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {}
+                    },
                   ),
-                )
-              ]),
+                ],
+              ),
+            )
+          ],
         ));
   }
 }
@@ -93,7 +96,8 @@ class _SearchBar extends StatelessWidget {
           initialValue: '',
         )),
         Flexible(
-            child: DefaultButton(label: Labels.search, onPressed: onSearch)),
+            child:
+                DefaultButton(label: Labels.search, onPressed: onSearch)),
       ],
     );
   }

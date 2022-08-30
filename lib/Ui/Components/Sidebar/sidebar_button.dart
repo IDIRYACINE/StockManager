@@ -67,7 +67,6 @@ class _SidebarButtonState extends State<SidebarButton>{
       child: InkResponse(
         onTap: onClicked,
         child: Card(
-          
           elevation: Measures.small,
           color: backgroundColor,
           child: Center(child: Text(widget.title,style: TextStyle(color: textColor),textAlign: TextAlign.center,)),),

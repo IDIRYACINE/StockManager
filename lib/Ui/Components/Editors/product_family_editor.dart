@@ -7,12 +7,25 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class FamilyEditor extends StatelessWidget {
   const FamilyEditor(
-      {Key? key, this.editMode = false, this.family, required this.onConfirm})
+      {Key? key, this.editMode = false, required this.family, required this.onConfirm, required this.confirmLabel})
       : super(key: key);
 
   final bool editMode;
-  final ProductFamily? family;
+  final ProductFamily family;
   final VoidValueCallback<ProductFamily> onConfirm;
+  final String confirmLabel ;
+
+  void setReference(String? reference){
+    if (reference != null) {
+      family.reference = reference;
+    }
+  }
+
+  void setName(String? name){
+    if (name != null) {
+      family.name = name;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +38,8 @@ class FamilyEditor extends StatelessWidget {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Flexible(
                 child: AttributeTextField(
-              initialValue: family?.name,
+                  onChanged: setName,
+              initialValue: family.name,
               label: Labels.name,
             )),
             const SizedBox(
@@ -33,7 +47,8 @@ class FamilyEditor extends StatelessWidget {
             ),
             Flexible(
                 child: AttributeTextField(
-              initialValue: family?.imageUrl,
+              initialValue: family.reference,
+              onChanged: setReference,
               label: Labels.reference,
             )),
             const SizedBox(
@@ -48,9 +63,9 @@ class FamilyEditor extends StatelessWidget {
                       Navigator.pop(context);
                     }),
                 DefaultButton(
-                  label: Labels.save,
+                  label: confirmLabel,
                   onPressed: () {
-                    onConfirm(ProductFamily(name: 'test', reference: 'test'));
+                    onConfirm(family);
                     Navigator.pop(context);
                   },
                 ),

@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Generics/lables.dart';
@@ -8,13 +10,15 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SelectableRow extends StatefulWidget{
 
-  const SelectableRow({Key? key, this.onClicked, required this.dataCellHelper, this.paddings = Measures.tiny}) : super(key: key);
+  const SelectableRow({Key? key, this.onClicked, required this.dataCellHelper, this.paddings = Measures.tiny, required this.index}) : super(key: key);
 
   final RowClickCallback? onClicked;
 
   final DefaultCellAdapter dataCellHelper;
 
   final double paddings;
+
+  final int index;
   
   @override
   State<StatefulWidget> createState()  =>_SelectableRowState();
@@ -35,14 +39,18 @@ class _SelectableRowState extends State<SelectableRow>{
   }
 
   void turnOffRow(){
-    setState(() {
-      isSelected = false;
-    });
+    isSelected = false;
   }
 
   void initColors(ThemeData theme){
-    backgroundColor = isSelected ? theme.colorScheme.primary : theme.colorScheme.surface;
-    textColor = isSelected ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface;
+    backgroundColor = isSelected ? theme.colorScheme.primary : theme.colorScheme.onBackground;
+    textColor = isSelected ? theme.colorScheme.onPrimary : theme.colorScheme.surface;
+  }
+
+  void updateRow(VoidCallback? callback){
+    setState(() {
+      callback?.call();
+    });
   }
 
   @override
@@ -51,13 +59,11 @@ class _SelectableRowState extends State<SelectableRow>{
     initColors(Theme.of(context));
 
     return GestureDetector(
-     
       onTap: (){
        if (widget.onClicked != null){
-         setState(() {
           isSelected = true;
-          widget.onClicked!(turnOffRow);
-         });
+          widget.onClicked!(turnOffRow,widget.index,updateRow);
+         
        }
         
       },

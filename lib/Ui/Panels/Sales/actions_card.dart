@@ -14,7 +14,7 @@ class ActionsCard extends StatelessWidget {
     SalesController controller = Provider.of<ControllersProvider>(context,listen:false).salesController;
 
     void edit(){
-      controller.edit();
+      controller.edit(context);
     }
 
     void add(){
@@ -22,11 +22,11 @@ class ActionsCard extends StatelessWidget {
     }
 
     void clear(){
-      controller.clear();
+      controller.clear(context);
     }
 
     void remove(){
-      controller.remove();
+      controller.remove(context);
     }
 
     return Card(

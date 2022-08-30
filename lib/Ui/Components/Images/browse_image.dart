@@ -11,6 +11,6 @@ class BrowseImage extends StatefulWidget{
 class _BrowseImageState extends State<BrowseImage>{
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/images/addImage.png',width:widget.width,);
+    return Image.asset('assets/images/addImage.png',width:widget.width,fit: BoxFit.fill,);
   }
 }

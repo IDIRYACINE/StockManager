@@ -12,7 +12,11 @@ class ProductsLiveDataModel with ChangeNotifier{
 
   Product product(int index) => _loadedProducts[index];
 
-  final ValueNotifier<int> selectedProductIndex = ValueNotifier(-1);
+  Product get selectedProduct => _loadedProducts[selectedIndex];
+
+  late VoidCallback updateModifiedElementCallback;
+
+  int selectedIndex = 0 ; 
   
   void add(Product element) {
     _loadedProducts.add(element);
@@ -32,6 +36,11 @@ class ProductsLiveDataModel with ChangeNotifier{
   void setAll(Iterable<Product> elements) {
     _loadedProducts.setAll(0,elements);
     notifyListeners();
+  }
+
+  void update(Product element) {
+    // _loadedProducts[selectedIndex] = element;
+    updateModifiedElementCallback;
   }
 
 }

@@ -12,7 +12,7 @@ class DefaultDecorator extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onBackground,
         borderRadius: BorderRadius.circular(Measures.small),
         boxShadow: showShadows ? [
           BoxShadow(

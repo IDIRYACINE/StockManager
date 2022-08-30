@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
@@ -8,18 +11,19 @@ import 'product_form.dart';
 import 'product_models.dart';
 
 class ProductEditor extends StatelessWidget {
-  const ProductEditor({Key? key, this.editMode = false, this.product})
+  const ProductEditor({Key? key, this.editMode = false, required this.confirmCallback, required this.confirmLabel, required this.product})
       : super(key: key);
 
   final bool editMode;
-  final Product? product;
   final int upperRowFlex = 8;
   final int lowerRowFlex = 1;
+  final Product product;
+  final Callback<Product> confirmCallback;
+  final String confirmLabel;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final productInstance = product ?? Product();
 
     return Form(
         key: formKey,
@@ -27,7 +31,7 @@ class ProductEditor extends StatelessWidget {
           padding: const EdgeInsets.all(Measures.small),
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
             Expanded(
               flex: upperRowFlex,
@@ -37,42 +41,46 @@ class ProductEditor extends StatelessWidget {
                     child: DefaultDecorator(
                       child: ProductForm(
                         editMode: editMode,
-                        product: productInstance,
+                        product: product,
                       ),
                     ),
                   ),
                   const SizedBox(width: Measures.small),
                   Expanded(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Expanded(
+                        const Flexible(
                             child: DefaultDecorator(child: BrowseImage())),
-                        const SizedBox(width: Measures.small),
-                        Expanded(
+                        Flexible(
                             child: DefaultDecorator(
                                 child:
-                                    ProductModels(product: productInstance))),
+                                    ProductModels(product: product))),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: Measures.small),
             Flexible(
               flex: lowerRowFlex,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  DefaultButton(label: Labels.cancel, onPressed: () {
-                    Navigator.pop(context);
-                  }),
-                  DefaultButton(
-                    label: Labels.save,
-                    onPressed: () {
-                                          Navigator.pop(context);
-
-                    },
+                  Flexible(
+                    child: DefaultButton(label: Labels.cancel, onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                  ),
+                  Flexible(
+                    child: DefaultButton(
+                      label: confirmLabel,
+                      onPressed: () {
+                              confirmCallback(product);
+                              Navigator.pop(context);
+                  
+                      },
+                    ),
                   ),
                 ],
               ),

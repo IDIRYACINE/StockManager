@@ -1,34 +1,45 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 
 class FamilliesLiveDataModel with ChangeNotifier{
 
-  final List<ProductFamily> _loadedProductFamilys  = [];
+  final List<ProductFamily> loadedProductFamilys  = [];
   
-  int get productFamilysCount => _loadedProductFamilys.length;
+  int get productFamilysCount => loadedProductFamilys.length;
 
-  ProductFamily productFamily(int index) => _loadedProductFamilys[index];
+  ProductFamily productFamily(int index) => loadedProductFamilys[index];
 
-  final ValueNotifier<int> selectedProductFamilyIndex = ValueNotifier(-1);
-  
+  ProductFamily get selectedFamily => loadedProductFamilys[selectedIndex];
+
+  late UpdateRowCallback updateModifiedElementCallback;
+
+  int selectedIndex = 0 ; 
+
   void add(ProductFamily element) {
-    _loadedProductFamilys.add(element);
+    loadedProductFamilys.add(element);
     notifyListeners();
   }
   
   void clear() {
-    _loadedProductFamilys.clear();
+    loadedProductFamilys.clear();
     notifyListeners();
   }
   
   void remove(ProductFamily element) {
-    _loadedProductFamilys.remove(element);
+    loadedProductFamilys.remove(element);
     notifyListeners();
   }
   
   void setAll(Iterable<ProductFamily> elements) {
-    _loadedProductFamilys.setAll(0,elements);
+    loadedProductFamilys.setAll(0,elements);
     notifyListeners();
+  }
+
+
+  void update(ProductFamily element) {
+    // _loadedProducts[selectedIndex] = element;
+    updateModifiedElementCallback;
   }
 }

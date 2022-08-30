@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stock_manager/Ui/Components/Editors/ProductEditor/product_editor.dart';
 import 'package:stock_manager/Ui/Panels/Deposits/deposits.dart';
 import 'package:stock_manager/Ui/Panels/Records/records.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
@@ -19,7 +18,6 @@ class NavigationStore with ChangeNotifier {
     _panels.add(const StockPanel());
     _panels.add(const DepositsPanel());
     _panels.add(const RecordsPanel());
-    _panels.add(const ProductEditor());
   }
 
   ValueListenable<int> get selectedIndex => _selectedPanelIndex;

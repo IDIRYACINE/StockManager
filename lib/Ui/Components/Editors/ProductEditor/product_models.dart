@@ -32,34 +32,31 @@ class _ProductModelsState extends State<ProductModels> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Measures.medium),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Flexible(
-                    child: ElevatedButton(
-                  onPressed: add,
-                  child: const Text(Labels.add),
-                )),
-              ],
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Flexible(
+                  child: ElevatedButton(
+                onPressed: add,
+                child: const Text(Labels.add),
+              )),
+            ],
           ),
-          Expanded(child: ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(height: Measures.small,),
-            itemCount: widget.product.models.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ProductModelRow(model:widget.product.models[index],onDelete: (){remove(index);},);
-              },
-          ))
-        ],
-      ),
+        ),
+        Expanded(child: ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(height: Measures.small,),
+          itemCount: widget.product.models.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ProductModelRow(model:widget.product.models[index],onDelete: (){remove(index);},);
+            },
+        ))
+      ],
     );
   }
 }

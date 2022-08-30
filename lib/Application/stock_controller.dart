@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/Controllers/i_stock.dart';
@@ -15,6 +18,7 @@ import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class StockController {
+
   StockController() {
     _productsDelegate = _ProductsDelegate();
     _familliesDelegate = _FamilliesDelegate();
@@ -27,6 +31,8 @@ class StockController {
       ValueNotifier(StockTypes.products);
 
   VoidCallback? _turnOffLastSelectedRow;
+  late UpdateRowCallback _updateLastSelectedRow;
+  int _lastRowIndex = -1;
 
   void edit(BuildContext context) {
     _stockDelegate.edit(context);
@@ -79,10 +85,14 @@ class StockController {
     _selectedStockType.value = value;
   }
 
-  void registerLastSelectedRow(VoidCallback turnOffLastRow) {
-    _turnOffLastSelectedRow?.call();
-
-    _turnOffLastSelectedRow = turnOffLastRow;
+  void registerLastSelectedRow(VoidCallback turnOffRow , int rowIndex,UpdateRowCallback updateRow) {
+    if(_lastRowIndex != rowIndex && _turnOffLastSelectedRow != null) {
+      _updateLastSelectedRow(_turnOffLastSelectedRow);
+    }
+    
+    _lastRowIndex = rowIndex;
+    _turnOffLastSelectedRow = turnOffRow;
+    _updateLastSelectedRow = updateRow;
   }
 
   ValueListenable<StockTypes> get selectedStockType => _selectedStockType;
@@ -92,15 +102,32 @@ class _ProductsDelegate implements IStockDelegate {
   @override
   void add(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (context) => const Material(child: ProductEditor()));
+      context: context,
+      builder: (context) => Material(
+        child: ProductEditor(
+          confirmCallback:
+              Provider.of<ProductsLiveDataModel>(context, listen: false).add,
+          confirmLabel: Labels.add,
+          product: Product(),
+        ),
+      ),
+    );
   }
 
   @override
   void edit(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (context) => const Material(child: ProductEditor()));
+      context: context,
+      builder: (context) => Material(
+        child: ProductEditor(
+          product: Provider.of<ProductsLiveDataModel>(context, listen: false)
+              .selectedProduct,
+          confirmCallback:
+              Provider.of<ProductsLiveDataModel>(context, listen: false).update,
+          confirmLabel: Labels.update,
+        ),
+      ),
+    );
   }
 
   @override
@@ -129,23 +156,25 @@ class _ProductsDelegate implements IStockDelegate {
       RegisterSearchQueryBuilder onDeselect) {
     return [
       SearchFieldText(
-          label: Labels.barcode,
-          identifier: ProductsFields.barcode.name,
+        label: Labels.barcode,
+        identifier: ProductsFields.barcode.name,
+        onSelected: onSelect,
+        onDeselected: onDeselect,
+        allowedSearchTypes: const [SearchType.equals],
+      ),
+      SearchFieldText(
+        label: Labels.reference,
+        identifier: ProductsFields.reference.name,
+        onSelected: onSelect,
+        onDeselected: onDeselect,
+        allowedSearchTypes: const [SearchType.equals],
+      ),
+      SearchFieldDropDown(
+          label: Labels.selectProductFamily,
+          identifier: ProductsFields.family.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
-          allowedSearchTypes: const [SearchType.equals],
-          ),
-          SearchFieldText(
-          label: Labels.reference,
-          identifier: ProductsFields.reference.name,
-          onSelected: onSelect,
-          onDeselected: onDeselect,
-          allowedSearchTypes: const [SearchType.equals],
-          ),
-          SearchFieldDropDown(
-          label: Labels.selectProductFamily, identifier: ProductsFields.family.name,
-          onSelected: onSelect,
-          onDeselected: onDeselect, values: const [])
+          values: const [])
     ];
   }
 }
@@ -153,15 +182,15 @@ class _ProductsDelegate implements IStockDelegate {
 class _FamilliesDelegate implements IStockDelegate {
   @override
   void add(BuildContext context) {
-    void addProductFamily(ProductFamily family) {
-      Provider.of<FamilliesLiveDataModel>(context, listen: false).add(family);
-    }
-
     showDialog(
         context: context,
         builder: (context) => Material(
                 child: FamilyEditor(
-              onConfirm: addProductFamily,
+              family: ProductFamily(name: "", reference: ""),
+              onConfirm:
+                  Provider.of<FamilliesLiveDataModel>(context, listen: false)
+                      .add,
+              confirmLabel: Labels.add,
             )));
   }
 
@@ -171,7 +200,12 @@ class _FamilliesDelegate implements IStockDelegate {
         context: context,
         builder: (context) => Material(
                 child: FamilyEditor(
-              onConfirm: (family) {},
+              family: Provider.of<FamilliesLiveDataModel>(context, listen: false)
+                      .selectedFamily,
+              onConfirm:
+                  Provider.of<FamilliesLiveDataModel>(context, listen: false)
+                      .update,
+              confirmLabel: Labels.update,
             )));
   }
 

@@ -1,9 +1,7 @@
 
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/Generic/special_enums.dart';
 
 class SelectorDropDown<T> extends StatefulWidget{
   const SelectorDropDown({Key? key, required this.items, this.label, this.adapter, required this.onSelect}) : super(key: key);

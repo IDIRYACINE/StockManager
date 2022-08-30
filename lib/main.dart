@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Labels.appName,
-      theme: AppThemes.lightTheme,
+      theme: AppThemes.darkTheme,
       home: const MyHomePage(),
     );
   }
@@ -48,10 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: const LoginPanel()
+    return const Scaffold(
+      body: Center(child: LoginPanel())
     );
   }
 }

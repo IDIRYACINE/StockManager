@@ -5,6 +5,7 @@ import 'package:stock_manager/Application/stock_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/Generic/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_header.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
@@ -38,17 +39,9 @@ class StockTable extends StatelessWidget {
 class _ProductsTable extends StatelessWidget {
   const _ProductsTable();
 
-  Widget buildHeaders() {
-    return Row(
-      children: [
-        for (int i = 0; i < Titles.stockProductTableColumns.length; i++)
-          Expanded(
-            child: TableHeader(
-              headerTitle: Titles.stockProductTableColumns[i],
-            ),
-          ),
-      ],
-    );
+
+  List<String> productToCellsAdapter(Product product) {
+    return [product.barcode.toString(), product.name,product.reference, product.productFamily, product.originalPrice.toString(),product.totalQuantity.toString(), ];
   }
 
   @override
@@ -56,32 +49,43 @@ class _ProductsTable extends StatelessWidget {
     StockController controller =
         Provider.of<ControllersProvider>(context, listen: false)
             .stockController;
+
     ProductsLiveDataModel products =
         Provider.of<ProductsLiveDataModel>(context);
 
+  void handleRowClick(VoidCallback turnOffRow,int rowIndex,UpdateRowCallback updateRow){
+    products.selectedIndex = rowIndex;
+    controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
+    products.updateModifiedElementCallback = (){updateRow(null);};
+  }
+
     return Column(
       children: [
-        Flexible(child: buildHeaders()),
         Flexible(
-            child: ListView.builder(
-                itemCount: products.productsCount,
-                itemBuilder: (context, index) {
-                  return SelectableRow(
-                    dataCellHelper: () =>
-                        controller.productToRowData(products.product(index)),
-                  );
-                }))
+            child: SelectableRow(
+                dataCellHelper: () => Titles.stockProductTableColumns, index: -1,)),
+        Expanded(
+          child: ListView.builder(
+              itemCount: products.productsCount,
+              itemBuilder: (context, index) {
+                return SelectableRow(
+                  dataCellHelper: () =>
+                      productToCellsAdapter(products.product(index)),
+                  onClicked: handleRowClick, index: index,
+                );
+              }),
+        ),
       ],
     );
   }
 }
-
 class _FamilliesTable extends StatelessWidget {
   const _FamilliesTable();
 
   List<String> familyToCellsAdapter(ProductFamily family) {
     return [family.name, family.reference];
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +96,17 @@ class _FamilliesTable extends StatelessWidget {
     FamilliesLiveDataModel famillies =
         Provider.of<FamilliesLiveDataModel>(context);
 
+  void handleRowClick(VoidCallback turnOffRow,int rowIndex,UpdateRowCallback updateRow){
+    famillies.selectedIndex = rowIndex;
+    controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
+    famillies.updateModifiedElementCallback = updateRow;
+  }
+
     return Column(
       children: [
         Flexible(
             child: SelectableRow(
-                dataCellHelper: () => Titles.stockFamilliesTableColumns)),
+                dataCellHelper: () => Titles.stockFamilliesTableColumns,index: -1,)),
         Expanded(
           child: ListView.builder(
               itemCount: famillies.productFamilysCount,
@@ -104,7 +114,7 @@ class _FamilliesTable extends StatelessWidget {
                 return SelectableRow(
                   dataCellHelper: () =>
                       familyToCellsAdapter(famillies.productFamily(index)),
-                  onClicked: controller.registerLastSelectedRow,
+                  onClicked: handleRowClick,index: index,
                 );
               }),
         ),

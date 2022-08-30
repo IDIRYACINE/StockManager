@@ -130,6 +130,7 @@ abstract class Labels {
   static const String searchType = 'Search Type';
   static const String startDate = 'Start Date';
   static const String endDate = 'End Date';
+  static const update = 'Update';
 
 
   // Sidebar Titles
@@ -158,10 +159,29 @@ abstract class Measures {
   static const double medium = 16;
   static const double large = 24;
 
+  static const buttonWidthMeduim = 200;
+  static const buttonWidthLarge = 300;
+  static const buttonHeightSmall = 40;
+  
+  static const cardWidthsmall = 200;
+  static const cardWidthMedium = 300;
+  static const cardWidthLarge = 500.0;
+  
+  static const largePadding = 20.0;
+
   static const double mediumCardHeight = 70;
+
+  static const dialogWidthExtraLarge = 700.0;
+  static const dialogWidthLarge = 500.0;
+  static const dialogWidthMedium = 300.0;
+  static const dialogWidthSmall = 200.0;
+
+  static const maxWidth = 1200.0;
+  static const maxHeight = 800.0;
 }
 
 abstract class Messages{
   static const String deleteElement = 'Delete element ?';
+  static const clearAll = 'Clear all ?';
 
 }

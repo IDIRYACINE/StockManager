@@ -35,6 +35,10 @@ typedef ItemBuilder = Widget Function(BuildContext context, int index);
 
 typedef DefaultCellAdapter = List<String> Function();
 
-typedef RowClickCallback = void Function(VoidCallback turnOffLastRow);
+typedef RowClickCallback = void Function(VoidCallback turnOffRow , int rowIndex,UpdateRowCallback updateRow);
 
 typedef RowCellAdapter<T> = List<String> Function(T value);
+
+typedef Callback<T> = void Function(T value);
+
+typedef UpdateRowCallback = void Function(VoidCallback? callback);
