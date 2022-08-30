@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
-import 'package:stock_manager/Ui/Components/Editors/SaleEditor.dart/sale_form.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class SaleEditor extends StatelessWidget {
-  const SaleEditor({Key? key, this.editMode = false, required this.record})
+import 'deposit_form.dart';
+
+class DepositEditor extends StatelessWidget {
+  const DepositEditor({Key? key, this.editMode = false, required this.record, required void Function(Record element) confirmCallback, required String confirmLabel})
       : super(key: key);
 
   final bool editMode;
@@ -15,7 +16,7 @@ class SaleEditor extends StatelessWidget {
   final int searchBarFlex = 2;
   final int bodyFlex = 5;
   final int actionsFlex = 1;
-  
+
   void onSearch() {}
 
   @override
@@ -51,7 +52,7 @@ class SaleEditor extends StatelessWidget {
                         child: Padding(
                           padding:
                               const EdgeInsets.all(Measures.small),
-                          child: SaleForm(product: product,record: record,),
+                          child: DepositForm(record: record, product: product,),
                         )),
                   ),
                 ],

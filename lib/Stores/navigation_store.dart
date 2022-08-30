@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:stock_manager/Ui/Panels/Deposits/deposits.dart';
 import 'package:stock_manager/Ui/Panels/Records/records.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
+import 'package:stock_manager/Ui/Panels/Sellers/sellers.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 
 class NavigationStore with ChangeNotifier {
@@ -11,13 +12,14 @@ class NavigationStore with ChangeNotifier {
   final List<Widget> _panels = [];
 
   // ignore: unused_field
-  static const int salesIndex =0 , stockIndex=1, depositsIndex=2, recordsIndex=3,settingsIndex=4;
+  static const int salesIndex =0 , stockIndex=1, depositsIndex=2, recordsIndex=3,sellersIndex=4;
 
   void init() {
     _panels.add(const SalesPanel());
     _panels.add(const StockPanel());
     _panels.add(const DepositsPanel());
     _panels.add(const RecordsPanel());
+    _panels.add(const SellersPanel());
   }
 
   ValueListenable<int> get selectedIndex => _selectedPanelIndex;

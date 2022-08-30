@@ -7,13 +7,14 @@ class AttributeTextField extends StatefulWidget{
 
   const AttributeTextField({Key? key, this.initialValue,
   required this.label, this.validator, this.onChanged,
-  this.readOnly = false, }) : super(key: key);
+  this.readOnly = false,  this.obscureText = false, }) : super(key: key);
 
   final String? initialValue;
   final String label;
   final ValidationFunction<String>? validator;
   final OnChangedFunction<String>? onChanged;
   final bool readOnly;
+  final bool obscureText;
 
 
   @override
@@ -25,6 +26,7 @@ class _AttributeTextFieldState extends State<AttributeTextField>{
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: widget.obscureText,
       enabled: !widget.readOnly,
       initialValue: widget.initialValue ?? '',
       decoration: InputDecoration(

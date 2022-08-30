@@ -33,9 +33,9 @@ class _SidebarButtonState extends State<SidebarButton>{
     navigationStore = Provider.of<NavigationStore>(context);
 
     selectedBackground = Theme.of(context).colorScheme.primary;
-    unselectedBackground = Theme.of(context).colorScheme.surface;
+    unselectedBackground = Theme.of(context).colorScheme.onBackground;
     selectedTextColor = Theme.of(context).colorScheme.onPrimary;
-    unselectedTextColor = Theme.of(context).colorScheme.onSurface;
+    unselectedTextColor = Theme.of(context).colorScheme.surface;
 
     isInitialized = true;
   }
@@ -67,8 +67,8 @@ class _SidebarButtonState extends State<SidebarButton>{
       child: InkResponse(
         onTap: onClicked,
         child: Card(
-          elevation: Measures.small,
           color: backgroundColor,
+          elevation: Measures.small,
           child: Center(child: Text(widget.title,style: TextStyle(color: textColor),textAlign: TextAlign.center,)),),
       ),
     );

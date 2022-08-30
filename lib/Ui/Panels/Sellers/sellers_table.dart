@@ -1,42 +1,49 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/deposit_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/deposits.dart';
+import 'package:stock_manager/Application/sellers_controller.dart';
+import 'package:stock_manager/Application/stock_controller.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
+class SellersTable extends StatelessWidget {
+  const SellersTable({Key? key}) : super(key: key);
 
-class DepositsTable extends StatefulWidget{
-  const DepositsTable({Key? key}) : super(key: key);
-  
   @override
-  State<StatefulWidget> createState()  => _DepositsTableState();
+  Widget build(BuildContext context) {
+  
 
+    return const SizedBox(
+      width: double.infinity,
+      child: Card(
+        elevation: Measures.small,
+        child: SellersTable()
+      ),
+    );
   }
+}
 
-class _DepositsTableState extends State<DepositsTable>{
-
-  List<String> recordToCellsAdapter(Record record) {
-    return [record.product ,record.sellerName,record.sellingPrice.toString(),record.originalPrice.toString()];
+  List<String> sellerToCellsAdapter(Seller seller) {
+    return [seller.name,seller.phone.toString()];
   }
 
   @override
   Widget build(BuildContext context) {
-    DespositController controller =
+    SellersController controller =
         Provider.of<ControllersProvider>(context, listen: false)
-            .depositController;
+            .sellersController;
 
-    DepositsLiveDataModel records =
-        Provider.of<DepositsLiveDataModel>(context);
+    SellersLiveDataModel sellers =
+        Provider.of<SellersLiveDataModel>(context);
 
   void handleRowClick(VoidCallback turnOffRow,int rowIndex,UpdateRowCallback updateRow){
-    records.selectedIndex = rowIndex;
+    sellers.selectedIndex = rowIndex;
     controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
-    records.updateModifiedElementCallback = updateRow;
+    sellers.updateRowCallback = updateRow;
   }
 
     return SizedBox(
@@ -47,14 +54,14 @@ class _DepositsTableState extends State<DepositsTable>{
       children: [
         Flexible(
             child: SelectableRow(
-                dataCellHelper: () => Titles.depositsTableColumns, index: -1,)),
+                dataCellHelper: () => Titles.sellersTableColumns, index: -1,)),
         Expanded(
           child: ListView.builder(
-              itemCount: records.recordsCount,
+              itemCount: sellers.sellersCount,
               itemBuilder: (context, index) {
                 return SelectableRow(
                   dataCellHelper: () =>
-                      recordToCellsAdapter(records.record(index)),
+                      sellerToCellsAdapter(sellers.seller(index)),
                   onClicked: handleRowClick, index: index,
                 );
               }),
@@ -62,4 +69,3 @@ class _DepositsTableState extends State<DepositsTable>{
       ],
     )));
   }
-}

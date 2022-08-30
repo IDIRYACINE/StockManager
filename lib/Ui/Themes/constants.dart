@@ -32,6 +32,12 @@ abstract class Titles {
     Labels.reference,
   ];
 
+
+   static const List<String> sellersTableColumns = [
+    Labels.sellerName,
+    Labels.phoneNumber,
+  ];
+
   // Orders Table
   static const List<String> ordersTableColumns = [
     Labels.id,
@@ -62,9 +68,7 @@ abstract class Titles {
   ];
 
   static const List<String> depositsTableColumns = [
-    Labels.barcode,
     Labels.productName,
-    Labels.reference,
     Labels.customer,
     Labels.sellerName,
     Labels.deposit,
@@ -75,6 +79,7 @@ abstract class Titles {
 }
 
 abstract class Labels {
+  static const sellers = 'Sellers';
   static const String date = 'Date';
   static const String sellerName = 'Seller';
   static const String quantity = 'Quantity';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -9,28 +9,41 @@ import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class SaleForm extends StatelessWidget {
-  const SaleForm({Key? key, required this.product, required this.record}) : super(key: key);
+class DepositForm extends StatelessWidget {
+  const DepositForm({Key? key, required this.product, required this.record}) : super(key: key);
 
   final Product product;
   final Record record;
 
-  void setSeller(Seller seller){
-    record.sellerName = seller.name;
-  }
-
-  void setSellingPrice(String? price){
-    if(price != null){
-      record.sellingPrice = double.parse(price);
+  void setRemainingPayement(String? remainingPayement) {
+    if (remainingPayement != null) {
+      record.remainingPayement = double.tryParse(remainingPayement);
     }
   }
 
-  DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller){
-    return DropdownMenuItem(
-      value: seller,
-      child: Text(seller.name),
-    );
-  
+  void setSellingPrice(String? sellingPrice) {
+    if (sellingPrice != null) {
+      record.sellingPrice = double.parse(sellingPrice);
+    }
+  }
+
+  void setSellerName(Seller seller) {
+      record.sellerName = seller.name;
+    
+
+  }
+
+    void setDeposit(String? deposit) {
+      if (deposit != null) {
+        record.deposit = double.parse(deposit);
+      }
+    }
+
+
+  void setCustomerName(String? customerName) {
+    if (customerName != null) {
+      record.customer = customerName;
+    }
   }
 
   @override
@@ -40,15 +53,26 @@ class SaleForm extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown(
-          adapter: sellerMenuItemAdapter,
-            onSelect: setSeller, items:Provider.of<SellersLiveDataModel>(context,listen:false).loadedSellers, label: Text(Labels.sellerName)),
-        const AttributeTextField(
+            onSelect: setSellerName, items: Provider.of<SellersLiveDataModel>(context,listen:false).loadedSellers, label: Text(Labels.sellerName)),
+         AttributeTextField(
           initialValue: '',
+          onChanged: setCustomerName,
           label: Labels.customerName,
         ),
         AttributeTextField(
           initialValue: product.sellingPrice.toString(),
+          onChanged: setSellingPrice,
           label: Labels.sellingPrice,
+        ),
+        AttributeTextField(
+          initialValue: record.deposit?.toString() ?? '',
+          onChanged: setDeposit,
+          label: Labels.deposit,
+        ),
+          AttributeTextField(
+          initialValue: record.remainingPayement?.toString() ?? '',
+          label: Labels.remainingPayement,
+          readOnly: true,
         ),
         const SizedBox(height: Measures.small),
         ModelSelector(
@@ -57,6 +81,7 @@ class SaleForm extends StatelessWidget {
       ],
     );
   }
+
 }
 
 class ProductForm extends StatelessWidget {

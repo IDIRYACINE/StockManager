@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/deposit_controller.dart';
+import 'package:stock_manager/Application/sellers_controller.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class ActionsCard extends StatelessWidget{
@@ -11,8 +11,9 @@ class ActionsCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    DespositController controller = Provider.of<ControllersProvider>(context,listen:false).depositController;
-
+    
+    SellersController controller = Provider.of<ControllersProvider>(context,listen:false).sellersController;
+  
     void add(){
       controller.add(context);
     }
@@ -25,7 +26,6 @@ class ActionsCard extends StatelessWidget{
       controller.remove(context);
     }
 
-
     void refresh(){
       controller.refresh(context);
     }
@@ -35,6 +35,7 @@ class ActionsCard extends StatelessWidget{
       child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+                
                 Flexible(child: ElevatedButton(onPressed: add, child: const Text(Labels.add),)),
                 Flexible(child: ElevatedButton(onPressed: edit, child: const Text(Labels.edit),)),
                 Flexible(child: ElevatedButton(onPressed: remove, child: const Text(Labels.remove),)),

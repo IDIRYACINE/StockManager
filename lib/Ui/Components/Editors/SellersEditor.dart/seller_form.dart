@@ -23,6 +23,7 @@ class SellerForm extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           
           children: [
+            const Flexible(child: BrowseImage()),
             const Flexible(child: Center(child:BrowseImage())),
             Flexible(child: AttributeTextField(
                 initialValue: seller.name,

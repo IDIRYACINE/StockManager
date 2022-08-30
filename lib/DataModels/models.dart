@@ -29,13 +29,21 @@ class Record{
    int quantity = 0;
    double originalPrice = 0;
    double sellingPrice = 0;
+   double? deposit;
+   double? remainingPayement;
+   String? customer;
+   String payementType = '';
 }
 
 
 class Seller{
-  String name ='';
-   int phone = 0;
-   String imageUrl =  '';
+  String name ;
+   int phone ;
+   String imageUrl;
+
+  Seller({required this.name,required this.phone,required this.imageUrl});
+
+
 }
 
 

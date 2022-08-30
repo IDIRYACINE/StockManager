@@ -6,10 +6,10 @@ import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SellersEditor extends StatelessWidget{
-  const SellersEditor({Key? key, this.editMode = false, this.sellers}) : super(key: key);
+  const SellersEditor({Key? key, this.editMode = false, required this.seller, required void Function(Seller element) confirmCallback, required String confirmLabel}) : super(key: key);
 
   final bool editMode;
-  final Seller? sellers;
+  final Seller seller;
   
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class SellersEditor extends StatelessWidget{
       child : Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children:[
-          Flexible(child: SellerForm(seller: Seller())),
+          Flexible(child: SellerForm(seller: seller)),
           const SizedBox(height: Measures.small),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

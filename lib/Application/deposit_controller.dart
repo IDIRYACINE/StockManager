@@ -2,16 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/deposits.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/Generic/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Editors/DepositEditor/deposit_editor.dart';
-import 'package:stock_manager/Ui/Components/Editors/SellersEditor.dart/sellers_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class SellersController {
+class DespositController {
 
   VoidCallback? _turnOffLastSelectedRow;
   late UpdateRowCallback _updateLastSelectedRow;
@@ -21,11 +19,11 @@ class SellersController {
     showDialog(
       context: context,
       builder: (context) => Material(
-        child: SellersEditor(
+        child: DepositEditor(
           confirmCallback:
-              Provider.of<SellersLiveDataModel>(context, listen: false).add,
+              Provider.of<DepositsLiveDataModel>(context, listen: false).add,
           confirmLabel: Labels.add,
-          seller: Seller(name:'',phone:7,imageUrl: ''),
+          record: Record(),
         ),
       ),
     );
@@ -35,11 +33,11 @@ class SellersController {
     showDialog(
       context: context,
       builder: (context) => Material(
-        child: SellersEditor(
-          seller: Provider.of<SellersLiveDataModel>(context, listen: false)
-              .selectedSeller,
+        child: DepositEditor(
+          record: Provider.of<DepositsLiveDataModel>(context, listen: false)
+              .selectedRecord,
           confirmCallback:
-              Provider.of<SellersLiveDataModel>(context, listen: false).update,
+              Provider.of<DepositsLiveDataModel>(context, listen: false).update,
           confirmLabel: Labels.update,
         ),
       ),
@@ -59,14 +57,17 @@ class SellersController {
   }
 
 
-  List<String> sellerToRowData(Seller seller) {
+  List<String> productToRowData(Product product) {
     return [
-     seller.name,
-     seller.phone.toString()
+      product.name,
+      product.productFamily,
+      product.totalQuantity.toString(),
+      product.originalPrice.toString(),
+      product.name,
     ];
   }
 
-  DropdownMenuItem<Seller> selelrAdapter(Seller type) {
+  DropdownMenuItem<StockTypes> stockTypesAdapter(StockTypes type) {
     return DropdownMenuItem(
       value: type,
       child: Text(type.name),

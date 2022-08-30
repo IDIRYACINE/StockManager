@@ -1,6 +1,5 @@
 
 
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
