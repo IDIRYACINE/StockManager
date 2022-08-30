@@ -76,3 +76,19 @@ class _SelectableRowState extends State<SelectableRow>{
   }
 }
 
+class CustomTableRow extends StatefulWidget{
+  const CustomTableRow({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _CustomTableRowState();
+}
+
+class _CustomTableRowState extends State<CustomTableRow> {
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return 
+    Container();
+  }}

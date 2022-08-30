@@ -6,10 +6,8 @@ import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/Generic/special_enums.dart';
-import 'package:stock_manager/Ui/Components/Tabels/generic_data_table.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_header.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
-import 'package:stock_manager/Ui/Themes/colors.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class StockTable extends StatelessWidget {
@@ -38,7 +36,6 @@ class StockTable extends StatelessWidget {
 }
 
 class _ProductsTable extends StatelessWidget {
-
   const _ProductsTable();
 
   Widget buildHeaders() {
@@ -56,7 +53,6 @@ class _ProductsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     StockController controller =
         Provider.of<ControllersProvider>(context, listen: false)
             .stockController;
@@ -80,46 +76,39 @@ class _ProductsTable extends StatelessWidget {
   }
 }
 
-
 class _FamilliesTable extends StatelessWidget {
-
   const _FamilliesTable();
-  
-  List<String> familyToCellsAdapter(ProductFamily family){
-    return [
-      family.name,
-      family.reference
-    ];
 
+  List<String> familyToCellsAdapter(ProductFamily family) {
+    return [family.name, family.reference];
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     StockController controller =
         Provider.of<ControllersProvider>(context, listen: false)
             .stockController;
 
     FamilliesLiveDataModel famillies =
         Provider.of<FamilliesLiveDataModel>(context);
-    
+
     return Column(
       children: [
-        Flexible(child: SelectableRow(dataCellHelper: () => Titles.stockFamilliesTableColumns)),
+        Flexible(
+            child: SelectableRow(
+                dataCellHelper: () => Titles.stockFamilliesTableColumns)),
         Expanded(
           child: ListView.builder(
-            itemCount: famillies.productFamilysCount,
-            itemBuilder: (context, index) {
-              return SelectableRow(
-                dataCellHelper: () => familyToCellsAdapter(famillies.productFamily(index)),
-                onClicked: controller.registerLastSelectedRow,
-                
-              );
-            } ),
+              itemCount: famillies.productFamilysCount,
+              itemBuilder: (context, index) {
+                return SelectableRow(
+                  dataCellHelper: () =>
+                      familyToCellsAdapter(famillies.productFamily(index)),
+                  onClicked: controller.registerLastSelectedRow,
+                );
+              }),
         ),
       ],
     );
-
   }
 }

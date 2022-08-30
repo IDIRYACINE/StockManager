@@ -5,7 +5,7 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class AttributeTextField extends StatefulWidget{
 
-  const AttributeTextField({Key? key, required this.initialValue,
+  const AttributeTextField({Key? key, this.initialValue,
   required this.label, this.validator, this.onChanged,
   this.readOnly = false, }) : super(key: key);
 

@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/Controllers/i_stock.dart';
+import 'package:stock_manager/Types/Database/i_database.dart';
 import 'package:stock_manager/Types/Generic/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Components/Editors/ProductEditor/product_editor.dart';
 import 'package:stock_manager/Ui/Components/Editors/product_family_editor.dart';
+import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class StockController {
-
   StockController() {
     _productsDelegate = _ProductsDelegate();
     _familliesDelegate = _FamilliesDelegate();
@@ -77,9 +79,9 @@ class StockController {
     _selectedStockType.value = value;
   }
 
-  void registerLastSelectedRow(VoidCallback turnOffLastRow){
+  void registerLastSelectedRow(VoidCallback turnOffLastRow) {
     _turnOffLastSelectedRow?.call();
-    
+
     _turnOffLastSelectedRow = turnOffLastRow;
   }
 
@@ -119,35 +121,58 @@ class _ProductsDelegate implements IStockDelegate {
   void search(BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) => const Material(child: SearchEditor()));
+        builder: (context) => AlertDialog(
+            content: SearchEditor(searchFieldBuilder: buildSearchFields)));
+  }
+
+  List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
+      RegisterSearchQueryBuilder onDeselect) {
+    return [
+      SearchFieldText(
+          label: Labels.barcode,
+          identifier: ProductsFields.barcode.name,
+          onSelected: onSelect,
+          onDeselected: onDeselect,
+          allowedSearchTypes: const [SearchType.equals],
+          ),
+          SearchFieldText(
+          label: Labels.reference,
+          identifier: ProductsFields.reference.name,
+          onSelected: onSelect,
+          onDeselected: onDeselect,
+          allowedSearchTypes: const [SearchType.equals],
+          ),
+          SearchFieldDropDown(
+          label: Labels.selectProductFamily, identifier: ProductsFields.family.name,
+          onSelected: onSelect,
+          onDeselected: onDeselect, values: const [])
+    ];
   }
 }
 
 class _FamilliesDelegate implements IStockDelegate {
-  
   @override
   void add(BuildContext context) {
-
     void addProductFamily(ProductFamily family) {
-      Provider.of<FamilliesLiveDataModel>(context,listen: false).add(family);
+      Provider.of<FamilliesLiveDataModel>(context, listen: false).add(family);
     }
 
     showDialog(
         context: context,
-        builder: (context) => Material(child: FamilyEditor(
-          onConfirm: addProductFamily,
-        )));
+        builder: (context) => Material(
+                child: FamilyEditor(
+              onConfirm: addProductFamily,
+            )));
   }
 
   @override
   void edit(BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) =>  Material(child: FamilyEditor(
-          onConfirm: (family) {
-            
-          },
-        )));
+        builder: (context) => Material(
+                child: FamilyEditor(
+              onConfirm: (family) {},
+            )));
   }
 
   @override
@@ -168,6 +193,25 @@ class _FamilliesDelegate implements IStockDelegate {
   void search(BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) => const Material(child: SearchEditor()));
+        builder: (context) => AlertDialog(
+                content: SearchEditor(
+              searchFieldBuilder: buildSearchFields,
+            )));
+  }
+
+  List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
+      RegisterSearchQueryBuilder onDeselect) {
+    return [
+      SearchFieldText(
+          label: Labels.name,
+          identifier: ProductsFamilyFields.name.name,
+          onSelected: onSelect,
+          onDeselected: onDeselect),
+      SearchFieldText(
+          label: Labels.reference,
+          identifier: ProductsFamilyFields.reference.name,
+          onSelected: onSelect,
+          onDeselected: onDeselect),
+    ];
   }
 }

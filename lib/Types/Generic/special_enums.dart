@@ -17,3 +17,17 @@ enum StockTypes{
   products,
   famillies
 }
+
+enum SearchType{
+  equals,
+  greaterThan,
+  lessThan,
+  greaterThanEquals,
+  lessThanEquals,
+  
+}
+
+enum SearchWidgetType{
+  textField,
+  datePicker
+}

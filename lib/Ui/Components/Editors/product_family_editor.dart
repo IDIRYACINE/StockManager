@@ -12,7 +12,7 @@ class FamilyEditor extends StatelessWidget {
 
   final bool editMode;
   final ProductFamily? family;
-  final ValueCallback<ProductFamily> onConfirm;
+  final VoidValueCallback<ProductFamily> onConfirm;
 
   @override
   Widget build(BuildContext context) {

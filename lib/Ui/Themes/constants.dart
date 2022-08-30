@@ -127,6 +127,10 @@ abstract class Labels {
   static const String productFamily = 'Family';
   static const String payementType = 'Payement Type';
   static const String stockTypes = 'Select Stock';
+  static const String searchType = 'Search Type';
+  static const String startDate = 'Start Date';
+  static const String endDate = 'End Date';
+
 
   // Sidebar Titles
   static const String stock = 'Stock';

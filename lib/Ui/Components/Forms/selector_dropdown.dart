@@ -1,6 +1,9 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Types/Generic/special_enums.dart';
 
 class SelectorDropDown<T> extends StatefulWidget{
   const SelectorDropDown({Key? key, required this.items, this.label, this.adapter, required this.onSelect}) : super(key: key);
@@ -8,7 +11,7 @@ class SelectorDropDown<T> extends StatefulWidget{
   final List<T> items;
   final Widget? label;
   final DropDownMenuItemAdapter<T>? adapter;
-  final ValueCallback<T> onSelect;
+  final VoidValueCallback<T> onSelect;
 
   @override
   State<SelectorDropDown<T>> createState() => _SelectorDropDownState<T>();
@@ -16,13 +19,9 @@ class SelectorDropDown<T> extends StatefulWidget{
 
 class _SelectorDropDownState<T> extends State<SelectorDropDown<T>>{
 
-
   @override
   void initState(){
     super.initState();
-
-    
-    itemadapter = widget.adapter??defaultDropDownMenuItemAdapter;
     
     onSelect = widget.onSelect;
   }
@@ -31,12 +30,21 @@ class _SelectorDropDownState<T> extends State<SelectorDropDown<T>>{
 
   late DropDownMenuItemAdapter<T> itemadapter;
 
-  late ValueCallback<T> onSelect;
+  late VoidValueCallback<T> onSelect;
+
+  bool init = false;
 
   DropdownMenuItem<T> defaultDropDownMenuItemAdapter(T item) {
     return DropdownMenuItem<T>(
         value: item,
         child: Text(item.toString()));
+  }
+
+
+  DropdownMenuItem<T> enumDropDownMenuItemAdapter(T item) {
+    return DropdownMenuItem<T>(
+        value: item,
+        child: Text((item as Enum).name));
   }
 
   List<DropdownMenuItem<T>>? buildDropDownItems(){
@@ -51,8 +59,21 @@ class _SelectorDropDownState<T> extends State<SelectorDropDown<T>>{
     return dropDownItems;
   }
 
+  void initAdapter(){
+    if(init){return;}
+    if(widget.adapter == null){
+      itemadapter = (widget.items.isNotEmpty && widget.items[0] is Enum) ?  enumDropDownMenuItemAdapter : defaultDropDownMenuItemAdapter;
+    }
+    else{
+      itemadapter = widget.adapter!;
+    }
+    init = true;
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    initAdapter();
 
     return DropdownButton<T>(
       hint: widget.label,
