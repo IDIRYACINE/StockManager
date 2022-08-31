@@ -13,23 +13,10 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 class SellersTable extends StatelessWidget {
   const SellersTable({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-  
-
-    return const SizedBox(
-      width: double.infinity,
-      child: Card(
-        elevation: Measures.small,
-        child: SellersTable()
-      ),
-    );
-  }
-}
-
   List<String> sellerToCellsAdapter(Seller seller) {
     return [seller.name,seller.phone.toString()];
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,3 +56,6 @@ class SellersTable extends StatelessWidget {
       ],
     )));
   }
+}
+
+

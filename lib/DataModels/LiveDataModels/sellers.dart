@@ -5,7 +5,7 @@ import 'package:stock_manager/DataModels/type_defs.dart';
 class SellersLiveDataModel with ChangeNotifier {
 
   final List<Seller> loadedSellers = [
-    Seller(imageUrl: 'gg', name: 'test', phone: 05944)
+   
   ];
 
   int get sellersCount => loadedSellers.length;
