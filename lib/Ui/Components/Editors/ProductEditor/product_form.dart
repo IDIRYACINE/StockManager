@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
@@ -65,7 +65,7 @@ class ProductForm extends StatelessWidget {
               child: SelectorDropDown<ProductFamily>(
             onSelect: (value) => {setProductFamily(value.name)},
             adapter: buildProductFamilyDropdownMenuItem,
-            items: Provider.of<FamilliesLiveDataModel>(context,listen: false).loadedProductFamilys,
+            items: Provider.of<StockLiveDataModel>(context,listen: false).loadedProductFamillies,
             label: const Text(Labels.selectProductFamily),
             
           )),

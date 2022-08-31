@@ -2,8 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/Controllers/i_stock.dart';
@@ -106,7 +105,7 @@ class _ProductsDelegate implements IStockDelegate {
       builder: (context) => Material(
         child: ProductEditor(
           confirmCallback:
-              Provider.of<ProductsLiveDataModel>(context, listen: false).add,
+              Provider.of<StockLiveDataModel>(context, listen: false).addProduct,
           confirmLabel: Labels.add,
           product: Product(),
         ),
@@ -120,10 +119,10 @@ class _ProductsDelegate implements IStockDelegate {
       context: context,
       builder: (context) => Material(
         child: ProductEditor(
-          product: Provider.of<ProductsLiveDataModel>(context, listen: false)
+          product: Provider.of<StockLiveDataModel>(context, listen: false)
               .selectedProduct,
           confirmCallback:
-              Provider.of<ProductsLiveDataModel>(context, listen: false).update,
+              Provider.of<StockLiveDataModel>(context, listen: false).updateProduct,
           confirmLabel: Labels.update,
         ),
       ),
@@ -188,8 +187,8 @@ class _FamilliesDelegate implements IStockDelegate {
                 child: FamilyEditor(
               family: ProductFamily(name: "", reference: ""),
               onConfirm:
-                  Provider.of<FamilliesLiveDataModel>(context, listen: false)
-                      .add,
+                  Provider.of<StockLiveDataModel>(context, listen: false)
+                      .addProductFamily,
               confirmLabel: Labels.add,
             )));
   }
@@ -200,11 +199,11 @@ class _FamilliesDelegate implements IStockDelegate {
         context: context,
         builder: (context) => Material(
                 child: FamilyEditor(
-              family: Provider.of<FamilliesLiveDataModel>(context, listen: false)
+              family: Provider.of<StockLiveDataModel>(context, listen: false)
                       .selectedFamily,
               onConfirm:
-                  Provider.of<FamilliesLiveDataModel>(context, listen: false)
-                      .update,
+                  Provider.of<StockLiveDataModel>(context, listen: false)
+                      .updateProductFamily,
               confirmLabel: Labels.update,
             )));
   }

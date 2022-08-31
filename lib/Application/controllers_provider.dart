@@ -1,6 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:stock_manager/Application/deposit_controller.dart';
 import 'package:stock_manager/Application/login_controller.dart';
 import 'package:stock_manager/Application/records_controller.dart';

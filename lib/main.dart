@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
@@ -16,8 +15,7 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => NavigationStore()),
     ChangeNotifierProvider(create: (context) => ControllersProvider()),
-    ChangeNotifierProvider(create: (context) => ProductsLiveDataModel()),
-    ChangeNotifierProvider(create: (context) => FamilliesLiveDataModel()),
+    ChangeNotifierProvider(create: (context) => StockLiveDataModel()),
     ChangeNotifierProvider(create: (context) => SellersLiveDataModel()),
     ChangeNotifierProvider(create: (context) => RecordsLiveDataModel()),
   ], child: const MyApp()));
