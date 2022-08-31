@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Generics/lables.dart';
-import 'package:stock_manager/Ui/Themes/colors.dart';
+import 'package:stock_manager/Ui/Themes/resources.dart';
 
 
 class CustomTable<T> extends StatelessWidget{

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/deposit_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/deposits.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
@@ -30,13 +30,13 @@ class _DepositsTableState extends State<DepositsTable>{
         Provider.of<ControllersProvider>(context, listen: false)
             .depositController;
 
-    DepositsLiveDataModel records =
-        Provider.of<DepositsLiveDataModel>(context);
+    RecordsLiveDataModel records =
+        Provider.of<RecordsLiveDataModel>(context,listen: false);
 
-  void handleRowClick(VoidCallback turnOffRow,int rowIndex,UpdateRowCallback updateRow){
-    records.selectedIndex = rowIndex;
+  void handleRowClick(Callback<bool> turnOffRow,int rowIndex,VoidCallback updateRow){
+    records.selectedElementIndex = rowIndex;
     controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
-    records.updateModifiedElementCallback = updateRow;
+    records.updateSelectedRow = updateRow;
   }
 
     return SizedBox(
@@ -49,15 +49,20 @@ class _DepositsTableState extends State<DepositsTable>{
             child: SelectableRow(
                 dataCellHelper: () => Titles.depositsTableColumns, index: -1,)),
         Expanded(
-          child: ListView.builder(
-              itemCount: records.recordsCount,
-              itemBuilder: (context, index) {
-                return SelectableRow(
-                  dataCellHelper: () =>
-                      recordToCellsAdapter(records.record(index)),
-                  onClicked: handleRowClick, index: index,
-                );
-              }),
+          child: ValueListenableBuilder<bool>(
+            valueListenable: records.depositRefresh,
+            builder: (context,value,child) {
+              return ListView.builder(
+                  itemCount: records.depositsCounts,
+                  itemBuilder: (context, index) {
+                    return SelectableRow(
+                      dataCellHelper: () =>
+                          recordToCellsAdapter(records.depositRecord(index)),
+                      onClicked: handleRowClick, index: index,
+                    );
+                  });
+            }
+          ),
         ),
       ],
     )));

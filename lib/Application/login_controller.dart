@@ -23,7 +23,7 @@ class LoginController{
       PopupsUtility.displayGenericPopup(context, const Splash());
       _database.connect(username,password);
 
-      Provider.of<ControllersProvider>(context, listen: false).init();
+      Provider.of<ControllersProvider>(context, listen: false).init(context);
       Provider.of<NavigationStore>(context, listen: false).init();
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const App()));

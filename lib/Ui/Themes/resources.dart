@@ -10,3 +10,8 @@ abstract class AppColors{
   static const Color inactive = Color.fromARGB(255, 132, 186, 230);
 
 }
+
+abstract class AppRessources{
+  static const noPreviewImage = 'assets/images/no_image_found.png';
+  static const addImage = 'assets/images/add_image.png';
+}

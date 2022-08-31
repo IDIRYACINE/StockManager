@@ -13,6 +13,10 @@ class SellerForm extends StatelessWidget{
 
   final Seller seller;
 
+  void setImage(String url){
+    seller.imageUrl = url;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultDecorator(
@@ -23,8 +27,7 @@ class SellerForm extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           
           children: [
-            const Flexible(child: BrowseImage()),
-            const Flexible(child: Center(child:BrowseImage())),
+             Flexible(child: Center(child:BrowseImage(imageUrl:seller.imageUrl, onImageSelected: setImage,),)),
             Flexible(child: AttributeTextField(
                 initialValue: seller.name,
                 label: Labels.sellerName,

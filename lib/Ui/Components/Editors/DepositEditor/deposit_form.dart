@@ -10,7 +10,8 @@ import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DepositForm extends StatelessWidget {
-  const DepositForm({Key? key, required this.product, required this.record}) : super(key: key);
+  const DepositForm({Key? key, required this.product, required this.record})
+      : super(key: key);
 
   final Product product;
   final Record record;
@@ -28,22 +29,27 @@ class DepositForm extends StatelessWidget {
   }
 
   void setSellerName(Seller seller) {
-      record.sellerName = seller.name;
-    
-
+    record.sellerName = seller.name;
   }
 
-    void setDeposit(String? deposit) {
-      if (deposit != null) {
-        record.deposit = double.parse(deposit);
-      }
+  void setDeposit(String? deposit) {
+    if (deposit != null) {
+      record.deposit = double.parse(deposit);
     }
-
+  }
 
   void setCustomerName(String? customerName) {
     if (customerName != null) {
       record.customer = customerName;
     }
+  }
+
+  void setColor(String color) {
+    record.productColor = color;
+  }
+
+  void setSize(String size) {
+    record.productSize = size;
   }
 
   @override
@@ -53,8 +59,11 @@ class DepositForm extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown(
-            onSelect: setSellerName, items: Provider.of<SellersLiveDataModel>(context,listen:false).loadedSellers, label: Text(Labels.sellerName)),
-         AttributeTextField(
+            onSelect: setSellerName,
+            items: Provider.of<SellersLiveDataModel>(context, listen: false)
+                .loadedSellers,
+            label: const Text(Labels.sellerName)),
+        AttributeTextField(
           initialValue: '',
           onChanged: setCustomerName,
           label: Labels.customerName,
@@ -69,19 +78,20 @@ class DepositForm extends StatelessWidget {
           onChanged: setDeposit,
           label: Labels.deposit,
         ),
-          AttributeTextField(
+        AttributeTextField(
           initialValue: record.remainingPayement?.toString() ?? '',
           label: Labels.remainingPayement,
           readOnly: true,
         ),
         const SizedBox(height: Measures.small),
         ModelSelector(
-          productModles: product.models,
+          productModels: product.models,
+          colorSelectorCallback: setColor,
+          sizeSelectorCallback: setSize,
         ),
       ],
     );
   }
-
 }
 
 class ProductForm extends StatelessWidget {
@@ -96,8 +106,8 @@ class ProductForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          const DefaultDecorator(
-            child: BrowseImage(),
+           DefaultDecorator(
+            child: FaultToleratedImage(imageUrl:product.imageUrl??'',),
           ),
           const SizedBox(height: Measures.medium),
           AttributeTextField(

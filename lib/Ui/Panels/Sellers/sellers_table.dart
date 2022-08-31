@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/sellers_controller.dart';
-import 'package:stock_manager/Application/stock_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -27,7 +25,7 @@ class SellersTable extends StatelessWidget {
     SellersLiveDataModel sellers =
         Provider.of<SellersLiveDataModel>(context);
 
-  void handleRowClick(VoidCallback turnOffRow,int rowIndex,UpdateRowCallback updateRow){
+  void handleRowClick(Callback<bool> turnOffRow,int rowIndex,VoidCallback updateRow){
     sellers.selectedIndex = rowIndex;
     controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
     sellers.updateRowCallback = updateRow;

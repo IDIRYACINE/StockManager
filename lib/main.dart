@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/deposits.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/famillies.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/products.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
@@ -20,7 +19,6 @@ void main() {
     ChangeNotifierProvider(create: (context) => ProductsLiveDataModel()),
     ChangeNotifierProvider(create: (context) => FamilliesLiveDataModel()),
     ChangeNotifierProvider(create: (context) => SellersLiveDataModel()),
-    ChangeNotifierProvider(create: (context) => DepositsLiveDataModel()),
     ChangeNotifierProvider(create: (context) => RecordsLiveDataModel()),
   ], child: const MyApp()));
 }

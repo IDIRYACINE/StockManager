@@ -39,7 +39,7 @@ class ProductsLiveDataModel with ChangeNotifier{
   }
 
   void update(Product element) {
-    // _loadedProducts[selectedIndex] = element;
+    _loadedProducts[selectedIndex] = element;
     updateModifiedElementCallback;
   }
 

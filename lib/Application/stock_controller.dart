@@ -29,8 +29,7 @@ class StockController {
   final ValueNotifier<StockTypes> _selectedStockType =
       ValueNotifier(StockTypes.products);
 
-  VoidCallback? _turnOffLastSelectedRow;
-  late UpdateRowCallback _updateLastSelectedRow;
+  Callback<bool>? _toggleLastSelectedRow;
   int _lastRowIndex = -1;
 
   void edit(BuildContext context) {
@@ -84,14 +83,16 @@ class StockController {
     _selectedStockType.value = value;
   }
 
-  void registerLastSelectedRow(VoidCallback turnOffRow , int rowIndex,UpdateRowCallback updateRow) {
-    if(_lastRowIndex != rowIndex && _turnOffLastSelectedRow != null) {
-      _updateLastSelectedRow(_turnOffLastSelectedRow);
+  void registerLastSelectedRow(Callback<bool> toggleRow , int rowIndex,VoidCallback updateRow) {
+    if(_lastRowIndex != rowIndex && _toggleLastSelectedRow != null) {
+      _toggleLastSelectedRow!(false);
     }
     
     _lastRowIndex = rowIndex;
-    _turnOffLastSelectedRow = turnOffRow;
-    _updateLastSelectedRow = updateRow;
+    _toggleLastSelectedRow = toggleRow;
+
+        toggleRow(true);
+
   }
 
   ValueListenable<StockTypes> get selectedStockType => _selectedStockType;

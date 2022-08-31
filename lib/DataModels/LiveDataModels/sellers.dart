@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/type_defs.dart';
 
 class SellersLiveDataModel with ChangeNotifier {
 
@@ -16,7 +15,7 @@ class SellersLiveDataModel with ChangeNotifier {
 
   int selectedIndex = 0;
 
-  UpdateRowCallback? updateRowCallback;
+  VoidCallback? updateRowCallback;
 
   void add(Seller element) {
     loadedSellers.add(element);
@@ -41,7 +40,7 @@ class SellersLiveDataModel with ChangeNotifier {
   void update(Seller seller) {
     if (updateRowCallback != null) {
       loadedSellers[selectedIndex] = seller;
-      updateRowCallback!(null);
+      updateRowCallback!();
     }
   }
 }

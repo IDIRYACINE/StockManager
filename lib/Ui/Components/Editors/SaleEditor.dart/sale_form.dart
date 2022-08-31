@@ -25,6 +25,20 @@ class SaleForm extends StatelessWidget {
     }
   }
 
+  void setCustomer(String? customer){
+    if(customer != null){
+      record.customer = customer;
+    }
+  }
+
+  void setColor(String color){
+    record.productColor = color;
+  }
+
+  void setSize(String size){
+    record.productSize = size;
+  }
+
   DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller){
     return DropdownMenuItem(
       value: seller,
@@ -41,10 +55,11 @@ class SaleForm extends StatelessWidget {
       children: [
         SelectorDropDown(
           adapter: sellerMenuItemAdapter,
-            onSelect: setSeller, items:Provider.of<SellersLiveDataModel>(context,listen:false).loadedSellers, label: Text(Labels.sellerName)),
-        const AttributeTextField(
+            onSelect: setSeller, items:Provider.of<SellersLiveDataModel>(context,listen:false).loadedSellers, label: const Text(Labels.sellerName)),
+         AttributeTextField(
           initialValue: '',
           label: Labels.customerName,
+          onChanged: setCustomer,
         ),
         AttributeTextField(
           initialValue: product.sellingPrice.toString(),
@@ -52,7 +67,7 @@ class SaleForm extends StatelessWidget {
         ),
         const SizedBox(height: Measures.small),
         ModelSelector(
-          productModles: product.models,
+          productModels: product.models, colorSelectorCallback: setColor, sizeSelectorCallback: setSize,
         ),
       ],
     );
@@ -71,8 +86,8 @@ class ProductForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          const DefaultDecorator(
-            child: BrowseImage(),
+           DefaultDecorator(
+            child: FaultToleratedImage(imageUrl:product.imageUrl??'',),
           ),
           const SizedBox(height: Measures.medium),
           AttributeTextField(

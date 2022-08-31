@@ -1,20 +1,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/deposits.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/Generic/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
-import 'package:stock_manager/Ui/Components/Editors/DepositEditor/deposit_editor.dart';
 import 'package:stock_manager/Ui/Components/Editors/SellersEditor.dart/sellers_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SellersController {
 
-  VoidCallback? _turnOffLastSelectedRow;
-  late UpdateRowCallback _updateLastSelectedRow;
+  Callback<bool>? _turnOffLastSelectedRow;
   int _lastRowIndex = -1;
 
   void add(BuildContext context) {
@@ -73,14 +69,15 @@ class SellersController {
     );
   }
 
-  void registerLastSelectedRow(VoidCallback turnOffRow , int rowIndex,UpdateRowCallback updateRow) {
+  void registerLastSelectedRow(Callback<bool> turnOffRow , int rowIndex,VoidCallback updateRow) {
     if(_lastRowIndex != rowIndex && _turnOffLastSelectedRow != null) {
-      _updateLastSelectedRow(_turnOffLastSelectedRow);
+      _turnOffLastSelectedRow!(false);
     }
     
     _lastRowIndex = rowIndex;
     _turnOffLastSelectedRow = turnOffRow;
-    _updateLastSelectedRow = updateRow;
+
+    turnOffRow(true);
   }
 
 }

@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/Application/deposit_controller.dart';
 import 'package:stock_manager/Application/login_controller.dart';
@@ -17,12 +18,18 @@ class ControllersProvider with ChangeNotifier {
     loginController = LoginController(_database);
   }
 
-  void init(){
+  void init(BuildContext context){
     recordsController = RecordsController();
+
     salesController = SalesController();
+    salesController.init(context);
+    
     sellersController = SellersController();
+
     splashController = SplashController();
+
     stockController = StockController();
+
     depositController = DespositController();
   }
 

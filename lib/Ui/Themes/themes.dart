@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Ui/Themes/colors.dart';
+import 'package:stock_manager/Ui/Themes/resources.dart';
 
 abstract class AppThemes {
   static final ThemeData lightTheme = ThemeData(

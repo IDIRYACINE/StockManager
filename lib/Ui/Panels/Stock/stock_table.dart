@@ -52,10 +52,10 @@ class _ProductsTable extends StatelessWidget {
     ProductsLiveDataModel products =
         Provider.of<ProductsLiveDataModel>(context);
 
-  void handleRowClick(VoidCallback turnOffRow,int rowIndex,UpdateRowCallback updateRow){
+  void handleRowClick(Callback<bool> turnOffRow,int rowIndex,VoidCallback updateRow){
     products.selectedIndex = rowIndex;
     controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
-    products.updateModifiedElementCallback = (){updateRow(null);};
+    products.updateModifiedElementCallback = updateRow;
   }
 
     return Column(
@@ -95,7 +95,7 @@ class _FamilliesTable extends StatelessWidget {
     FamilliesLiveDataModel famillies =
         Provider.of<FamilliesLiveDataModel>(context);
 
-  void handleRowClick(VoidCallback turnOffRow,int rowIndex,UpdateRowCallback updateRow){
+  void handleRowClick(Callback<bool> turnOffRow,int rowIndex,VoidCallback updateRow){
     famillies.selectedIndex = rowIndex;
     controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
     famillies.updateModifiedElementCallback = updateRow;

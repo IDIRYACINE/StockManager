@@ -1,7 +1,6 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/type_defs.dart';
 
 class FamilliesLiveDataModel with ChangeNotifier{
 
@@ -13,7 +12,7 @@ class FamilliesLiveDataModel with ChangeNotifier{
 
   ProductFamily get selectedFamily => loadedProductFamilys[selectedIndex];
 
-  late UpdateRowCallback updateModifiedElementCallback;
+  VoidCallback? updateModifiedElementCallback;
 
   int selectedIndex = 0 ; 
 
@@ -39,7 +38,7 @@ class FamilliesLiveDataModel with ChangeNotifier{
 
 
   void update(ProductFamily element) {
-    // _loadedProducts[selectedIndex] = element;
-    updateModifiedElementCallback;
+    loadedProductFamilys[selectedIndex] = element;
+    updateModifiedElementCallback?.call();
   }
 }

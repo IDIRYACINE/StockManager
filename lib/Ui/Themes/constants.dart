@@ -172,8 +172,9 @@ abstract class Measures {
   static const cardWidthMedium = 300;
   static const cardWidthLarge = 500.0;
   
-  static const largePadding = 20.0;
-
+  static const paddingLarge = 20.0;
+  static const paddingMormal = 8.0;
+  
   static const double mediumCardHeight = 70;
 
   static const dialogWidthExtraLarge = 700.0;
@@ -190,3 +191,4 @@ abstract class Messages{
   static const clearAll = 'Clear all ?';
 
 }
+

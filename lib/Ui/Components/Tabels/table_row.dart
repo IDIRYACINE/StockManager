@@ -37,8 +37,10 @@ class _SelectableRowState extends State<SelectableRow>{
     data = widget.dataCellHelper();
   }
 
-  void turnOffRow(){
-    isSelected = false;
+  void toggleRow(bool state){
+    setState(() {
+          isSelected = state;
+    });
   }
 
   void initColors(ThemeData theme){
@@ -46,10 +48,8 @@ class _SelectableRowState extends State<SelectableRow>{
     textColor = isSelected ? theme.colorScheme.onPrimary : theme.colorScheme.surface;
   }
 
-  void updateRow(VoidCallback? callback){
-    setState(() {
-      callback?.call();
-    });
+  void updateRow(){
+    setState(() {});
   }
 
   @override
@@ -61,7 +61,7 @@ class _SelectableRowState extends State<SelectableRow>{
       onTap: (){
        if (widget.onClicked != null){
           isSelected = true;
-          widget.onClicked!(turnOffRow,widget.index,updateRow);
+          widget.onClicked!(toggleRow,widget.index,updateRow);
          
        }
         

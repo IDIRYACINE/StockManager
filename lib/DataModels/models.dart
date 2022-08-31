@@ -13,6 +13,7 @@ class Product{
   int barcode = 0;
   String name = '';
   double originalPrice = 0;
+  String? imageUrl;
   double sellingPrice = 0;
   int totalQuantity = 0;
   List<ProductModel> models = [ProductModel()];
@@ -21,7 +22,10 @@ class Product{
 
 
 class Record{
-  DateTime date = DateTime.now();
+  String date = (DateTime dateTime){
+    return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+  }(DateTime.now());
+
   String sellerName = '';
    String product = '';
    String productSize = '';
@@ -33,6 +37,8 @@ class Record{
    double? remainingPayement;
    String? customer;
    String payementType = '';
+   String barcode = '';
+    String reference = '';
 }
 
 

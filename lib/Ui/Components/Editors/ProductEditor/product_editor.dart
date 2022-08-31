@@ -19,6 +19,10 @@ class ProductEditor extends StatelessWidget {
   final Callback<Product> confirmCallback;
   final String confirmLabel;
 
+  void setImage(String url){
+    product.imageUrl = url;
+  }
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -48,8 +52,8 @@ class ProductEditor extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Flexible(
-                            child: DefaultDecorator(child: BrowseImage())),
+                         Flexible(
+                            child: DefaultDecorator(child:BrowseImage(imageUrl:product.imageUrl, onImageSelected: setImage,),)),
                         Flexible(
                             child: DefaultDecorator(
                                 child:
