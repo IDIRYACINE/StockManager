@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Editors/SaleEditor.dart/sale_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -37,7 +38,7 @@ class SalesController {
         context: context,
         builder: (context) => Material(
                 child: SaleEditor(
-              record: Record(),
+              record: Record(payementType: PaymentTypes.payement.name),
               confirmLabel: Labels.add,
               onConfirm: recordsLiveData.addSaleRecord,
               onSearch: (String value) {

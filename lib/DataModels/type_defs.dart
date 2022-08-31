@@ -27,7 +27,9 @@ typedef RegisterSearchQueryBuilder = void Function (ValueCallback<SelectorBuilde
 
 typedef SearchFieldsBuilder = List<Widget> Function (RegisterSearchQueryBuilder ,RegisterSearchQueryBuilder);
 
-typedef MongoDbDataStream = Future<Stream<Map<String,dynamic>>>;
+typedef FutureMongoDbDataStream = Future<Stream<Map<String,dynamic>>>;
+
+typedef MongoDbDataStream = Stream<Map<String,dynamic>> ;
 
 typedef JsonMap = Map<String,dynamic>;
 
@@ -40,3 +42,5 @@ typedef RowClickCallback = void Function(Callback<bool> turnOffRow , int rowInde
 typedef RowCellAdapter<T> = List<String> Function(T value);
 
 typedef Callback<T> = void Function(T value);
+
+typedef AppJson<T> = Map<String,T>;

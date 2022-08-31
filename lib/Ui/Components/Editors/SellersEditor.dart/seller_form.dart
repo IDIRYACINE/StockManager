@@ -17,6 +17,18 @@ class SellerForm extends StatelessWidget{
     seller.imageUrl = url;
   }
 
+  void setName(String? name){
+    if(name != null){
+      seller.name = name;
+    }
+  }
+
+  void setPhone(String? phone){
+    if(phone != null){
+      seller.phone = int.parse(phone);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultDecorator(
@@ -30,12 +42,14 @@ class SellerForm extends StatelessWidget{
              Flexible(child: Center(child:BrowseImage(imageUrl:seller.imageUrl, onImageSelected: setImage,),)),
             Flexible(child: AttributeTextField(
                 initialValue: seller.name,
+                onChanged: setName,
                 label: Labels.sellerName,
               )),
                           const SizedBox(height: Measures.small),
     
               Flexible(child: AttributeTextField(
                 initialValue: seller.phone.toString() ,
+                onChanged: setPhone,
                 label: Labels.phoneNumber,
               )),
               

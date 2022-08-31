@@ -25,7 +25,7 @@ class RecordsLiveDataModel with ChangeNotifier{
 
 
   VoidCallback? updateSelectedRow;
-  int selectedElementIndex = 0 ; 
+  int selectedElementIndex = -1 ; 
   double totalPrice = 0 ;
 
   final ValueNotifier<bool> _recordsRefresh = ValueNotifier(false);
@@ -52,6 +52,8 @@ class RecordsLiveDataModel with ChangeNotifier{
   }
 
   void _removeRecord(Record element){
+    updateSelectedRow = null;
+    selectedElementIndex = -1;
     _loadedRecords.add(element);
     toggleRefresh(_recordsRefresh);
   }
@@ -90,19 +92,24 @@ class RecordsLiveDataModel with ChangeNotifier{
 
   void addDepositRecord(Record element) {
     _loadedRecords.add(element);
-    toggleRefresh(_salesRefresh);
+    _depositRecords.add(element);
+    toggleRefresh(_depositRefresh);
 
   }
   
   
-  void removeDepositRecord(Record element) {
-    _loadedRecords.remove(element);
+  void removeDepositRecord() {
+    Record element = selectedDepositRecord;
+    _depositRecords.remove(element);
     toggleRefresh(_depositRefresh);
-    removeDepositRecord(element);
+    
+        _removeRecord(element);
+
   }
 
   void updateDepositRecord(Record element){
-    _loadedRecords[selectedElementIndex] = element;
+    _depositRecords[selectedElementIndex] = element;
+
     updateSelectedRow?.call();
   }
 

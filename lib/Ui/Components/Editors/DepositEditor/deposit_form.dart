@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -38,6 +38,13 @@ class DepositForm extends StatelessWidget {
     }
   }
 
+  DropdownMenuItem<Seller> sellerDropdownAdapter(Seller seller){
+    return DropdownMenuItem(
+      value: seller,
+      child: Text(seller.name),
+    );
+  }
+
   void setCustomerName(String? customerName) {
     if (customerName != null) {
       record.customer = customerName;
@@ -60,6 +67,7 @@ class DepositForm extends StatelessWidget {
       children: [
         SelectorDropDown(
             onSelect: setSellerName,
+            adapter: sellerDropdownAdapter,
             items: Provider.of<SellersLiveDataModel>(context, listen: false)
                 .loadedSellers,
             label: const Text(Labels.sellerName)),

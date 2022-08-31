@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
@@ -9,19 +8,23 @@ import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-
-class DepositsTable extends StatefulWidget{
+class DepositsTable extends StatefulWidget {
   const DepositsTable({Key? key}) : super(key: key);
-  
+
   @override
-  State<StatefulWidget> createState()  => _DepositsTableState();
+  State<StatefulWidget> createState() => _DepositsTableState();
+}
 
-  }
-
-class _DepositsTableState extends State<DepositsTable>{
-
+class _DepositsTableState extends State<DepositsTable> {
   List<String> recordToCellsAdapter(Record record) {
-    return [record.product ,record.sellerName,record.sellingPrice.toString(),record.originalPrice.toString()];
+    return [
+      record.product,
+      record.customer!,
+      record.sellerName,
+      record.deposit!.toString(),
+      record.remainingPayement.toString(),
+      record.sellingPrice.toString(),
+    ];
   }
 
   @override
@@ -31,40 +34,43 @@ class _DepositsTableState extends State<DepositsTable>{
             .depositController;
 
     RecordsLiveDataModel records =
-        Provider.of<RecordsLiveDataModel>(context,listen: false);
+        Provider.of<RecordsLiveDataModel>(context, listen: false);
 
-  void handleRowClick(Callback<bool> turnOffRow,int rowIndex,VoidCallback updateRow){
-    records.selectedElementIndex = rowIndex;
-    controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
-    records.updateSelectedRow = updateRow;
-  }
+    void handleRowClick(
+        Callback<bool> turnOffRow, int rowIndex, VoidCallback updateRow) {
+      records.selectedElementIndex = rowIndex;
+      controller.registerLastSelectedRow(turnOffRow, rowIndex, updateRow);
+      records.updateSelectedRow = updateRow;
+    }
 
     return SizedBox(
-      width: double.infinity,
-      child: Card(
-        elevation: Measures.small,
-        child:Column(
-      children: [
-        Flexible(
-            child: SelectableRow(
-                dataCellHelper: () => Titles.depositsTableColumns, index: -1,)),
-        Expanded(
-          child: ValueListenableBuilder<bool>(
-            valueListenable: records.depositRefresh,
-            builder: (context,value,child) {
-              return ListView.builder(
-                  itemCount: records.depositsCounts,
-                  itemBuilder: (context, index) {
-                    return SelectableRow(
-                      dataCellHelper: () =>
-                          recordToCellsAdapter(records.depositRecord(index)),
-                      onClicked: handleRowClick, index: index,
-                    );
-                  });
-            }
-          ),
-        ),
-      ],
-    )));
+        width: double.infinity,
+        child: Card(
+            elevation: Measures.small,
+            child: Column(
+              children: [
+                Flexible(
+                    child: SelectableRow(
+                  dataCellHelper: () => Titles.depositsTableColumns,
+                  index: -1,
+                )),
+                Expanded(
+                  child: ValueListenableBuilder<bool>(
+                      valueListenable: records.depositRefresh,
+                      builder: (context, value, child) {
+                        return ListView.builder(
+                            itemCount: records.depositsCounts,
+                            itemBuilder: (context, index) {
+                              return SelectableRow(
+                                dataCellHelper: () => recordToCellsAdapter(
+                                    records.depositRecord(index)),
+                                onClicked: handleRowClick,
+                                index: index,
+                              );
+                            });
+                      }),
+                ),
+              ],
+            )));
   }
 }

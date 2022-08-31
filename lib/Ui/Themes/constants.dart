@@ -73,7 +73,6 @@ abstract class Titles {
     Labels.sellerName,
     Labels.deposit,
     Labels.remainingPayement,
-    Labels.buyingPrice,
     Labels.sellingPrice,
   ];
 }
@@ -136,6 +135,7 @@ abstract class Labels {
   static const String startDate = 'Start Date';
   static const String endDate = 'End Date';
   static const update = 'Update';
+  static const error = 'Error';
 
 
   // Sidebar Titles
@@ -173,7 +173,7 @@ abstract class Measures {
   static const cardWidthLarge = 500.0;
   
   static const paddingLarge = 20.0;
-  static const paddingMormal = 8.0;
+  static const paddingNormal = 8.0;
   
   static const double mediumCardHeight = 70;
 
@@ -184,6 +184,12 @@ abstract class Measures {
 
   static const maxWidth = 1200.0;
   static const maxHeight = 800.0;
+
+  static const sidebarButtonWidth = 300.0;
+  static const sidebarButtonHeight = 50.0;
+
+  static const sidebarButtonPadding = 10.0;
+
 }
 
 abstract class Messages{

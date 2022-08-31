@@ -33,10 +33,15 @@ class StockLiveDataModel with ChangeNotifier{
 
   VoidCallback? updateSelectedRow;
 
-  int selectedElementIndex = 0 ; 
+  int selectedElementIndex = -1 ; 
 
   void toggleRefresh(ValueNotifier<bool> refresh) {
     refresh.value = !refresh.value;
+  }
+
+  void _cleanLastSelectedRow(){
+     updateSelectedRow = null;
+    selectedElementIndex = -1;
   }
   
   void addProduct(Product element) {
@@ -50,6 +55,7 @@ class StockLiveDataModel with ChangeNotifier{
   }
   
   void deleteProduct(Product element) {
+    _cleanLastSelectedRow();
     _loadedProducts.remove(element);
     toggleRefresh(_refreshProducts);
   }
@@ -76,6 +82,8 @@ class StockLiveDataModel with ChangeNotifier{
   }
   
   void deleteProductFamily(ProductFamily element) {
+        _cleanLastSelectedRow();
+
     loadedProductFamillies.remove(element);
     toggleRefresh(_refreshProductsFamily);
   }

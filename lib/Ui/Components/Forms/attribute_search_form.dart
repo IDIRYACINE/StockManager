@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/Generic/special_enums.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Components/Generics/date_picker.dart';

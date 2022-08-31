@@ -25,65 +25,68 @@ class DepositEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final Product product = Product();
+    final Product product = Product.defaultInstance();
 
-    return Form(
-        key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Flexible(
-              flex: searchBarFlex,
-              child: DefaultDecorator(
-                child: _SearchBar(onSearch: onSearch),
+    return Padding(
+      padding: const EdgeInsets.all(Measures.paddingNormal),
+      child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Flexible(
+                flex: searchBarFlex,
+                child: DefaultDecorator(
+                  child: _SearchBar(onSearch: onSearch),
+                ),
               ),
-            ),
-            Expanded(
-              flex: bodyFlex,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
+              Expanded(
+                flex: bodyFlex,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: DefaultDecorator(
+                            child: ProductForm(
+                      product: product,
+                    ))),
+                    const SizedBox(width: Measures.small),
+                    Expanded(
                       child: DefaultDecorator(
-                          child: ProductForm(
-                    product: product,
-                  ))),
-                  const SizedBox(width: Measures.small),
-                  Expanded(
-                    child: DefaultDecorator(
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.all(Measures.small),
-                          child: DepositForm(record: record, product: product,),
-                        )),
-                  ),
-                ],
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.all(Measures.small),
+                            child: DepositForm(record: record, product: product,),
+                          )),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Flexible(
-              flex: actionsFlex,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DefaultButton(
-                      label: Labels.cancel,
+              Flexible(
+                flex: actionsFlex,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DefaultButton(
+                        label: Labels.cancel,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                    DefaultButton(
+                      label: confirmLabel,
                       onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                  DefaultButton(
-                    label: Labels.save,
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        onConfirm(record);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            )
-          ],
-        ));
+                        if (formKey.currentState!.validate()) {
+                          onConfirm(record);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )),
+    );
   }
 }
 

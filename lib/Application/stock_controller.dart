@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/Controllers/i_stock.dart';
-import 'package:stock_manager/Types/Database/i_database.dart';
-import 'package:stock_manager/Types/Generic/special_enums.dart';
+import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/i_stock.dart';
+import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Components/Editors/ProductEditor/product_editor.dart';
@@ -100,14 +101,27 @@ class StockController {
 class _ProductsDelegate implements IStockDelegate {
   @override
   void add(BuildContext context) {
+
+    void _onConfirm(Product product){
+      Provider.of<StockLiveDataModel>(context, listen: false).addProduct(product);
+      
+       Map<ServicesData,dynamic> data = {
+          ServicesData.instance: product,
+       };
+
+       ServiceMessage message = ServiceMessage(data: data, event: DatabaseEvent.insertProduct, service: AppServices.database);
+
+      ServicesStore.instance.sendMessage(message);
+    }
+
     showDialog(
       context: context,
       builder: (context) => Material(
         child: ProductEditor(
           confirmCallback:
-              Provider.of<StockLiveDataModel>(context, listen: false).addProduct,
+              _onConfirm,
           confirmLabel: Labels.add,
-          product: Product(),
+          product: Product.defaultInstance(),
         ),
       ),
     );
@@ -156,21 +170,21 @@ class _ProductsDelegate implements IStockDelegate {
     return [
       SearchFieldText(
         label: Labels.barcode,
-        identifier: ProductsFields.barcode.name,
+        identifier: ProductFields.barcode.name,
         onSelected: onSelect,
         onDeselected: onDeselect,
         allowedSearchTypes: const [SearchType.equals],
       ),
       SearchFieldText(
         label: Labels.reference,
-        identifier: ProductsFields.reference.name,
+        identifier: ProductFields.reference.name,
         onSelected: onSelect,
         onDeselected: onDeselect,
         allowedSearchTypes: const [SearchType.equals],
       ),
       SearchFieldDropDown(
           label: Labels.selectProductFamily,
-          identifier: ProductsFields.family.name,
+          identifier: ProductFields.family.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
           values: const [])
@@ -237,12 +251,12 @@ class _FamilliesDelegate implements IStockDelegate {
     return [
       SearchFieldText(
           label: Labels.name,
-          identifier: ProductsFamilyFields.name.name,
+          identifier: ProductFamilyFields.name.name,
           onSelected: onSelect,
           onDeselected: onDeselect),
       SearchFieldText(
           label: Labels.reference,
-          identifier: ProductsFamilyFields.reference.name,
+          identifier: ProductFamilyFields.reference.name,
           onSelected: onSelect,
           onDeselected: onDeselect),
     ];

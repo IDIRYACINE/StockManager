@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -25,7 +26,7 @@ class SaleEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final Product product = Product();
+    final Product product = Product.defaultInstance();
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),

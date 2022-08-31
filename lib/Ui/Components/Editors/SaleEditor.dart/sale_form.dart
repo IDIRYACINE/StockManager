@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
@@ -22,6 +23,7 @@ class SaleForm extends StatelessWidget {
   void setSellingPrice(String? price){
     if(price != null){
       record.sellingPrice = double.parse(price);
+
     }
   }
 
@@ -63,6 +65,7 @@ class SaleForm extends StatelessWidget {
         ),
         AttributeTextField(
           initialValue: product.sellingPrice.toString(),
+          onChanged: setSellingPrice,
           label: Labels.sellingPrice,
         ),
         const SizedBox(height: Measures.small),

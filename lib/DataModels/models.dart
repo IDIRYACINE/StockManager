@@ -1,59 +1,103 @@
-
 import 'package:stock_manager/DataModels/metadata.dart';
 
-class ProductModel{
-  String color = '';
-  ProductsSizes size = ProductsSizes.s;
-  int quantity = 1;
+class ProductModel {
+
+  ProductModel({
+    this.color = 'black',
+    this.size = ProductsSizes.s,
+    this.quantity = 1,
+  });
+
+  String color;
+  ProductsSizes size;
+  int quantity;
 }
 
 
-class Product{
-  String reference = '';
-  int barcode = 0;
-  String name = '';
-  double originalPrice = 0;
+class Product {
+  Product(
+      {required this.barcode,
+      required this.name,
+      required this.productFamily,
+      required this.originalPrice,
+      required this.sellingPrice,
+      required this.reference,
+      required this.totalQuantity,
+      required this.models ,
+      required this.imageUrl});
+
+  String reference;
+  int barcode;
+  String name;
+  double originalPrice;
   String? imageUrl;
-  double sellingPrice = 0;
-  int totalQuantity = 0;
-  List<ProductModel> models = [ProductModel()];
-  String productFamily = '';
+  double sellingPrice;
+  int totalQuantity;
+  List<ProductModel> models ;
+  String productFamily;
+
+  static Product defaultInstance (){
+    return Product(
+      barcode: 0,
+      name: '',
+      productFamily: '',
+      originalPrice: 0,
+      sellingPrice: 0,
+      reference: '',
+      totalQuantity: 0,
+      models: [ProductModel()],
+      imageUrl: null,
+    );
+  }
 }
 
+class Record {
+  Record({
+    required this.payementType,
+    this.sellerName = '',
+    this.product = '',
+    this.productColor = '',
+    this.productSize = '',
+    this.barcode = '',
+    this.reference = '',
+    this.customer,
+    this.deposit,
+    this.remainingPayement,
+    this.quantity = 1,
+    this.originalPrice = 0,
+    this.sellingPrice = 0,
+  });
 
-class Record{
-  String date = (DateTime dateTime){
+  String date = (DateTime dateTime) {
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }(DateTime.now());
 
-  String sellerName = '';
-   String product = '';
-   String productSize = '';
-   String productColor ='';
-   int quantity = 0;
-   double originalPrice = 0;
-   double sellingPrice = 0;
-   double? deposit;
-   double? remainingPayement;
-   String? customer;
-   String payementType = '';
-   String barcode = '';
-    String reference = '';
+  String sellerName;
+  String product;
+  String productSize;
+  String productColor;
+  int quantity;
+  double originalPrice;
+  double sellingPrice;
+  double? deposit;
+  double? remainingPayement;
+  String? customer;
+  String payementType;
+  String barcode;
+  String reference;
+
+  
 }
 
+class Seller {
+  String name;
+  int phone;
+  String imageUrl;
 
-class Seller{
-  String name ;
-   int phone ;
-   String imageUrl;
-
-  Seller({required this.name,required this.phone,required this.imageUrl});
-
-
+  Seller({required this.name, required this.phone, required this.imageUrl});
 }
 
-
-class ProductFamily{
+class ProductFamily {
   String name;
   String reference;
   String? imageUrl;
@@ -61,27 +105,53 @@ class ProductFamily{
   ProductFamily({required this.name, required this.reference, this.imageUrl});
 }
 
-class OrderProduct{
-  late String product;
-  late String productSize;
-  late String productColor;
-  late int quantity;
+class OrderProduct {
+
+  OrderProduct({
+    required this.product,
+    required this.quantity,
+    required this.productColor,
+    required this.productSize,
+  });
+
+  String product;
+  String productSize;
+  String productColor;
+  int quantity;
 }
 
+class Customer {
 
-class Customer{
-  late String name;
+  Customer({
+    required this.name,
+    this.phoneNumber,
+    required this.address,
+    required this.city,
+    required this.postalCode,
+  });
+
+  String name;
   int? phoneNumber;
-  late String address;
-  late String city;
-  late int postalCode;
+  String address;
+  String city;
+  int postalCode;
 }
 
-class Order{
-  late DateTime date;
-  late String sellerName;
-  late List<OrderProduct> products;
-  late int quantity;
-  late OrderStatus status;
-  late Customer customer;
+class Order {
+  Order({
+    required this.customer,
+    required this.products,
+    required this.date,
+    required this.status,
+    required this.quantity,
+    required this.sellerName,
+  });
+
+  DateTime date;
+  String sellerName;
+  List<OrderProduct> products;
+  int quantity;
+  OrderStatus status;
+  Customer customer;
+
 }

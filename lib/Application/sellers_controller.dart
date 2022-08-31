@@ -18,10 +18,10 @@ class SellersController {
       context: context,
       builder: (context) => Material(
         child: SellersEditor(
-          confirmCallback:
+          onConfirm:
               Provider.of<SellersLiveDataModel>(context, listen: false).add,
           confirmLabel: Labels.add,
-          seller: Seller(name:'',phone:7,imageUrl: ''),
+          seller: Seller(name:'',phone:0,imageUrl: ''),
         ),
       ),
     );
@@ -34,7 +34,7 @@ class SellersController {
         child: SellersEditor(
           seller: Provider.of<SellersLiveDataModel>(context, listen: false)
               .selectedSeller,
-          confirmCallback:
+          onConfirm:
               Provider.of<SellersLiveDataModel>(context, listen: false).update,
           confirmLabel: Labels.update,
         ),

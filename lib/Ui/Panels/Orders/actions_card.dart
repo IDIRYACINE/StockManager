@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Types/Generic/special_enums.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class ActionsCard extends StatefulWidget {

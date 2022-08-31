@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/Database/i_database.dart';
+import 'package:stock_manager/Types/i_database.dart';
 
 class Database {
   late Db database;
@@ -14,21 +14,38 @@ class Database {
     try {
       database = Db("mongodb://$identifier:$password@$host:$port/$dbName");
       await database.open();
+      _checkIfDatabaseSchemaCreate();
     } catch (e) {
       log(e.toString());
       _createDatabase(identifier, password);
     }
   }
 
-  Future<void> _createDatabase(String identifier,String password) async {
-    try{
+  Future<void> _createDatabase(String identifier, String password) async {
+    try {
       database = await Db.create(
-          "mongodb+srv://$identifier:$password@$host:$port/$dbName");    
+          "mongodb+srv://$identifier:$password@$host:$port/$dbName");
       await database.open();
-      createIndexes();
-    }catch(e){
+      _checkIfDatabaseSchemaCreate();
+    } catch (e) {
       log(e.toString());
     }
+  }
+
+  void _checkIfDatabaseSchemaCreate() async {
+    List<String?> collections = await database.getCollectionNames();
+    if (collections.isEmpty) {
+      createCollections();
+      createIndexes();
+    }
+  }
+
+  void createCollections() async {
+    database.createCollection(Collections.products.name);
+    database.createCollection(Collections.productsFamily.name);
+    database.createCollection(Collections.records.name);
+    database.createCollection(Collections.sellers.name);
+    database.createCollection(Collections.orders.name);
   }
 
   void createIndexes() {
@@ -47,7 +64,6 @@ class Database {
     collection.createIndex(keys: {
       Indexes.date.name: -1,
     });
-
   }
 
   void disconnect() async {
@@ -77,23 +93,23 @@ class Database {
     await collection.insert(seller);
   }
 
-  MongoDbDataStream loadDayPurchaseRecords(JsonMap selector) async {
+  FutureMongoDbDataStream loadDayPurchaseRecords(JsonMap selector) async {
     DbCollection collection = database.collection(Collections.records.name);
     return collection.find(selector);
   }
 
-  MongoDbDataStream loadProductFamillies(JsonMap selector) async {
+  FutureMongoDbDataStream loadProductFamillies(JsonMap selector) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
     return collection.find();
   }
 
-  MongoDbDataStream loadProducts(JsonMap selector) async {
+  FutureMongoDbDataStream loadProducts(JsonMap selector) async {
     DbCollection collection = database.collection(Collections.products.name);
     return collection.find();
   }
 
-  MongoDbDataStream loadSellers() async {
+  FutureMongoDbDataStream loadSellers() async {
     DbCollection collection = database.collection(Collections.sellers.name);
     return collection.find();
   }
@@ -109,43 +125,41 @@ class Database {
     collection.deleteOne(selector);
   }
 
-  MongoDbDataStream searchProduct(JsonMap selector) async {
+  void removeSeller(JsonMap selector) async {
+    DbCollection collection = database.collection(Collections.sellers.name);
+    collection.deleteOne(selector);
+  }
+
+  FutureMongoDbDataStream searchProduct(JsonMap selector) async {
     DbCollection collection = database.collection(Collections.products.name);
     return collection.find(selector);
   }
 
-  MongoDbDataStream searchProductFamily(JsonMap selector) async {
+  FutureMongoDbDataStream searchProductFamily(JsonMap selector) async {
     DbCollection collection = database.collection(Collections.sellers.name);
     return collection.find(selector);
   }
 
-  MongoDbDataStream searchPurchaseRecord(JsonMap selector) async {
+  FutureMongoDbDataStream searchPurchaseRecord(JsonMap selector) async {
     DbCollection collection = database.collection(Collections.records.name);
     return collection.find(selector);
   }
 
-  void updateProduct(
-      JsonMap selector, JsonMap updatedValues) async {
+  void updateProduct(JsonMap selector, JsonMap updatedValues) async {
     DbCollection collection = database.collection(Collections.products.name);
-    await collection.updateOne(
-        selector, updatedValues);
-
+    await collection.updateOne(selector, updatedValues);
   }
 
-  void updateProductFamily(
-      JsonMap selector, JsonMap updatedValues) async {
+  void updateProductFamily(JsonMap selector, JsonMap updatedValues) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
 
-    await collection.updateOne(
-        selector, updatedValues);
+    await collection.updateOne(selector, updatedValues);
   }
 
-  void updateSeller(JsonMap selector,JsonMap updatedValues) async {
-     DbCollection collection =
-        database.collection(Collections.sellers.name);
+  void updateSeller(JsonMap selector, JsonMap updatedValues) async {
+    DbCollection collection = database.collection(Collections.sellers.name);
 
-    await collection.updateOne(
-        selector, updatedValues);
+    await collection.updateOne(selector, updatedValues);
   }
 }
