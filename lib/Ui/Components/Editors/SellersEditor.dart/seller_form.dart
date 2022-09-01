@@ -1,33 +1,18 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
+import 'package:stock_manager/Ui/Components/Editors/SellersEditor.dart/seller_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class SellerForm extends StatelessWidget{
-
-  const SellerForm({Key? key, required this.seller}) : super(key: key);
+class SellerForm extends StatelessWidget {
+  const SellerForm(
+      {Key? key, required this.seller, required this.sellerEditorMode})
+      : super(key: key);
 
   final Seller seller;
-
-  void setImage(String url){
-    seller.imageUrl = url;
-  }
-
-  void setName(String? name){
-    if(name != null){
-      seller.name = name;
-    }
-  }
-
-  void setPhone(String? phone){
-    if(phone != null){
-      seller.phone = int.parse(phone);
-    }
-  }
+  final SellerEditorMode sellerEditorMode;
 
   @override
   Widget build(BuildContext context) {
@@ -37,22 +22,27 @@ class SellerForm extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
-          
           children: [
-             Flexible(child: Center(child:BrowseImage(imageUrl:seller.imageUrl, onImageSelected: setImage,),)),
-            Flexible(child: AttributeTextField(
-                initialValue: seller.name,
-                onChanged: setName,
-                label: Labels.sellerName,
-              )),
-                          const SizedBox(height: Measures.small),
-    
-              Flexible(child: AttributeTextField(
-                initialValue: seller.phone.toString() ,
-                onChanged: setPhone,
-                label: Labels.phoneNumber,
-              )),
-              
+            Flexible(
+                child: Center(
+              child: BrowseImage(
+                imageUrl: seller.imageUrl,
+                onImageSelected: sellerEditorMode.setImage,
+              ),
+            )),
+            Flexible(
+                child: AttributeTextField(
+              initialValue: seller.name,
+              onChanged: sellerEditorMode.setName,
+              label: Labels.sellerName,
+            )),
+            const SizedBox(height: Measures.small),
+            Flexible(
+                child: AttributeTextField(
+              initialValue: seller.phone.toString(),
+              onChanged: sellerEditorMode.setPhone,
+              label: Labels.phoneNumber,
+            )),
           ],
         ),
       ),

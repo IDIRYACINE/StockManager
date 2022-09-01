@@ -55,6 +55,7 @@ enum DatabaseEvent{
   loadProducts,
   loadSellers,
   loadDayPurchaseRecords,
+  loadPurchaseRecords,
   searchProduct,
   searchPurchaseRecord,
   searchProductFamily,

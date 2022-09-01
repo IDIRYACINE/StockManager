@@ -3,6 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Ui/Components/Editors/ProductFamilyEditor/prodcut_family_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -31,7 +32,7 @@ class FamilyEditor extends StatelessWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     final dynamic modeDelegate =
-        editMode ? _EditDelegate(family) : _CreateDelegate(family);
+        editMode ? ProductFamilyEditorMode.createModeInstance(family) : ProductFamilyEditorMode.editModeInstance(family);
 
     return Form(
         key: formKey,
@@ -50,7 +51,7 @@ class FamilyEditor extends StatelessWidget {
             Flexible(
                 child: AttributeTextField(
               initialValue: family.reference,
-              onChanged: modeDelegate.setReference,
+              onChanged: modeDelegate.setImage,
               label: Labels.reference,
             )),
             const SizedBox(
@@ -79,73 +80,5 @@ class FamilyEditor extends StatelessWidget {
             )
           ]),
         ));
-  }
-}
-
-abstract class ModeDelegate<T> {
-  void setReference(String? reference);
-
-  void setName(String? name);
-
-  void confirm(T callback);
-}
-
-class _CreateDelegate implements ModeDelegate<Callback<ProductFamily>> {
-  final ProductFamily family;
-
-  _CreateDelegate(this.family);
-
-  @override
-  void setName(String? name) {
-    if (name != null) {
-      family.name = name;
-    }
-  }
-
-  @override
-  void setReference(String? reference) {
-    if (reference != null) {
-      family.reference = reference;
-    }
-  }
-
-  @override
-  void confirm(Callback<ProductFamily> callback) {
-    callback(family);
-  }
-}
-
-class _EditDelegate
-    implements ModeDelegate<EditorCallback<AppJson, ProductFamily>> {
-  final ProductFamily family;
-  final ModifierBuilder modifierBuilder = ModifierBuilder();
-
-  _EditDelegate(this.family);
-
-  Map<ProductFamilyFields, dynamic> updatedFields = {};
-
-  @override
-  void setName(String? name) {
-    if (name != null) {
-      family.name = name;
-      updatedFields[ProductFamilyFields.name] = name;
-    }
-  }
-
-  @override
-  void setReference(String? reference) {
-    if (reference != null) {
-      family.reference = reference;
-      updatedFields[ProductFamilyFields.reference] = reference;
-    }
-  }
-
-  @override
-  void confirm(EditorCallback<AppJson, ProductFamily> callback) {
-    updatedFields.forEach((key, value) {
-      modifierBuilder.set(key.name, value);
-    });
-
-    callback(modifierBuilder.map, family);
   }
 }

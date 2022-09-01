@@ -7,26 +7,43 @@ import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 import 'deposit_form.dart';
+import 'deposit_mode.dart';
 
 class DepositEditor extends StatelessWidget {
-  const DepositEditor({Key? key, this.editMode = false, required this.record, required this.onConfirm, required this.confirmLabel, required this.onSearch, })
-      : super(key: key);
+  const DepositEditor({
+    Key? key,
+    this.editMode = false,
+    required this.record,
+    this.createCallback,
+    required this.confirmLabel,
+    this.onSearch,
+    this.editCallback,
+  })  : assert(
+          (editMode && editCallback != null) ||
+              (!editMode && createCallback != null),
+          'editMode and its callback must be set together',
+        ),
+        assert(!editMode && onSearch != null,
+            'editMode and onSearch must be set together'),
+        super(key: key);
 
   final bool editMode;
   final Record record;
   final int searchBarFlex = 2;
   final int bodyFlex = 5;
   final int actionsFlex = 1;
-
-  final Callback<Record> onConfirm;
+  final Callback<Record>? createCallback;
+  final EditorCallback<AppJson, Record>? editCallback;
   final String confirmLabel;
-  final Callback<String> onSearch;
+  final Callback<String>? onSearch;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final Product product = Product.defaultInstance();
-
+    final dynamic depositMode = editMode
+        ? DepositEditorMode.editModeInstance(record)
+        : DepositEditorMode.createModeInstance(record);
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingNormal),
       child: Form(
@@ -55,10 +72,13 @@ class DepositEditor extends StatelessWidget {
                     Expanded(
                       child: DefaultDecorator(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.all(Measures.small),
-                            child: DepositForm(record: record, product: product,),
-                          )),
+                        padding: const EdgeInsets.all(Measures.small),
+                        child: DepositForm(
+                          depositMode: depositMode,
+                          record: record,
+                          product: product,
+                        ),
+                      )),
                     ),
                   ],
                 ),
@@ -77,7 +97,11 @@ class DepositEditor extends StatelessWidget {
                       label: confirmLabel,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          onConfirm(record);
+                          if (editMode) {
+                            depositMode.confirm(editCallback);
+                          } else {
+                            depositMode.confirm(createCallback);
+                          }
                         }
                       },
                     ),
@@ -91,34 +115,37 @@ class DepositEditor extends StatelessWidget {
 }
 
 class _SearchBar extends StatelessWidget {
-  const _SearchBar({Key? key, required this.onSearch}) : super(key: key);
+  const _SearchBar({Key? key, this.onSearch}) : super(key: key);
 
-  final Callback<String> onSearch;
+  final Callback<String>? onSearch;
 
   @override
   Widget build(BuildContext context) {
-    String barcode ='';
+    String barcode = '';
 
     void setBarcode(String? value) {
-            if(value != null){
-            barcode = value;
-            }
-          }
+      if (value != null) {
+        barcode = value;
+      }
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-         Expanded(
+        Expanded(
             child: AttributeTextField(
           label: Labels.barcode,
           initialValue: '',
           onChanged: setBarcode,
         )),
         Flexible(
-            child:
-                DefaultButton(label: Labels.search, onPressed: (){
-                  onSearch(barcode);
-                })),
+            child: DefaultButton(
+                label: Labels.search,
+                onPressed: onSearch != null
+                    ? () {
+                        onSearch!(barcode);
+                      }
+                    : null)),
       ],
     );
   }

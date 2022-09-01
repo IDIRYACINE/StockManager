@@ -6,16 +6,16 @@ import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-import 'product_editor.dart';
+import 'product_mode.dart';
+
 
 class ProductForm extends StatelessWidget {
-  const ProductForm({Key? key, required this.editMode, required this.product, required this.modeDelegate})
+  const ProductForm({Key? key, required this.editMode, required this.product, required this.productEditorMode})
       : super(key: key);
 
   final Product product;
   final bool editMode;
-  final ModeDelegate modeDelegate ;
-  
+  final ProductEditorMode productEditorMode ;
 
 
   DropdownMenuItem<ProductFamily> buildProductFamilyDropdownMenuItem(
@@ -35,7 +35,7 @@ class ProductForm extends StatelessWidget {
         children: [
           Expanded(
               child: SelectorDropDown<ProductFamily>(
-            onSelect: (value) => {modeDelegate.setProductFamily(value.name)},
+            onSelect: (value) => {productEditorMode.setProductFamily(value.name)},
             adapter: buildProductFamilyDropdownMenuItem,
             items: Provider.of<StockLiveDataModel>(context,listen: false).loadedProductFamillies,
             label: const Text(Labels.selectProductFamily),
@@ -45,30 +45,30 @@ class ProductForm extends StatelessWidget {
               child: AttributeTextField(
             initialValue: product.name,
             label: Labels.name,
-            onChanged: modeDelegate.setName,
+            onChanged: productEditorMode.setName,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.reference,
             label: Labels.reference,
-            onChanged: modeDelegate.setReference,
+            onChanged: productEditorMode.setReference,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.barcode.toString(),
-            onChanged: modeDelegate.setBarcode,
+            onChanged: productEditorMode.setBarcode,
             label: Labels.barcode,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.originalPrice.toString(),
-            onChanged: modeDelegate.setBuyingPrice,
+            onChanged: productEditorMode.setBuyingPrice,
             label: Labels.buyingPrice,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.sellingPrice.toString(),
-            onChanged: modeDelegate.setSellingPrice,
+            onChanged: productEditorMode.setSellingPrice,
             label: Labels.sellingPrice,
           )),
         ],

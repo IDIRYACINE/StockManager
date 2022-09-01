@@ -26,10 +26,6 @@ class ActionsCard extends StatelessWidget{
     }
 
 
-    void refresh(){
-      controller.refresh(context);
-    }
-
    return Card(
       elevation: Measures.small,
       child: Row(
@@ -38,7 +34,6 @@ class ActionsCard extends StatelessWidget{
                 Flexible(child: ElevatedButton(onPressed: add, child: const Text(Labels.add),)),
                 Flexible(child: ElevatedButton(onPressed: edit, child: const Text(Labels.edit),)),
                 Flexible(child: ElevatedButton(onPressed: remove, child: const Text(Labels.remove),)),
-                Flexible(child: ElevatedButton(onPressed: refresh, child: const Text(Labels.refresh),)),
             ],
           ),
    );

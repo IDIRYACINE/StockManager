@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
+import 'package:stock_manager/Ui/Components/Editors/DepositEditor/deposit_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
@@ -10,53 +11,19 @@ import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DepositForm extends StatelessWidget {
-  const DepositForm({Key? key, required this.product, required this.record})
+  const DepositForm({Key? key, required this.product, required this.record, required this.depositMode})
       : super(key: key);
 
   final Product product;
   final Record record;
-
-  void setRemainingPayement(String? remainingPayement) {
-    if (remainingPayement != null) {
-      record.remainingPayement = double.tryParse(remainingPayement);
-    }
-  }
-
-  void setSellingPrice(String? sellingPrice) {
-    if (sellingPrice != null) {
-      record.sellingPrice = double.parse(sellingPrice);
-    }
-  }
-
-  void setSellerName(Seller seller) {
-    record.sellerName = seller.name;
-  }
-
-  void setDeposit(String? deposit) {
-    if (deposit != null) {
-      record.deposit = double.parse(deposit);
-    }
-  }
+  final DepositEditorMode depositMode;
+  
 
   DropdownMenuItem<Seller> sellerDropdownAdapter(Seller seller){
     return DropdownMenuItem(
       value: seller,
       child: Text(seller.name),
     );
-  }
-
-  void setCustomerName(String? customerName) {
-    if (customerName != null) {
-      record.customer = customerName;
-    }
-  }
-
-  void setColor(String color) {
-    record.productColor = color;
-  }
-
-  void setSize(String size) {
-    record.productSize = size;
   }
 
   @override
@@ -66,24 +33,24 @@ class DepositForm extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown(
-            onSelect: setSellerName,
+            onSelect: depositMode.setSellerName,
             adapter: sellerDropdownAdapter,
             items: Provider.of<SellersLiveDataModel>(context, listen: false)
                 .loadedSellers,
             label: const Text(Labels.sellerName)),
         AttributeTextField(
           initialValue: '',
-          onChanged: setCustomerName,
+          onChanged: depositMode.setCustomerName,
           label: Labels.customerName,
         ),
         AttributeTextField(
           initialValue: product.sellingPrice.toString(),
-          onChanged: setSellingPrice,
+          onChanged: depositMode.setSellingPrice,
           label: Labels.sellingPrice,
         ),
         AttributeTextField(
           initialValue: record.deposit?.toString() ?? '',
-          onChanged: setDeposit,
+          onChanged: depositMode.setDeposit,
           label: Labels.deposit,
         ),
         AttributeTextField(
@@ -94,8 +61,8 @@ class DepositForm extends StatelessWidget {
         const SizedBox(height: Measures.small),
         ModelSelector(
           productModels: product.models,
-          colorSelectorCallback: setColor,
-          sizeSelectorCallback: setSize,
+          colorSelectorCallback: depositMode.setColor,
+          sizeSelectorCallback: depositMode.setSize,
         ),
       ],
     );

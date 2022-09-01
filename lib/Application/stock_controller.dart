@@ -12,7 +12,7 @@ import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Components/Editors/ProductEditor/product_editor.dart';
-import 'package:stock_manager/Ui/Components/Editors/product_family_editor.dart';
+import 'package:stock_manager/Ui/Components/Editors/ProductFamilyEditor/product_family_editor.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -307,8 +307,8 @@ class _FamilliesDelegate implements IStockDelegate {
 
     showDialog(
         context: context,
-        builder: (context) => Material(
-                child: FamilyEditor(
+        builder: (context) => AlertDialog(
+                content: FamilyEditor(
               family: ProductFamily(name: "", reference: ""),
               createCallback: _onConfirm,
               confirmLabel: Labels.add,
@@ -334,8 +334,8 @@ class _FamilliesDelegate implements IStockDelegate {
 
     showDialog(
         context: context,
-        builder: (context) => Material(
-                child: FamilyEditor(
+        builder: (context) => AlertDialog(
+                content: FamilyEditor(
               family: Provider.of<StockLiveDataModel>(context, listen: false)
                   .selectedFamily,
               editMode: true,
@@ -387,8 +387,8 @@ class _FamilliesDelegate implements IStockDelegate {
 
     showDialog(
         context: context,
-        builder: (context) => Material(
-                child: ConfirmDialog(
+        builder: (context) => AlertDialog(
+                content: ConfirmDialog(
               onConfirm: onRemove,
               message: Messages.deleteElement,
             )));
