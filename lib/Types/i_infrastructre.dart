@@ -13,6 +13,8 @@ class AuthObject {
   AuthObject(this.identifier, this.password);
 }
 
-typedef ServiceEventHandler = ServiceResponse Function(ServiceMessageData message); 
+typedef ServiceEventHandler = Future<ServiceResponse> Function(ServiceMessageData message); 
 
 typedef CallbackDelegate = Map<DatabaseEvent , ServiceEventHandler>;
+
+typedef ServiceMessageDataMap = Map<ServicesData,dynamic>; 

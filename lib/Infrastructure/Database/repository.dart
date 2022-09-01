@@ -1,4 +1,4 @@
-
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/Database/database.dart';
@@ -7,7 +7,6 @@ import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DatabaseRepository {
-  
   DatabaseRepository(this._database);
 
   final Database _database;
@@ -18,62 +17,91 @@ class DatabaseRepository {
     _database.insertProduct(productToJson(product: product));
   }
 
-  Future<void> updateProduct({required Product product , required AppJson updatedValues}) async {
-    _database.updateProduct(productToJson(product: product),updatedValues);
+  Future<void> updateProduct(
+      {required Product product, required AppJson updatedValues}) async {
+    SelectorBuilder selector = SelectorBuilder();
+    selector.eq(ProductFields.reference.name, product.reference);
+    ModifierBuilder modifier = ModifierBuilder();
+    modifier.map = updatedValues;
+    _database.updateProduct(selector, modifier);
   }
 
   Future<void> deleteProduct({required Product product}) async {
-    _database.removeProduct(productToJson(product: product));
+    SelectorBuilder selector =
+        SelectorBuilder().eq(ProductFields.name.name, product.name);
+    _database.removeProduct(selector);
   }
 
-  Future<void> insertProductFamily({required ProductFamily productFamily}) async {
+  Future<void> insertProductFamily(
+      {required ProductFamily productFamily}) async {
     _database.insertProductFamily(productFamilyToJson(family: productFamily));
   }
 
-  Future<void> updateProductFamily({required ProductFamily productFamily,required AppJson updatedValues}) async {
-    _database.updateProductFamily(productFamilyToJson(family: productFamily),updatedValues);
+  Future<void> updateProductFamily(
+      {required ProductFamily productFamily,
+      required AppJson updatedValues}) async {
+    SelectorBuilder selector = SelectorBuilder();
+
+    selector.eq(ProductFamilyFields.reference.name, productFamily.reference);
+
+    ModifierBuilder modifier = ModifierBuilder();
+    modifier.map = updatedValues;
+    _database.updateProductFamily(selector, modifier);
   }
 
-  Future<void> deleteProductFamily({required ProductFamily productFamily}) async {
-    _database.removeProductFamily(productFamilyToJson(family: productFamily));
+  Future<void> deleteProductFamily(
+      {required ProductFamily productFamily}) async {
+    SelectorBuilder selector = SelectorBuilder()
+        .eq(ProductFamilyFields.reference.name, productFamily.reference);
+    _database.removeProductFamily(selector);
   }
 
   Future<void> insertRecord({required Record record}) async {
     _database.insertPurchaseRecord(recordToJson(record: record));
   }
 
-  Future<void> insertSeller({
-    required Seller seller
-  }) async {
+  Future<void> insertSeller({required Seller seller}) async {
     _database.insertSeller(sellerToJson(seller: seller));
   }
 
-
-  Future<void> updateSeller({
-    required Seller seller,required AppJson updatedValues
-  }) async {
-    _database.updateSeller(sellerToJson(seller: seller),updatedValues);
+  Future<void> updateSeller(
+      {required Seller seller, required AppJson updatedValues}) async {
+    SelectorBuilder selector = SelectorBuilder();
+    selector.eq(SellerFields.phone.name, seller.phone);
+    ModifierBuilder modifier = ModifierBuilder();
+    modifier.map = updatedValues;
+    _database.updateSeller(selector, modifier);
   }
 
-
-  Future<void> deleteSeller({
-    required Seller seller
-  }) async {
-    _database.removeSeller(sellerToJson(seller: seller));
+  Future<void> deleteSeller({required Seller seller}) async {
+    SelectorBuilder selector =
+        SelectorBuilder().eq(SellerFields.name.name, seller.name);
+    _database.removeSeller(selector);
   }
 
+  // load x
+  Future<List<Product>> loadProducts() async {
+    List<Product> products = [];
 
+    MongoDbDataStream data = await _database.loadProducts(SelectorBuilder());
+    await await data.forEach((element) {
+      products.add(productFromJson(json: element));
+    });
 
-  // search x 
+    return products;
+  }
 
-  Future<List<ProductFamily>> searchProductFamily(
-      AppJson search) async {
+  // search x
+
+  Future<List<ProductFamily>> searchProductFamily(AppJson search) async {
+    SelectorBuilder selector = SelectorBuilder();
+    selector.map = search;
+    MongoDbDataStream data = await _database.searchProductFamily(selector);
+
     List<ProductFamily> family = [];
 
-    MongoDbDataStream data = await _database.searchProductFamily(search);
-
-    data.forEach((element) {
-      family.add(productFamilyFromJson(json:element));
+    await data.forEach((element) {
+      family.add(productFamilyFromJson(json: element));
     });
 
     return family;
@@ -82,11 +110,15 @@ class DatabaseRepository {
   Future<List<Product>> searchProduct(AppJson search) async {
     List<Product> products = [];
 
-    MongoDbDataStream data = await _database.searchProduct(search);
+    SelectorBuilder selector = SelectorBuilder();
+    selector.map = search;
+    MongoDbDataStream data = await _database.searchProduct(selector);
 
-    data.forEach((element) {
-      products.add(productFromJson(json:element));
+    await await data.forEach((element) {
+      products.add(productFromJson(json: element));
     });
+
+    print(products.toString());
 
     return products;
   }
@@ -94,10 +126,12 @@ class DatabaseRepository {
   Future<List<Record>> searchRecord(AppJson search) async {
     List<Record> records = [];
 
-    MongoDbDataStream data = await _database.searchPurchaseRecord(search);
+    SelectorBuilder selector = SelectorBuilder();
+    selector.map = search;
+    MongoDbDataStream data = await _database.searchPurchaseRecord(selector);
 
-    data.forEach((element) {
-      records.add(recordFromJson(json:element));
+    await await data.forEach((element) {
+      records.add(recordFromJson(json: element));
     });
 
     return records;
@@ -113,7 +147,27 @@ class DatabaseRepository {
     );
   }
 
+  ProductModel _productModelFromJson({required AppJson json}) {
+    return ProductModel(
+      color: json[ProductModelFields.color.name] ?? Labels.error,
+      size: json[ProductModelFields.size.name] ?? Labels.error,
+      quantity: json[ProductModelFields.quantity.name] ?? Labels.error,
+    );
+  }
+
   Product productFromJson({required AppJson<dynamic> json}) {
+    List<ProductModel> models = [];
+    List<dynamic>? rawModels = json[ProductFields.models.name];
+
+    ProductModel model;
+
+    if (rawModels != null) {
+      for (var element in rawModels) {
+        model = _productModelFromJson(json: element);
+        models.add(model);
+      }
+    }
+
     return Product(
       barcode: json[ProductFields.barcode.name] ?? Labels.error,
       name: json[ProductFields.name.name] ?? Labels.error,
@@ -122,7 +176,7 @@ class DatabaseRepository {
       originalPrice: json[ProductFields.buyingPrice.name] ?? Labels.error,
       reference: json[ProductFields.reference.name] ?? Labels.error,
       sellingPrice: json[ProductFields.sellingPrice.name] ?? Labels.error,
-      models: json[ProductFields.models.name] ?? Labels.error,
+      models: models,
       totalQuantity: json[ProductFields.quantity.name] ?? Labels.error,
     );
   }
@@ -178,7 +232,7 @@ class DatabaseRepository {
     List<AppJson<dynamic>> models = [];
 
     for (ProductModel model in product.models) {
-        _productModelToJson(model: model);
+      _productModelToJson(model: model);
     }
 
     json[ProductFields.barcode.name] = product.barcode;
@@ -188,14 +242,12 @@ class DatabaseRepository {
     json[ProductFields.buyingPrice.name] = product.originalPrice;
     json[ProductFields.reference.name] = product.reference;
     json[ProductFields.sellingPrice.name] = product.sellingPrice;
-    json[ProductFields.models.name] = models ;
+    json[ProductFields.models.name] = models;
     json[ProductFields.quantity.name] = product.totalQuantity;
 
     return json;
   }
 
-
-  
   AppJson<dynamic> _productModelToJson({required ProductModel model}) {
     AppJson<dynamic> json = {};
 
@@ -236,5 +288,4 @@ class DatabaseRepository {
 
     return json;
   }
-
 }

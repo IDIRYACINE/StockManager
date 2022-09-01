@@ -47,27 +47,25 @@ class _SearchFieldTextState extends State<SearchFieldText> {
     });
   }
 
-  mongo.SelectorBuilder queryGenerator() {
-    mongo.SelectorBuilder query;
+  void queryGenerator(mongo.SelectorBuilder selector) {
     switch (searchType) {
       case SearchType.equals:
-        query = mongo.where.eq(widget.identifier, attributeValue);
+         selector.eq(widget.identifier, attributeValue);
         break;
       case SearchType.greaterThan:
-        query = mongo.where.gt(widget.identifier, attributeValue);
+         selector.gt(widget.identifier, attributeValue);
         break;
       case SearchType.lessThan:
-        query = mongo.where.lt(widget.identifier, attributeValue);
+         selector.lt(widget.identifier, attributeValue);
         break;
       case SearchType.greaterThanEquals:
-        query = mongo.where.gte(widget.identifier, attributeValue);
+         selector.gte(widget.identifier, attributeValue);
         break;
       case SearchType.lessThanEquals:
-        query = mongo.where.lte(widget.identifier, attributeValue);
+         selector.lte(widget.identifier, attributeValue);
         break;
     }
 
-    return query;
   }
 
   void onSelectSearchType(SearchType value) {
@@ -115,12 +113,13 @@ class SearchFieldDropDown<T> extends StatefulWidget {
     required this.identifier,
     required this.onSelected,
     required this.onDeselected,
-    required this.values,
+    required this.values, this.adapter,
   }) : super(key: key);
 
   final String label;
   final List<T> values;
   final String identifier;
+  final DropDownMenuItemAdapter<T>? adapter;
   final OnSearchAttributeSelected onSelected, onDeselected;
 
   @override
@@ -144,8 +143,8 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
     });
   }
 
-  mongo.SelectorBuilder queryGenerator() {
-    return mongo.where.eq(widget.identifier, attributeValue);
+  void queryGenerator(mongo.SelectorBuilder selector) {
+    selector.eq(widget.identifier, attributeValue);
   }
 
   void onSelect(T value) {
@@ -174,6 +173,7 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
             child: SelectorDropDown(
                 label: const Text(Labels.selectProductFamily),
                 items: widget.values,
+                adapter: widget.adapter,
                 onSelect: onSelect)),
       ],
     );
@@ -212,14 +212,11 @@ class _SearchFieldRangedState extends State<SearchFieldRanged> {
     });
   }
 
-  mongo.SelectorBuilder queryGenerator() {
-    mongo.SelectorBuilder query;
-
-    query = mongo.where
+  void queryGenerator(mongo.SelectorBuilder selector) {
+     selector
         .gte(widget.minIdentifier, minValue)
         .lte(widget.maxIdentifier, maxValue);
 
-    return query;
   }
 
   @override
@@ -291,14 +288,12 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
     });
   }
 
-  mongo.SelectorBuilder queryGenerator() {
-    mongo.SelectorBuilder query;
+  void queryGenerator(mongo.SelectorBuilder selector) {
 
-    query = mongo.where
+     selector
         .gte(widget.identifier, minValue)
         .lte(widget.identifier, maxValue);
 
-    return query;
   }
 
   @override

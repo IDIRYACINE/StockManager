@@ -93,18 +93,18 @@ class Database {
     await collection.insert(seller);
   }
 
-  FutureMongoDbDataStream loadDayPurchaseRecords(JsonMap selector) async {
+  FutureMongoDbDataStream loadDayPurchaseRecords(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.records.name);
     return collection.find(selector);
   }
 
-  FutureMongoDbDataStream loadProductFamillies(JsonMap selector) async {
+  FutureMongoDbDataStream loadProductFamillies(SelectorBuilder selector) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
     return collection.find();
   }
 
-  FutureMongoDbDataStream loadProducts(JsonMap selector) async {
+  FutureMongoDbDataStream loadProducts(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.products.name);
     return collection.find();
   }
@@ -114,50 +114,50 @@ class Database {
     return collection.find();
   }
 
-  void removeProduct(JsonMap selector) async {
+  void removeProduct(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.products.name);
     collection.deleteOne(selector);
   }
 
-  void removeProductFamily(JsonMap selector) async {
+  void removeProductFamily(SelectorBuilder selector) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
     collection.deleteOne(selector);
   }
 
-  void removeSeller(JsonMap selector) async {
+  void removeSeller(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.sellers.name);
     collection.deleteOne(selector);
   }
 
-  FutureMongoDbDataStream searchProduct(JsonMap selector) async {
+  FutureMongoDbDataStream searchProduct(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.products.name);
     return collection.find(selector);
   }
 
-  FutureMongoDbDataStream searchProductFamily(JsonMap selector) async {
+  FutureMongoDbDataStream searchProductFamily(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.sellers.name);
     return collection.find(selector);
   }
 
-  FutureMongoDbDataStream searchPurchaseRecord(JsonMap selector) async {
+  FutureMongoDbDataStream searchPurchaseRecord(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.records.name);
     return collection.find(selector);
   }
 
-  void updateProduct(JsonMap selector, JsonMap updatedValues) async {
+  void updateProduct(SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection = database.collection(Collections.products.name);
     await collection.updateOne(selector, updatedValues);
   }
 
-  void updateProductFamily(JsonMap selector, JsonMap updatedValues) async {
+  void updateProductFamily(SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
 
     await collection.updateOne(selector, updatedValues);
   }
 
-  void updateSeller(JsonMap selector, JsonMap updatedValues) async {
+  void updateSeller(SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection = database.collection(Collections.sellers.name);
 
     await collection.updateOne(selector, updatedValues);

@@ -61,7 +61,8 @@ class StockLiveDataModel with ChangeNotifier{
   }
   
   void setAllProducts(Iterable<Product> elements) {
-    _loadedProducts.setAll(0,elements);
+    _loadedProducts.clear();
+    _loadedProducts.addAll(elements);
     toggleRefresh(_refreshProducts);
   }
 
@@ -89,7 +90,8 @@ class StockLiveDataModel with ChangeNotifier{
   }
   
   void setAllFamillies(Iterable<ProductFamily> elements) {
-    loadedProductFamillies.setAll(0,elements);
+    loadedProductFamillies.clear();
+    loadedProductFamillies.addAll(elements);
     toggleRefresh(_refreshProductsFamily);
   }
 

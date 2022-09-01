@@ -21,9 +21,9 @@ typedef VoidDoubleValueCallback<T,R> = void Function(T value,R secondValue);
 
 typedef ValueCallback<R> = R Function();
 
-typedef OnSearchAttributeSelected = void Function(ValueCallback<SelectorBuilder>  queryCallback);
+typedef OnSearchAttributeSelected = void Function(Callback<SelectorBuilder>  queryCallback);
 
-typedef RegisterSearchQueryBuilder = void Function (ValueCallback<SelectorBuilder>  queryCallback);
+typedef RegisterSearchQueryBuilder = void Function (Callback<SelectorBuilder>  queryCallback);
 
 typedef SearchFieldsBuilder = List<Widget> Function (RegisterSearchQueryBuilder ,RegisterSearchQueryBuilder);
 

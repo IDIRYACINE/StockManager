@@ -61,14 +61,15 @@ class ServicesStore {
   }
 
   void _receiveMessage(ServiceResponse response) {
-    ServiceMessage<dynamic> message = _messagesQueue[response.messageId]!;
+    // using dyanamic type checking to avoid runtime errors ,
+    // otherwise message generic type is casted to dynamic instead of T
+    dynamic message = _messagesQueue[response.messageId]!;
 
     if (message.hasCallback) {
       message.callback?.call(response.data);
     }
 
     if (message.hasVoidCallback) {
-
       message.voidCallback?.call();
     }
 
@@ -82,6 +83,7 @@ class ServiceMessage<T> {
       {required this.service,
       required this.event,
       required this.data,
+      this.responseDataType,
       this.callback,
       this.voidCallback,
       this.hasCallback = false,
@@ -89,7 +91,7 @@ class ServiceMessage<T> {
 
   AppServices service;
   Enum event;
-
+  Type? responseDataType;
   Callback<T>? callback;
   VoidCallback? voidCallback;
 

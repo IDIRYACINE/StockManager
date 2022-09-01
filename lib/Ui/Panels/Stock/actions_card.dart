@@ -45,7 +45,7 @@ class ActionsCard extends StatelessWidget{
                   onSelect: controller.onSelectStockType,
                   label: const Text(Labels.stockTypes),
                   items: StockTypes.values,
-                adapter: controller.stockTypesAdapter,)),
+                adapter: StockController.stockTypesDropdownAdapter,)),
                 Flexible(child: ElevatedButton(onPressed: add, child: const Text(Labels.add),)),
                 Flexible(child: ElevatedButton(onPressed: edit, child: const Text(Labels.edit),)),
                 Flexible(child: ElevatedButton(onPressed: remove, child: const Text(Labels.remove),)),
