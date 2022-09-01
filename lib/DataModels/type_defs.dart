@@ -44,3 +44,5 @@ typedef RowCellAdapter<T> = List<String> Function(T value);
 typedef Callback<T> = void Function(T value);
 
 typedef AppJson<T> = Map<String,T>;
+
+typedef EditorCallback<T,K> = void Function(T value,K secondValue);

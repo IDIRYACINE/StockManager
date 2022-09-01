@@ -82,6 +82,7 @@ class _ProductsTable extends StatelessWidget {
     );
   }
 }
+
 class _FamilliesTable extends StatelessWidget {
   const _FamilliesTable();
 

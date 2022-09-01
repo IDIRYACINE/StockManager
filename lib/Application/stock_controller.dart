@@ -130,7 +130,7 @@ class _ProductsDelegate implements IStockDelegate {
       context: context,
       builder: (context) => Material(
         child: ProductEditor(
-          confirmCallback: _onConfirm,
+          createCallback: _onConfirm,
           confirmLabel: Labels.add,
           product: Product.defaultInstance(),
         ),
@@ -140,15 +140,29 @@ class _ProductsDelegate implements IStockDelegate {
 
   @override
   void edit(BuildContext context) {
+    void onEdit(Map<String, dynamic> updatedField, Product product) {
+      Map<ServicesData, dynamic> data = {
+        ServicesData.instance: product,
+        ServicesData.databaseSelector: updatedField,
+      };
+
+      ServiceMessage message = ServiceMessage(
+          data: data,
+          event: DatabaseEvent.updateProduct,
+          service: AppServices.database);
+      ServicesStore.instance.sendMessage(message);
+      Provider.of<StockLiveDataModel>(context, listen: false)
+          .updateProduct(product);
+    }
+
     showDialog(
       context: context,
       builder: (context) => Material(
         child: ProductEditor(
           product: Provider.of<StockLiveDataModel>(context, listen: false)
               .selectedProduct,
-          confirmCallback:
-              Provider.of<StockLiveDataModel>(context, listen: false)
-                  .updateProduct,
+          editMode: true,
+          editCallback: onEdit,
           confirmLabel: Labels.update,
         ),
       ),
@@ -197,11 +211,11 @@ class _ProductsDelegate implements IStockDelegate {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          content: ConfirmDialog(
+              content: ConfirmDialog(
                 onConfirm: onRemove,
                 message: Messages.deleteElement,
               ),
-        ));
+            ));
   }
 
   @override
@@ -275,37 +289,101 @@ class _ProductsDelegate implements IStockDelegate {
 class _FamilliesDelegate implements IStockDelegate {
   @override
   void add(BuildContext context) {
+    void _onConfirm(ProductFamily family) {
+      Provider.of<StockLiveDataModel>(context, listen: false)
+          .addProductFamily(family);
+
+      Map<ServicesData, dynamic> data = {
+        ServicesData.instance: family,
+      };
+
+      ServiceMessage message = ServiceMessage(
+          data: data,
+          event: DatabaseEvent.insertProductFamily,
+          service: AppServices.database);
+
+      ServicesStore.instance.sendMessage(message);
+    }
+
     showDialog(
         context: context,
         builder: (context) => Material(
                 child: FamilyEditor(
               family: ProductFamily(name: "", reference: ""),
-              onConfirm: Provider.of<StockLiveDataModel>(context, listen: false)
-                  .addProductFamily,
+              createCallback: _onConfirm,
               confirmLabel: Labels.add,
             )));
   }
 
   @override
   void edit(BuildContext context) {
+    void onEdit(Map<String, dynamic> updatedField, ProductFamily family) {
+      Map<ServicesData, dynamic> data = {
+        ServicesData.instance: family,
+        ServicesData.databaseSelector: updatedField,
+      };
+
+      ServiceMessage message = ServiceMessage(
+          data: data,
+          event: DatabaseEvent.updateProductFamily,
+          service: AppServices.database);
+      ServicesStore.instance.sendMessage(message);
+      Provider.of<StockLiveDataModel>(context, listen: false)
+          .updateProductFamily(family);
+    }
+
     showDialog(
         context: context,
         builder: (context) => Material(
                 child: FamilyEditor(
               family: Provider.of<StockLiveDataModel>(context, listen: false)
                   .selectedFamily,
-              onConfirm: Provider.of<StockLiveDataModel>(context, listen: false)
-                  .updateProductFamily,
+              editMode: true,
+              editCallback: onEdit,
               confirmLabel: Labels.update,
             )));
   }
 
   @override
-  void refresh(BuildContext context) {}
+  void refresh(BuildContext context) {
+    _showLoadingAlert(context);
+
+    void onResult(List<ProductFamily> familllies) {
+      Navigator.pop(context);
+      Provider.of<StockLiveDataModel>(context, listen: false)
+          .setAllFamillies(familllies);
+    }
+
+    ServiceMessageDataMap data = {
+      ServicesData.databaseSelector: {},
+    };
+
+    ServiceMessage message = ServiceMessage<List<ProductFamily>>(
+      data: data,
+      event: DatabaseEvent.loadProductFamillies,
+      service: AppServices.database,
+      callback: onResult,
+      hasCallback: true,
+    );
+
+    ServicesStore.instance.sendMessage(message);
+  }
 
   @override
   void remove(BuildContext context) {
-    void onRemove() {}
+    void onRemove() {
+      StockLiveDataModel liveDataModel =
+          Provider.of<StockLiveDataModel>(context, listen: false);
+      ProductFamily deletedFamily = liveDataModel.selectedFamily;
+      liveDataModel.deleteProductFamily(deletedFamily);
+
+      Map<ServicesData, dynamic> data = {ServicesData.instance: deletedFamily};
+      ServiceMessage message = ServiceMessage(
+          data: data,
+          event: DatabaseEvent.deleteProductFamily,
+          service: AppServices.database);
+      ServicesStore.instance.sendMessage(message);
+    }
 
     showDialog(
         context: context,
@@ -318,12 +396,33 @@ class _FamilliesDelegate implements IStockDelegate {
 
   @override
   void search(BuildContext context) {
+    void _onResult(List<ProductFamily> familllies) {
+      Provider.of<StockLiveDataModel>(context, listen: false)
+          .setAllFamillies(familllies);
+      Navigator.pop(context);
+    }
+
+    void onSearch(Map<String, dynamic> selector) {
+      _showLoadingAlert(context);
+
+      Map<ServicesData, dynamic> data = {
+        ServicesData.databaseSelector: selector,
+      };
+
+      ServicesStore.instance.sendMessage(ServiceMessage<List<ProductFamily>>(
+          service: AppServices.database,
+          event: DatabaseEvent.searchProductFamily,
+          data: data,
+          hasCallback: true,
+          callback: _onResult));
+    }
+
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
                 content: SearchEditor(
               searchFieldBuilder: buildSearchFields,
-              searchCallback: (Map<String, dynamic> value) {},
+              searchCallback: onSearch,
             )));
   }
 
@@ -341,5 +440,11 @@ class _FamilliesDelegate implements IStockDelegate {
           onSelected: onSelect,
           onDeselected: onDeselect),
     ];
+  }
+
+  void _showLoadingAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(content: Splash()));
   }
 }

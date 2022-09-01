@@ -6,46 +6,17 @@ import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
+import 'product_editor.dart';
+
 class ProductForm extends StatelessWidget {
-  const ProductForm({Key? key, required this.editMode, required this.product})
+  const ProductForm({Key? key, required this.editMode, required this.product, required this.modeDelegate})
       : super(key: key);
 
   final Product product;
   final bool editMode;
+  final ModeDelegate modeDelegate ;
+  
 
-  void setBarcode(String? barcode) {
-    if (barcode != null) {
-    product.barcode = int.parse(barcode);
-    }
-  }
-
-  void setName(String? name) {
-    if (name != null) {
-      product.name = name;
-    }
-  }
-
-  void setReference(String? reference) {
-    if (reference != null) {
-      product.reference = reference;
-    }
-  }
-
-  void setProductFamily(String productFamily) {
-    product.productFamily = productFamily;
-  }
-
-  void setBuyingPrice(String? buyingPrice) {
-    if (buyingPrice != null) {
-      product.originalPrice = double.parse(buyingPrice);
-    }
-  }
-
-  void setSellingPrice(String? sellingPrice) {
-    if (sellingPrice != null) {
-      product.sellingPrice = double.parse(sellingPrice);
-    }
-  }
 
   DropdownMenuItem<ProductFamily> buildProductFamilyDropdownMenuItem(
       ProductFamily productFamily) {
@@ -57,13 +28,14 @@ class ProductForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(Measures.medium),
       child: Column(
         children: [
           Expanded(
               child: SelectorDropDown<ProductFamily>(
-            onSelect: (value) => {setProductFamily(value.name)},
+            onSelect: (value) => {modeDelegate.setProductFamily(value.name)},
             adapter: buildProductFamilyDropdownMenuItem,
             items: Provider.of<StockLiveDataModel>(context,listen: false).loadedProductFamillies,
             label: const Text(Labels.selectProductFamily),
@@ -73,30 +45,30 @@ class ProductForm extends StatelessWidget {
               child: AttributeTextField(
             initialValue: product.name,
             label: Labels.name,
-            onChanged: setName,
+            onChanged: modeDelegate.setName,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.reference,
             label: Labels.reference,
-            onChanged: setReference,
+            onChanged: modeDelegate.setReference,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.barcode.toString(),
-            onChanged: setBarcode,
+            onChanged: modeDelegate.setBarcode,
             label: Labels.barcode,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.originalPrice.toString(),
-            onChanged: setBuyingPrice,
+            onChanged: modeDelegate.setBuyingPrice,
             label: Labels.buyingPrice,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.sellingPrice.toString(),
-            onChanged: setSellingPrice,
+            onChanged: modeDelegate.setSellingPrice,
             label: Labels.sellingPrice,
           )),
         ],
