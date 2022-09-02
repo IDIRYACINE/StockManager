@@ -4,12 +4,12 @@ class ProductModel {
 
   ProductModel({
     this.color = 'black',
-    this.size = ProductsSizes.s,
+    this.size = 's',
     this.quantity = 1,
   });
 
   String color;
-  ProductsSizes size;
+  String size;
   int quantity;
 }
 

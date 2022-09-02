@@ -89,7 +89,7 @@ class StockLiveDataModel with ChangeNotifier{
     toggleRefresh(_refreshProductsFamily);
   }
   
-  void setAllFamillies(Iterable<ProductFamily> elements) {
+  void setAllFamillies(List<ProductFamily> elements) {
     loadedProductFamillies.clear();
     loadedProductFamillies.addAll(elements);
     toggleRefresh(_refreshProductsFamily);

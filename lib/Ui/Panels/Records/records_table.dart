@@ -53,7 +53,7 @@ class _RecordsTableState extends State<RecordsTable>{
                     return SelectableRow(
                       dataCellHelper: () =>
                           recordToCellsAdapter(records.record(index)),
-                      onClicked: handleRowClick,index: index,
+                      onClicked: handleRowClick,index: index, 
                     );
                   });
             }

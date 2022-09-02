@@ -30,13 +30,15 @@ class FamilyEditor extends StatelessWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     final dynamic modeDelegate =
-        editMode ? ProductFamilyEditorMode.createModeInstance(family) : ProductFamilyEditorMode.editModeInstance(family);
+        editMode ? ProductFamilyEditorMode.editModeInstance(family) : ProductFamilyEditorMode.createModeInstance(family) ;
 
     return Form(
         key: formKey,
         child: Padding(
           padding: const EdgeInsets.all(Measures.small),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center, children: [
             Flexible(
                 child: AttributeTextField(
               onChanged: modeDelegate.setName,
@@ -49,7 +51,7 @@ class FamilyEditor extends StatelessWidget {
             Flexible(
                 child: AttributeTextField(
               initialValue: family.reference,
-              onChanged: modeDelegate.setImage,
+              onChanged: modeDelegate.setReference,
               label: Labels.reference,
             )),
             const SizedBox(
@@ -71,7 +73,6 @@ class FamilyEditor extends StatelessWidget {
                     } else {
                       modeDelegate.confirm(createCallback);
                     }
-                    Navigator.pop(context);
                   },
                 ),
               ],

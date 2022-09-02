@@ -12,7 +12,6 @@ import 'package:stock_manager/Ui/Components/Editors/SaleEditor.dart/sale_editor.
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SalesController {
-
   late RecordsLiveDataModel recordsLiveData;
 
   Callback<bool>? _toggleLastSelectedRow;
@@ -20,12 +19,12 @@ class SalesController {
 
   int totalPrice = 0;
 
-  init(BuildContext context){
+  init(BuildContext context) {
     recordsLiveData = Provider.of<RecordsLiveDataModel>(context, listen: false);
   }
 
   void edit(BuildContext context) {
- void onEdit(Map<String, dynamic> updatedField, Record record) {
+    void onEdit(Map<String, dynamic> updatedField, Record record) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
         ServicesData.databaseSelector: updatedField,
@@ -39,6 +38,7 @@ class SalesController {
       Provider.of<RecordsLiveDataModel>(context, listen: false)
           .updateDepositRecord(record);
     }
+
     showDialog(
         context: context,
         builder: (context) => Material(
@@ -51,7 +51,6 @@ class SalesController {
   }
 
   void add(BuildContext context) {
-
     void _onConfirm(Record record) {
       Provider.of<RecordsLiveDataModel>(context, listen: false)
           .addDepositRecord(record);
@@ -68,11 +67,11 @@ class SalesController {
       ServicesStore.instance.sendMessage(message);
     }
 
-
-    void onSearch(String barcode,OnEditorSearchResulCallback callback){
-      //TODO
+    void onSearch(String barcode, OnEditorSearchResulCallback callback) {
       Map<ServicesData, dynamic> data = {
-        ServicesData.databaseSelector : SelectorBuilder().eq(ProductFields.barcode.name, barcode).map};
+        ServicesData.databaseSelector:
+            SelectorBuilder().eq(ProductFields.barcode.name, int.parse(barcode)).map
+      };
 
       ServiceMessage message = ServiceMessage<List<Product>>(
           callback: callback,
@@ -82,7 +81,6 @@ class SalesController {
           service: AppServices.database);
 
       ServicesStore.instance.sendMessage(message);
-
     }
 
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
@@ -91,9 +89,10 @@ class SalesController {
         context: context,
         builder: (context) => Material(
                 child: SaleEditor(
-              record: Record(payementType: PaymentTypes.payement.name,
-              timestamp: timestamp
-              ),
+              record: Record(
+                  payementType: PaymentTypes.payement.name,
+                  timestamp: timestamp),
+              onSearch: onSearch,
               confirmLabel: Labels.add,
               createCallback: _onConfirm,
             )));
@@ -103,10 +102,11 @@ class SalesController {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-            content:
-                ConfirmDialog(onConfirm: () {
+            content: ConfirmDialog(
+                onConfirm: () {
                   recordsLiveData.clearSaleRecord();
-                }, message: Messages.clearAll)));
+                },
+                message: Messages.clearAll)));
   }
 
   void remove(BuildContext context) {
@@ -123,7 +123,7 @@ class SalesController {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
     }
-    
+
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -131,17 +131,22 @@ class SalesController {
                 onConfirm: onRemove, message: Messages.deleteElement)));
   }
 
-  void registerLastSelectedRow(Callback<bool> toggleRow , int rowIndex,VoidCallback updateRow) {
-
-    if(_lastRowIndex != rowIndex && _toggleLastSelectedRow != null) {
+  void registerLastSelectedRow(
+      Callback<bool> toggleRow, int rowIndex, VoidCallback updateRow) {
+    if (_lastRowIndex != rowIndex && _toggleLastSelectedRow != null) {
       _toggleLastSelectedRow!(false);
     }
-    
+
     _lastRowIndex = rowIndex;
     _toggleLastSelectedRow = toggleRow;
 
-        toggleRow(true);
-
+    toggleRow(true);
   }
-  
+
+  void deregisterLastSelectedRow(RecordsLiveDataModel liveDataModel) {
+    _lastRowIndex = -1;
+    _toggleLastSelectedRow = null;
+   liveDataModel
+        .updateSelectedRow = null;
+  }
 }

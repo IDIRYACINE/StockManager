@@ -2,10 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
 
 class SellersLiveDataModel with ChangeNotifier {
-
-  final List<Seller> loadedSellers = [
-   
-  ];
+  final List<Seller> loadedSellers = [];
 
   int get sellersCount => loadedSellers.length;
 
@@ -17,24 +14,33 @@ class SellersLiveDataModel with ChangeNotifier {
 
   VoidCallback? updateRowCallback;
 
+  final ValueNotifier<bool> _refreshSellers = ValueNotifier(false);
+
+  ValueListenable<bool> get refreshSellers => _refreshSellers;
+
+  void _toggleRefresh() {
+    _refreshSellers.value = !_refreshSellers.value;
+  }
+
   void add(Seller element) {
     loadedSellers.add(element);
-    notifyListeners();
+    _toggleRefresh();
   }
 
   void clear() {
     loadedSellers.clear();
-    notifyListeners();
+    _toggleRefresh();
   }
 
   void remove(Seller element) {
     loadedSellers.remove(element);
-    notifyListeners();
+    _toggleRefresh();
   }
 
   void setAll(Iterable<Seller> elements) {
-    loadedSellers.setAll(0, elements);
-    notifyListeners();
+    loadedSellers.clear();
+    loadedSellers.addAll(elements);
+    _toggleRefresh();
   }
 
   void update(Seller seller) {

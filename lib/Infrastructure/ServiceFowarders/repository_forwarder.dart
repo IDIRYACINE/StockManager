@@ -152,12 +152,13 @@ class DatabaseFrowarder{
 
   Future<ServiceResponse> searchProductFamily(ServiceMessageData message) async{
 
-    await _repository.searchProductFamily(
+    List<ProductFamily> famillies = await _repository.searchProductFamily(
        search : message.data[ServicesData.databaseSelector],
     );
 
     ServiceResponse response = ServiceResponse(
-        hasData: false,
+        hasData: true,
+        data: famillies,
         messageId: message.messageId,
         status: OperationStatus.success,
         );

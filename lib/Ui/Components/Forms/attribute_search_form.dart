@@ -11,20 +11,21 @@ abstract class SearchField {
   Map<String, dynamic>? getQuery();
 }
 
-class SearchFieldText extends StatefulWidget {
+class SearchFieldText<R> extends StatefulWidget {
   const SearchFieldText({
     Key? key,
     required this.label,
     required this.identifier,
     this.allowedSearchTypes = SearchType.values,
     required this.onSelected,
-    required this.onDeselected,
+    required this.onDeselected, this.parser,
   }) : super(key: key);
 
   final String label;
   final String identifier;
   final OnSearchAttributeSelected onSelected, onDeselected;
   final List<SearchType> allowedSearchTypes;
+  final SearchFieldParser<R>? parser;
 
   @override
   State<StatefulWidget> createState() => _SearchFieldTextState();
@@ -48,21 +49,23 @@ class _SearchFieldTextState extends State<SearchFieldText> {
   }
 
   void queryGenerator(mongo.SelectorBuilder selector) {
+    dynamic value = (widget.parser == null )? attributeValue: widget.parser!(attributeValue);
+
     switch (searchType) {
       case SearchType.equals:
-         selector.eq(widget.identifier, attributeValue);
+         selector.eq(widget.identifier, value);
         break;
       case SearchType.greaterThan:
-         selector.gt(widget.identifier, attributeValue);
+         selector.gt(widget.identifier, value);
         break;
       case SearchType.lessThan:
-         selector.lt(widget.identifier, attributeValue);
+         selector.lt(widget.identifier, value);
         break;
       case SearchType.greaterThanEquals:
-         selector.gte(widget.identifier, attributeValue);
+         selector.gte(widget.identifier, value);
         break;
       case SearchType.lessThanEquals:
-         selector.lte(widget.identifier, attributeValue);
+         selector.lte(widget.identifier, value);
         break;
     }
 

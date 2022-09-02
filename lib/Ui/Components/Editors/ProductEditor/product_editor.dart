@@ -18,26 +18,26 @@ class ProductEditor extends StatelessWidget {
       required this.product,
       this.editCallback})
       : assert(
-        (editMode && editCallback != null) || (!editMode && createCallback != null),
-        'editMode and its callback must be set together',
-      )
-      ,super(key: key)
-      
-      ;
+          (editMode && editCallback != null) ||
+              (!editMode && createCallback != null),
+          'editMode and its callback must be set together',
+        ),
+        super(key: key);
 
   final bool editMode;
   final int upperRowFlex = 8;
   final int lowerRowFlex = 1;
   final Product product;
   final Callback<Product>? createCallback;
-  final EditorCallback<AppJson,Product>? editCallback;
+  final EditorCallback<AppJson, Product>? editCallback;
   final String confirmLabel;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final  dynamic modeDelegate =
-        editMode ? ProductEditorMode.createModeInstance(product) : ProductEditorMode.editModeInstance(product);
+    final dynamic modeDelegate = editMode
+        ? ProductEditorMode.editModeInstance(product)
+        : ProductEditorMode.createModeInstance(product);
     return Form(
         key: formKey,
         child: Padding(
@@ -73,7 +73,9 @@ class ProductEditor extends StatelessWidget {
                             )),
                             Flexible(
                                 child: DefaultDecorator(
-                                    child: ProductModels(product: product))),
+                                    child: ProductModels(
+                                        productEditorMode: modeDelegate,
+                                        product: product))),
                           ],
                         ),
                       ),

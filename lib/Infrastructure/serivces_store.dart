@@ -2,7 +2,7 @@ import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Infrastructure/services_forwarder.dart';
+import 'package:stock_manager/Infrastructure/ServiceFowarders/services_forwarder.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class ServicesStore {

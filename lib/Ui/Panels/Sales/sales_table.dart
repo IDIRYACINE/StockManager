@@ -59,7 +59,9 @@ class _SalesTableState extends State<SalesTable>{
                     return SelectableRow(
                       dataCellHelper: () =>
                           recordToCellsAdapter(records.purchaseRecord(index)),
-                      onClicked: handleRowClick,index: index,
+                      onClicked: handleRowClick,index: index, onRowDisposed: () { 
+                        controller.deregisterLastSelectedRow(records);
+                        },
                     );
                   });
             }

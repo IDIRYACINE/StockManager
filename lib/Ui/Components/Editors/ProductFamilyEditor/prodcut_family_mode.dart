@@ -9,7 +9,10 @@ abstract class ProductFamilyEditorMode<T> {
 
   void setName(String? name);
 
+  void setImage(String? imageUrl);
+
   void confirm(T callback);
+  
 
   static ProductFamilyEditorMode<Callback<ProductFamily>> createModeInstance(ProductFamily family){
     return _ModeCreate(family);
@@ -38,10 +41,19 @@ class _ModeCreate implements ProductFamilyEditorMode<Callback<ProductFamily>> {
     }
   }
 
+
+  @override
+  void setImage(String? imageUrl) {
+    if (imageUrl != null) {
+      family.imageUrl = imageUrl;
+    }
+  }
+
   @override
   void confirm(Callback<ProductFamily> callback) {
     callback(family);
   }
+  
 }
 
 class _ModeEdit
@@ -65,6 +77,14 @@ class _ModeEdit
     if (reference != null) {
       family.reference = reference;
       updatedFields[ProductFamilyFields.reference] = reference;
+    }
+  }
+
+
+  @override
+  void setImage(String? imageUrl) {
+    if (imageUrl != null) {
+      family.imageUrl = imageUrl;
     }
   }
 

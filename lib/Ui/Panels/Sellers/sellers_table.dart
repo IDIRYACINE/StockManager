@@ -41,15 +41,22 @@ class SellersTable extends StatelessWidget {
             child: SelectableRow(
                 dataCellHelper: () => Titles.sellersTableColumns, index: -1,)),
         Expanded(
-          child: ListView.builder(
-              itemCount: sellers.sellersCount,
-              itemBuilder: (context, index) {
-                return SelectableRow(
-                  dataCellHelper: () =>
-                      sellerToCellsAdapter(sellers.seller(index)),
-                  onClicked: handleRowClick, index: index,
-                );
-              }),
+          child: ValueListenableBuilder<bool>(
+            valueListenable: sellers.refreshSellers,
+            builder: (context,value,child) {
+              return ListView.builder(
+                  itemCount: sellers.sellersCount,
+                  itemBuilder: (context, index) {
+                    return SelectableRow(
+                      dataCellHelper: () =>
+                          sellerToCellsAdapter(sellers.seller(index)),
+                      onClicked: handleRowClick, index: index, onRowDisposed: () { 
+                        controller.deregisterLastSelectedRow(sellers);
+                       },
+                    );
+                  });
+            }
+          ),
         ),
       ],
     )));

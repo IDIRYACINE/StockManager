@@ -1,4 +1,3 @@
-
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -12,15 +11,27 @@ abstract class ProductEditorMode<T> {
   void setReference(String? reference);
 
   void setProductFamily(String productFamily);
+
   void setBuyingPrice(String? buyingPrice);
 
   void setSellingPrice(String? sellingPrice);
 
   void setImage(String? imageUrl);
 
+  void addModel();
+
+  void removeModel(int index);
+
+  void setModelColor(String color, int index);
+
+  void setModelSize(String size, int index);
+
+  void setModelQuantity(String quantity, int index);
+
   void confirm(T confirmCallback);
 
-  static ProductEditorMode<Callback<Product>> createModeInstance(Product product) {
+  static ProductEditorMode<Callback<Product>> createModeInstance(
+      Product product) {
     return _ModeCreate(product);
   }
 
@@ -30,7 +41,7 @@ abstract class ProductEditorMode<T> {
   }
 }
 
-class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson,Product>> {
+class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
   _ModeEdit(this.product);
 
   final Product product;
@@ -92,14 +103,53 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson,Product>> {
   }
 
   @override
-  void confirm(EditorCallback<AppJson,Product> confirmCallback) {
+  void addModel() {
+    product.models.add(ProductModel());
+    product.totalQuantity += 1;
+    updatedField[ProductFields.models] = product.models;
+    updatedField[ProductFields.quantity] = product.totalQuantity;
+  }
+
+  @override
+  void removeModel(int index) {
+    product.totalQuantity =
+        product.totalQuantity - product.models[index].quantity;
+    product.models.removeAt(index);
+    updatedField[ProductFields.models] = product.models;
+    updatedField[ProductFields.quantity] = product.totalQuantity;
+  }
+
+  @override
+  void setModelColor(String color, int index) {
+    product.models[index].color = color;
+    updatedField[ProductFields.models] = product.models;
+  }
+
+  @override
+  void setModelSize(String size, int index) {
+    product.models[index].size = size;
+    updatedField[ProductFields.models] = product.models;
+  }
+
+  @override
+  void setModelQuantity(String quantity, int index) {
+    int parsedQuantity = int.parse(quantity);
+
+    product.totalQuantity =
+        product.totalQuantity - product.models[index].quantity + parsedQuantity;
+    product.models[index].quantity = parsedQuantity;
+    updatedField[ProductFields.quantity] = product.totalQuantity;
+  }
+
+  @override
+  void confirm(EditorCallback<AppJson, Product> confirmCallback) {
     final ModifierBuilder queryBuilder = ModifierBuilder();
 
     updatedField.forEach((key, value) {
       queryBuilder.set(key.name, value);
     });
 
-    confirmCallback(queryBuilder.map,product);
+    confirmCallback(queryBuilder.map, product);
   }
 }
 
@@ -153,6 +203,37 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
     if (imageUrl != null) {
       product.imageUrl = imageUrl;
     }
+  }
+
+  @override
+  void addModel() {
+    product.models.add(ProductModel());
+    product.totalQuantity += 1;
+  }
+
+  @override
+  void removeModel(int index) {
+    product.totalQuantity =
+        product.totalQuantity - product.models[index].quantity;
+    product.models.removeAt(index);
+  }
+
+  @override
+  void setModelColor(String color, int index) {
+    product.models[index].color = color;
+  }
+
+  @override
+  void setModelSize(String size, int index) {
+    product.models[index].size = size;
+  }
+
+  @override
+  void setModelQuantity(String quantity, int index) {
+    int parsedQuantity = int.parse(quantity);
+    product.totalQuantity =
+        product.totalQuantity - product.models[index].quantity + parsedQuantity;
+    product.models[index].quantity = parsedQuantity;
   }
 
   @override

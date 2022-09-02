@@ -60,7 +60,7 @@ class SellersEditor extends StatelessWidget {
                       if (editMode) {
                         sellerEditorMode.confirm(editCallback);
                       } else {
-                        sellerEditorMode(createCallback);
+                        sellerEditorMode.confirm(createCallback);
                       }
                     }
                   },

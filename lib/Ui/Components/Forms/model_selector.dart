@@ -26,7 +26,7 @@ class _ModelSelectorState extends State<ModelSelector>{
   DropdownMenuItem<ProductModel> sizeAdapter(ProductModel model){
     return DropdownMenuItem(
       value: model,
-      child: Text(model.size.name),
+      child: Text(model.size),
     );
   }
 

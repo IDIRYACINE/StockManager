@@ -58,9 +58,9 @@ class ProductForm extends StatelessWidget {
   const ProductForm({Key? key, required this.product}) : super(key: key);
 
   final Product product;
-
   @override
   Widget build(BuildContext context) {
+ 
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

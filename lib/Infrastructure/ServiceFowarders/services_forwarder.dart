@@ -1,9 +1,7 @@
 import 'dart:developer';
 import 'dart:isolate';
 
-import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/Database/database.dart';
-import 'package:stock_manager/Infrastructure/Database/repository.dart';
 import 'package:stock_manager/Infrastructure/ServiceFowarders/repository_forwarder.dart';
 import 'package:stock_manager/Types/i_infrastructre.dart';
 import 'package:stock_manager/Types/special_enums.dart';

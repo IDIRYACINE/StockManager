@@ -126,4 +126,11 @@ class DespositController {
 
     turnOffRow(true);
   }
+
+  void deregisterLastSelectedRow(RecordsLiveDataModel liveDataModel) {
+    _lastRowIndex = -1;
+    _turnOffLastSelectedRow = null;
+    liveDataModel
+        .updateSelectedRow = null;
+  }
 }

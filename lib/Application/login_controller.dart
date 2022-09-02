@@ -22,6 +22,13 @@ class LoginController {
 
       ServiceMessage message = _connectionRequest(username, password, context);
       ServicesStore.instance.sendMessage(message);
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+                content:
+                    InformativeDialog(message: Messages.faultyAuthentication),
+              ));
     }
   }
 
@@ -32,12 +39,6 @@ class LoginController {
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const App()));
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-                content: Text(Messages.faultyAuthentication),
-              ));
     }
   }
 

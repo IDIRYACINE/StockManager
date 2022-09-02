@@ -177,7 +177,7 @@ class Database {
   }
 
   FutureMongoDbDataStream searchProductFamily(SelectorBuilder selector) async {
-    DbCollection collection = database.collection(Collections.sellers.name);
+    DbCollection collection = database.collection(Collections.productsFamily.name);
     return collection.find(selector);
   }
 

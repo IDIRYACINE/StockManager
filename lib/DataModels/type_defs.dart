@@ -44,6 +44,7 @@ typedef RowClickCallback = void Function(Callback<bool> turnOffRow , int rowInde
 typedef RowCellAdapter<T> = List<String> Function(T value);
 
 typedef Callback<T> = void Function(T value);
+typedef Callback2<T,S> = void Function(T first,S second);
 
 typedef AppJson<T> = Map<String,T>;
 
@@ -51,4 +52,6 @@ typedef EditorCallback<T,K> = void Function(T value,K secondValue);
 
 typedef OnEditorSearchResulCallback = void Function(List<Product> result);
 
-typedef EditorSearchCallback = void Function (OnEditorSearchResulCallback? onSearchResult);
+typedef EditorSearchCallback = void Function (String barcode,OnEditorSearchResulCallback callback);
+
+typedef SearchFieldParser<R> = R Function(String value); 

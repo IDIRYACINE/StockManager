@@ -105,6 +105,13 @@ class StockController {
   }
 
   ValueListenable<StockTypes> get selectedStockType => _selectedStockType;
+
+  void deregisterLastSelectedRow(StockLiveDataModel liveDataModel) {
+    _lastRowIndex = -1;
+    _toggleLastSelectedRow = null;
+    liveDataModel
+        .updateSelectedRow = null;
+  }
 }
 
 class _ProductsDelegate implements IStockDelegate {
@@ -245,14 +252,15 @@ class _ProductsDelegate implements IStockDelegate {
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
         RegisterSearchQueryBuilder onDeselect) {
       return [
-        SearchFieldText(
+        SearchFieldText<int>(
           label: Labels.barcode,
           identifier: ProductFields.barcode.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
+          parser: (value) => int.parse(value),
           allowedSearchTypes: const [SearchType.equals],
         ),
-        SearchFieldText(
+        SearchFieldText<String>(
           label: Labels.reference,
           identifier: ProductFields.reference.name,
           onSelected: onSelect,
@@ -303,6 +311,8 @@ class _FamilliesDelegate implements IStockDelegate {
           service: AppServices.database);
 
       ServicesStore.instance.sendMessage(message);
+                          Navigator.pop(context);
+
     }
 
     showDialog(
@@ -409,12 +419,14 @@ class _FamilliesDelegate implements IStockDelegate {
         ServicesData.databaseSelector: selector,
       };
 
-      ServicesStore.instance.sendMessage(ServiceMessage<List<ProductFamily>>(
+      ServiceMessage message = ServiceMessage<List<ProductFamily>>(
           service: AppServices.database,
           event: DatabaseEvent.searchProductFamily,
           data: data,
           hasCallback: true,
-          callback: _onResult));
+          callback: _onResult);
+
+      ServicesStore.instance.sendMessage(message);
     }
 
     showDialog(

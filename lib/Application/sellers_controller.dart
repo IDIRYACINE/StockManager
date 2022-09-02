@@ -27,6 +27,7 @@ class SellersController {
           service: AppServices.database);
 
       ServicesStore.instance.sendMessage(message);
+      Navigator.pop(context);
     }
 
     showDialog(
@@ -42,6 +43,7 @@ class SellersController {
   }
 
   void edit(BuildContext context) {
+
     void onEdit(Map<String, dynamic> updatedField, Seller seller) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: seller,
@@ -54,6 +56,7 @@ class SellersController {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
       Provider.of<SellersLiveDataModel>(context, listen: false).update(seller);
+
     }
 
     showDialog(
@@ -98,12 +101,13 @@ class SellersController {
           event: DatabaseEvent.deleteSeller,
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
+      
     }
 
     showDialog(
         context: context,
-        builder: (context) => Material(
-                child: ConfirmDialog(
+        builder: (context) => AlertDialog(
+                content: ConfirmDialog(
               onConfirm: onRemove,
               message: Messages.deleteElement,
             )));
@@ -130,5 +134,12 @@ class SellersController {
     _turnOffLastSelectedRow = turnOffRow;
 
     turnOffRow(true);
+  }
+
+  void deregisterLastSelectedRow(SellersLiveDataModel liveDataModel) {
+    _lastRowIndex = -1;
+    _turnOffLastSelectedRow = null;
+    liveDataModel
+        .updateRowCallback = null;
   }
 }

@@ -42,12 +42,14 @@ class SaleEditor extends StatelessWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final ValueNotifier<Product?> productListenable = ValueNotifier(null);
 
-    void updateProduct(Product product) {
-      productListenable.value = product;
+    void updateProduct(List<Product> products) {
+      if(products.isNotEmpty){
+        productListenable.value = products.first;
+      }
     }
 
     void _onSearch(String barcode) {
-      onSearch ?? (updateProduct);
+      onSearch?.call(barcode,updateProduct);
     }
 
     final dynamic saleEditorMode = editMode
@@ -131,7 +133,7 @@ class SaleEditor extends StatelessWidget {
 class _SearchBar extends StatelessWidget {
   const _SearchBar({Key? key, required this.onSearch}) : super(key: key);
 
-  final Callback<String>? onSearch;
+  final Callback<String> onSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +158,7 @@ class _SearchBar extends StatelessWidget {
             child: DefaultButton(
                 label: Labels.search,
                 onPressed: () {
-                  onSearch ?? (barcode);
+                  onSearch(barcode);
                 })),
       ],
     );

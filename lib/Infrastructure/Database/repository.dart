@@ -14,15 +14,30 @@ class DatabaseRepository {
   // crud operations
 
   Future<void> insertProduct({required Product product}) async {
+    
     _database.insertProduct(productToJson(product: product));
   }
 
   Future<void> updateProduct(
       {required Product product, required AppJson updatedValues}) async {
     SelectorBuilder selector = SelectorBuilder();
+
     selector.eq(ProductFields.reference.name, product.reference);
+
     ModifierBuilder modifier = ModifierBuilder();
+    List<ProductModel>? models =
+        updatedValues["\$set"][ProductFields.models.name];
+
+    if (models != null) {
+      List<AppJson> jsonModels = [];
+      for (ProductModel model in models) {
+        jsonModels.add(_productModelToJson(model: model));
+      }
+      updatedValues["\$set"][ProductFields.models.name] = jsonModels;
+    }
+
     modifier.map = updatedValues;
+
     _database.updateProduct(selector, modifier);
   }
 
@@ -168,7 +183,6 @@ class DatabaseRepository {
     SelectorBuilder selector = SelectorBuilder();
     selector.map = search;
     MongoDbDataStream data = await _database.searchProductFamily(selector);
-
     List<ProductFamily> family = [];
 
     await data.forEach((element) {
@@ -255,7 +269,7 @@ class DatabaseRepository {
     Record record = Record(
       payementType: payementType,
       sellerName: json[RecordFields.seller.name] ?? Labels.error,
-      timestamp :  json[RecordFields.timestamp.name] ?? Labels.error,
+      timestamp: json[RecordFields.timestamp.name] ?? Labels.error,
       product: json[RecordFields.product.name] ?? Labels.error,
       productColor: json[RecordFields.productColor.name] ?? Labels.error,
       productSize: json[RecordFields.productSize.name] ?? Labels.error,
@@ -280,7 +294,7 @@ class DatabaseRepository {
     return Seller(
       name: json[SellerFields.name.name] ?? Labels.error,
       imageUrl: json[SellerFields.imageUrl.name] ?? Labels.error,
-      phone: json[SellerFields.imageUrl.name] ?? Labels.error,
+      phone: json[SellerFields.phone.name] ?? 0,
     );
   }
 
@@ -302,7 +316,7 @@ class DatabaseRepository {
     List<AppJson<dynamic>> models = [];
 
     for (ProductModel model in product.models) {
-      _productModelToJson(model: model);
+      models.add(_productModelToJson(model: model));
     }
 
     json[ProductFields.barcode.name] = product.barcode;

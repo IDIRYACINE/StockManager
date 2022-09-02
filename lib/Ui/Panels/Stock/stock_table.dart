@@ -49,7 +49,7 @@ class _ProductsTable extends StatelessWidget {
             .stockController;
 
     StockLiveDataModel stock =
-        Provider.of<StockLiveDataModel>(context);
+        Provider.of<StockLiveDataModel>(context,listen: false);
 
   void handleRowClick(Callback<bool> turnOffRow,int rowIndex,VoidCallback updateRow){
     stock.selectedElementIndex = rowIndex;
@@ -72,7 +72,9 @@ class _ProductsTable extends StatelessWidget {
                     return SelectableRow(
                       dataCellHelper: () =>
                           productToCellsAdapter(stock.product(index)),
-                      onClicked: handleRowClick, index: index,
+                      onClicked: handleRowClick, index: index,onRowDisposed: () { 
+                        controller.deregisterLastSelectedRow(stock);
+                       },
                     );
                   });
             }
@@ -121,7 +123,9 @@ class _FamilliesTable extends StatelessWidget {
                     return SelectableRow(
                       dataCellHelper: () =>
                           familyToCellsAdapter(stock.productFamily(index)),
-                      onClicked: handleRowClick,index: index,
+                      onClicked: handleRowClick,index: index, onRowDisposed: () { 
+                        controller.deregisterLastSelectedRow(stock);
+                       },
                     );
                   });
             }

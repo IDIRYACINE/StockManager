@@ -52,7 +52,7 @@ class _DepositsTableState extends State<DepositsTable> {
                 Flexible(
                     child: SelectableRow(
                   dataCellHelper: () => Titles.depositsTableColumns,
-                  index: -1,
+                  index: -1, 
                 )),
                 Expanded(
                   child: ValueListenableBuilder<bool>(
@@ -65,7 +65,9 @@ class _DepositsTableState extends State<DepositsTable> {
                                 dataCellHelper: () => recordToCellsAdapter(
                                     records.depositRecord(index)),
                                 onClicked: handleRowClick,
-                                index: index,
+                                index: index, onRowDisposed: () { 
+                                  controller.deregisterLastSelectedRow(records);
+                                 },
                               );
                             });
                       }),
