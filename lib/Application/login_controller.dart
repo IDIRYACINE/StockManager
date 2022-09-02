@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
@@ -7,6 +6,7 @@ import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/main.dart';
 
 class LoginController {
@@ -25,12 +25,20 @@ class LoginController {
     }
   }
 
-  void _onConnected(BuildContext context) {
-    Provider.of<ControllersProvider>(context, listen: false).init(context);
-    Provider.of<NavigationStore>(context, listen: false).init();
+  void _onConnected(BuildContext context, bool isConnected) {
+    if (isConnected) {
+      Provider.of<ControllersProvider>(context, listen: false).init(context);
+      Provider.of<NavigationStore>(context, listen: false).init();
 
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const App()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const App()));
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+                content: Text(Messages.faultyAuthentication),
+              ));
+    }
   }
 
   ServiceMessage _connectionRequest(
@@ -40,13 +48,13 @@ class LoginController {
       ServicesData.password: password
     };
 
-    ServiceMessage message = ServiceMessage(
+    ServiceMessage message = ServiceMessage<bool>(
         data: data,
         event: DatabaseEvent.connect,
         service: AppServices.database,
-        hasVoidCallback: true,
-        voidCallback: () {
-          _onConnected(context);
+        hasCallback: true,
+        callback: (isConnected) {
+          _onConnected(context, isConnected);
         });
 
     return message;

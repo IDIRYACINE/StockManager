@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
 import 'package:stock_manager/Ui/Components/Editors/ProductEditor/product_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';

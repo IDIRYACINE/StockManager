@@ -50,3 +50,29 @@ class ConfirmDialog extends StatelessWidget {
     );
   }
 }
+
+
+class InformativeDialog extends StatelessWidget {
+  const InformativeDialog(
+      {Key? key,  required this.message})
+      : super(key: key);
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(message),
+        const SizedBox(height: Measures.medium),
+        DefaultButton(
+          label: Labels.confirm,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+  }
+}

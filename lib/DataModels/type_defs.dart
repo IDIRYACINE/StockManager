@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
+import 'models.dart';
+
 typedef ValidationFunction<T> = String? Function(T? value);
 
 typedef OnChangedFunction<T> = void Function(T? value);
@@ -46,3 +48,7 @@ typedef Callback<T> = void Function(T value);
 typedef AppJson<T> = Map<String,T>;
 
 typedef EditorCallback<T,K> = void Function(T value,K secondValue);
+
+typedef OnEditorSearchResulCallback = void Function(List<Product> result);
+
+typedef EditorSearchCallback = void Function (OnEditorSearchResulCallback? onSearchResult);

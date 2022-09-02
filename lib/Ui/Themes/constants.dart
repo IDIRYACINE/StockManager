@@ -1,3 +1,5 @@
+import 'package:mongo_dart/mongo_dart.dart';
+
 abstract class Titles {
   static const List<String> sidebarTitles = [
     Labels.sales,
@@ -195,6 +197,8 @@ abstract class Measures {
 abstract class Messages{
   static const String deleteElement = 'Delete element ?';
   static const clearAll = 'Clear all ?';
+  static const connectionFailed = 'Connection Failed';
+  static const faultyAuthentication = 'Username or password is incorrect';
 
 }
 

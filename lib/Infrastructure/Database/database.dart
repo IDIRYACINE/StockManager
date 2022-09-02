@@ -10,15 +10,18 @@ class Database {
   String port = "27017";
   String dbName = "stock_manager";
 
-  Future<void> connect(String identifier, String password) async {
+  Future<bool> connect(String identifier, String password) async {
     try {
       database = Db("mongodb://$identifier:$password@$host:$port/$dbName");
       await database.open();
       _checkIfDatabaseSchemaCreate();
     } catch (e) {
       log(e.toString());
-      _createDatabase(identifier, password);
+      await _createDatabase(identifier, password);
     }
+
+    return database.isConnected;
+
   }
 
   Future<void> _createDatabase(String identifier, String password) async {
@@ -66,7 +69,7 @@ class Database {
     });
   }
 
-  void disconnect() async {
+  Future<void> disconnect() async {
     database.close();
   }
 
@@ -130,20 +133,12 @@ class Database {
     collection.deleteOne(selector);
   }
 
-  FutureMongoDbDataStream searchProduct(SelectorBuilder selector) async {
-    DbCollection collection = database.collection(Collections.products.name);
-    return collection.find(selector);
+  void removePurchaseRecord(SelectorBuilder selector) async{
+     DbCollection collection = database.collection(Collections.records.name);
+    collection.deleteOne(selector);
   }
 
-  FutureMongoDbDataStream searchProductFamily(SelectorBuilder selector) async {
-    DbCollection collection = database.collection(Collections.sellers.name);
-    return collection.find(selector);
-  }
 
-  FutureMongoDbDataStream searchPurchaseRecord(SelectorBuilder selector) async {
-    DbCollection collection = database.collection(Collections.records.name);
-    return collection.find(selector);
-  }
 
   void updateProduct(SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection = database.collection(Collections.products.name);
@@ -162,4 +157,33 @@ class Database {
 
     await collection.updateOne(selector, updatedValues);
   }
+
+  void updatePurchaseRecord(SelectorBuilder selector, ModifierBuilder updatedValues) async {
+    DbCollection collection =
+        database.collection(Collections.records.name);
+
+    await collection.updateOne(selector, updatedValues);
+  }
+
+  FutureMongoDbDataStream loadPurchaseRecords(SelectorBuilder selectorBuilder) async{
+    DbCollection collection = database.collection(Collections.records.name);
+    return collection.find();
+  }
+
+
+  FutureMongoDbDataStream searchProduct(SelectorBuilder selector) async {
+    DbCollection collection = database.collection(Collections.products.name);
+    return collection.find(selector);
+  }
+
+  FutureMongoDbDataStream searchProductFamily(SelectorBuilder selector) async {
+    DbCollection collection = database.collection(Collections.sellers.name);
+    return collection.find(selector);
+  }
+
+  FutureMongoDbDataStream searchPurchaseRecord(SelectorBuilder selector) async {
+    DbCollection collection = database.collection(Collections.records.name);
+    return collection.find(selector);
+  }
+
 }

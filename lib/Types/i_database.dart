@@ -62,6 +62,7 @@ enum ProductModelFields{
 }
 
 enum RecordFields{
+  timestamp,
   date,
   product,
   productSize,

@@ -54,6 +54,7 @@ class Product {
 class Record {
   Record({
     required this.payementType,
+    required this.timestamp,
     this.sellerName = '',
     this.product = '',
     this.productColor = '',
@@ -72,6 +73,7 @@ class Record {
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }(DateTime.now());
 
+  String timestamp;
   String sellerName;
   String product;
   String productSize;

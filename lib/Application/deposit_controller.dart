@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
@@ -11,12 +10,10 @@ import 'package:stock_manager/Ui/Components/Editors/DepositEditor/deposit_editor
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DespositController {
-
   Callback<bool>? _turnOffLastSelectedRow;
   int _lastRowIndex = -1;
 
   void add(BuildContext context) {
-
     void _onConfirm(Record record) {
       Provider.of<RecordsLiveDataModel>(context, listen: false)
           .addDepositRecord(record);
@@ -33,11 +30,15 @@ class DespositController {
       ServicesStore.instance.sendMessage(message);
     }
 
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
                 content: DepositEditor(
-              record: Record(payementType: PaymentTypes.deposit.name),
+              record: Record(
+                  payementType: PaymentTypes.deposit.name,
+                  timestamp: timestamp),
               createCallback: _onConfirm,
               confirmLabel: Labels.add,
             )));
@@ -72,7 +73,7 @@ class DespositController {
   }
 
   void remove(BuildContext context) {
-   void onRemove() {
+    void onRemove() {
       RecordsLiveDataModel liveDataModel =
           Provider.of<RecordsLiveDataModel>(context, listen: false);
       Record deletedRecord = liveDataModel.selectedDepositRecord;
@@ -95,7 +96,6 @@ class DespositController {
             )));
   }
 
-
   List<String> recordToRowData(Record record) {
     return [
       record.date,
@@ -107,25 +107,23 @@ class DespositController {
     ];
   }
 
-  DropdownMenuItem<PaymentTypes> paymentTypesDropdownAdapter(PaymentTypes type) {
+  DropdownMenuItem<PaymentTypes> paymentTypesDropdownAdapter(
+      PaymentTypes type) {
     return DropdownMenuItem(
       value: type,
       child: Text(type.name),
     );
   }
 
-  void registerLastSelectedRow(Callback<bool> turnOffRow , int rowIndex,VoidCallback updateRow) {
-    if(_lastRowIndex != rowIndex && _turnOffLastSelectedRow != null) {
+  void registerLastSelectedRow(
+      Callback<bool> turnOffRow, int rowIndex, VoidCallback updateRow) {
+    if (_lastRowIndex != rowIndex && _turnOffLastSelectedRow != null) {
       _turnOffLastSelectedRow!(false);
     }
-    
+
     _lastRowIndex = rowIndex;
     _turnOffLastSelectedRow = turnOffRow;
 
     turnOffRow(true);
   }
-
 }
-
-  
-

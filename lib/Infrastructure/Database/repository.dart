@@ -60,6 +60,24 @@ class DatabaseRepository {
     _database.insertPurchaseRecord(recordToJson(record: record));
   }
 
+  Future<void> updatePurchaseRecord(
+      {required Record record, required AppJson updatedValues}) async {
+    SelectorBuilder selector = SelectorBuilder();
+
+    selector.eq(RecordFields.timestamp.name, record.timestamp);
+
+    ModifierBuilder modifier = ModifierBuilder();
+    modifier.map = updatedValues;
+
+    _database.updatePurchaseRecord(selector, modifier);
+  }
+
+  Future<void> deletePurchaseRecord({required Record record}) async {
+    SelectorBuilder selector =
+        SelectorBuilder().eq(RecordFields.timestamp.name, record.timestamp);
+    _database.removePurchaseRecord(selector);
+  }
+
   Future<void> insertSeller({required Seller seller}) async {
     _database.insertSeller(sellerToJson(seller: seller));
   }
@@ -91,9 +109,62 @@ class DatabaseRepository {
     return products;
   }
 
+  Future<List<ProductFamily>> loadProductFamillies() async {
+    List<ProductFamily> famillies = [];
+
+    MongoDbDataStream data =
+        await _database.loadProductFamillies(SelectorBuilder());
+    await await data.forEach((element) {
+      famillies.add(productFamilyFromJson(json: element));
+    });
+
+    return famillies;
+  }
+
+  Future<List<Record>> loadPurchaseRecord() async {
+    List<Record> records = [];
+
+    MongoDbDataStream data =
+        await _database.loadPurchaseRecords(SelectorBuilder());
+    await await data.forEach((element) {
+      records.add(recordFromJson(json: element));
+    });
+
+    return records;
+  }
+
+  Future<List<Record>> loadDayPurchaseRecords() async {
+    SelectorBuilder selector = SelectorBuilder();
+
+    DateTime dateTime = DateTime.now();
+    String today = '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    selector.eq(RecordFields.date.name, today);
+
+    List<Record> records = [];
+
+    MongoDbDataStream data = await _database.loadPurchaseRecords(selector);
+    await await data.forEach((element) {
+      records.add(recordFromJson(json: element));
+    });
+
+    return records;
+  }
+
+  Future<List<Seller>> loadSellers() async {
+    List<Seller> sellers = [];
+
+    MongoDbDataStream data = await _database.loadSellers();
+    await await data.forEach((element) {
+      sellers.add(sellerFromJson(json: element));
+    });
+
+    return sellers;
+  }
+
   // search x
 
-  Future<List<ProductFamily>> searchProductFamily(AppJson search) async {
+  Future<List<ProductFamily>> searchProductFamily(
+      {required AppJson search}) async {
     SelectorBuilder selector = SelectorBuilder();
     selector.map = search;
     MongoDbDataStream data = await _database.searchProductFamily(selector);
@@ -107,7 +178,7 @@ class DatabaseRepository {
     return family;
   }
 
-  Future<List<Product>> searchProduct(AppJson search) async {
+  Future<List<Product>> searchProduct({required AppJson search}) async {
     List<Product> products = [];
 
     SelectorBuilder selector = SelectorBuilder();
@@ -118,12 +189,10 @@ class DatabaseRepository {
       products.add(productFromJson(json: element));
     });
 
-    print(products.toString());
-
     return products;
   }
 
-  Future<List<Record>> searchRecord(AppJson search) async {
+  Future<List<Record>> searchRecord({required AppJson search}) async {
     List<Record> records = [];
 
     SelectorBuilder selector = SelectorBuilder();
@@ -186,6 +255,7 @@ class DatabaseRepository {
     Record record = Record(
       payementType: payementType,
       sellerName: json[RecordFields.seller.name] ?? Labels.error,
+      timestamp :  json[RecordFields.timestamp.name] ?? Labels.error,
       product: json[RecordFields.product.name] ?? Labels.error,
       productColor: json[RecordFields.productColor.name] ?? Labels.error,
       productSize: json[RecordFields.productSize.name] ?? Labels.error,
@@ -270,6 +340,7 @@ class DatabaseRepository {
   AppJson<dynamic> recordToJson({required Record record}) {
     AppJson<dynamic> json = {};
     json[RecordFields.paymentType.name] = record.payementType;
+    json[RecordFields.timestamp.name] = record.timestamp;
     json[RecordFields.seller.name] = record.sellerName;
     json[RecordFields.product.name] = record.product;
     json[RecordFields.productColor.name] = record.productColor;

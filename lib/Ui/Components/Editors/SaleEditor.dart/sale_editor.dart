@@ -14,10 +14,10 @@ class SaleEditor extends StatelessWidget {
       {Key? key,
       required this.record,
       this.editMode = false,
-      required this.onSearch,
       required this.confirmLabel,
       this.createCallback,
-      this.editCallback})
+      this.editCallback,
+      this.onSearch})
       : assert(
           (editMode && editCallback != null) ||
               (!editMode && createCallback != null),
@@ -34,14 +34,21 @@ class SaleEditor extends StatelessWidget {
   final EditorCallback<AppJson, Record>? editCallback;
 
   final bool editMode;
-  final Callback<String>? onSearch;
+  final EditorSearchCallback? onSearch;
   final String confirmLabel;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final ValueNotifier<Product?> productListenable = ValueNotifier(null);
 
-    final Product product = Product.defaultInstance();
+    void updateProduct(Product product) {
+      productListenable.value = product;
+    }
+
+    void _onSearch(String barcode) {
+      onSearch ?? (updateProduct);
+    }
 
     final dynamic saleEditorMode = editMode
         ? SaleEditorMode.editModeInstance(record)
@@ -51,68 +58,72 @@ class SaleEditor extends StatelessWidget {
       padding: const EdgeInsets.all(Measures.paddingLarge),
       child: Form(
           key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Flexible(
-                flex: searchBarFlex,
-                child: DefaultDecorator(
-                  child: _SearchBar(onSearch: onSearch),
-                ),
-              ),
-              Expanded(
-                flex: bodyFlex,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+          child: ValueListenableBuilder<Product?>(
+              valueListenable: productListenable,
+              builder: (context, product, child) {
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(
-                        child: DefaultDecorator(
-                            child: ProductForm(
-                      product: product,
-                    ))),
-                    const SizedBox(width: Measures.small),
-                    Expanded(
+                    Flexible(
+                      flex: searchBarFlex,
                       child: DefaultDecorator(
-                          child: Padding(
-                        padding: const EdgeInsets.all(Measures.small),
-                        child: SaleForm(
-                          product: product,
-                          record: record,
-                          saleEditorMode: saleEditorMode,
-                        ),
-                      )),
+                        child: _SearchBar(onSearch: _onSearch),
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              Flexible(
-                flex: actionsFlex,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DefaultButton(
-                        label: Labels.cancel,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    DefaultButton(
-                      label: confirmLabel,
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                         if (editMode) {
-                            saleEditorMode.confirm(editCallback);
-                          } else {
-                            saleEditorMode.confirm(createCallback);
-                          }
-                        }
-                      },
+                    Expanded(
+                      flex: bodyFlex,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: DefaultDecorator(
+                                  child: ProductForm(
+                            product: product ?? Product.defaultInstance(),
+                          ))),
+                          const SizedBox(width: Measures.small),
+                          Expanded(
+                            child: DefaultDecorator(
+                                child: Padding(
+                              padding: const EdgeInsets.all(Measures.small),
+                              child: SaleForm(
+                                product: product ?? Product.defaultInstance(),
+                                record: record,
+                                saleEditorMode: saleEditorMode,
+                              ),
+                            )),
+                          ),
+                        ],
+                      ),
                     ),
+                    Flexible(
+                      flex: actionsFlex,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DefaultButton(
+                              label: Labels.cancel,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }),
+                          DefaultButton(
+                            label: confirmLabel,
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                if (editMode) {
+                                  saleEditorMode.confirm(editCallback);
+                                } else {
+                                  saleEditorMode.confirm(createCallback);
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    )
                   ],
-                ),
-              )
-            ],
-          )),
+                );
+              })),
     );
   }
 }
@@ -122,17 +133,15 @@ class _SearchBar extends StatelessWidget {
 
   final Callback<String>? onSearch;
 
-
   @override
   Widget build(BuildContext context) {
-    
     String barcode = '';
 
-  void setBarcode(String? value) {
-    if (value != null) {
-      barcode = value;
+    void setBarcode(String? value) {
+      if (value != null) {
+        barcode = value;
+      }
     }
-  }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,7 +156,7 @@ class _SearchBar extends StatelessWidget {
             child: DefaultButton(
                 label: Labels.search,
                 onPressed: () {
-                  onSearch??(barcode);
+                  onSearch ?? (barcode);
                 })),
       ],
     );
