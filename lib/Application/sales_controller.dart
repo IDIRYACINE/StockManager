@@ -14,16 +14,12 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 class SalesController {
   late RecordsLiveDataModel recordsLiveData;
 
-  Callback<bool>? _toggleLastSelectedRow;
-  int _lastRowIndex = -1;
-
-  int totalPrice = 0;
-
   init(BuildContext context) {
     recordsLiveData = Provider.of<RecordsLiveDataModel>(context, listen: false);
   }
 
-  void edit(BuildContext context) {
+  void edit(BuildContext context,Record record,int index) {
+    
     void onEdit(Map<String, dynamic> updatedField, Record record) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
@@ -35,15 +31,16 @@ class SalesController {
           event: DatabaseEvent.updatePurchaseRecord,
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
+
       Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .updateSaleRecord(record);
+          .updateSaleRecordAt(record,index);
     }
 
     showDialog(
         context: context,
         builder: (context) => Material(
                 child: SaleEditor(
-              record: recordsLiveData.selectedPurchaseRecord,
+              record: record.copyWith(),
               editMode: true,
               confirmLabel: Labels.update,
               editCallback: onEdit,
@@ -109,14 +106,13 @@ class SalesController {
                 message: Messages.clearAll)));
   }
 
-  void remove(BuildContext context) {
+  void remove(BuildContext context,Record record) {
     void onRemove() {
       RecordsLiveDataModel liveDataModel =
           Provider.of<RecordsLiveDataModel>(context, listen: false);
-      Record deletedRecord = liveDataModel.selectedPurchaseRecord;
-      liveDataModel.removeSaleRecord();
+      liveDataModel.removeSaleRecord(record);
 
-      Map<ServicesData, dynamic> data = {ServicesData.instance: deletedRecord};
+      Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(
           data: data,
           event: DatabaseEvent.deletePurchaseRecord,
@@ -131,22 +127,4 @@ class SalesController {
                 onConfirm: onRemove, message: Messages.deleteElement)));
   }
 
-  void registerLastSelectedRow(
-      Callback<bool> toggleRow, int rowIndex, VoidCallback updateRow) {
-    if (_lastRowIndex != rowIndex && _toggleLastSelectedRow != null) {
-      _toggleLastSelectedRow!(false);
-    }
-
-    _lastRowIndex = rowIndex;
-    _toggleLastSelectedRow = toggleRow;
-
-    toggleRow(true);
-  }
-
-  void deregisterLastSelectedRow(RecordsLiveDataModel liveDataModel) {
-    _lastRowIndex = -1;
-    _toggleLastSelectedRow = null;
-   liveDataModel
-        .updateSelectedRow = null;
-  }
 }

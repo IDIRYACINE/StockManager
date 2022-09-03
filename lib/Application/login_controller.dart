@@ -36,7 +36,7 @@ class LoginController {
     if (isConnected) {
       Provider.of<ControllersProvider>(context, listen: false).init(context);
       Provider.of<NavigationStore>(context, listen: false).init();
-
+    _loadData();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const App()));
     }

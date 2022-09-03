@@ -12,7 +12,7 @@ class SellersLiveDataModel with ChangeNotifier {
 
   int selectedIndex = 0;
 
-  VoidCallback? updateRowCallback;
+  VoidCallback? refreshRowCallback;
 
   final ValueNotifier<bool> _refreshSellers = ValueNotifier(false);
 
@@ -37,16 +37,20 @@ class SellersLiveDataModel with ChangeNotifier {
     _toggleRefresh();
   }
 
+  void removeAt(int index) {
+    loadedSellers.removeAt(index);
+    selectedIndex = -1;
+    _toggleRefresh();
+  }
+
   void setAll(Iterable<Seller> elements) {
     loadedSellers.clear();
     loadedSellers.addAll(elements);
     _toggleRefresh();
   }
 
-  void update(Seller seller) {
-    if (updateRowCallback != null) {
-      loadedSellers[selectedIndex] = seller;
-      updateRowCallback!();
-    }
+  void update(Seller seller, int index) {
+    loadedSellers[index] = seller;
+    _toggleRefresh();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:stock_manager/DataModels/metadata.dart';
 
 class ProductModel {
-
   ProductModel({
     this.color = 'black',
     this.size = 's',
@@ -13,7 +12,6 @@ class ProductModel {
   int quantity;
 }
 
-
 class Product {
   Product(
       {required this.barcode,
@@ -23,7 +21,7 @@ class Product {
       required this.sellingPrice,
       required this.reference,
       required this.totalQuantity,
-      required this.models ,
+      required this.models,
       required this.imageUrl});
 
   String reference;
@@ -33,10 +31,10 @@ class Product {
   String? imageUrl;
   double sellingPrice;
   int totalQuantity;
-  List<ProductModel> models ;
+  List<ProductModel> models;
   String productFamily;
 
-  static Product defaultInstance (){
+  static Product defaultInstance() {
     return Product(
       barcode: 0,
       name: '',
@@ -88,7 +86,39 @@ class Record {
   String barcode;
   String reference;
 
-  
+  // dart Record copyWith
+  Record copyWith({
+    String? payementType,
+    String? timestamp,
+    String? sellerName,
+    String? product,
+    String? productColor,
+    String? productSize,
+    String? barcode,
+    String? reference,
+    String? customer,
+    double? deposit,
+    double? remainingPayement,
+    int? quantity,
+    double? originalPrice,
+    double? sellingPrice,
+  }) {
+    return Record(
+        payementType: payementType ?? this.payementType,
+        timestamp: timestamp ?? this.payementType,
+        originalPrice: originalPrice?? this.originalPrice,
+        quantity:  quantity?? this.quantity,
+        sellerName: sellerName??this.sellerName,
+        deposit: deposit?? this.deposit,
+        reference: reference??this.reference,
+        customer: customer??this.customer,
+        barcode: barcode??this.barcode,
+        product: product??this.product,
+        productColor: productColor??this.productColor,
+        productSize: productSize??this.productSize,
+        sellingPrice: sellingPrice??this.sellingPrice,
+        );
+  }
 }
 
 class Seller {
@@ -97,6 +127,18 @@ class Seller {
   String imageUrl;
 
   Seller({required this.name, required this.phone, required this.imageUrl});
+
+  Seller copyWith({
+    String? name,
+    int? phone,
+    String? imageUrl,
+  }) {
+    return Seller(
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }
 
 class ProductFamily {
@@ -105,10 +147,21 @@ class ProductFamily {
   String? imageUrl;
 
   ProductFamily({required this.name, required this.reference, this.imageUrl});
+
+  ProductFamily copyWith({
+    String? name,
+    String? reference,
+    String? imageUrl,
+  }) {
+    return ProductFamily(
+      name: name ?? this.name,
+      reference: reference ?? this.reference,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }
 
 class OrderProduct {
-
   OrderProduct({
     required this.product,
     required this.quantity,
@@ -123,7 +176,6 @@ class OrderProduct {
 }
 
 class Customer {
-
   Customer({
     required this.name,
     this.phoneNumber,
@@ -155,5 +207,4 @@ class Order {
   int quantity;
   OrderStatus status;
   Customer customer;
-
 }

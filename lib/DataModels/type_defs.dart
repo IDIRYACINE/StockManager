@@ -37,14 +37,15 @@ typedef JsonMap = Map<String,dynamic>;
 
 typedef ItemBuilder = Widget Function(BuildContext context, int index);
 
-typedef DefaultCellAdapter = List<String> Function();
-
 typedef RowClickCallback = void Function(Callback<bool> turnOffRow , int rowIndex,VoidCallback updateRow);
 
 typedef RowCellAdapter<T> = List<String> Function(T value);
 
 typedef Callback<T> = void Function(T value);
-typedef Callback2<T,S> = void Function(T first,S second);
+
+typedef Callback2<A,B> = void Function(A first,B second);
+
+typedef Callback3<A,B,C> = void Function(A first,B second, C third);
 
 typedef AppJson<T> = Map<String,T>;
 

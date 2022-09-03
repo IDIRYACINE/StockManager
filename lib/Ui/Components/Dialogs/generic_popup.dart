@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -10,6 +11,32 @@ abstract class PopupsUtility {
               content: content,
             ));
   }
+
+  static Future<T?> dispalyContextMenu<T>({required BuildContext context, required List<PopupMenuItem<T>> items, 
+  
+  RelativeRect? position}) async{
+
+     return await showMenu<T>(context: context, 
+      position: (position != null)? position : RelativeRect.fromLTRB(MediaQuery.of(context).size.width - 100, MediaQuery.of(context).size.height - 100, 0, 0),
+       items: items,
+       
+       );
+  }
+
+  static List<PopupMenuItem<ContextMenuOperation>> buildEnumPopupItem(List<ContextMenuOperation> operations) {
+    List<PopupMenuItem<ContextMenuOperation>> items = [];
+    
+    for (ContextMenuOperation operation in operations) {
+      items.add(PopupMenuItem(
+        value: operation,
+        child: Text(operation.name),
+      ));
+    }
+
+    return items;
+  }
+
+
 }
 
 class ConfirmDialog extends StatelessWidget {

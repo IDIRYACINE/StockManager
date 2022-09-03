@@ -13,20 +13,12 @@ class ActionsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     SalesController controller = Provider.of<ControllersProvider>(context,listen:false).salesController;
 
-    void edit(){
-      controller.edit(context);
-    }
-
     void add(){
       controller.add(context);
     }
 
     void clear(){
       controller.clear(context);
-    }
-
-    void remove(){
-      controller.remove(context);
     }
 
     return Card(
@@ -41,18 +33,7 @@ class ActionsCard extends StatelessWidget {
               child: const Text(Labels.add),
             ),
           ),
-           Flexible(
-            child: ElevatedButton(
-              onPressed: edit,
-              child: const Text(Labels.edit),
-            ),
-          ),
-           Flexible(
-            child: ElevatedButton(
-              onPressed: remove,
-              child: const Text(Labels.remove),
-            ),
-          ),
+           
            Flexible(
             child: ElevatedButton(
               onPressed: clear,
@@ -64,3 +45,4 @@ class ActionsCard extends StatelessWidget {
     );
   }
 }
+

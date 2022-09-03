@@ -39,7 +39,7 @@ class SearchEditor extends StatelessWidget{
       key: formKey,
       child : Padding(padding: const EdgeInsets.all(Measures.small),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children:[
           ...searchFieldBuilder(registerCallback, unregisterCallback),

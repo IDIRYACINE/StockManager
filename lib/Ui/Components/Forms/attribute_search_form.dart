@@ -17,15 +17,22 @@ class SearchFieldText<R> extends StatefulWidget {
     required this.label,
     required this.identifier,
     this.allowedSearchTypes = SearchType.values,
-    required this.onSelected,
-    required this.onDeselected, this.parser,
-  }) : super(key: key);
+    this.onSelected,
+    this.onDeselected,
+    this.parser, this.registerQueryGenerator,  this.isOptional = true,
+  }) : assert(
+    (registerQueryGenerator != null) && (onSelected == null && onDeselected == null) ||
+        (registerQueryGenerator == null) && (onSelected != null && onDeselected != null),
+  ),super(key: key);
 
   final String label;
   final String identifier;
-  final OnSearchAttributeSelected onSelected, onDeselected;
+  final OnSearchAttributeSelected? onSelected, onDeselected;
   final List<SearchType> allowedSearchTypes;
   final SearchFieldParser<R>? parser;
+  final bool isOptional;
+  final RegisterSearchQueryBuilder? registerQueryGenerator;
+  
 
   @override
   State<StatefulWidget> createState() => _SearchFieldTextState();
@@ -36,12 +43,12 @@ class _SearchFieldTextState extends State<SearchFieldText> {
 
   String attributeValue = '';
 
-  SearchType searchType = SearchType.equals;
+  late SearchType searchType ;
 
   void onBoxChecked(bool value) {
     value
-        ? widget.onSelected(queryGenerator)
-        : widget.onDeselected(queryGenerator);
+        ? widget.onSelected!(queryGenerator)
+        : widget.onDeselected!(queryGenerator);
 
     setState(() {
       isChecked = value;
@@ -77,8 +84,12 @@ class _SearchFieldTextState extends State<SearchFieldText> {
 
   @override
   Widget build(BuildContext context) {
+    searchType = widget.allowedSearchTypes[0];
+    widget.registerQueryGenerator?.call(queryGenerator);
+
     return Row(
       children: [
+        if(widget.isOptional)
         Flexible(
             child: Checkbox(
           value: isChecked,
@@ -99,6 +110,7 @@ class _SearchFieldTextState extends State<SearchFieldText> {
               }),
         ),
         const SizedBox(width: Measures.medium),
+        if(widget.allowedSearchTypes.length > 1)
         Expanded(
             child: SelectorDropDown(
                 label: const Text(Labels.searchType),
@@ -266,13 +278,17 @@ class SearchFieldDate extends StatefulWidget {
       required this.startLabel,
       required this.endLabel,
       required this.identifier,
-      required this.onSelected,
-      required this.onDeselected})
-      : super(key: key);
+       this.onSelected,
+       this.onDeselected,  this.isOptional = true, this.registerQueryGenerator}): assert(
+    (registerQueryGenerator != null) && (onSelected == null && onDeselected == null) ||
+        (registerQueryGenerator == null) && (onSelected != null && onDeselected != null),
+  ),super(key: key);
 
   final String startLabel, endLabel;
   final String identifier;
-  final OnSearchAttributeSelected onSelected, onDeselected;
+  final bool isOptional;
+  final OnSearchAttributeSelected? onSelected, onDeselected;
+  final RegisterSearchQueryBuilder? registerQueryGenerator;
 
   @override
   State<StatefulWidget> createState() => _SearchFieldDateState();
@@ -284,7 +300,7 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
   String minValue = '', maxValue = '';
 
   void onBoxChecked(bool value) {
-    value ? widget.onSelected(queryGenerator) : widget.onDeselected(queryGenerator);
+    value ? widget.onSelected!(queryGenerator) : widget.onDeselected!(queryGenerator);
 
     setState(() {
       isChecked = value;
@@ -301,8 +317,11 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
 
   @override
   Widget build(BuildContext context) {
+    widget.registerQueryGenerator?.call(queryGenerator);
+
     return Row(
       children: [
+        if(widget.isOptional)
         Flexible(
             child: Checkbox(
           value: isChecked,

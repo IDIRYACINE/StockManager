@@ -191,6 +191,11 @@ abstract class Measures {
 
   static const sidebarButtonPadding = 10.0;
 
+  static const contextMenuYoffset = 10.0;
+  static const contextMenuXoffset = 10.0;
+  static const contextMenuWidth = 200.0;
+  static const contextMenuHeight = 200.0;
+
 }
 
 abstract class Messages{

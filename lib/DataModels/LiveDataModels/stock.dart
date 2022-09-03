@@ -16,9 +16,6 @@ class StockLiveDataModel with ChangeNotifier{
 
   ProductFamily productFamily(int index) => loadedProductFamillies[index];
 
-  ProductFamily get selectedFamily => loadedProductFamillies[selectedElementIndex];
-
-
   final List<Product> _loadedProducts  = [];
 
   final ValueNotifier<bool> _refreshProducts = ValueNotifier(false);
@@ -29,7 +26,6 @@ class StockLiveDataModel with ChangeNotifier{
 
   Product product(int index) => _loadedProducts[index];
 
-  Product get selectedProduct => _loadedProducts[selectedElementIndex];
 
   VoidCallback? updateSelectedRow;
 
@@ -68,7 +64,8 @@ class StockLiveDataModel with ChangeNotifier{
 
   void updateProduct(Product element) {
     _loadedProducts[selectedElementIndex] = element;
-    updateSelectedRow?.call();
+        toggleRefresh(_refreshProducts);
+
   }
 
 
@@ -98,7 +95,11 @@ class StockLiveDataModel with ChangeNotifier{
 
   void updateProductFamily(ProductFamily element) {
     loadedProductFamillies[selectedElementIndex] = element;
-    updateSelectedRow?.call();
+  }
+
+  void updateProductFamilyAt(ProductFamily family,int index) {
+    loadedProductFamillies[index] = family;
+    toggleRefresh(_refreshProductsFamily);
   }
 
 }

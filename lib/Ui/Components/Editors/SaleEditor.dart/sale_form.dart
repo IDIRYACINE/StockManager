@@ -48,7 +48,7 @@ class SaleForm extends StatelessWidget {
           onChanged: saleEditorMode.setCustomer,
         ),
         AttributeTextField(
-          initialValue: product.value.sellingPrice.toString(),
+          controller: saleEditorMode.minSellingPriceController,
           onChanged: saleEditorMode.setSellingPrice,
           label: Labels.sellingPrice,
         ),
@@ -68,81 +68,60 @@ class SaleForm extends StatelessWidget {
 }
 
 class ProductForm extends StatefulWidget {
-  const ProductForm({Key? key, required this.product}) : super(key: key);
+  const ProductForm({Key? key, required this.product, required this.saleEditorMode}) : super(key: key);
 
   final ValueListenable<Product> product;
-
+  final SaleEditorMode saleEditorMode;
   @override
   State<ProductForm> createState() => _ProductFormState();
 }
 
 class _ProductFormState extends State<ProductForm> {
-  final TextEditingController nameController = TextEditingController(text: '');
-  final TextEditingController referenceController =
-      TextEditingController(text: '');
-
-  final TextEditingController familyController =
-      TextEditingController(text: '');
-  final TextEditingController originalPriceController =
-      TextEditingController(text: '');
-  final TextEditingController sellingPriceController =
-      TextEditingController(text: '');
+  
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: ValueListenableBuilder<Product>(
-          valueListenable: widget.product,
-          builder: (context, product, child) {
-            nameController.text = product.name;
-            referenceController.text = product.reference;
-            familyController.text = product.productFamily;
-            originalPriceController.text = product.originalPrice.toString();
-            sellingPriceController.text = product.sellingPrice.toString();
-
-            return Column(
+      child:  Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
                 DefaultDecorator(
-                  child: FaultToleratedImage(
-                    imageUrl: product.imageUrl ?? '',
+                  child: ValueListenableBuilder<Product>(
+                    valueListenable: widget.product,
+                    builder:(context,product,child) {return FaultToleratedImage(
+                      imageUrl: product.imageUrl ?? '',
+                    );}
                   ),
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: nameController,
+                  controller: widget.saleEditorMode.productNameController,
                   label: Labels.name,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: referenceController,
+                  controller: widget.saleEditorMode.referenceController,
                   label: Labels.reference,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: familyController,
+                  controller: widget.saleEditorMode.familyController,
                   label: Labels.productFamily,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: originalPriceController,
-                  label: Labels.buyingPrice,
-                  readOnly: true,
-                ),
-                const SizedBox(height: Measures.medium),
-                AttributeTextField(
-                  controller: sellingPriceController,
+                  controller: widget.saleEditorMode.minSellingPriceController,
                   label: Labels.sellingPrice,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.medium),
               ],
-            );
-          }),
-    );
+            ));
+          
+    
   }
 }

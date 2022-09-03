@@ -43,19 +43,33 @@ class SaleEditor extends StatelessWidget {
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
+
+    final dynamic saleEditorMode = editMode
+        ? SaleEditorMode.editModeInstance(record)
+        : SaleEditorMode.createModeInstance(record);
+
+
     void updateProduct(List<Product> products) {
       if (products.isNotEmpty) {
-        product.value = products.first;
+        Product p = products.first;
+        saleEditorMode.productNameController.text = p.name;
+        saleEditorMode.minSellingPriceController.text = p.sellingPrice.toString();
+        saleEditorMode.sellingPriceController.text = p.sellingPrice.toString();
+        saleEditorMode.familyController.text = p.productFamily;
+        saleEditorMode.referenceController.text = p.reference;
+
+        record.product = p.name;
+        record.reference = p.reference;
+        record.barcode = p.barcode.toString();
+        record.sellingPrice = p.sellingPrice;
+
+        product.value = p;
       }
     }
 
     void _onSearch(String barcode) {
       onSearch?.call(barcode, updateProduct);
     }
-
-    final dynamic saleEditorMode = editMode
-        ? SaleEditorMode.editModeInstance(record)
-        : SaleEditorMode.createModeInstance(record);
 
     return Padding(
         padding: const EdgeInsets.all(Measures.paddingLarge),
@@ -80,6 +94,7 @@ class SaleEditor extends StatelessWidget {
                         child: DefaultDecorator(
                             child: ProductForm(
                       product: product,
+                      saleEditorMode: saleEditorMode,
                     ))),
                     const SizedBox(width: Measures.small),
                     Expanded(

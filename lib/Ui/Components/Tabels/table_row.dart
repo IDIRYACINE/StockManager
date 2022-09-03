@@ -1,33 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Types/special_enums.dart';
+import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Generics/lables.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class SelectableRow extends StatefulWidget {
+class SelectableRow<T> extends StatefulWidget {
   const SelectableRow(
       {Key? key,
-      this.onClicked,
       required this.dataCellHelper,
       this.paddings = Measures.tiny,
       required this.index,
-      this.onRowDisposed})
+      required this.dataModel,
+      this.clickable = true,
+      this.onEdit,
+      this.onDelete})
       : super(key: key);
 
-  final RowClickCallback? onClicked;
-
-  final DefaultCellAdapter dataCellHelper;
+  final RowCellAdapter<T> dataCellHelper;
 
   final double paddings;
 
   final int index;
 
-  final VoidCallback? onRowDisposed;
+  final T dataModel;
+
+  final bool clickable;
+
+  final Callback3<BuildContext,T, int>? onEdit;
+
+  final Callback2<BuildContext,T>? onDelete;
 
   @override
-  State<StatefulWidget> createState() => _SelectableRowState();
+  State<SelectableRow> createState() => _SelectableRowState<T>();
 }
 
-class _SelectableRowState extends State<SelectableRow> {
+class _SelectableRowState<T> extends State<SelectableRow<T>> {
   late bool isSelected;
   late Color backgroundColor, textColor;
 
@@ -37,18 +45,6 @@ class _SelectableRowState extends State<SelectableRow> {
     super.initState();
   }
 
-  @override
-  void deactivate() {
-    widget.onRowDisposed?.call();
-    super.deactivate();
-  }
-
-  void toggleRow(bool state) {
-    setState(() {
-      isSelected = state;
-    });
-  }
-
   void initColors(ThemeData theme) {
     backgroundColor =
         isSelected ? theme.colorScheme.primary : theme.colorScheme.onBackground;
@@ -56,22 +52,46 @@ class _SelectableRowState extends State<SelectableRow> {
         isSelected ? theme.colorScheme.onPrimary : theme.colorScheme.surface;
   }
 
-  void updateRow() {
-    setState(() {});
+  void onRowClicked(BuildContext context, T record, int rowIndex,TapDownDetails details) {
+     void _onContextMenuSelected(ContextMenuOperation? operation) {
+
+      switch (operation) {
+        case ContextMenuOperation.edit:
+          widget.onEdit?.call(context,record,rowIndex);
+          break;
+        case ContextMenuOperation.remove:
+          widget.onDelete?.call(context,record);
+          break;
+          default :
+          break;
+      }
+    }
+
+    RelativeRect position = RelativeRect.fromLTRB(
+      details.globalPosition.dx, 
+      details.globalPosition.dy,
+       details.globalPosition.dx,
+       details.globalPosition.dy);
+    
+    PopupsUtility.dispalyContextMenu<ContextMenuOperation>(
+        context: context,
+        items: PopupsUtility.buildEnumPopupItem(ContextMenuOperation.values),
+        position: position,
+        ).then((value) => _onContextMenuSelected(value));
   }
 
   @override
   Widget build(BuildContext context) {
     initColors(Theme.of(context));
-    final data = widget.dataCellHelper();
+    final data = widget.dataCellHelper(widget.dataModel);
 
     return GestureDetector(
-        onTap: () {
-          if (widget.onClicked != null) {
-            isSelected = true;
-            widget.onClicked!(toggleRow, widget.index, updateRow);
+      onTapDown:(details){
+         if (widget.clickable) {
+            onRowClicked(context, widget.dataModel, widget.index,details);
           }
-        },
+      },
+        
         child: Container(
           color: backgroundColor,
           child: Row(

@@ -4,7 +4,6 @@ import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/sellers_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -25,11 +24,6 @@ class SellersTable extends StatelessWidget {
     SellersLiveDataModel sellers =
         Provider.of<SellersLiveDataModel>(context);
 
-  void handleRowClick(Callback<bool> turnOffRow,int rowIndex,VoidCallback updateRow){
-    sellers.selectedIndex = rowIndex;
-    controller.registerLastSelectedRow(turnOffRow,rowIndex,updateRow);
-    sellers.updateRowCallback = updateRow;
-  }
 
     return SizedBox(
       width: double.infinity,
@@ -39,7 +33,7 @@ class SellersTable extends StatelessWidget {
       children: [
         Flexible(
             child: SelectableRow(
-                dataCellHelper: () => Titles.sellersTableColumns, index: -1,)),
+                dataCellHelper: (index) => Titles.sellersTableColumns, index: -1, dataModel: 0,)),
         Expanded(
           child: ValueListenableBuilder<bool>(
             valueListenable: sellers.refreshSellers,
@@ -47,12 +41,12 @@ class SellersTable extends StatelessWidget {
               return ListView.builder(
                   itemCount: sellers.sellersCount,
                   itemBuilder: (context, index) {
-                    return SelectableRow(
-                      dataCellHelper: () =>
-                          sellerToCellsAdapter(sellers.seller(index)),
-                      onClicked: handleRowClick, index: index, onRowDisposed: () { 
-                        controller.deregisterLastSelectedRow(sellers);
-                       },
+                    return SelectableRow<Seller>(
+                      dataCellHelper: sellerToCellsAdapter,
+                       onDelete : controller.remove,
+                      onEdit: controller.edit, 
+                      index: index, 
+                      dataModel: sellers.seller(index),
                     );
                   });
             }

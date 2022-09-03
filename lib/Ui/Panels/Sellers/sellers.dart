@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 import 'actions_card.dart';
 import 'sellers_table.dart';
 
-class SellersPanel extends StatelessWidget{
-
+class SellersPanel extends StatelessWidget {
   const SellersPanel({Key? key}) : super(key: key);
 
   final int upperRowFlex = 1;
@@ -13,12 +11,14 @@ class SellersPanel extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(flex:upperRowFlex,child: const  ActionsCard()),
-        Expanded(flex:lowerRowFlex,child: const SellersTable(),)
-      ]
-    );
-  }
+    return Column(children: [
+            Expanded(flex: upperRowFlex, child: const ActionsCard()),
 
+      Expanded(
+        flex: lowerRowFlex,
+        child: const SellersTable(),
+      ),
+      Expanded(flex: upperRowFlex, child: const SellersFloatingActions()),
+    ]);
+  }
 }

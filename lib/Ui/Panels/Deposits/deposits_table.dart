@@ -4,7 +4,6 @@ import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/deposit_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -36,12 +35,6 @@ class _DepositsTableState extends State<DepositsTable> {
     RecordsLiveDataModel records =
         Provider.of<RecordsLiveDataModel>(context, listen: false);
 
-    void handleRowClick(
-        Callback<bool> turnOffRow, int rowIndex, VoidCallback updateRow) {
-      records.selectedElementIndex = rowIndex;
-      controller.registerLastSelectedRow(turnOffRow, rowIndex, updateRow);
-      records.updateSelectedRow = updateRow;
-    }
 
     return SizedBox(
         width: double.infinity,
@@ -51,8 +44,8 @@ class _DepositsTableState extends State<DepositsTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  dataCellHelper: () => Titles.depositsTableColumns,
-                  index: -1, 
+                  dataCellHelper: (v) => Titles.depositsTableColumns,
+                  index: -1, dataModel: 0, 
                 )),
                 Expanded(
                   child: ValueListenableBuilder<bool>(
@@ -61,13 +54,11 @@ class _DepositsTableState extends State<DepositsTable> {
                         return ListView.builder(
                             itemCount: records.depositsCounts,
                             itemBuilder: (context, index) {
-                              return SelectableRow(
-                                dataCellHelper: () => recordToCellsAdapter(
-                                    records.depositRecord(index)),
-                                onClicked: handleRowClick,
-                                index: index, onRowDisposed: () { 
-                                  controller.deregisterLastSelectedRow(records);
-                                 },
+                              return SelectableRow<Record>(
+                                dataCellHelper: (record) => recordToCellsAdapter(
+                                    record),
+                                  onDelete : controller.remove,
+                      onEdit: controller.edit, dataModel: records.depositRecord(index), index: index,
                               );
                             });
                       }),

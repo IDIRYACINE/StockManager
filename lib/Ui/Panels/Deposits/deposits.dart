@@ -16,13 +16,14 @@ class DepositsPanel extends StatelessWidget{
    return Column(
     mainAxisSize: MainAxisSize.max,
     children: [
-      Expanded(
-        flex: upperRowFlex,
-        child:  const ActionsCard()
-      ),
+     
       Expanded(
       flex: lowerRowFlex,
-      child: const DepositsTable(),)  
+      child: const DepositsTable(),)  ,
+       Expanded(
+        flex: upperRowFlex,
+        child:  const DepositFloatingActions()
+      ),
     ]
         
    

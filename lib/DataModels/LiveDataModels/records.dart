@@ -72,23 +72,13 @@ class RecordsLiveDataModel with ChangeNotifier {
     toggleRefresh(_salesRefresh);
   }
 
-  void removeSaleRecord() {
-    Record element = selectedPurchaseRecord;
-    _totalPrice.value -= element.sellingPrice;
-    _purchaseRecords.remove(element);
+  void removeSaleRecord(Record record) {
+    _totalPrice.value -= record.sellingPrice;
+    _purchaseRecords.remove(record);
     toggleRefresh(_salesRefresh);
-    _removeRecord(element);
+    _removeRecord(record);
   }
 
-  void updateSaleRecord(Record element) {
-    Record lastElement = _loadedRecords[selectedElementIndex];
-    _totalPrice.value = _totalPrice.value - lastElement.sellingPrice + element.sellingPrice;
-
-    _loadedRecords[selectedElementIndex] = element;
-    updateSelectedRow?.call();
-    _updateRecord();
-
-  }
 
   void addDepositRecord(Record element) {
     _loadedRecords.add(element);
@@ -96,17 +86,26 @@ class RecordsLiveDataModel with ChangeNotifier {
     toggleRefresh(_depositRefresh);
   }
 
-  void removeDepositRecord() {
-    Record element = selectedDepositRecord;
-    _depositRecords.remove(element);
+  void removeDepositRecord(Record record) {
+    _depositRecords.remove(record);
     toggleRefresh(_depositRefresh);
 
-    _removeRecord(element);
+    _removeRecord(record);
   }
 
   void updateDepositRecord(Record element) {
     _depositRecords[selectedElementIndex] = element;
+    toggleRefresh(_depositRefresh);
+  }
 
-    updateSelectedRow?.call();
+  void updateSaleRecordAt(Record record, int index) {
+    Record lastElement = _loadedRecords[index];
+    _totalPrice.value =
+        _totalPrice.value - lastElement.sellingPrice + record.sellingPrice;
+
+    _loadedRecords[selectedElementIndex] = record;
+    _updateRecord();
+
+    toggleRefresh(_salesRefresh);
   }
 }

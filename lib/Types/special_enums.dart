@@ -87,3 +87,8 @@ enum ServicesData {
   password
   
 }
+
+enum ContextMenuOperation{
+  edit,
+  remove,
+}

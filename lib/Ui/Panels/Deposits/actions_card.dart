@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/deposit_controller.dart';
+import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class ActionsCard extends StatelessWidget{
@@ -18,11 +19,11 @@ class ActionsCard extends StatelessWidget{
     }
 
     void edit(){
-      controller.edit(context);
+      // controller.edit(context);
     }
 
     void remove(){
-      controller.remove(context);
+      // controller.remove(context);
     }
 
 
@@ -39,4 +40,33 @@ class ActionsCard extends StatelessWidget{
    );
   }
 
+}
+
+
+class DepositFloatingActions extends StatelessWidget {
+  const DepositFloatingActions({Key? key}) : super(key: key);
+
+  void add(BuildContext context, DespositController controller) {
+    controller.add(context);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    final controller =
+        Provider.of<ControllersProvider>(context, listen: false)
+            .depositController;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Flexible(
+            child: ActionButton(
+          onPressed: (){add(context,controller);},
+          label: Labels.add, icon: Icons.add,
+        )),
+       
+      ],
+    );
+  }
 }

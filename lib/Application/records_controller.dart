@@ -101,4 +101,32 @@ class RecordsController {
       child: Text(type.name),
     );
   }
+
+  void quickSearch(BuildContext context, Map<String, dynamic> query) {
+    _showLoadingAlert(context);
+
+    void _onResult(List<Record> records) {
+      Provider.of<RecordsLiveDataModel>(context, listen: false)
+          .setAllRecords(records);
+      Navigator.pop(context);
+    }
+
+      _showLoadingAlert(context);
+      Map<ServicesData, dynamic> data = {
+        ServicesData.databaseSelector: query,
+      };
+
+      ServiceMessage<List<Record>> message = ServiceMessage(
+          service: AppServices.database,
+          event: DatabaseEvent.searchPurchaseRecord,
+          data: data,
+          hasCallback: true,
+          callback: _onResult);
+
+      ServicesStore.instance.sendMessage(message);
+    
+
+
+  }
+
 }

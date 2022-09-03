@@ -12,9 +12,7 @@ import 'package:stock_manager/Ui/Components/Editors/DepositEditor/deposit_editor
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DespositController {
-  Callback<bool>? _turnOffLastSelectedRow;
-  int _lastRowIndex = -1;
-
+  
   void add(BuildContext context) {
     void _onConfirm(Record record) {
       Provider.of<RecordsLiveDataModel>(context, listen: false)
@@ -64,7 +62,7 @@ class DespositController {
             )));
   }
 
-  void edit(BuildContext context) {
+  void edit(BuildContext context,Record record,int index) {
     void onEdit(Map<String, dynamic> updatedField, Record record) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
@@ -84,22 +82,20 @@ class DespositController {
         context: context,
         builder: (context) => AlertDialog(
                 content: DepositEditor(
-              record: Provider.of<RecordsLiveDataModel>(context, listen: false)
-                  .selectedDepositRecord,
+              record: record.copyWith(),
               editMode: true,
               editCallback: onEdit,
               confirmLabel: Labels.update,
             )));
   }
 
-  void remove(BuildContext context) {
+  void remove(BuildContext context,Record record) {
     void onRemove() {
       RecordsLiveDataModel liveDataModel =
           Provider.of<RecordsLiveDataModel>(context, listen: false);
-      Record deletedRecord = liveDataModel.selectedDepositRecord;
-      liveDataModel.removeDepositRecord();
+      liveDataModel.removeDepositRecord(record);
 
-      Map<ServicesData, dynamic> data = {ServicesData.instance: deletedRecord};
+      Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(
           data: data,
           event: DatabaseEvent.deletePurchaseRecord,
@@ -135,22 +131,4 @@ class DespositController {
     );
   }
 
-  void registerLastSelectedRow(
-      Callback<bool> turnOffRow, int rowIndex, VoidCallback updateRow) {
-    if (_lastRowIndex != rowIndex && _turnOffLastSelectedRow != null) {
-      _turnOffLastSelectedRow!(false);
-    }
-
-    _lastRowIndex = rowIndex;
-    _turnOffLastSelectedRow = turnOffRow;
-
-    turnOffRow(true);
-  }
-
-  void deregisterLastSelectedRow(RecordsLiveDataModel liveDataModel) {
-    _lastRowIndex = -1;
-    _turnOffLastSelectedRow = null;
-    liveDataModel
-        .updateSelectedRow = null;
-  }
 }

@@ -1,10 +1,25 @@
+import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
 abstract class SaleEditorMode<T> {
- 
+
+  final TextEditingController productNameController = TextEditingController(text: '');
+  
+  final TextEditingController referenceController =
+      TextEditingController(text: '');
+
+  final TextEditingController familyController =
+      TextEditingController(text: '');
+      
+  final TextEditingController minSellingPriceController =
+      TextEditingController(text: '');
+
+  final TextEditingController sellingPriceController =
+      TextEditingController(text: '');
+
   void setSeller(Seller seller);
 
   void setSellingPrice(String? price);
@@ -27,7 +42,7 @@ abstract class SaleEditorMode<T> {
   }
 }
 
-class _ModeCreate implements SaleEditorMode<Callback<Record>> {
+class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   final Record record;
 
   _ModeCreate(this.record);
@@ -41,7 +56,7 @@ class _ModeCreate implements SaleEditorMode<Callback<Record>> {
   void setSellingPrice(String? price){
     if(price != null){
       record.sellingPrice = double.parse(price);
-
+      sellingPriceController.text = price;
     }
   }
 
@@ -68,7 +83,7 @@ class _ModeCreate implements SaleEditorMode<Callback<Record>> {
   }
 }
 
-class _ModeEdit implements SaleEditorMode<EditorCallback<AppJson, Record>> {
+class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   final Record record;
 
   _ModeEdit(this.record);
