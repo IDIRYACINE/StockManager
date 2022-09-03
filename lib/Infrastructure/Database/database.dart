@@ -56,6 +56,7 @@ class Database {
 
     collection.createIndex(keys: {
       Indexes.barcode.name: 1,
+      Indexes.reference.name : 1,
     });
 
     collection = database.collection(Collections.productsFamily.name);
@@ -66,6 +67,13 @@ class Database {
     collection = database.collection(Collections.records.name);
     collection.createIndex(keys: {
       Indexes.date.name: -1,
+    });
+
+    collection = database.collection(Collections.orders.name);
+    collection.createIndex(keys: {
+      Indexes.date.name: -1,
+      Indexes.status.name : 1,
+      Indexes.phone.name : 1,
     });
   }
 
@@ -80,20 +88,22 @@ class Database {
   void insertProductFamily(JsonMap productFamily) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
-
     await collection.insert(productFamily);
   }
 
   void insertPurchaseRecord(JsonMap record) async {
     DbCollection collection = database.collection(Collections.records.name);
-
     await collection.insert(record);
   }
 
   void insertSeller(JsonMap seller) async {
     DbCollection collection = database.collection(Collections.sellers.name);
-
     await collection.insert(seller);
+  }
+
+  void insertOrder(JsonMap order) async {
+    DbCollection collection = database.collection(Collections.orders.name);
+    await collection.insert(order);
   }
 
   FutureMongoDbDataStream loadDayPurchaseRecords(SelectorBuilder selector) async {
@@ -117,6 +127,19 @@ class Database {
     return collection.find();
   }
 
+
+  FutureMongoDbDataStream loadOrders() async {
+    DbCollection collection = database.collection(Collections.orders.name);
+    return collection.find();
+  }
+
+
+  FutureMongoDbDataStream loadPurchaseRecords(SelectorBuilder selectorBuilder) async{
+    DbCollection collection = database.collection(Collections.records.name);
+    return collection.find();
+  }
+
+
   void removeProduct(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.products.name);
     collection.deleteOne(selector);
@@ -138,6 +161,11 @@ class Database {
     collection.deleteOne(selector);
   }
 
+  void removeOrder(SelectorBuilder selector) async{
+     DbCollection collection = database.collection(Collections.orders.name);
+    collection.deleteOne(selector);
+  }
+
 
 
   void updateProduct(SelectorBuilder selector, ModifierBuilder updatedValues) async {
@@ -148,28 +176,25 @@ class Database {
   void updateProductFamily(SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
-
     await collection.updateOne(selector, updatedValues);
   }
 
   void updateSeller(SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection = database.collection(Collections.sellers.name);
-
     await collection.updateOne(selector, updatedValues);
   }
 
   void updatePurchaseRecord(SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection =
         database.collection(Collections.records.name);
-
     await collection.updateOne(selector, updatedValues);
   }
 
-  FutureMongoDbDataStream loadPurchaseRecords(SelectorBuilder selectorBuilder) async{
-    DbCollection collection = database.collection(Collections.records.name);
-    return collection.find();
+  void updateOrder(SelectorBuilder selector, ModifierBuilder updatedValues) async {
+    DbCollection collection =
+        database.collection(Collections.orders.name);
+    await collection.updateOne(selector, updatedValues);
   }
-
 
   FutureMongoDbDataStream searchProduct(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.products.name);
@@ -183,6 +208,11 @@ class Database {
 
   FutureMongoDbDataStream searchPurchaseRecord(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.records.name);
+    return collection.find(selector);
+  }
+
+  FutureMongoDbDataStream searchOrder(SelectorBuilder selector) async {
+    DbCollection collection = database.collection(Collections.orders.name);
     return collection.find(selector);
   }
 

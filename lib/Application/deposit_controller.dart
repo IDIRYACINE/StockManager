@@ -31,10 +31,10 @@ class DespositController {
     }
 
    
-    void onSearch(String barcode, OnEditorSearchResulCallback callback) {
+    void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
       Map<ServicesData, dynamic> data = {
         ServicesData.databaseSelector:
-            SelectorBuilder().eq(ProductFields.barcode.name, int.parse(barcode)).map
+            SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
       };
 
       ServiceMessage message = ServiceMessage<List<Product>>(
@@ -47,15 +47,15 @@ class DespositController {
       ServicesStore.instance.sendMessage(message);
     }
 
-    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    int timeStamp = DateTime.now().millisecondsSinceEpoch;
 
     showDialog(
         context: context,
         builder: (context) => Material(
                 child: DepositEditor(
-              record: Record(
+              record: Record.defaultInstance(
                   payementType: PaymentTypes.deposit.name,
-                  timestamp: timestamp),
+                  timeStamp: timeStamp),
                   onSearch: onSearch,
               createCallback: _onConfirm,
               confirmLabel: Labels.add,
@@ -114,7 +114,7 @@ class DespositController {
 
   List<String> recordToRowData(Record record) {
     return [
-      record.date,
+      record.date??'',
       record.product,
       record.sellerName,
       record.deposit.toString(),

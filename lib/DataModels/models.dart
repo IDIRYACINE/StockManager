@@ -52,26 +52,27 @@ class Product {
 class Record {
   Record({
     required this.payementType,
-    required this.timestamp,
-    this.sellerName = '',
-    this.product = '',
-    this.productColor = '',
-    this.productSize = '',
-    this.barcode = '',
-    this.reference = '',
+    required this.timeStamp,
+    this.date,
+    required this.sellerName ,
+    required this.product,
+    required this.productColor ,
+    required this.productSize ,
+    required this.barcode ,
+    required this.reference,
     this.customer,
     this.deposit,
     this.remainingPayement,
-    this.quantity = 1,
-    this.originalPrice = 0,
-    this.sellingPrice = 0,
+    required this.quantity ,
+    required this.originalPrice,
+    required this.sellingPrice ,
   });
 
-  String date = (DateTime dateTime) {
+  String? date = (DateTime dateTime) {
     return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
   }(DateTime.now());
 
-  String timestamp;
+  int timeStamp;
   String sellerName;
   String product;
   String productSize;
@@ -83,18 +84,19 @@ class Record {
   double? remainingPayement;
   String? customer;
   String payementType;
-  String barcode;
+  int barcode;
   String reference;
 
   // dart Record copyWith
   Record copyWith({
     String? payementType,
-    String? timestamp,
+    int? timeStamp,
     String? sellerName,
     String? product,
     String? productColor,
+    String? date,
     String? productSize,
-    String? barcode,
+    int? barcode,
     String? reference,
     String? customer,
     double? deposit,
@@ -104,21 +106,41 @@ class Record {
     double? sellingPrice,
   }) {
     return Record(
-        payementType: payementType ?? this.payementType,
-        timestamp: timestamp ?? this.payementType,
-        originalPrice: originalPrice?? this.originalPrice,
-        quantity:  quantity?? this.quantity,
-        sellerName: sellerName??this.sellerName,
-        deposit: deposit?? this.deposit,
-        reference: reference??this.reference,
-        customer: customer??this.customer,
-        barcode: barcode??this.barcode,
-        product: product??this.product,
-        productColor: productColor??this.productColor,
-        productSize: productSize??this.productSize,
-        sellingPrice: sellingPrice??this.sellingPrice,
-        );
+      date : date?? this.date,
+      payementType: payementType ?? this.payementType,
+      timeStamp: timeStamp ?? this.timeStamp,
+      originalPrice: originalPrice ?? this.originalPrice,
+      quantity: quantity ?? this.quantity,
+      sellerName: sellerName ?? this.sellerName,
+      deposit: deposit ?? this.deposit,
+      reference: reference ?? this.reference,
+      customer: customer ?? this.customer,
+      barcode: barcode ?? this.barcode,
+      product: product ?? this.product,
+      productColor: productColor ?? this.productColor,
+      productSize: productSize ?? this.productSize,
+      sellingPrice: sellingPrice ?? this.sellingPrice,
+    );
   }
+
+  static Record defaultInstance({required String payementType , required int timeStamp}){
+     return Record (
+    payementType: payementType,
+    timeStamp : timeStamp,
+    sellerName : '',
+    product : '',
+    productColor : '',
+    productSize : '',
+    barcode : 0,
+    reference : '',
+    customer : '',
+    deposit : 0,
+    remainingPayement : 0,
+    quantity : 1,
+    originalPrice : 0,
+    sellingPrice : 0,)
+  ;
+}
 }
 
 class Seller {
@@ -164,15 +186,43 @@ class ProductFamily {
 class OrderProduct {
   OrderProduct({
     required this.product,
-    required this.quantity,
     required this.productColor,
     required this.productSize,
+    required this.reference,
+    required this.sellingPrice,
   });
 
+  String reference;
   String product;
   String productSize;
   String productColor;
-  int quantity;
+  double sellingPrice;
+
+  static OrderProduct defaultInstance() {
+    return OrderProduct(
+      product: '',
+      productColor: '',
+      productSize: '',
+      reference: '',
+      sellingPrice: 0,
+    );
+  }
+
+  OrderProduct copyWith({
+    String? product,
+    String? productColor,
+    String? productSize,
+    String? reference,
+    double? sellingPrice,
+  }) {
+    return OrderProduct(
+      product: product ?? this.product,
+      productColor: productColor ?? this.productColor,
+      productSize: productSize ?? this.productSize,
+      reference: reference ?? this.reference,
+      sellingPrice: sellingPrice ?? this.sellingPrice,
+    );
+  }
 }
 
 class Customer {
@@ -193,18 +243,95 @@ class Customer {
 
 class Order {
   Order({
-    required this.customer,
+    required this.timeStamp,
+    this.date,
     required this.products,
-    required this.date,
     required this.status,
     required this.quantity,
     required this.sellerName,
+    required this.customerName,
+    required this.phoneNumber,
+    required this.address,
+    required this.city,
+    required this.postalCode,
+    required this.deposit,
+    required this.sellingPrice,
+    required this.deliverToHome,
+    required this.deliveryCost,
   });
+  
 
-  DateTime date;
+  String? date = (DateTime dateTime) {
+    return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
+  }(DateTime.now());
+
+  int? timeStamp;
   String sellerName;
   List<OrderProduct> products;
   int quantity;
+  double deposit;
   OrderStatus status;
-  Customer customer;
+  double? remainingPayement;
+  double deliveryCost;
+  bool deliverToHome;
+  double sellingPrice;
+  String customerName;
+  int? phoneNumber;
+  String address;
+  String city;
+  int postalCode;
+
+  static Order defaultInstance() {
+    return Order(
+        products: [],
+        status: OrderStatus.canceled,
+        quantity: 0,
+        sellerName: '',
+        customerName: '',
+        phoneNumber: 0,
+        address: '',
+        city: '',
+        postalCode: 0,
+        deposit: 0,
+        sellingPrice: 0,
+        deliverToHome: true,
+        deliveryCost: 0,
+        timeStamp: 0
+        );
+  }
+
+  Order copyWith({
+    List<OrderProduct>? products,
+    String? date,
+    OrderStatus? status,
+    int? quantity,
+    int? timeStamp,
+    String? sellerName,
+    String? customerName,
+    int? phoneNumber,
+    String? address,
+    String? city,
+    int? postalCode,
+    double? deposit,
+    double? sellingPrice,
+    bool? deliverToHome,
+    double? deliveryCost,
+  }) {
+    return Order(
+      products: products ?? this.products,
+      status: status ?? this.status,
+      quantity: quantity ?? this.quantity,
+      sellerName: sellerName ?? this.sellerName,
+      customerName: customerName ?? this.customerName,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      city: city ?? this.city,
+      postalCode: postalCode ?? this.postalCode,
+      deposit: deposit ?? this.deposit,
+      sellingPrice: sellingPrice ?? this.sellingPrice,
+      deliverToHome: deliverToHome ?? this.deliverToHome,
+      deliveryCost: deliveryCost ?? this.deliveryCost,
+      timeStamp: timeStamp ?? this.timeStamp,
+    );
+  }
 }

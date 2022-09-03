@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Types/i_editors.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
 import 'package:stock_manager/Ui/Components/Editors/SaleEditor.dart/sale_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
+import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -47,20 +48,23 @@ class SaleEditor extends StatelessWidget {
     final dynamic saleEditorMode = editMode
         ? SaleEditorMode.editModeInstance(record)
         : SaleEditorMode.createModeInstance(record);
-
+    final ProductFormEditor productFormEditor = ProductFormEditor(
+    
+    );
 
     void updateProduct(List<Product> products) {
       if (products.isNotEmpty) {
         Product p = products.first;
-        saleEditorMode.productNameController.text = p.name;
-        saleEditorMode.minSellingPriceController.text = p.sellingPrice.toString();
-        saleEditorMode.sellingPriceController.text = p.sellingPrice.toString();
-        saleEditorMode.familyController.text = p.productFamily;
-        saleEditorMode.referenceController.text = p.reference;
+        productFormEditor.productNameController.text = p.name;
+        productFormEditor.minSellingPriceController.text = p.sellingPrice.toString();
+        productFormEditor.sellingPriceController.text = p.sellingPrice.toString();
+        productFormEditor.familyController.text = p.productFamily;
+        productFormEditor.referenceController.text = p.reference;
 
         record.product = p.name;
         record.reference = p.reference;
-        record.barcode = p.barcode.toString();
+        record.barcode = p.barcode;
+        record.originalPrice = p.originalPrice;
         record.sellingPrice = p.sellingPrice;
 
         product.value = p;
@@ -82,7 +86,7 @@ class SaleEditor extends StatelessWidget {
               Flexible(
                 flex: searchBarFlex,
                 child: DefaultDecorator(
-                  child: _SearchBar(onSearch: _onSearch),
+                  child:SearchBar(onSearch: _onSearch),
                 ),
               ),
               Expanded(
@@ -94,7 +98,7 @@ class SaleEditor extends StatelessWidget {
                         child: DefaultDecorator(
                             child: ProductForm(
                       product: product,
-                      saleEditorMode: saleEditorMode,
+                      productFormEditor: productFormEditor,
                     ))),
                     const SizedBox(width: Measures.small),
                     Expanded(
@@ -104,7 +108,8 @@ class SaleEditor extends StatelessWidget {
                         child: SaleForm(
                           product: product,
                           record: record,
-                          saleEditorMode: saleEditorMode,
+                          saleEditorMode: saleEditorMode, 
+                          minSellingPriceController: productFormEditor.minSellingPriceController,
                         ),
                       )),
                     ),
@@ -139,40 +144,5 @@ class SaleEditor extends StatelessWidget {
             ],
           ),
         ));
-  }
-}
-
-class _SearchBar extends StatelessWidget {
-  const _SearchBar({Key? key, required this.onSearch}) : super(key: key);
-
-  final Callback<String> onSearch;
-
-  @override
-  Widget build(BuildContext context) {
-    String barcode = '';
-
-    void setBarcode(String? value) {
-      if (value != null) {
-        barcode = value;
-      }
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-            child: AttributeTextField(
-          label: Labels.barcode,
-          initialValue: barcode,
-          onChanged: setBarcode,
-        )),
-        Flexible(
-            child: DefaultButton(
-                label: Labels.search,
-                onPressed: () {
-                  onSearch(barcode);
-                })),
-      ],
-    );
   }
 }

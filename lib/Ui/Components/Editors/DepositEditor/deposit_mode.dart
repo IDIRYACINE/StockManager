@@ -13,7 +13,7 @@ abstract class DepositEditorMode<T> {
   final TextEditingController familyController =
       TextEditingController(text: '');
 
-  final TextEditingController originalPriceController =
+  final TextEditingController minSellingPriceController =
       TextEditingController(text: '');
 
   final TextEditingController sellingPriceController =
@@ -125,7 +125,7 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
 
   @override
   void setSellingPrice(String? sellingPrice) {
-    if (sellingPrice != null) {
+    if (sellingPrice != null && sellingPrice !='') {
       record.sellingPrice = double.parse(sellingPrice);
       updatedValues[RecordFields.sellingPrice] = record;
     }
@@ -139,7 +139,7 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
 
   @override
   void setDeposit(String? deposit) {
-    if (deposit != null) {
+    if (deposit != null && deposit!='')  {
       record.deposit = double.parse(deposit);
       updatedValues[RecordFields.deposit] = record;
     }

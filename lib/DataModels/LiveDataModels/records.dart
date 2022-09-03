@@ -103,7 +103,7 @@ class RecordsLiveDataModel with ChangeNotifier {
     _totalPrice.value =
         _totalPrice.value - lastElement.sellingPrice + record.sellingPrice;
 
-    _loadedRecords[selectedElementIndex] = record;
+    _loadedRecords[index] = record;
     _updateRecord();
 
     toggleRefresh(_salesRefresh);

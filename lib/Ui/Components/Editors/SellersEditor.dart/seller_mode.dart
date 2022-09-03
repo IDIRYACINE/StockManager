@@ -43,7 +43,7 @@ class _ModeCreate implements SellerEditorMode<Callback<Seller>> {
 
   @override
   void setPhone(String? phone) {
-    if (phone != null) {
+    if (phone != null && phone !="") {
       seller.phone = int.parse(phone);
     }
   }

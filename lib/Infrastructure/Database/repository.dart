@@ -13,8 +13,11 @@ class DatabaseRepository {
 
   // crud operations
 
+  Future<void> addOrder({required Order order}) async{
+    _database.insertOrder(orderToJson(order: order));
+  }
+
   Future<void> insertProduct({required Product product}) async {
-    
     _database.insertProduct(productToJson(product: product));
   }
 
@@ -79,7 +82,7 @@ class DatabaseRepository {
       {required Record record, required AppJson updatedValues}) async {
     SelectorBuilder selector = SelectorBuilder();
 
-    selector.eq(RecordFields.timestamp.name, record.timestamp);
+    selector.eq(RecordFields.timeStamp.name, record.timeStamp);
 
     ModifierBuilder modifier = ModifierBuilder();
     modifier.map = updatedValues;
@@ -89,13 +92,14 @@ class DatabaseRepository {
 
   Future<void> deletePurchaseRecord({required Record record}) async {
     SelectorBuilder selector =
-        SelectorBuilder().eq(RecordFields.timestamp.name, record.timestamp);
+        SelectorBuilder().eq(RecordFields.timeStamp.name, record.timeStamp);
     _database.removePurchaseRecord(selector);
   }
 
   Future<void> insertSeller({required Seller seller}) async {
     _database.insertSeller(sellerToJson(seller: seller));
   }
+
 
   Future<void> updateSeller(
       {required Seller seller, required AppJson updatedValues}) async {
@@ -111,6 +115,19 @@ class DatabaseRepository {
         SelectorBuilder().eq(SellerFields.name.name, seller.name);
     _database.removeSeller(selector);
   }
+
+  Future<void>  updateOrder({required Order order, required AppJson updatedValues}) async{
+     SelectorBuilder selector = SelectorBuilder();
+
+    selector.eq(OrderFields.timeStamp.name, order.timeStamp);
+
+    ModifierBuilder modifier = ModifierBuilder();
+    modifier.map = updatedValues;
+    _database.updateSeller(selector, modifier);
+  }
+
+
+  deleteOrder({required order}) {}
 
   // load x
   Future<List<Product>> loadProducts() async {
@@ -176,6 +193,8 @@ class DatabaseRepository {
     return sellers;
   }
 
+
+  loadOrders() {}
   // search x
 
   Future<List<ProductFamily>> searchProductFamily(
@@ -219,6 +238,9 @@ class DatabaseRepository {
 
     return records;
   }
+
+
+  searchOrders({required search}) {}
 
   // x from json
 
@@ -269,7 +291,7 @@ class DatabaseRepository {
     Record record = Record(
       payementType: payementType,
       sellerName: json[RecordFields.seller.name] ?? Labels.error,
-      timestamp: json[RecordFields.timestamp.name] ?? Labels.error,
+      timeStamp: json[RecordFields.timeStamp.name] ?? Labels.error,
       product: json[RecordFields.product.name] ?? Labels.error,
       productColor: json[RecordFields.productColor.name] ?? Labels.error,
       productSize: json[RecordFields.productSize.name] ?? Labels.error,
@@ -283,8 +305,7 @@ class DatabaseRepository {
 
     if (payementType == PaymentTypes.deposit.name) {
       record.deposit = json[RecordFields.deposit.name] ?? Labels.error;
-      record.remainingPayement =
-          json[RecordFields.remainingPayement.name] ?? 0;
+      record.remainingPayement = json[RecordFields.remainingPayement.name] ?? 0;
     }
 
     return record;
@@ -295,6 +316,49 @@ class DatabaseRepository {
       name: json[SellerFields.name.name] ?? Labels.error,
       imageUrl: json[SellerFields.imageUrl.name] ?? Labels.error,
       phone: json[SellerFields.phone.name] ?? 0,
+    );
+  }
+
+  OrderProduct orderProductFromJson({required AppJson<dynamic> json}) {
+    return OrderProduct(
+      reference: json[ProductFields.reference.name] ?? Labels.error,
+      sellingPrice: json[ProductFields.sellingPrice.name] ?? -1,
+      product: json[ProductFields.name.name] ?? Labels.error,
+      productColor: json[ProductModelFields.color.name] ?? Labels.error,
+      productSize: json[ProductModelFields.size.name] ?? Labels.error,
+    );
+  }
+
+  Order orderFromJson({required AppJson<dynamic> json}) {
+    List<OrderProduct> products = [];
+
+    List<dynamic>? rawProducts = json[OrderFields.products.name];
+
+    OrderProduct product;
+
+    if (rawProducts != null) {
+      for (var element in rawProducts) {
+        product = orderProductFromJson(json: element);
+        products.add(product);
+      }
+    }
+
+    return Order(
+      products: products,
+      address: json[OrderFields.address.name] ?? Labels.error,
+      city: json[OrderFields.city.name] ?? Labels.error,
+      date: json[OrderFields.date.name] ?? Labels.error,
+      deliverToHome: json[OrderFields.deliverToHome.name] ?? Labels.error,
+      deposit: json[OrderFields.deposit.name] ?? -1,
+      status: json[OrderFields.status.name] ?? Labels.error,
+      sellingPrice: json[OrderFields.sellingPrice.name] ?? -1,
+      customerName: json[OrderFields.customerName.name] ?? Labels.error,
+      deliveryCost: json[OrderFields.deliveryCost.name] ?? Labels.error,
+      phoneNumber: json[OrderFields.phone.name] ?? Labels.error,
+      postalCode: json[OrderFields.postalCode.name] ?? Labels.error,
+      quantity: json[OrderFields.quantity.name] ?? -1,
+      sellerName: json[OrderFields.seller.name] ?? Labels.error, 
+      timeStamp: json[OrderFields.seller.name] ?? -1,
     );
   }
 
@@ -354,7 +418,7 @@ class DatabaseRepository {
   AppJson<dynamic> recordToJson({required Record record}) {
     AppJson<dynamic> json = {};
     json[RecordFields.paymentType.name] = record.payementType;
-    json[RecordFields.timestamp.name] = record.timestamp;
+    json[RecordFields.timeStamp.name] = record.timeStamp;
     json[RecordFields.seller.name] = record.sellerName;
     json[RecordFields.product.name] = record.product;
     json[RecordFields.productColor.name] = record.productColor;
@@ -373,4 +437,44 @@ class DatabaseRepository {
 
     return json;
   }
+
+  AppJson<dynamic> orderToJson({required Order order}) {
+    AppJson<dynamic> json = {};
+
+    List<AppJson<dynamic>> products = [];
+
+    for (OrderProduct product in order.products) {
+      products.add(_orderProductToJson(product: product));
+    }
+
+    json[OrderFields.products.name] = products;
+    json[OrderFields.address.name] = order.address;
+    json[OrderFields.city.name] = order.city;
+    json[OrderFields.date.name] = order.date;
+    json[OrderFields.deliverToHome.name] = order.deliverToHome;
+    json[OrderFields.deposit.name] = order.deposit;
+    json[OrderFields.status.name] = order.status;
+    json[OrderFields.sellingPrice.name] = order.sellingPrice;
+    json[OrderFields.customerName.name] = order.customerName;
+    json[OrderFields.deliveryCost.name] = order.deliveryCost;
+    json[OrderFields.phone.name] = order.phoneNumber;
+    json[OrderFields.postalCode.name] = order.postalCode;
+    json[OrderFields.quantity.name] = order.quantity;
+    json[OrderFields.seller.name] = order.sellerName;
+
+    return json;
+  }
+
+  AppJson<dynamic> _orderProductToJson({required OrderProduct product}) {
+    AppJson json = {};
+
+    json[ProductFields.name.name] = product.product;
+    json[ProductFields.reference.name] = product.reference;
+    json[ProductFields.sellingPrice.name] = product.sellingPrice;
+    json[ProductModelFields.color.name] = product.productColor;
+    json[ProductModelFields.size.name] = product.productSize;
+
+    return json;
+  }
+
 }

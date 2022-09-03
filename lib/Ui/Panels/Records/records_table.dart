@@ -15,7 +15,7 @@ class RecordsTable extends StatefulWidget {
 class _RecordsTableState extends State<RecordsTable> {
   List<String> recordToCellsAdapter(Record record) {
     return [
-      record.date,
+      record.date??'',
       record.payementType,
       record.product,
       record.sellerName,

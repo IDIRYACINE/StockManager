@@ -39,7 +39,9 @@ enum Collections{
 enum Indexes{
   date,
   barcode,
-  reference
+  reference,
+  status,
+  phone,
 }
 
 enum ProductFields{
@@ -62,7 +64,7 @@ enum ProductModelFields{
 }
 
 enum RecordFields{
-  timestamp,
+  timeStamp,
   date,
   product,
   productSize,
@@ -80,16 +82,31 @@ enum RecordFields{
 }
 
 enum OrderFields{
+  timeStamp,
   date,
   status,
   seller,
   products,
   customerName,
-  cusomerPhone,
-  customerAddress,
-  customerCity,
-  payedDeivery,
+  phone,
+  address,
+  deliverToHome,
+  remainingPayement,
+  deposit,
+  city,
+  postalCode,
+  totalPrice,
+  quantity,
+  deliveryCost,
+
+  reference,
+  productColor,
+  productSize,
+  productName,
+  sellingPrice,
+
 }
+
 enum SellerFields{
   name,
   phone,
@@ -100,3 +117,4 @@ enum ProductFamilyFields{
   reference,
   imageUrl
 }
+

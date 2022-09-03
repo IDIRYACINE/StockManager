@@ -41,13 +41,7 @@ class _DepositFormState extends State<DepositForm> {
       child: ValueListenableBuilder<Product>(
           valueListenable: widget.product,
           builder: (context, product, child) {
-            widget.depositMode.nameController.text = product.name;
-            widget.depositMode.referenceController.text = product.reference;
-            widget.depositMode.familyController.text = product.productFamily;
-            widget.depositMode.originalPriceController.text =
-                product.originalPrice.toString();
-            widget.depositMode.sellingPriceController.text =
-                product.sellingPrice.toString();
+           
 
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,80 +89,65 @@ class _DepositFormState extends State<DepositForm> {
 }
 
 class ProductForm extends StatefulWidget {
-  const ProductForm({Key? key, required this.product}) : super(key: key);
+  const ProductForm({Key? key, required this.product, required this.editorMode}) : super(key: key);
   final ValueListenable<Product> product;
+  final DepositEditorMode editorMode;
   @override
   State<ProductForm> createState() => _ProductFormState();
 }
 
 class _ProductFormState extends State<ProductForm> {
-  final TextEditingController nameController = TextEditingController(text: '');
-  final TextEditingController referenceController =
-      TextEditingController(text: '');
-
-  final TextEditingController familyController =
-      TextEditingController(text: '');
-  final TextEditingController originalPriceController =
-      TextEditingController(text: '');
-  final TextEditingController sellingPriceController =
-      TextEditingController(text: '');
+  
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: ValueListenableBuilder<Product>(
-        valueListenable: widget.product,
-        builder: (context, product, child) {
-          nameController.text = product.name;
-          referenceController.text = product.reference;
-          familyController.text = product.productFamily;
-          originalPriceController.text = product.originalPrice.toString();
-          sellingPriceController.text = product.sellingPrice.toString();
-
-          return Column(
+      controller: ScrollController(),
+      child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
               DefaultDecorator(
-                child: FaultToleratedImage(
-                  imageUrl: product.imageUrl ?? '',
+                child: ValueListenableBuilder<Product>(
+        valueListenable: widget.product,
+        builder: (context, product, child) {
+         
+          return FaultToleratedImage(
+                    imageUrl: product.imageUrl ?? '',
+                  );
+                  },
                 ),
               ),
               const SizedBox(height: Measures.medium),
               AttributeTextField(
-                initialValue: product.name,
+                controller: widget.editorMode.nameController,
                 label: Labels.name,
                 readOnly: true,
               ),
               const SizedBox(height: Measures.medium),
               AttributeTextField(
-                initialValue: product.reference,
+                controller: widget.editorMode.referenceController,
                 label: Labels.reference,
                 readOnly: true,
               ),
               const SizedBox(height: Measures.medium),
               AttributeTextField(
-                initialValue: product.productFamily,
+               controller: widget.editorMode.familyController,
                 label: Labels.productFamily,
                 readOnly: true,
               ),
               const SizedBox(height: Measures.medium),
               AttributeTextField(
-                initialValue: product.originalPrice.toString(),
-                label: Labels.buyingPrice,
+                 controller: widget.editorMode.minSellingPriceController,
+                label: Labels.sellingPrice,
                 readOnly: true,
               ),
-              const SizedBox(height: Measures.medium),
-              AttributeTextField(
-                initialValue: product.totalQuantity.toString(),
-                label: Labels.remainigQuantity,
-                readOnly: true,
-              ),
+              
               const SizedBox(height: Measures.medium),
             ],
-          );
-        },
-      ),
-    );
+          )
+        );
+    
   }
 }
+

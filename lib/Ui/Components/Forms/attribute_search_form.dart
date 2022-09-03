@@ -3,6 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
+import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Components/Generics/date_picker.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -347,6 +348,42 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
                 maxValue = value;
               }),
         ),
+      ],
+    );
+  }
+}
+
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({Key? key, required this.onSearch}) : super(key: key);
+
+  final Callback<String> onSearch;
+
+  @override
+  Widget build(BuildContext context) {
+    String searchValue = '';
+
+    void setSearchValue(String? value) {
+      if (value != null) {
+        searchValue = value;
+      }
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+            child: AttributeTextField(
+          label: Labels.reference,
+          initialValue: searchValue,
+          onChanged: setSearchValue,
+        )),
+        Flexible(
+            child: DefaultButton(
+                label: Labels.search,
+                onPressed: () {
+                  onSearch(searchValue);
+                })),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -15,7 +16,7 @@ class ProductForm extends StatelessWidget {
 
   final Product product;
   final bool editMode;
-  final ProductEditorMode productEditorMode ;
+  final ProductEditorMode<Callback<Product>> productEditorMode ;
 
 
   DropdownMenuItem<ProductFamily> buildProductFamilyDropdownMenuItem(

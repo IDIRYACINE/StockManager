@@ -12,8 +12,6 @@ class SellersPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-            Expanded(flex: upperRowFlex, child: const ActionsCard()),
-
       Expanded(
         flex: lowerRowFlex,
         child: const SellersTable(),

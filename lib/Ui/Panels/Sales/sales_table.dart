@@ -17,7 +17,7 @@ class SalesTable extends StatefulWidget {
 class _SalesTableState extends State<SalesTable> {
   List<String> recordToCellsAdapter(Record record) {
     return [
-      record.barcode,
+      record.barcode.toString(),
       record.product,
       record.reference,
       record.sellerName,

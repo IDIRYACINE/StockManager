@@ -64,10 +64,10 @@ class SalesController {
       ServicesStore.instance.sendMessage(message);
     }
 
-    void onSearch(String barcode, OnEditorSearchResulCallback callback) {
+    void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
       Map<ServicesData, dynamic> data = {
         ServicesData.databaseSelector:
-            SelectorBuilder().eq(ProductFields.barcode.name, int.parse(barcode)).map
+            SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
       };
 
       ServiceMessage message = ServiceMessage<List<Product>>(
@@ -80,15 +80,15 @@ class SalesController {
       ServicesStore.instance.sendMessage(message);
     }
 
-    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    int timeStamp = DateTime.now().millisecondsSinceEpoch;
 
     showDialog(
         context: context,
         builder: (context) => Material(
                 child: SaleEditor(
-              record: Record(
+              record: Record.defaultInstance(
                   payementType: PaymentTypes.payement.name,
-                  timestamp: timestamp),
+                  timeStamp: timeStamp),
               onSearch: onSearch,
               confirmLabel: Labels.add,
               createCallback: _onConfirm,

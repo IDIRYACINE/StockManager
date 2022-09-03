@@ -193,7 +193,7 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
 
   @override
   void setSellingPrice(String? sellingPrice) {
-    if (sellingPrice != null) {
+    if (sellingPrice != null && sellingPrice != '') {
       product.sellingPrice = double.parse(sellingPrice);
     }
   }

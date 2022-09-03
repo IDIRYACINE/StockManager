@@ -45,11 +45,18 @@ abstract class Titles {
     Labels.date,
     Labels.sellerName,
     Labels.customer,
-    Labels.city,
-    Labels.quantity,
-    Labels.total,
+    Labels.deposit,
+    Labels.remainingPayement,
     Labels.status,
     Labels.payedDelivery
+  ];
+
+
+  static const List<String> orderProductsTableColumns = [
+    Labels.productName,
+    Labels.reference,
+    Labels.size,
+    Labels.color,
   ];
 
   // Records Table

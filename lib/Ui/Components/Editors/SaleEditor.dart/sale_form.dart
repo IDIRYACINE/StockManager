@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Types/i_editors.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
 import 'package:stock_manager/Ui/Components/Editors/SaleEditor.dart/sale_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
@@ -16,12 +17,14 @@ class SaleForm extends StatelessWidget {
       {Key? key,
       required this.product,
       required this.record,
-      required this.saleEditorMode})
+      required this.saleEditorMode, required this.minSellingPriceController})
       : super(key: key);
 
   final ValueListenable<Product> product;
   final Record record;
   final SaleEditorMode saleEditorMode;
+  final TextEditingController minSellingPriceController;
+
 
   DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller) {
     return DropdownMenuItem(
@@ -48,7 +51,7 @@ class SaleForm extends StatelessWidget {
           onChanged: saleEditorMode.setCustomer,
         ),
         AttributeTextField(
-          controller: saleEditorMode.minSellingPriceController,
+          controller: minSellingPriceController,
           onChanged: saleEditorMode.setSellingPrice,
           label: Labels.sellingPrice,
         ),
@@ -68,16 +71,15 @@ class SaleForm extends StatelessWidget {
 }
 
 class ProductForm extends StatefulWidget {
-  const ProductForm({Key? key, required this.product, required this.saleEditorMode}) : super(key: key);
+  const ProductForm({Key? key, required this.product, required this.productFormEditor}) : super(key: key);
 
   final ValueListenable<Product> product;
-  final SaleEditorMode saleEditorMode;
+  final ProductFormEditor productFormEditor;
   @override
   State<ProductForm> createState() => _ProductFormState();
 }
 
 class _ProductFormState extends State<ProductForm> {
-  
 
   @override
   Widget build(BuildContext context) {
@@ -89,32 +91,33 @@ class _ProductFormState extends State<ProductForm> {
                 DefaultDecorator(
                   child: ValueListenableBuilder<Product>(
                     valueListenable: widget.product,
-                    builder:(context,product,child) {return FaultToleratedImage(
+                    builder:(context,product,child) {
+                      return FaultToleratedImage(
                       imageUrl: product.imageUrl ?? '',
                     );}
                   ),
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: widget.saleEditorMode.productNameController,
+                  controller: widget.productFormEditor.productNameController,
                   label: Labels.name,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: widget.saleEditorMode.referenceController,
+                  controller: widget.productFormEditor.referenceController,
                   label: Labels.reference,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: widget.saleEditorMode.familyController,
+                  controller: widget.productFormEditor.familyController,
                   label: Labels.productFamily,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: widget.saleEditorMode.minSellingPriceController,
+                  controller: widget.productFormEditor.minSellingPriceController,
                   label: Labels.sellingPrice,
                   readOnly: true,
                 ),

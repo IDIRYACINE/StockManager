@@ -1,24 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
 abstract class SaleEditorMode<T> {
-
-  final TextEditingController productNameController = TextEditingController(text: '');
-  
-  final TextEditingController referenceController =
-      TextEditingController(text: '');
-
-  final TextEditingController familyController =
-      TextEditingController(text: '');
-      
-  final TextEditingController minSellingPriceController =
-      TextEditingController(text: '');
-
-  final TextEditingController sellingPriceController =
-      TextEditingController(text: '');
+ 
 
   void setSeller(Seller seller);
 
@@ -56,7 +42,6 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   void setSellingPrice(String? price){
     if(price != null){
       record.sellingPrice = double.parse(price);
-      sellingPriceController.text = price;
     }
   }
 

@@ -323,4 +323,75 @@ class DatabaseFrowarder {
 
     return response;
   }
+
+  Future<ServiceResponse> addOrder(ServiceMessageData message) async {
+    await _repository.addOrder(
+      order: message.data[ServicesData.instance],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> loadOrders(ServiceMessageData message) async {
+    List<Order> orders = await _repository.loadOrders();
+
+    ServiceResponse response = ServiceResponse(
+      hasData: true,
+      data: orders,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> updateOrder(ServiceMessageData message) async {
+    await _repository.updateOrder(
+      order: message.data[ServicesData.instance],
+      updatedValues: message.data[ServicesData.databaseSelector],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> deleteOrder(ServiceMessageData message) async {
+    await _repository.deleteOrder(
+      order: message.data[ServicesData.instance],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> searchOrders(ServiceMessageData message) async {
+    List<Order> orders = await _repository.searchOrders(
+      search: message.data[ServicesData.instance],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: true,
+      data: orders,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
 }

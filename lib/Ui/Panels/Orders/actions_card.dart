@@ -1,73 +1,183 @@
-
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/Application/order_products_controller.dart';
+import 'package:stock_manager/Application/orders_controller.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
+import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
+import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class ActionsCard extends StatefulWidget {
-  const ActionsCard({Key? key}) : super(key: key);
-  
-  
-  @override
-  State<StatefulWidget> createState() => _ActionsCardState();
-}
+class OrdersFloatingActions extends StatelessWidget {
+  const OrdersFloatingActions({Key? key}) : super(key: key);
 
-class _ActionsCardState extends State<ActionsCard> {
- 
-  List<DropdownMenuItem<OrderStatus>>? buildDropDownItems(){
-    return OrderStatus.values.map((status){
-      return DropdownMenuItem<OrderStatus>(
-        value: status,
-        child: Text(status.name));
-    }).toList();
+  void add(BuildContext context, OrdersController controller) {
+    controller.add(context);
   }
-
-  OrderStatus selectedOrderStatus = OrderStatus.receive;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<ControllersProvider>(context, listen: false)
+        .ordersController;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Flexible(
+            child: ActionButton(
+          onPressed: () {
+            add(context, controller);
+          },
+          label: Labels.add,
+          icon: Icons.add,
+        )),
+      ],
+    );
+  }
+}
+
+class OrderProductsFloatingActions extends StatelessWidget {
+  const OrderProductsFloatingActions({Key? key, required this.isEditing})
+      : super(key: key);
+
+  final bool isEditing;
+
+  void add(BuildContext context, OrderProductsController controller) {
+    controller.add(context);
+  }
+
+  void save(BuildContext context, OrdersController controller) {
+    if (isEditing) {
+      controller.updateOrder(context);
+    } else {
+      controller.addOrder(context);
+    }
+    Provider.of<OrdersLiveDataModel>(context, listen: false)
+        .updatedValues
+        .clear();
+  }
+
+  void cancel(BuildContext context, OrdersController controller) {
+    Provider.of<OrdersLiveDataModel>(context, listen: false)
+        .updatedValues
+        .clear();
+
+    controller.cancel(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final orderProductscontroller =
+        Provider.of<ControllersProvider>(context, listen: false)
+            .orderProductsController;
+
+    final ordersController =
+        Provider.of<ControllersProvider>(context, listen: false)
+            .ordersController;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Flexible(
+            child: ActionButton(
+          onPressed: () {
+            add(context, orderProductscontroller);
+          },
+          label: Labels.add,
+          icon: Icons.add,
+        )),
+        Flexible(
+            child: ActionButton(
+          onPressed: () {
+            cancel(context, ordersController);
+          },
+          label: Labels.cancel,
+          icon: Icons.cancel,
+        )),
+        Flexible(
+            child: ActionButton(
+          onPressed: () {
+            save(context, ordersController);
+          },
+          label: Labels.save,
+          icon: Icons.check,
+        )),
+      ],
+    );
+  }
+}
+
+class SearchActionsCard extends StatelessWidget {
+  SearchActionsCard({Key? key}) : super(key: key);
+
+  final List<Callback<SelectorBuilder>> queryGenerators = [];
+
+  void onRefresh(BuildContext context, OrdersController controller) {
+    controller.refresh(context);
+  }
+
+  void onAdvancedSearch(BuildContext context, OrdersController controller) {
+    controller.search(context);
+  }
+
+  void onQuickSearch(BuildContext context, OrdersController controller) {
+    SelectorBuilder selector = SelectorBuilder();
+
+    for (Callback<SelectorBuilder> callback in queryGenerators) {
+      callback(selector);
+    }
+
+    controller.quickSearch(context, selector.map);
+  }
+
+  void registerQuery(Callback<SelectorBuilder> queryGenerator) {
+    queryGenerators.add(queryGenerator);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final OrdersController controller =
+        Provider.of<ControllersProvider>(context, listen: false)
+            .ordersController;
 
     return Card(
       elevation: Measures.small,
       child: Row(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Flexible(
-            child: DropdownButton<OrderStatus>(
-              value: selectedOrderStatus,
-              items: buildDropDownItems(),
-              onChanged: (OrderStatus? value) { 
-                setState((){
-                  selectedOrderStatus = value!;
-                });
-                }),
-               
-            ),
-          
+            child: SearchFieldText(
+                label: Labels.customerName,
+                isOptional: false,
+                allowedSearchTypes: const [SearchType.equals],
+                registerQueryGenerator: registerQuery,
+                identifier: OrderFields.customerName.name),
+          ),
           Flexible(
-            child: ElevatedButton(
-              child: const Text(Labels.add),
-              onPressed: () {},
-            ),
-          ),
-           Flexible(
-            child: ElevatedButton(
-              child: const Text(Labels.filter),
-              onPressed: () {},
-            ),
-          ),
-           Flexible(
-            child: ElevatedButton(
-              child: const Text(Labels.refresh),
-              onPressed: () {},
-            ),
-          ),
-           Flexible(
-            child: ElevatedButton(
-              child: const Text(Labels.details),
-              onPressed: () {},
-            ),
-          ),
+              child: ElevatedButton(
+            onPressed: () {
+              onQuickSearch(context, controller);
+            },
+            child: const Icon(Icons.search),
+          )),
+          Flexible(
+              child: ElevatedButton(
+            onPressed: () {
+              onRefresh(context, controller);
+            },
+            child: const Icon(Icons.refresh),
+          )),
+          Flexible(
+              child: ElevatedButton(
+            onPressed: () {
+              onAdvancedSearch(context, controller);
+            },
+            child: const Icon(Icons.filter),
+          )),
         ],
       ),
     );

@@ -1,8 +1,8 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
@@ -13,9 +13,7 @@ import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
 
-
 void main() async {
-
   ServicesStore.getInstance();
 
   runApp(MultiProvider(providers: [
@@ -24,8 +22,8 @@ void main() async {
     ChangeNotifierProvider(create: (context) => StockLiveDataModel()),
     ChangeNotifierProvider(create: (context) => SellersLiveDataModel()),
     ChangeNotifierProvider(create: (context) => RecordsLiveDataModel()),
+    ChangeNotifierProvider(create: (context) => OrdersLiveDataModel()),
   ], child: const MyApp()));
-
 }
 
 class MyApp extends StatelessWidget {

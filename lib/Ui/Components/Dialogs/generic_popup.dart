@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
+import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 abstract class PopupsUtility {
@@ -12,20 +13,24 @@ abstract class PopupsUtility {
             ));
   }
 
-  static Future<T?> dispalyContextMenu<T>({required BuildContext context, required List<PopupMenuItem<T>> items, 
-  
-  RelativeRect? position}) async{
-
-     return await showMenu<T>(context: context, 
-      position: (position != null)? position : RelativeRect.fromLTRB(MediaQuery.of(context).size.width - 100, MediaQuery.of(context).size.height - 100, 0, 0),
-       items: items,
-       
-       );
+  static Future<T?> dispalyContextMenu<T>(
+      {required BuildContext context,
+      required List<PopupMenuItem<T>> items,
+      RelativeRect? position}) async {
+    return await showMenu<T>(
+      context: context,
+      position: (position != null)
+          ? position
+          : RelativeRect.fromLTRB(MediaQuery.of(context).size.width - 100,
+              MediaQuery.of(context).size.height - 100, 0, 0),
+      items: items,
+    );
   }
 
-  static List<PopupMenuItem<ContextMenuOperation>> buildEnumPopupItem(List<ContextMenuOperation> operations) {
+  static List<PopupMenuItem<ContextMenuOperation>> buildEnumPopupItem(
+      List<ContextMenuOperation> operations) {
     List<PopupMenuItem<ContextMenuOperation>> items = [];
-    
+
     for (ContextMenuOperation operation in operations) {
       items.add(PopupMenuItem(
         value: operation,
@@ -36,7 +41,11 @@ abstract class PopupsUtility {
     return items;
   }
 
-
+  static void showLoadingAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(content: Splash()));
+  }
 }
 
 class ConfirmDialog extends StatelessWidget {
@@ -56,7 +65,6 @@ class ConfirmDialog extends StatelessWidget {
         const SizedBox(height: Measures.medium),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
           children: [
             DefaultButton(
               label: Labels.cancel,
@@ -78,11 +86,8 @@ class ConfirmDialog extends StatelessWidget {
   }
 }
 
-
 class InformativeDialog extends StatelessWidget {
-  const InformativeDialog(
-      {Key? key,  required this.message})
-      : super(key: key);
+  const InformativeDialog({Key? key, required this.message}) : super(key: key);
 
   final String message;
 
