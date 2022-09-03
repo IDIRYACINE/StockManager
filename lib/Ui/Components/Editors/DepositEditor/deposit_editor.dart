@@ -35,15 +35,32 @@ class DepositEditor extends StatelessWidget {
   final Callback<Record>? createCallback;
   final EditorCallback<AppJson, Record>? editCallback;
   final String confirmLabel;
-  final Callback<String>? onSearch;
+  final EditorSearchCallback? onSearch;
 
   @override
   Widget build(BuildContext context) {
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final Product product = Product.defaultInstance();
+
+ final ValueNotifier<Product> product =
+        ValueNotifier(Product.defaultInstance());
+        
     final dynamic depositMode = editMode
         ? DepositEditorMode.editModeInstance(record)
         : DepositEditorMode.createModeInstance(record);
+
+
+    void updateProduct(List<Product> products) {
+      if (products.isNotEmpty) {
+        product.value = products.first;
+      }
+    }
+
+    void _onSearch(String barcode) {
+      onSearch?.call(barcode, updateProduct);
+    }
+
+
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingNormal),
       child: Form(
@@ -55,7 +72,7 @@ class DepositEditor extends StatelessWidget {
               Flexible(
                 flex: searchBarFlex,
                 child: DefaultDecorator(
-                  child: _SearchBar(onSearch: onSearch),
+                  child: _SearchBar(onSearch: _onSearch),
                 ),
               ),
               Expanded(
@@ -115,9 +132,9 @@ class DepositEditor extends StatelessWidget {
 }
 
 class _SearchBar extends StatelessWidget {
-  const _SearchBar({Key? key, this.onSearch}) : super(key: key);
+  const _SearchBar({Key? key, required this.onSearch}) : super(key: key);
 
-  final Callback<String>? onSearch;
+  final Callback<String> onSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -135,17 +152,15 @@ class _SearchBar extends StatelessWidget {
         Expanded(
             child: AttributeTextField(
           label: Labels.barcode,
-          initialValue: '',
+          initialValue: barcode,
           onChanged: setBarcode,
         )),
         Flexible(
             child: DefaultButton(
                 label: Labels.search,
-                onPressed: onSearch != null
-                    ? () {
-                        onSearch!(barcode);
-                      }
-                    : null)),
+                onPressed: () {
+                  onSearch(barcode);
+                })),
       ],
     );
   }

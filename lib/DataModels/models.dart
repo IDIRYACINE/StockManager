@@ -70,7 +70,7 @@ class Record {
   });
 
   String date = (DateTime dateTime) {
-    return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
   }(DateTime.now());
 
   String timestamp;

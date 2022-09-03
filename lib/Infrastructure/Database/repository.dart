@@ -276,15 +276,15 @@ class DatabaseRepository {
       barcode: json[RecordFields.barcode.name] ?? Labels.error,
       reference: json[RecordFields.reference.name] ?? Labels.error,
       customer: json[RecordFields.customer.name] ?? Labels.error,
-      quantity: json[RecordFields.quantity.name] ?? Labels.error,
-      originalPrice: json[RecordFields.buyingPrice.name] ?? Labels.error,
-      sellingPrice: json[RecordFields.sellingPrice.name] ?? Labels.error,
+      quantity: json[RecordFields.quantity.name] ?? -1,
+      originalPrice: json[RecordFields.buyingPrice.name] ?? -1,
+      sellingPrice: json[RecordFields.sellingPrice.name] ?? -1,
     );
 
     if (payementType == PaymentTypes.deposit.name) {
       record.deposit = json[RecordFields.deposit.name] ?? Labels.error;
       record.remainingPayement =
-          json[RecordFields.remainingPayement.name] ?? Labels.error;
+          json[RecordFields.remainingPayement.name] ?? 0;
     }
 
     return record;

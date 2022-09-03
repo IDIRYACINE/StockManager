@@ -7,7 +7,7 @@ class AttributeTextField extends StatefulWidget{
 
   const AttributeTextField({Key? key, this.initialValue,
   required this.label, this.validator, this.onChanged,
-  this.readOnly = false,  this.obscureText = false, }) : super(key: key);
+  this.readOnly = false,  this.obscureText = false, this.controller, }) : super(key: key);
 
   final String? initialValue;
   final String label;
@@ -15,6 +15,7 @@ class AttributeTextField extends StatefulWidget{
   final OnChangedFunction<String>? onChanged;
   final bool readOnly;
   final bool obscureText;
+  final TextEditingController? controller;
 
 
   @override
@@ -28,10 +29,12 @@ class _AttributeTextFieldState extends State<AttributeTextField>{
     return TextFormField(
       obscureText: widget.obscureText,
       enabled: !widget.readOnly,
-      initialValue: widget.initialValue ?? '',
+      controller: widget.controller,
+      initialValue: widget.initialValue ,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelText: widget.label,
+        
         border: OutlineInputBorder(
           
           borderRadius: BorderRadius.circular(Measures.small)
@@ -42,3 +45,4 @@ class _AttributeTextFieldState extends State<AttributeTextField>{
     );
   }
 }  
+

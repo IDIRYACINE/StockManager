@@ -40,16 +40,17 @@ class SaleEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final ValueNotifier<Product?> productListenable = ValueNotifier(null);
+    final ValueNotifier<Product> product =
+        ValueNotifier(Product.defaultInstance());
 
     void updateProduct(List<Product> products) {
-      if(products.isNotEmpty){
-        productListenable.value = products.first;
+      if (products.isNotEmpty) {
+        product.value = products.first;
       }
     }
 
     void _onSearch(String barcode) {
-      onSearch?.call(barcode,updateProduct);
+      onSearch?.call(barcode, updateProduct);
     }
 
     final dynamic saleEditorMode = editMode
@@ -57,76 +58,72 @@ class SaleEditor extends StatelessWidget {
         : SaleEditorMode.createModeInstance(record);
 
     return Padding(
-      padding: const EdgeInsets.all(Measures.paddingLarge),
-      child: Form(
+        padding: const EdgeInsets.all(Measures.paddingLarge),
+        child: Form(
           key: formKey,
-          child: ValueListenableBuilder<Product?>(
-              valueListenable: productListenable,
-              builder: (context, product, child) {
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Flexible(
+                flex: searchBarFlex,
+                child: DefaultDecorator(
+                  child: _SearchBar(onSearch: _onSearch),
+                ),
+              ),
+              Expanded(
+                flex: bodyFlex,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Flexible(
-                      flex: searchBarFlex,
-                      child: DefaultDecorator(
-                        child: _SearchBar(onSearch: _onSearch),
-                      ),
-                    ),
                     Expanded(
-                      flex: bodyFlex,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              child: DefaultDecorator(
-                                  child: ProductForm(
-                            product: product ?? Product.defaultInstance(),
-                          ))),
-                          const SizedBox(width: Measures.small),
-                          Expanded(
-                            child: DefaultDecorator(
-                                child: Padding(
-                              padding: const EdgeInsets.all(Measures.small),
-                              child: SaleForm(
-                                product: product ?? Product.defaultInstance(),
-                                record: record,
-                                saleEditorMode: saleEditorMode,
-                              ),
-                            )),
-                          ),
-                        ],
-                      ),
+                        child: DefaultDecorator(
+                            child: ProductForm(
+                      product: product,
+                    ))),
+                    const SizedBox(width: Measures.small),
+                    Expanded(
+                      child: DefaultDecorator(
+                          child: Padding(
+                        padding: const EdgeInsets.all(Measures.small),
+                        child: SaleForm(
+                          product: product,
+                          record: record,
+                          saleEditorMode: saleEditorMode,
+                        ),
+                      )),
                     ),
-                    Flexible(
-                      flex: actionsFlex,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          DefaultButton(
-                              label: Labels.cancel,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                          DefaultButton(
-                            label: confirmLabel,
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                if (editMode) {
-                                  saleEditorMode.confirm(editCallback);
-                                } else {
-                                  saleEditorMode.confirm(createCallback);
-                                }
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    )
                   ],
-                );
-              })),
-    );
+                ),
+              ),
+              Flexible(
+                flex: actionsFlex,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DefaultButton(
+                        label: Labels.cancel,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                    DefaultButton(
+                      label: confirmLabel,
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          if (editMode) {
+                            saleEditorMode.confirm(editCallback);
+                          } else {
+                            saleEditorMode.confirm(createCallback);
+                          }
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
 

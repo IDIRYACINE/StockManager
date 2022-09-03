@@ -1,38 +1,57 @@
-
+import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
 abstract class DepositEditorMode<T> {
+  final TextEditingController nameController = TextEditingController(text: '');
 
-  void setRemainingPayement(String? remainingPayement) ;
+  final TextEditingController referenceController =
+      TextEditingController(text: '');
+
+  final TextEditingController familyController =
+      TextEditingController(text: '');
+
+  final TextEditingController originalPriceController =
+      TextEditingController(text: '');
+
+  final TextEditingController sellingPriceController =
+      TextEditingController(text: '');
+
+  final TextEditingController depositController =
+      TextEditingController(text: '');
+
+  final TextEditingController remainingPaymenentController =
+      TextEditingController(text: '');
+
+  void setRemainingPayement(String? remainingPayement);
 
   void setSellingPrice(String? sellingPrice);
 
-  void setSellerName(Seller seller) ;
+  void setSellerName(Seller seller);
 
   void setDeposit(String? deposit);
 
-  void setCustomerName(String? customerName) ;
+  void setCustomerName(String? customerName);
 
   void setColor(String color);
 
-  void setSize(String size) ;
+  void setSize(String size);
 
   void confirm(T callback);
 
-  static DepositEditorMode<Callback<Record>> createModeInstance(Record record){
+  static DepositEditorMode<Callback<Record>> createModeInstance(Record record) {
     return _ModeCreate(record);
   }
 
-  static DepositEditorMode<EditorCallback<AppJson,Record>> editModeInstance(Record record){
+  static DepositEditorMode<EditorCallback<AppJson, Record>> editModeInstance(
+      Record record) {
     return _ModeEdit(record);
   }
 }
 
-class _ModeCreate implements DepositEditorMode<Callback<Record>>{
-
+class _ModeCreate extends DepositEditorMode<Callback<Record>> {
   _ModeCreate(this.record);
 
   final Record record;
@@ -45,8 +64,10 @@ class _ModeCreate implements DepositEditorMode<Callback<Record>>{
 
   @override
   void setSellingPrice(String? sellingPrice) {
-    if (sellingPrice != null) {
+    if (sellingPrice != null && sellingPrice != '') {
       record.sellingPrice = double.parse(sellingPrice);
+      remainingPaymenentController.text =
+          (record.sellingPrice - record.deposit!).toString();
     }
   }
 
@@ -57,8 +78,10 @@ class _ModeCreate implements DepositEditorMode<Callback<Record>>{
 
   @override
   void setDeposit(String? deposit) {
-    if (deposit != null) {
+    if (deposit != null && deposit != "") {
       record.deposit = double.parse(deposit);
+      remainingPaymenentController.text =
+          (record.sellingPrice - record.deposit!).toString();
     }
   }
 
@@ -78,23 +101,19 @@ class _ModeCreate implements DepositEditorMode<Callback<Record>>{
   void setSize(String size) {
     record.productSize = size;
   }
-  
+
   @override
   void confirm(Callback<Record> callback) {
     callback(record);
   }
-  
-  
-
 }
 
-class _ModeEdit implements DepositEditorMode<EditorCallback<AppJson,Record>>{
-
+class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
   _ModeEdit(this.record);
 
   final Record record;
 
-  final Map<RecordFields,Record> updatedValues = {};
+  final Map<RecordFields, Record> updatedValues = {};
 
   @override
   void setRemainingPayement(String? remainingPayement) {
@@ -145,16 +164,15 @@ class _ModeEdit implements DepositEditorMode<EditorCallback<AppJson,Record>>{
     record.productSize = size;
     updatedValues[RecordFields.productSize] = record;
   }
-  
+
   @override
   void confirm(EditorCallback<AppJson, Record> callback) {
     ModifierBuilder query = ModifierBuilder();
 
-    updatedValues.forEach((key,value){
+    updatedValues.forEach((key, value) {
       query.set(key.name, value);
     });
 
-    callback(query.map,record);
-    
+    callback(query.map, record);
   }
 }

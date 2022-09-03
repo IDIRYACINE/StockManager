@@ -1,4 +1,4 @@
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
@@ -12,18 +12,22 @@ import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SaleForm extends StatelessWidget {
-  const SaleForm({Key? key, required this.product, required this.record, required this.saleEditorMode}) : super(key: key);
+  const SaleForm(
+      {Key? key,
+      required this.product,
+      required this.record,
+      required this.saleEditorMode})
+      : super(key: key);
 
-  final Product product;
+  final ValueListenable<Product> product;
   final Record record;
   final SaleEditorMode saleEditorMode;
 
-  DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller){
+  DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller) {
     return DropdownMenuItem(
       value: seller,
       child: Text(seller.name),
     );
-  
   }
 
   @override
@@ -33,75 +37,112 @@ class SaleForm extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown(
-          adapter: sellerMenuItemAdapter,
-            onSelect: saleEditorMode.setSeller, items:Provider.of<SellersLiveDataModel>(context,listen:false).loadedSellers, label: const Text(Labels.sellerName)),
-         AttributeTextField(
+            adapter: sellerMenuItemAdapter,
+            onSelect: saleEditorMode.setSeller,
+            items: Provider.of<SellersLiveDataModel>(context, listen: false)
+                .loadedSellers,
+            label: const Text(Labels.sellerName)),
+        AttributeTextField(
           initialValue: record.customer,
           label: Labels.customerName,
           onChanged: saleEditorMode.setCustomer,
         ),
         AttributeTextField(
-          initialValue: product.sellingPrice.toString(),
+          initialValue: product.value.sellingPrice.toString(),
           onChanged: saleEditorMode.setSellingPrice,
           label: Labels.sellingPrice,
         ),
         const SizedBox(height: Measures.small),
-        ModelSelector(
-          productModels: product.models, colorSelectorCallback: saleEditorMode.setColor, sizeSelectorCallback: saleEditorMode.setSize,
-        ),
+        ValueListenableBuilder<Product>(
+            valueListenable: product,
+            builder: (context, product, child) {
+              return ModelSelector(
+                productModels: product.models,
+                colorSelectorCallback: saleEditorMode.setColor,
+                sizeSelectorCallback: saleEditorMode.setSize,
+              );
+            }),
       ],
     );
   }
 }
 
-class ProductForm extends StatelessWidget {
+class ProductForm extends StatefulWidget {
   const ProductForm({Key? key, required this.product}) : super(key: key);
 
-  final Product product;
+  final ValueListenable<Product> product;
+
+  @override
+  State<ProductForm> createState() => _ProductFormState();
+}
+
+class _ProductFormState extends State<ProductForm> {
+  final TextEditingController nameController = TextEditingController(text: '');
+  final TextEditingController referenceController =
+      TextEditingController(text: '');
+
+  final TextEditingController familyController =
+      TextEditingController(text: '');
+  final TextEditingController originalPriceController =
+      TextEditingController(text: '');
+  final TextEditingController sellingPriceController =
+      TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
- 
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-           DefaultDecorator(
-            child: FaultToleratedImage(imageUrl:product.imageUrl??'',),
-          ),
-          const SizedBox(height: Measures.medium),
-          AttributeTextField(
-            initialValue: product.name,
-            label: Labels.name,
-            readOnly: true,
-          ),
-          const SizedBox(height: Measures.medium),
-          AttributeTextField(
-            initialValue: product.reference,
-            label: Labels.reference,
-            readOnly: true,
-          ),
-          const SizedBox(height: Measures.medium),
-          AttributeTextField(
-            initialValue: product.productFamily,
-            label: Labels.productFamily,
-            readOnly: true,
-          ),
-          const SizedBox(height: Measures.medium),
-          AttributeTextField(
-            initialValue: product.originalPrice.toString(),
-            label: Labels.buyingPrice,
-            readOnly: true,
-          ),
-          const SizedBox(height: Measures.medium),
-          AttributeTextField(
-            initialValue: product.totalQuantity.toString(),
-            label: Labels.remainigQuantity,
-            readOnly: true,
-          ),
-          const SizedBox(height: Measures.medium),
-        ],
-      ),
+      child: ValueListenableBuilder<Product>(
+          valueListenable: widget.product,
+          builder: (context, product, child) {
+            nameController.text = product.name;
+            referenceController.text = product.reference;
+            familyController.text = product.productFamily;
+            originalPriceController.text = product.originalPrice.toString();
+            sellingPriceController.text = product.sellingPrice.toString();
+
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                DefaultDecorator(
+                  child: FaultToleratedImage(
+                    imageUrl: product.imageUrl ?? '',
+                  ),
+                ),
+                const SizedBox(height: Measures.medium),
+                AttributeTextField(
+                  controller: nameController,
+                  label: Labels.name,
+                  readOnly: true,
+                ),
+                const SizedBox(height: Measures.medium),
+                AttributeTextField(
+                  controller: referenceController,
+                  label: Labels.reference,
+                  readOnly: true,
+                ),
+                const SizedBox(height: Measures.medium),
+                AttributeTextField(
+                  controller: familyController,
+                  label: Labels.productFamily,
+                  readOnly: true,
+                ),
+                const SizedBox(height: Measures.medium),
+                AttributeTextField(
+                  controller: originalPriceController,
+                  label: Labels.buyingPrice,
+                  readOnly: true,
+                ),
+                const SizedBox(height: Measures.medium),
+                AttributeTextField(
+                  controller: sellingPriceController,
+                  label: Labels.sellingPrice,
+                  readOnly: true,
+                ),
+                const SizedBox(height: Measures.medium),
+              ],
+            );
+          }),
     );
   }
 }

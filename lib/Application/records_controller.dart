@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
@@ -13,14 +12,15 @@ import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class RecordsController{
-   void refresh(BuildContext context) {
+class RecordsController {
+  void refresh(BuildContext context) {
     _showLoadingAlert(context);
 
     void onResult(List<Record> records) {
-      Navigator.pop(context);
       Provider.of<RecordsLiveDataModel>(context, listen: false)
           .setAllRecords(records);
+
+      Navigator.pop(context);
     }
 
     ServiceMessageDataMap data = {};
@@ -35,9 +35,8 @@ class RecordsController{
 
     ServicesStore.instance.sendMessage(message);
   }
-  
-   void search(BuildContext context) {
 
+  void search(BuildContext context) {
     void _onResult(List<Record> records) {
       Provider.of<RecordsLiveDataModel>(context, listen: false)
           .setAllRecords(records);
@@ -63,22 +62,20 @@ class RecordsController{
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
         RegisterSearchQueryBuilder onDeselect) {
       return [
-       
         SearchFieldDate(
           startLabel: Labels.startDate,
           endLabel: Labels.endDate,
           identifier: RecordFields.date.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
-          
         ),
         SearchFieldDropDown(
-            label: Labels.selectProductFamily,
-            identifier: ProductFields.family.name,
+            label: Messages.payementType,
+            identifier: RecordFields.paymentType.name,
             onSelected: onSelect,
             onDeselected: onDeselect,
             adapter: payementTypeDropdownAdapter,
-            values:PaymentTypes.values)
+            values: PaymentTypes.values)
       ];
     }
 
@@ -104,5 +101,4 @@ class RecordsController{
       child: Text(type.name),
     );
   }
-
 }

@@ -36,7 +36,7 @@ class SalesController {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
       Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .updateDepositRecord(record);
+          .updateSaleRecord(record);
     }
 
     showDialog(
@@ -53,7 +53,7 @@ class SalesController {
   void add(BuildContext context) {
     void _onConfirm(Record record) {
       Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .addDepositRecord(record);
+          .addSaleRecord(record);
 
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
@@ -113,8 +113,8 @@ class SalesController {
     void onRemove() {
       RecordsLiveDataModel liveDataModel =
           Provider.of<RecordsLiveDataModel>(context, listen: false);
-      Record deletedRecord = liveDataModel.selectedDepositRecord;
-      liveDataModel.removeDepositRecord();
+      Record deletedRecord = liveDataModel.selectedPurchaseRecord;
+      liveDataModel.removeSaleRecord();
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: deletedRecord};
       ServiceMessage message = ServiceMessage(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Editors/DepositEditor/deposit_editor.dart';
@@ -30,15 +32,33 @@ class DespositController {
       ServicesStore.instance.sendMessage(message);
     }
 
+   
+    void onSearch(String barcode, OnEditorSearchResulCallback callback) {
+      Map<ServicesData, dynamic> data = {
+        ServicesData.databaseSelector:
+            SelectorBuilder().eq(ProductFields.barcode.name, int.parse(barcode)).map
+      };
+
+      ServiceMessage message = ServiceMessage<List<Product>>(
+          callback: callback,
+          hasCallback: true,
+          data: data,
+          event: DatabaseEvent.searchProduct,
+          service: AppServices.database);
+
+      ServicesStore.instance.sendMessage(message);
+    }
+
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
 
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-                content: DepositEditor(
+        builder: (context) => Material(
+                child: DepositEditor(
               record: Record(
                   payementType: PaymentTypes.deposit.name,
                   timestamp: timestamp),
+                  onSearch: onSearch,
               createCallback: _onConfirm,
               confirmLabel: Labels.add,
             )));

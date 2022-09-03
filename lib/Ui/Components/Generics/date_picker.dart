@@ -31,7 +31,7 @@ class _DatePickerState extends State<DatePicker>{
       ).then((date){
         if(date != null){
           setState(() {
-            selectedDate = '${date.day}/${date.month}/${date.year}';
+            selectedDate = '${date.year}-${date.month}-${date.day}';
                       widget.onDatePicked(selectedDate);
 
           });

@@ -58,8 +58,8 @@ abstract class Titles {
     Labels.payementType,
     Labels.productName,
     Labels.productFamily,
-    Labels.buyingPrice,
     Labels.sellingPrice,
+    Labels.price,
   ];
 
   static const List<String> productModelsHeaders = [
@@ -198,6 +198,7 @@ abstract class Messages{
   static const clearAll = 'Clear all ?';
   static const connectionFailed = 'Connection Failed';
   static const faultyAuthentication = 'Username or password is incorrect';
+    static const payementType = 'Select Payement Type';
 
 }
 

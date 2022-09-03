@@ -26,10 +26,10 @@ class _PriceCardState extends State<PriceCard>{
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text('Total Price'),
-        ValueListenableBuilder<bool>(
-          valueListenable: records.salesRefresh,
+        ValueListenableBuilder<double>(
+          valueListenable: records.totalPrice,
           builder: (context,totalPrice,child) {
-            return Text(records.totalPrice.toString(), style: const TextStyle(fontSize: Measures.medium));
+            return Text(totalPrice.toString(), style: const TextStyle(fontSize: Measures.medium));
           }
         ),
       ],

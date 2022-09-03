@@ -60,4 +60,32 @@ class LoginController {
 
     return message;
   }
+
+  void _loadData() {
+    ServiceMessage loadSellers = ServiceMessage(
+        service: AppServices.database,
+        event: DatabaseEvent.loadSellers,
+        data: {});
+
+    ServiceMessage loadProducts = ServiceMessage(
+        service: AppServices.database,
+        event: DatabaseEvent.loadProducts,
+        data: {});
+
+    ServiceMessage loadFamillies = ServiceMessage(
+        service: AppServices.database,
+        event: DatabaseEvent.loadProductFamillies,
+        data: {});
+
+    ServiceMessage loadRecords = ServiceMessage(
+        service: AppServices.database,
+        event: DatabaseEvent.loadPurchaseRecords,
+        data: {});
+
+    ServicesStore.instance.sendMessage(loadSellers);
+    ServicesStore.instance.sendMessage(loadProducts);
+    ServicesStore.instance.sendMessage(loadFamillies);
+    ServicesStore.instance.sendMessage(loadRecords);
+    
+  }
 }

@@ -151,7 +151,7 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
   }
 
   void onSelect(T value) {
-    attributeValue = (value as String);
+    attributeValue = ( value is Enum)? value.name : value.toString();
   }
 
   @override
@@ -174,7 +174,7 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
         const SizedBox(width: Measures.medium),
         Expanded(
             child: SelectorDropDown(
-                label: const Text(Labels.selectProductFamily),
+                label:  Text(widget.label),
                 items: widget.values,
                 adapter: widget.adapter,
                 onSelect: onSelect)),
@@ -208,7 +208,7 @@ class _SearchFieldRangedState extends State<SearchFieldRanged> {
   String minValue = '', maxValue = '';
 
   void onBoxChecked(bool value) {
-    value ? widget.onSelected : widget.onDeselected;
+    value ? widget.onSelected(queryGenerator) : widget.onDeselected(queryGenerator);
 
     setState(() {
       isChecked = value;
@@ -284,7 +284,7 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
   String minValue = '', maxValue = '';
 
   void onBoxChecked(bool value) {
-    value ? widget.onSelected : widget.onDeselected;
+    value ? widget.onSelected(queryGenerator) : widget.onDeselected(queryGenerator);
 
     setState(() {
       isChecked = value;
@@ -294,8 +294,8 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
   void queryGenerator(mongo.SelectorBuilder selector) {
 
      selector
-        .gte(widget.identifier, minValue)
-        .lte(widget.identifier, maxValue);
+        .gte(widget.identifier, 'ISODate($minValue)')
+        .lte(widget.identifier, 'ISODate($maxValue)');
 
   }
 
@@ -315,7 +315,7 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
         const SizedBox(width: Measures.small),
         Expanded(
           child: DatePicker(
-              label: widget.endLabel,
+              label: widget.startLabel,
               onDatePicked: (value) {
                 minValue = value;
               }),
@@ -325,7 +325,7 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
           child: DatePicker(
               label: widget.endLabel,
               onDatePicked: (value) {
-                minValue = value;
+                maxValue = value;
               }),
         ),
       ],
