@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/stock.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -12,11 +13,16 @@ import 'package:stock_manager/Ui/Editors/DepositEditor/deposit_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DespositController {
-  
+  DespositController(this.recordsLiveModel, this.stockLiveModel);
+
+  final RecordsLiveDataModel recordsLiveModel;
+  final StockLiveDataModel stockLiveModel;
+
   void add(BuildContext context) {
     void _onConfirm(Record record) {
-      Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .addDepositRecord(record);
+      recordsLiveModel.addDepositRecord(record);
+
+      StockUtility.claimStockQuantity(record.reference, -1, stockLiveModel);
 
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
@@ -30,7 +36,6 @@ class DespositController {
       ServicesStore.instance.sendMessage(message);
     }
 
-   
     void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
       Map<ServicesData, dynamic> data = {
         ServicesData.databaseSelector:
@@ -47,21 +52,20 @@ class DespositController {
       ServicesStore.instance.sendMessage(message);
     }
 
-
     showDialog(
         context: context,
         builder: (context) => Material(
                 child: DepositEditor(
               record: Record.defaultInstance(
-                  payementType: PaymentTypes.deposit.name,
-                  ),
-                  onSearch: onSearch,
+                payementType: PaymentTypes.deposit.name,
+              ),
+              onSearch: onSearch,
               createCallback: _onConfirm,
               confirmLabel: Labels.add,
             )));
   }
 
-  void edit(BuildContext context,Record record,int index) {
+  void edit(BuildContext context, Record record, int index) {
     void onEdit(Map<String, dynamic> updatedField, Record record) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
@@ -73,8 +77,7 @@ class DespositController {
           event: DatabaseEvent.updatePurchaseRecord,
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
-      Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .updateDepositRecord(record);
+      recordsLiveModel.updateDepositRecord(record);
     }
 
     showDialog(
@@ -88,11 +91,11 @@ class DespositController {
             )));
   }
 
-  void remove(BuildContext context,Record record) {
+  void remove(BuildContext context, Record record) {
     void onRemove() {
-      RecordsLiveDataModel liveDataModel =
-          Provider.of<RecordsLiveDataModel>(context, listen: false);
-      liveDataModel.removeDepositRecord(record);
+      recordsLiveModel.removeDepositRecord(record);
+
+      StockUtility.claimStockQuantity(record.reference, 1, stockLiveModel);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(
@@ -129,5 +132,4 @@ class DespositController {
       child: Text(type.name),
     );
   }
-
 }

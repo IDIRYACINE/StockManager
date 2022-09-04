@@ -162,6 +162,14 @@ class Seller {
       imageUrl: imageUrl ?? this.imageUrl,
     );
   }
+
+  static Seller defaultInstance() {
+    return Seller(
+      name: '',
+      phone: 0,
+      imageUrl: '',
+    );
+  }
 }
 
 class ProductFamily {
@@ -334,7 +342,7 @@ class Order {
       city: city ?? this.city,
       postalCode: postalCode ?? this.postalCode,
       deposit: deposit ?? this.deposit,
-      totalPrice: sellingPrice ?? this.totalPrice,
+      totalPrice: sellingPrice ?? totalPrice,
       deliverToHome: deliverToHome ?? this.deliverToHome,
       deliveryCost: deliveryCost ?? this.deliveryCost,
       timeStamp: timeStamp ?? this.timeStamp,

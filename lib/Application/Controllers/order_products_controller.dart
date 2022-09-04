@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -14,13 +15,16 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrderProductsController{
   
+  OrderProductsController(this.stockLiveModel, this.ordersLiveModel);
+
+  final StockLiveDataModel stockLiveModel;
+  final OrdersLiveDataModel ordersLiveModel;
+  
 
 void add(BuildContext context) {
-    OrdersLiveDataModel liveModel = Provider.of<OrdersLiveDataModel>(context, listen: false);
 
     void _onConfirm(OrderProduct orderProduct) {
-      liveModel.addOrderProduct(orderProduct);
-      liveModel.updatedValues[OrderFields.products.name] = true;
+      ordersLiveModel.addOrderProduct(orderProduct);
 
       Navigator.pop(context);
     }
@@ -49,7 +53,7 @@ void add(BuildContext context) {
           editMode: false,
           confirmLabel: Labels.add,
           onSearch: onSearch,
-          orderProduct: OrderProduct.defaultInstance(), order: liveModel.selectedOrder,
+          orderProduct: OrderProduct.defaultInstance(), order: ordersLiveModel.selectedOrder,
         ),
       ),
     );
@@ -57,11 +61,10 @@ void add(BuildContext context) {
 
   void edit(BuildContext context, OrderProduct orderProduct, int index) {
     void onEdit(OrderProduct orderProduct) {
-      OrdersLiveDataModel liveModel = Provider.of<OrdersLiveDataModel>(context, listen: false);
-      liveModel
+      
+      ordersLiveModel
           .updateOrderProduct(orderProduct, index);
 
-      liveModel.updatedValues[OrderFields.products.name] = true;
 
     }
 
@@ -82,14 +85,10 @@ void add(BuildContext context) {
 
   void remove(BuildContext context, OrderProduct orderProduct) {
     void onRemove() {
-      OrdersLiveDataModel liveModel =
-          Provider.of<OrdersLiveDataModel>(context, listen: false);
-
-      liveModel.removeOrderProduct(orderProduct);
-      liveModel.updatedValues[OrderFields.products.name] = true;
-
+      ordersLiveModel.removeOrderProduct(orderProduct);
   
-  }
+    }
+
     showDialog(
         context: context,
         builder: (context) => AlertDialog(

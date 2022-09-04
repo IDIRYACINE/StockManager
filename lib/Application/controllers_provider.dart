@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 
 import 'Controllers/deposit_controller.dart';
 import 'Controllers/login_controller.dart';
@@ -16,20 +18,25 @@ class ControllersProvider with ChangeNotifier {
   }
 
   void init(BuildContext context) {
-    recordsController = RecordsController();
+    LiveModelProvider liveModelsProvider =
+        Provider.of<LiveModelProvider>(context, listen: false);
 
-    salesController = SalesController();
-    salesController.init(context);
+    recordsController = RecordsController(liveModelsProvider.recordsLiveModel);
 
-    sellersController = SellersController();
+    salesController = SalesController(
+        liveModelsProvider.recordsLiveModel, liveModelsProvider.stockLiveModel);
+
+    sellersController = SellersController(liveModelsProvider.sellersLiveModel);
 
     splashController = SplashController();
 
-    stockController = StockController();
+    stockController = StockController(liveModelsProvider.stockLiveModel);
 
-    depositController = DespositController();
-    ordersController = OrdersController();
-    orderProductsController = OrderProductsController();
+    depositController = DespositController(
+        liveModelsProvider.recordsLiveModel, liveModelsProvider.stockLiveModel);
+    ordersController = OrdersController(liveModelsProvider.ordersLiveModel);
+    orderProductsController = OrderProductsController(
+        liveModelsProvider.stockLiveModel, liveModelsProvider.ordersLiveModel);
   }
 
   late LoginController loginController;

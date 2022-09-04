@@ -14,7 +14,8 @@ class SelectableRow<T> extends StatefulWidget {
       required this.dataModel,
       this.clickable = true,
       this.onEdit,
-      this.onDelete})
+      this.onDelete,
+      this.contextMenuItems})
       : super(key: key);
 
   final RowCellAdapter<T> dataCellHelper;
@@ -30,6 +31,8 @@ class SelectableRow<T> extends StatefulWidget {
   final Callback3<BuildContext,T, int>? onEdit;
 
   final Callback2<BuildContext,T>? onDelete;
+
+  final List<ContextMenuOperation>? contextMenuItems;
 
   @override
   State<SelectableRow> createState() => _SelectableRowState<T>();
@@ -75,7 +78,7 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
     
     PopupsUtility.dispalyContextMenu<ContextMenuOperation>(
         context: context,
-        items: PopupsUtility.buildEnumPopupItem(ContextMenuOperation.values),
+        items: PopupsUtility.buildEnumPopupItem(widget.contextMenuItems??ContextMenuOperation.values),
         position: position,
         ).then((value) => _onContextMenuSelected(value));
   }

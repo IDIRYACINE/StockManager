@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -29,7 +31,7 @@ class OrdersTable extends StatelessWidget {
             .ordersController;
 
     OrdersLiveDataModel orders =
-        Provider.of<OrdersLiveDataModel>(context, listen: false);
+        Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
 
     return SizedBox(
         width: double.infinity,
@@ -39,6 +41,7 @@ class OrdersTable extends StatelessWidget {
               children: [
                 Flexible(
                     child: SelectableRow(
+                  clickable: false,
                   dataCellHelper: (index) => Titles.ordersTableColumns,
                   index: -1,
                   dataModel: 0,
@@ -85,7 +88,7 @@ class OrderProductsTable extends StatelessWidget {
             .orderProductsController;
 
     OrdersLiveDataModel orders =
-        Provider.of<OrdersLiveDataModel>(context, listen: false);
+        Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
 
     return SizedBox(
         width: double.infinity,
@@ -95,6 +98,7 @@ class OrderProductsTable extends StatelessWidget {
               children: [
                 Flexible(
                     child: SelectableRow(
+                  clickable: false,
                   dataCellHelper: (index) => Titles.orderProductsTableColumns,
                   index: -1,
                   dataModel: 0,
@@ -111,6 +115,9 @@ class OrderProductsTable extends StatelessWidget {
                                 onDelete: controller.remove,
                                 onEdit: controller.edit,
                                 index: index,
+                                contextMenuItems: const [
+                                  ContextMenuOperation.remove
+                                ],
                                 dataModel: orders.orderProduct(index),
                               );
                             });

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
 
-class RecordsLiveDataModel with ChangeNotifier {
+class RecordsLiveDataModel   {
   final List<Record> _loadedRecords = [];
 
   final List<Record> _purchaseRecords = [];

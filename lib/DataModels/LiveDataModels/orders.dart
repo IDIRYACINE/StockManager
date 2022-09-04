@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Types/i_database.dart';
 
-class OrdersLiveDataModel with ChangeNotifier {
+class OrdersLiveDataModel  {
   final List<Order> _loadedOrders = [];
 
   int get ordersCount => _loadedOrders.length;
@@ -63,19 +64,24 @@ class OrdersLiveDataModel with ChangeNotifier {
       selectedOrder.products[index];
 
   void removeOrderProduct(OrderProduct orderProduct) {
+    updatedValues[OrderFields.products.name] = selectedOrder.products;
+
     _updateOrderPrices(orderProduct.sellingPrice * -1);
     selectedOrder.products.remove(orderProduct);
     _toggleRefresh(_refreshOrderProducts);
   }
 
   void addOrderProduct(OrderProduct orderProduct) {
+    updatedValues[OrderFields.products.name] = selectedOrder.products;
+
     _updateOrderPrices(orderProduct.sellingPrice);
     selectedOrder.products.add(orderProduct);
     _toggleRefresh(_refreshOrderProducts);
   }
 
   void updateOrderProduct(OrderProduct orderProduct, int index) {
-    
+        updatedValues[OrderFields.products.name] = selectedOrder.products;
+
     double priceChange = orderProduct.sellingPrice -
         selectedOrder.products[index].sellingPrice;
 

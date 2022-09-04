@@ -14,8 +14,14 @@ import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrdersController {
+
+  OrdersController(this.ordersLiveModel);
+
+  final OrdersLiveDataModel ordersLiveModel;
+
+
   void add(BuildContext context) {
-    Provider.of<OrdersLiveDataModel>(context, listen: false).selectedOrder =
+    ordersLiveModel.selectedOrder =
         Order.defaultInstance();
 
     showDialog(
@@ -24,11 +30,13 @@ class OrdersController {
   }
 
   void addOrder(BuildContext context) {
-    final liveModel = Provider.of<OrdersLiveDataModel>(context, listen: false);
+    
 
-    Order order = liveModel.selectedOrder;
+    Order order = ordersLiveModel.selectedOrder;
 
-    liveModel.addOrder(order);
+    ordersLiveModel.addOrder(order);
+
+    //TODO
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,
@@ -44,11 +52,10 @@ class OrdersController {
   }
 
   void edit(BuildContext context, Order order, int index) {
-    OrdersLiveDataModel liveModel =
-        Provider.of<OrdersLiveDataModel>(context, listen: false);
+   
 
-    liveModel.selectedOrderIndex = index;
-    liveModel.selectedOrder = order.copyWith();
+    ordersLiveModel.selectedOrderIndex = index;
+    ordersLiveModel.selectedOrder = order.copyWith();
 
     showDialog(
       context: context,
@@ -63,12 +70,11 @@ class OrdersController {
   void editCustomer(BuildContext context) {
 
     void onEdit(AppJson json , order){
-      OrdersLiveDataModel liveModel =
-        Provider.of<OrdersLiveDataModel>(context, listen: false);
+     
 
-    Order order = liveModel.selectedOrder;
-    int index = liveModel.selectedOrderIndex;
-    Map<String, dynamic> updatedField = liveModel.updatedValues;
+    Order order = ordersLiveModel.selectedOrder;
+    int index = ordersLiveModel.selectedOrderIndex;
+    Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
 
     json.forEach((key, value) {
       updatedField[key] = value;
@@ -92,12 +98,11 @@ class OrdersController {
   }
 
   void updateOrder(BuildContext context) {
-    OrdersLiveDataModel liveModel =
-        Provider.of<OrdersLiveDataModel>(context, listen: false);
+   
 
-    Order order = liveModel.selectedOrder;
-    int index = liveModel.selectedOrderIndex;
-    Map<String, dynamic> updatedField = liveModel.updatedValues;
+    Order order = ordersLiveModel.selectedOrder;
+    int index = ordersLiveModel.selectedOrderIndex;
+    Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,
@@ -110,13 +115,13 @@ class OrdersController {
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
 
-    Provider.of<OrdersLiveDataModel>(context, listen: false)
+   ordersLiveModel
         .updateOrder(order, index);
   }
 
   void refresh(BuildContext context) {
     void onResult(List<Order> order) {
-      Provider.of<OrdersLiveDataModel>(context, listen: false)
+      ordersLiveModel
           .setAllOrders(order);
     }
 
@@ -132,10 +137,7 @@ class OrdersController {
 
   void remove(BuildContext context, Order order) {
     void onRemove() {
-      OrdersLiveDataModel liveDataModel =
-          Provider.of<OrdersLiveDataModel>(context, listen: false);
-
-      liveDataModel.removeOrder(order);
+      ordersLiveModel.removeOrder(order);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: order};
 
@@ -159,7 +161,7 @@ class OrdersController {
     PopupsUtility.showLoadingAlert(context);
 
     void _onResult(List<Order> order) {
-      Provider.of<OrdersLiveDataModel>(context, listen: false)
+      ordersLiveModel
           .setAllOrders(order);
       Navigator.pop(context);
     }
@@ -180,7 +182,7 @@ class OrdersController {
 
   void search(BuildContext context) {
     void _onResult(List<Order> orders) {
-      Provider.of<OrdersLiveDataModel>(context, listen: false)
+      ordersLiveModel
           .setAllOrders(orders);
       Navigator.pop(context);
     }

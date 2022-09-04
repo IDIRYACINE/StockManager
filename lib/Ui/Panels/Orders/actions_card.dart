@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -56,13 +56,13 @@ class OrderProductsFloatingActions extends StatelessWidget {
     } else {
       controller.addOrder(context);
     }
-    Provider.of<OrdersLiveDataModel>(context, listen: false)
+    Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel
         .updatedValues
         .clear();
   }
 
   void cancel(BuildContext context, OrdersController controller) {
-    Provider.of<OrdersLiveDataModel>(context, listen: false)
+    Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel
         .updatedValues
         .clear();
 

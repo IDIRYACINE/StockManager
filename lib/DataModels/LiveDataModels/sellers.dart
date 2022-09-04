@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
 
-class SellersLiveDataModel with ChangeNotifier {
+class SellersLiveDataModel   {
   final List<Seller> loadedSellers = [];
 
   int get sellersCount => loadedSellers.length;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
@@ -27,7 +28,7 @@ class _RecordsTableState extends State<RecordsTable> {
   @override
   Widget build(BuildContext context) {
     RecordsLiveDataModel records =
-        Provider.of<RecordsLiveDataModel>(context, listen: false);
+        Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
 
     return SizedBox(
         width: double.infinity,
@@ -37,6 +38,7 @@ class _RecordsTableState extends State<RecordsTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
+                      clickable: false,
                   dataCellHelper: (v) => Titles.recordsTableColumns,
                   index: -1,
                   dataModel: 0,

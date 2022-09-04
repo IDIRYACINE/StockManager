@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -13,12 +12,15 @@ import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class RecordsController {
+  RecordsController(this.recordsLiveModel);
+
+  RecordsLiveDataModel recordsLiveModel;
+
   void refresh(BuildContext context) {
     _showLoadingAlert(context);
 
     void onResult(List<Record> records) {
-      Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .setAllRecords(records);
+      recordsLiveModel.setAllRecords(records);
 
       Navigator.pop(context);
     }
@@ -38,8 +40,7 @@ class RecordsController {
 
   void search(BuildContext context) {
     void _onResult(List<Record> records) {
-      Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .setAllRecords(records);
+      recordsLiveModel.setAllRecords(records);
       Navigator.pop(context);
     }
 
@@ -106,27 +107,22 @@ class RecordsController {
     _showLoadingAlert(context);
 
     void _onResult(List<Record> records) {
-      Provider.of<RecordsLiveDataModel>(context, listen: false)
-          .setAllRecords(records);
+      recordsLiveModel.setAllRecords(records);
       Navigator.pop(context);
     }
 
-      _showLoadingAlert(context);
-      Map<ServicesData, dynamic> data = {
-        ServicesData.databaseSelector: query,
-      };
+    _showLoadingAlert(context);
+    Map<ServicesData, dynamic> data = {
+      ServicesData.databaseSelector: query,
+    };
 
-      ServiceMessage<List<Record>> message = ServiceMessage(
-          service: AppServices.database,
-          event: DatabaseEvent.searchPurchaseRecord,
-          data: data,
-          hasCallback: true,
-          callback: _onResult);
+    ServiceMessage<List<Record>> message = ServiceMessage(
+        service: AppServices.database,
+        event: DatabaseEvent.searchPurchaseRecord,
+        data: data,
+        hasCallback: true,
+        callback: _onResult);
 
-      ServicesStore.instance.sendMessage(message);
-    
-
-
+    ServicesStore.instance.sendMessage(message);
   }
-
 }

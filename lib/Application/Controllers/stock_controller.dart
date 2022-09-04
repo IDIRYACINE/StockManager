@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -18,9 +17,9 @@ import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class StockController {
-  StockController() {
-    _productsDelegate = _ProductsDelegate();
-    _familliesDelegate = _FamilliesDelegate();
+  StockController(StockLiveDataModel stockLiveDataModel) {
+    _productsDelegate = _ProductsDelegate(stockLiveDataModel);
+    _familliesDelegate = _FamilliesDelegate(stockLiveDataModel);
     _stockDelegate = _productsDelegate;
   }
 
@@ -97,11 +96,14 @@ class StockController {
 }
 
 class _ProductsDelegate implements IStockDelegate<Product> {
+  _ProductsDelegate(this.stockLiveDataModel);
+
+  final StockLiveDataModel stockLiveDataModel;
+
   @override
   void add(BuildContext context) {
     void _onConfirm(Product product) {
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .addProduct(product);
+      stockLiveDataModel.addProduct(product);
 
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: product,
@@ -140,8 +142,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
           event: DatabaseEvent.updateProduct,
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .updateProduct(product,index);
+      stockLiveDataModel.updateProduct(product, index);
     }
 
     showDialog(
@@ -163,8 +164,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
     void onResult(List<Product> products) {
       Navigator.pop(context);
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .setAllProducts(products);
+      stockLiveDataModel.setAllProducts(products);
     }
 
     ServiceMessageDataMap data = {};
@@ -183,9 +183,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void remove(BuildContext context, Product product) {
     void onRemove() {
-      StockLiveDataModel liveDataModel =
-          Provider.of<StockLiveDataModel>(context, listen: false);
-      liveDataModel.deleteProduct(product);
+      stockLiveDataModel.deleteProduct(product);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: product};
       ServiceMessage message = ServiceMessage(
@@ -208,13 +206,13 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void search(BuildContext context) {
     void _onResult(List<Product> products) {
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .setAllProducts(products);
+      stockLiveDataModel.setAllProducts(products);
       Navigator.pop(context);
     }
 
     void onSearch(Map<String, dynamic> selector) {
       _showLoadingAlert(context);
+
       Map<ServicesData, dynamic> data = {
         ServicesData.databaseSelector: selector,
       };
@@ -253,7 +251,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
             onSelected: onSelect,
             onDeselected: onDeselect,
             adapter: StockController.productFamilyDropdownAdapter,
-            values: Provider.of<StockLiveDataModel>(context, listen: false)
+            values: stockLiveDataModel
                 .loadedProductFamillies)
       ];
     }
@@ -276,8 +274,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void quickSearch(BuildContext context, AppJson query) {
     void _onResult(List<Product> products) {
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .setAllProducts(products);
+      stockLiveDataModel.setAllProducts(products);
       Navigator.pop(context);
     }
 
@@ -299,11 +296,14 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 }
 
 class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
+  _FamilliesDelegate(this.stockLiveDataModel);
+
+  final StockLiveDataModel stockLiveDataModel;
+
   @override
   void add(BuildContext context) {
     void _onConfirm(ProductFamily family) {
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .addProductFamily(family);
+      stockLiveDataModel.addProductFamily(family);
 
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: family,
@@ -341,8 +341,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
           event: DatabaseEvent.updateProductFamily,
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .updateProductFamily(family, index);
+      stockLiveDataModel.updateProductFamily(family, index);
     }
 
     showDialog(
@@ -362,8 +361,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
     void onResult(List<ProductFamily> familllies) {
       Navigator.pop(context);
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .setAllFamillies(familllies);
+      stockLiveDataModel.setAllFamillies(familllies);
     }
 
     ServiceMessageDataMap data = {
@@ -384,10 +382,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
   @override
   void remove(BuildContext context, ProductFamily family) {
     void onRemove() {
-      StockLiveDataModel liveDataModel =
-          Provider.of<StockLiveDataModel>(context, listen: false);
-
-      liveDataModel.deleteProductFamily(family);
+      stockLiveDataModel.deleteProductFamily(family);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: family};
       ServiceMessage message = ServiceMessage(
@@ -409,8 +404,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
   @override
   void search(BuildContext context) {
     void _onResult(List<ProductFamily> familllies) {
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .setAllFamillies(familllies);
+      stockLiveDataModel.setAllFamillies(familllies);
       Navigator.pop(context);
     }
 
@@ -465,8 +459,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
   @override
   void quickSearch(BuildContext context, AppJson query) {
     void _onResult(List<ProductFamily> famillies) {
-      Provider.of<StockLiveDataModel>(context, listen: false)
-          .setAllFamillies(famillies);
+      stockLiveDataModel.setAllFamillies(famillies);
       Navigator.pop(context);
     }
 

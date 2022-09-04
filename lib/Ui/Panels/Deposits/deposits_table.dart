@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/deposit_controller.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -33,8 +35,7 @@ class _DepositsTableState extends State<DepositsTable> {
             .depositController;
 
     RecordsLiveDataModel records =
-        Provider.of<RecordsLiveDataModel>(context, listen: false);
-
+        Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
 
     return SizedBox(
         width: double.infinity,
@@ -44,8 +45,10 @@ class _DepositsTableState extends State<DepositsTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
+                  clickable: false,
                   dataCellHelper: (v) => Titles.depositsTableColumns,
-                  index: -1, dataModel: 0, 
+                  index: -1,
+                  dataModel: 0,
                 )),
                 Expanded(
                   child: ValueListenableBuilder<bool>(
@@ -55,10 +58,15 @@ class _DepositsTableState extends State<DepositsTable> {
                             itemCount: records.depositsCounts,
                             itemBuilder: (context, index) {
                               return SelectableRow<Record>(
-                                dataCellHelper: (record) => recordToCellsAdapter(
-                                    record),
-                                  onDelete : controller.remove,
-                      onEdit: controller.edit, dataModel: records.depositRecord(index), index: index,
+                                contextMenuItems: const [
+                                  ContextMenuOperation.remove
+                                ],
+                                dataCellHelper: (record) =>
+                                    recordToCellsAdapter(record),
+                                onDelete: controller.remove,
+                                onEdit: controller.edit,
+                                dataModel: records.depositRecord(index),
+                                index: index,
                               );
                             });
                       }),

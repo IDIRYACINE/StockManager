@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/stock_controller.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -36,9 +37,15 @@ class StockTable extends StatelessWidget {
 class _ProductsTable extends StatelessWidget {
   const _ProductsTable();
 
-
   List<String> productToCellsAdapter(Product product) {
-    return [product.barcode.toString(), product.name,product.reference, product.productFamily, product.originalPrice.toString(),product.totalQuantity.toString(), ];
+    return [
+      product.barcode.toString(),
+      product.name,
+      product.reference,
+      product.productFamily,
+      product.originalPrice.toString(),
+      product.totalQuantity.toString(),
+    ];
   }
 
   @override
@@ -48,32 +55,34 @@ class _ProductsTable extends StatelessWidget {
             .stockController;
 
     StockLiveDataModel stock =
-        Provider.of<StockLiveDataModel>(context,listen: false);
+        Provider.of<LiveModelProvider>(context, listen: false).stockLiveModel;
 
     return Column(
       children: [
         Flexible(
             child: SelectableRow(
-                dataCellHelper: (value) => Titles.stockProductTableColumns, index: -1, dataModel: 0,)),
+          clickable: false,
+          dataCellHelper: (value) => Titles.stockProductTableColumns,
+          index: -1,
+          dataModel: 0,
+        )),
         Expanded(
           child: ValueListenableBuilder<bool>(
-            valueListenable: stock.refreshProducts,
-            builder: (context,value,child) {
-              return ListView.builder(
-                  itemCount: stock.productsCount,
-                  itemBuilder: (context, index) {
-                    return SelectableRow<Product>(
-                      dataCellHelper: (product) =>
-                          productToCellsAdapter(product),
-
-                      onDelete : controller.remove,
-                      onEdit: controller.edit, 
-                      
-                      index: index, dataModel: stock.product(index),
-                    );
-                  });
-            }
-          ),
+              valueListenable: stock.refreshProducts,
+              builder: (context, value, child) {
+                return ListView.builder(
+                    itemCount: stock.productsCount,
+                    itemBuilder: (context, index) {
+                      return SelectableRow<Product>(
+                        dataCellHelper: (product) =>
+                            productToCellsAdapter(product),
+                        onDelete: controller.remove,
+                        onEdit: controller.edit,
+                        index: index,
+                        dataModel: stock.product(index),
+                      );
+                    });
+              }),
         ),
       ],
     );
@@ -87,7 +96,6 @@ class _FamilliesTable extends StatelessWidget {
     return [family.name, family.reference];
   }
 
-
   @override
   Widget build(BuildContext context) {
     StockController controller =
@@ -95,35 +103,34 @@ class _FamilliesTable extends StatelessWidget {
             .stockController;
 
     StockLiveDataModel stock =
-        Provider.of<StockLiveDataModel>(context,listen: false);
-
+        Provider.of<LiveModelProvider>(context, listen: false).stockLiveModel;
 
     return Column(
       children: [
         Flexible(
             child: SelectableRow(
-                dataCellHelper: (value) => Titles.stockFamilliesTableColumns,index: -1, dataModel: 0,)),
+          clickable: false,
+          dataCellHelper: (value) => Titles.stockFamilliesTableColumns,
+          index: -1,
+          dataModel: 0,
+        )),
         Expanded(
           child: ValueListenableBuilder<bool>(
-            valueListenable: stock.refreshProductsFamily,
-            builder: (context,value,child) {
-              return ListView.builder(
-                  itemCount: stock.productFamilysCount,
-                  itemBuilder: (context, index) {
-                    return SelectableRow<ProductFamily>(
-
-                      dataCellHelper: (family) =>
-                          familyToCellsAdapter(family),
-
-                        onDelete : controller.remove,
-                      onEdit: controller.edit, 
-                      index: index,
-                      
-                      dataModel: stock.productFamily(index),
-                    );
-                  });
-            }
-          ),
+              valueListenable: stock.refreshProductsFamily,
+              builder: (context, value, child) {
+                return ListView.builder(
+                    itemCount: stock.productFamilysCount,
+                    itemBuilder: (context, index) {
+                      return SelectableRow<ProductFamily>(
+                        dataCellHelper: (family) =>
+                            familyToCellsAdapter(family),
+                        onDelete: controller.remove,
+                        onEdit: controller.edit,
+                        index: index,
+                        dataModel: stock.productFamily(index),
+                      );
+                    });
+              }),
         ),
       ],
     );

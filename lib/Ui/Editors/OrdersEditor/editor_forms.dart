@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/editor_mode.dart';
@@ -75,7 +75,7 @@ class OrderForm extends StatelessWidget {
         SelectorDropDown(
             adapter: sellerMenuItemAdapter,
             onSelect: orderFormEditorMode.setSeller,
-            items: Provider.of<SellersLiveDataModel>(context, listen: false)
+            items: Provider.of<LiveModelProvider>(context, listen: false).sellersLiveModel
                 .loadedSellers,
             label: const Text(Labels.sellerName)),
         AttributeTextField(

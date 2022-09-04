@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -9,11 +8,13 @@ import 'package:stock_manager/Ui/Editors/SellersEditor.dart/sellers_editor.dart'
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SellersController {
- 
+  SellersController(this.sellersLiveModel);
+
+  final SellersLiveDataModel sellersLiveModel;
 
   void add(BuildContext context) {
     void _onConfirm(Seller seller) {
-      Provider.of<SellersLiveDataModel>(context, listen: false).add(seller);
+      sellersLiveModel.add(seller);
 
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: seller,
@@ -34,14 +35,13 @@ class SellersController {
         child: SellersEditor(
           createCallback: _onConfirm,
           confirmLabel: Labels.add,
-          seller: Seller(name: '', phone: 0, imageUrl: ''),
+          seller: Seller.defaultInstance(),
         ),
       ),
     );
   }
 
-  void edit(BuildContext context,Seller seller,int index) {
-
+  void edit(BuildContext context, Seller seller, int index) {
     void onEdit(Map<String, dynamic> updatedField, Seller seller) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: seller,
@@ -54,7 +54,7 @@ class SellersController {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
 
-      Provider.of<SellersLiveDataModel>(context, listen: false).update(seller,index);
+      sellersLiveModel.update(seller, index);
     }
 
     showDialog(
@@ -72,7 +72,7 @@ class SellersController {
 
   void refresh(BuildContext context) {
     void onResult(List<Seller> sellers) {
-      Provider.of<SellersLiveDataModel>(context, listen: false).setAll(sellers);
+      sellersLiveModel.setAll(sellers);
     }
 
     ServiceMessage message = ServiceMessage<List<Seller>>(
@@ -85,13 +85,9 @@ class SellersController {
     ServicesStore.instance.sendMessage(message);
   }
 
-  void remove(BuildContext context , Seller seller) {
+  void remove(BuildContext context, Seller seller) {
     void onRemove() {
-      SellersLiveDataModel liveDataModel =
-          Provider.of<SellersLiveDataModel>(context, listen: false);
-
-
-      liveDataModel.remove(seller);
+      sellersLiveModel.remove(seller);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: seller};
 
@@ -121,6 +117,4 @@ class SellersController {
       child: Text(type.name),
     );
   }
-
- 
 }

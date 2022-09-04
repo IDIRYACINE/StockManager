@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
@@ -29,7 +29,7 @@ class OrderCustomerEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final AppJson updatedValuesCache =
-        Provider.of<OrdersLiveDataModel>(context, listen: false).updatedValues;
+        Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel.updatedValues;
     final OrderFormEditorMode<Callback<Order>> editorMode =
         OrderFormEditorMode.editModeInstance(order, updatedValuesCache);
 
