@@ -63,17 +63,32 @@ class OrdersLiveDataModel with ChangeNotifier {
       selectedOrder.products[index];
 
   void removeOrderProduct(OrderProduct orderProduct) {
+    _updateOrderPrices(orderProduct.sellingPrice * -1);
     selectedOrder.products.remove(orderProduct);
     _toggleRefresh(_refreshOrderProducts);
   }
 
   void addOrderProduct(OrderProduct orderProduct) {
+    _updateOrderPrices(orderProduct.sellingPrice);
     selectedOrder.products.add(orderProduct);
     _toggleRefresh(_refreshOrderProducts);
   }
 
   void updateOrderProduct(OrderProduct orderProduct, int index) {
+    
+    double priceChange = orderProduct.sellingPrice -
+        selectedOrder.products[index].sellingPrice;
+
+    _updateOrderPrices(priceChange);
+
     selectedOrder.products[index] = orderProduct;
     _toggleRefresh(_refreshOrderProducts);
   }
+
+  void _updateOrderPrices(double productSellingPrice){
+    selectedOrder.totalPrice += productSellingPrice;
+    selectedOrder.remainingPayement = selectedOrder.totalPrice - selectedOrder.deposit;
+  }
+
+  
 }

@@ -360,7 +360,7 @@ class DatabaseRepository {
       deliverToHome: json[OrderFields.deliverToHome.name] ?? false,
       deposit: json[OrderFields.deposit.name] ?? -1,
       status: json[OrderFields.status.name] ?? Labels.error,
-      sellingPrice: json[OrderFields.sellingPrice.name] ?? -1,
+      totalPrice: json[OrderFields.sellingPrice.name] ?? -1,
       customerName: json[OrderFields.customerName.name] ?? Labels.error,
       deliveryCost: json[OrderFields.deliveryCost.name] ?? -1,
       phoneNumber: json[OrderFields.phone.name] ?? -1,
@@ -463,7 +463,7 @@ class DatabaseRepository {
     json[OrderFields.deliverToHome.name] = order.deliverToHome;
     json[OrderFields.deposit.name] = order.deposit;
     json[OrderFields.status.name] = order.status;
-    json[OrderFields.sellingPrice.name] = order.sellingPrice;
+    json[OrderFields.sellingPrice.name] = order.totalPrice;
     json[OrderFields.customerName.name] = order.customerName;
     json[OrderFields.deliveryCost.name] = order.deliveryCost;
     json[OrderFields.phone.name] = order.phoneNumber;

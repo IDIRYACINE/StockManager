@@ -14,10 +14,11 @@ class OrdersTable extends StatelessWidget {
   List<String> ordersToCellsAdapter(Order order) {
     return [
       order.date,
-      order.customerName,
       order.sellerName,
+      order.customerName,
       order.deposit.toString(),
       order.remainingPayement.toString(),
+      order.deliveryCost.toString(),
     ];
   }
 
@@ -70,7 +71,7 @@ class OrderProductsTable extends StatelessWidget {
   List<String> orderProductsToCellAdapter(OrderProduct orderProduct) {
     return [
       orderProduct.product,
-            orderProduct.reference,
+      orderProduct.reference,
       orderProduct.productColor,
       orderProduct.productSize,
       orderProduct.sellingPrice.toString(),

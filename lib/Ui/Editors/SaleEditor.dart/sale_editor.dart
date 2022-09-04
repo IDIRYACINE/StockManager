@@ -109,7 +109,7 @@ class SaleEditor extends StatelessWidget {
                           product: product,
                           record: record,
                           saleEditorMode: saleEditorMode, 
-                          minSellingPriceController: productFormEditor.minSellingPriceController,
+                          sellingPriceController: productFormEditor.sellingPriceController,
                         ),
                       )),
                     ),

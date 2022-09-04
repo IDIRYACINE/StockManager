@@ -29,17 +29,10 @@ class StockLiveDataModel with ChangeNotifier{
 
   VoidCallback? updateSelectedRow;
 
-  int selectedElementIndex = -1 ; 
-
   void toggleRefresh(ValueNotifier<bool> refresh) {
     refresh.value = !refresh.value;
   }
 
-  void _cleanLastSelectedRow(){
-     updateSelectedRow = null;
-    selectedElementIndex = -1;
-  }
-  
   void addProduct(Product element) {
     _loadedProducts.add(element);
     toggleRefresh(_refreshProducts);
@@ -51,7 +44,6 @@ class StockLiveDataModel with ChangeNotifier{
   }
   
   void deleteProduct(Product element) {
-    _cleanLastSelectedRow();
     _loadedProducts.remove(element);
     toggleRefresh(_refreshProducts);
   }
@@ -62,8 +54,8 @@ class StockLiveDataModel with ChangeNotifier{
     toggleRefresh(_refreshProducts);
   }
 
-  void updateProduct(Product element) {
-    _loadedProducts[selectedElementIndex] = element;
+  void updateProduct(Product element ,int index) {
+    _loadedProducts[index] = element;
         toggleRefresh(_refreshProducts);
 
   }
@@ -80,8 +72,6 @@ class StockLiveDataModel with ChangeNotifier{
   }
   
   void deleteProductFamily(ProductFamily element) {
-        _cleanLastSelectedRow();
-
     loadedProductFamillies.remove(element);
     toggleRefresh(_refreshProductsFamily);
   }
@@ -93,11 +83,7 @@ class StockLiveDataModel with ChangeNotifier{
   }
 
 
-  void updateProductFamily(ProductFamily element) {
-    loadedProductFamillies[selectedElementIndex] = element;
-  }
-
-  void updateProductFamilyAt(ProductFamily family,int index) {
+  void updateProductFamily(ProductFamily family,int index) {
     loadedProductFamillies[index] = family;
     toggleRefresh(_refreshProductsFamily);
   }

@@ -256,7 +256,7 @@ class Order {
     required this.city,
     required this.postalCode,
     required this.deposit,
-    required this.sellingPrice,
+    required this.totalPrice,
     required this.deliverToHome,
     required this.deliveryCost,
   });
@@ -272,7 +272,7 @@ class Order {
   double? remainingPayement;
   double deliveryCost;
   bool deliverToHome;
-  double sellingPrice;
+  double totalPrice;
   String customerName;
   int phoneNumber;
   String address;
@@ -291,12 +291,20 @@ class Order {
         city: '',
         postalCode: 0,
         deposit: 0,
-        sellingPrice: 0,
+        totalPrice: 0,
         deliverToHome: true,
         deliveryCost: 0,
         timeStamp: Utility.getTimeStamp(),
         date: Utility.getDate());
   }
+
+  List<OrderProduct> _copyProducts(){
+    List<OrderProduct> copyList = [];
+    for (OrderProduct product in products) {
+      copyList.add(product.copyWith());
+    }
+    return copyList;
+  } 
 
   Order copyWith({
     List<OrderProduct>? products,
@@ -316,7 +324,7 @@ class Order {
     double? deliveryCost,
   }) {
     return Order(
-      products: products ?? this.products,
+      products: products ?? _copyProducts(),
       status: status ?? this.status,
       quantity: quantity ?? this.quantity,
       sellerName: sellerName ?? this.sellerName,
@@ -326,7 +334,7 @@ class Order {
       city: city ?? this.city,
       postalCode: postalCode ?? this.postalCode,
       deposit: deposit ?? this.deposit,
-      sellingPrice: sellingPrice ?? this.sellingPrice,
+      totalPrice: sellingPrice ?? this.totalPrice,
       deliverToHome: deliverToHome ?? this.deliverToHome,
       deliveryCost: deliveryCost ?? this.deliveryCost,
       timeStamp: timeStamp ?? this.timeStamp,

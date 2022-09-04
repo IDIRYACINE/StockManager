@@ -39,14 +39,12 @@ abstract class Titles {
 
   // Orders Table
   static const List<String> ordersTableColumns = [
-    Labels.id,
     Labels.date,
     Labels.sellerName,
     Labels.customer,
     Labels.deposit,
     Labels.remainingPayement,
-    Labels.status,
-    Labels.payedDelivery
+    Labels.deliveryCost
   ];
 
   static const List<String> orderProductsTableColumns = [

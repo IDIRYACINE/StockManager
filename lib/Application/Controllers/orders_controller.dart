@@ -48,7 +48,7 @@ class OrdersController {
         Provider.of<OrdersLiveDataModel>(context, listen: false);
 
     liveModel.selectedOrderIndex = index;
-    liveModel.selectedOrder = order;
+    liveModel.selectedOrder = order.copyWith();
 
     showDialog(
       context: context,
@@ -99,12 +99,8 @@ class OrdersController {
     int index = liveModel.selectedOrderIndex;
     Map<String, dynamic> updatedField = liveModel.updatedValues;
 
-    if (updatedField[OrderFields.products.name] != null) {
-      order.products = order.products;
-    }
-
     Map<ServicesData, dynamic> data = {
-      ServicesData.instance: Order,
+      ServicesData.instance: order,
       ServicesData.databaseSelector: updatedField,
     };
 

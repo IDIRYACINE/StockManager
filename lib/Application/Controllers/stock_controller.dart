@@ -141,7 +141,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
       Provider.of<StockLiveDataModel>(context, listen: false)
-          .updateProduct(product);
+          .updateProduct(product,index);
     }
 
     showDialog(
@@ -342,7 +342,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
       Provider.of<StockLiveDataModel>(context, listen: false)
-          .updateProductFamilyAt(family, index);
+          .updateProductFamily(family, index);
     }
 
     showDialog(

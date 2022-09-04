@@ -17,13 +17,13 @@ class SaleForm extends StatelessWidget {
       {Key? key,
       required this.product,
       required this.record,
-      required this.saleEditorMode, required this.minSellingPriceController})
+      required this.saleEditorMode, required this.sellingPriceController})
       : super(key: key);
 
   final ValueListenable<Product> product;
   final Record record;
   final SaleEditorMode saleEditorMode;
-  final TextEditingController minSellingPriceController;
+  final TextEditingController sellingPriceController;
 
 
   DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller) {
@@ -51,7 +51,7 @@ class SaleForm extends StatelessWidget {
           onChanged: saleEditorMode.setCustomer,
         ),
         AttributeTextField(
-          controller: minSellingPriceController,
+          controller: sellingPriceController,
           onChanged: saleEditorMode.setSellingPrice,
           label: Labels.sellingPrice,
         ),
