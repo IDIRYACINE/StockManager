@@ -8,48 +8,45 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
+import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_customer.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrdersController {
-
-   
   void add(BuildContext context) {
-    
     Provider.of<OrdersLiveDataModel>(context, listen: false).selectedOrder =
         Order.defaultInstance();
 
     showDialog(
         context: context,
-        builder: (context) =>const  Material(
-                child: OrderProductsPanel(
-            )));
+        builder: (context) => const Material(child: OrderProductsPanel()));
   }
 
   void addOrder(BuildContext context) {
-      final liveModel = Provider.of<OrdersLiveDataModel>(context, listen: false);
+    final liveModel = Provider.of<OrdersLiveDataModel>(context, listen: false);
 
-      Order order = liveModel.selectedOrder;
+    Order order = liveModel.selectedOrder;
 
+    liveModel.addOrder(order);
 
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: order,
-      };
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instance: order,
+    };
 
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.insertOrder,
-          service: AppServices.database);
+    ServiceMessage message = ServiceMessage(
+        data: data,
+        event: DatabaseEvent.insertOrder,
+        service: AppServices.database);
 
-      ServicesStore.instance.sendMessage(message);
-      Navigator.pop(context);
-    }
+    ServicesStore.instance.sendMessage(message);
+    Navigator.pop(context);
+  }
 
   void edit(BuildContext context, Order order, int index) {
     OrdersLiveDataModel liveModel =
         Provider.of<OrdersLiveDataModel>(context, listen: false);
-        
+
     liveModel.selectedOrderIndex = index;
     liveModel.selectedOrder = order;
 
@@ -58,38 +55,68 @@ class OrdersController {
       builder: (context) => const Material(
         child: OrderProductsPanel(
           isEditing: true,
-          
         ),
       ),
     );
   }
 
-    void updateOrder(BuildContext context) {
-      OrdersLiveDataModel liveModel = Provider.of<OrdersLiveDataModel>(context, listen: false);
+  void editCustomer(BuildContext context) {
 
-      Order order = liveModel.selectedOrder;
-      int index = liveModel.selectedOrderIndex;
-            Map<String, dynamic> updatedField = liveModel.updatedValues;
-            
-      if(updatedField[OrderFields.products.name]!= null){
-        order.products = order.products;
-      }
+    void onEdit(AppJson json , order){
+      OrdersLiveDataModel liveModel =
+        Provider.of<OrdersLiveDataModel>(context, listen: false);
 
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: Order,
-        ServicesData.databaseSelector: updatedField,
-      };
+    Order order = liveModel.selectedOrder;
+    int index = liveModel.selectedOrderIndex;
+    Map<String, dynamic> updatedField = liveModel.updatedValues;
 
-      ServiceMessage message = ServiceMessage<Order>(
-          data: data,
-          event: DatabaseEvent.updateOrder,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
+    json.forEach((key, value) {
+      updatedField[key] = value;
+     });
 
-      Provider.of<OrdersLiveDataModel>(context, listen: false)
-          .updateOrder(order, index);
+    Provider.of<OrdersLiveDataModel>(context, listen: false)
+        .updateOrder(order, index);
+    }
+    
+    showDialog(
+      context: context,
+      builder: (context) => Material(
+        child: OrderCustomerEditor(
+          confirmLabel: Labels.save,
+          order: Provider.of<OrdersLiveDataModel>(context, listen: false)
+              .selectedOrder, 
+              editCallback: onEdit,
+        ),
+      ),
+    );
+  }
+
+  void updateOrder(BuildContext context) {
+    OrdersLiveDataModel liveModel =
+        Provider.of<OrdersLiveDataModel>(context, listen: false);
+
+    Order order = liveModel.selectedOrder;
+    int index = liveModel.selectedOrderIndex;
+    Map<String, dynamic> updatedField = liveModel.updatedValues;
+
+    if (updatedField[OrderFields.products.name] != null) {
+      order.products = order.products;
     }
 
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instance: Order,
+      ServicesData.databaseSelector: updatedField,
+    };
+
+    ServiceMessage message = ServiceMessage<Order>(
+        data: data,
+        event: DatabaseEvent.updateOrder,
+        service: AppServices.database);
+    ServicesStore.instance.sendMessage(message);
+
+    Provider.of<OrdersLiveDataModel>(context, listen: false)
+        .updateOrder(order, index);
+  }
 
   void refresh(BuildContext context) {
     void onResult(List<Order> order) {
@@ -215,7 +242,7 @@ class OrdersController {
 
   List<String> orderToRowData(Order order) {
     return [
-      order.date ?? '',
+      order.date ,
       order.customerName.toString(),
       order.sellerName,
       order.deposit.toString(),

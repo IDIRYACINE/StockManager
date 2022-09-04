@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
@@ -48,7 +49,7 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
 
   @override
   void setSellingPrice(String? price){
-    if(price != null){
+    if(price != null && price !='') {
       orderProduct.sellingPrice = double.parse(price);
       sellingPriceController.text = price;
     }
@@ -111,3 +112,106 @@ class _ModeEdit extends OrderProductEditorMode<EditorCallback<AppJson, OrderProd
     callback(modifierBuilder.map, orderProduct);
   }
 }
+
+
+
+
+abstract class OrderFormEditorMode<T>  {
+
+  void setSeller(Seller seller);
+
+  void setClient(String? client);
+
+  void setDeposit(String? deposit);
+
+
+  void setDeliveryCost(String? deliveryCost) ;
+
+  void setPhoneNumber(String? phoneNumber);
+
+  void setState(String? state);
+
+  void setAddress(String? address);
+
+  void confirm(T callback);
+
+
+  static OrderFormEditorMode<Callback<Order>> editModeInstance(
+      Order order,AppJson updatedValuesCache) {
+    return _ModeCustomerForm(order,updatedValuesCache);
+  }
+
+}
+
+class _ModeCustomerForm extends OrderFormEditorMode<Callback<Order>> {
+
+  _ModeCustomerForm(this.order, this.updatedValuesCache);
+
+    final Order order;
+    final AppJson updatedValuesCache;
+
+
+  @override
+  void setSeller(Seller seller){
+    order.sellerName = seller.name;
+  }
+
+  @override
+  void setClient(String? client){
+    if(client != null && client !='') {
+      order.customerName = client;
+      updatedValuesCache[OrderFields.customerName.name] = client;
+    }
+  }
+
+  @override
+  void setDeposit(String? deposit){
+    if(deposit != null && deposit !='') {
+      order.deposit = double.parse(deposit);
+      updatedValuesCache[OrderFields.deposit.name] = double.parse(deposit);
+    }
+  }
+
+  @override
+  void setState(String? state){
+    if(state != null && state !='') {
+      order.city = state;
+      updatedValuesCache[OrderFields.city.name] = state;
+    }
+  }
+
+  @override
+  void setAddress(String? address ){
+    if(address != null && address !='') {
+      order.address = address;
+      updatedValuesCache[OrderFields.address.name] = address;
+    }
+  }
+
+
+  @override
+  void setPhoneNumber(String? phoneNumber) {
+    if(phoneNumber != null && phoneNumber !='') {
+      int phone = int.parse(phoneNumber);
+      order.phoneNumber = phone;
+      updatedValuesCache[OrderFields.phone.name] = phone;
+    }
+  }
+
+
+  @override
+  void setDeliveryCost(String? deliveryCost) {
+    if(deliveryCost != null && deliveryCost !='') {
+      order.deliveryCost = double.parse(deliveryCost);
+      updatedValuesCache[OrderFields.deliveryCost.name] = double.parse(deliveryCost);
+    }
+  }
+
+  @override
+  void confirm(Callback<Order> callback) {
+    callback(order);
+  }
+  
+  
+}
+

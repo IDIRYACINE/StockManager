@@ -5,7 +5,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
-import 'package:stock_manager/Ui/Components/Editors/SellersEditor.dart/sellers_editor.dart';
+import 'package:stock_manager/Ui/Editors/SellersEditor.dart/sellers_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SellersController {

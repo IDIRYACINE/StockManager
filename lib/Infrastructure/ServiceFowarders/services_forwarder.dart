@@ -28,20 +28,20 @@ class ServicesForwarder {
     ServiceResponse? response;
     log('${serviceMessage.event.name} : ${serviceMessage.data.toString()}');
 
-    try {
+    // try {
       response = await _callbacks[message.event]?.call(serviceMessage);
 
       response ??= response = ServiceResponse(
           hasData: false,
           messageId: serviceMessage.messageId,
           status: OperationStatus.failure);
-    } catch (e) {
-      response = ServiceResponse(
-          hasData: false,
-          messageId: serviceMessage.messageId,
-          status: OperationStatus.error);
-        log(e.toString());
-    }
+    // } catch (e) {
+    //   response = ServiceResponse(
+    //       hasData: false,
+    //       messageId: serviceMessage.messageId,
+    //       status: OperationStatus.error);
+    //     log(e.toString());
+    // }
 
     uiThreadPort.send(response);
   }

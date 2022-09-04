@@ -9,7 +9,7 @@ import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
-import 'package:stock_manager/Ui/Components/Editors/OrdersEditor/order_products.dart';
+import 'package:stock_manager/Ui/Editors/OrdersEditor/order_products.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrderProductsController{
@@ -46,6 +46,7 @@ void add(BuildContext context) {
       builder: (context) => Material(
         child: OrderProductEditor(
           createCallback: _onConfirm,
+          editMode: false,
           confirmLabel: Labels.add,
           onSearch: onSearch,
           orderProduct: OrderProduct.defaultInstance(), order: liveModel.selectedOrder,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Application/deposit_controller.dart';
-import 'package:stock_manager/Application/login_controller.dart';
-import 'package:stock_manager/Application/records_controller.dart';
-import 'package:stock_manager/Application/sales_controller.dart';
-import 'package:stock_manager/Application/sellers_controller.dart';
-import 'package:stock_manager/Application/splash_controller.dart';
-import 'package:stock_manager/Application/stock_controller.dart';
 
-import 'order_products_controller.dart';
-import 'orders_controller.dart';
+import 'Controllers/deposit_controller.dart';
+import 'Controllers/login_controller.dart';
+import 'Controllers/records_controller.dart';
+import 'Controllers/order_products_controller.dart';
+import 'Controllers/orders_controller.dart';
+import 'Controllers/sales_controller.dart';
+import 'Controllers/sellers_controller.dart';
+import 'Controllers/splash_controller.dart';
+import 'Controllers/stock_controller.dart';
 
 class ControllersProvider with ChangeNotifier {
   ControllersProvider() {

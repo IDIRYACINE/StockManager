@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/order_products_controller.dart';
-import 'package:stock_manager/Application/orders_controller.dart';
+import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
+import 'package:stock_manager/Application/Controllers/orders_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
@@ -69,6 +69,12 @@ class OrderProductsFloatingActions extends StatelessWidget {
     controller.cancel(context);
   }
 
+
+  void editCustomer(BuildContext context, OrdersController controller) {
+    
+    controller.editCustomer(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final orderProductscontroller =
@@ -82,6 +88,15 @@ class OrderProductsFloatingActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        
+        Flexible(
+            child: ActionButton(
+          onPressed: () {
+            cancel(context, ordersController);
+          },
+          label: Labels.cancel,
+          icon: Icons.cancel,
+        )),
         Flexible(
             child: ActionButton(
           onPressed: () {
@@ -90,13 +105,13 @@ class OrderProductsFloatingActions extends StatelessWidget {
           label: Labels.add,
           icon: Icons.add,
         )),
-        Flexible(
+          Flexible(
             child: ActionButton(
           onPressed: () {
-            cancel(context, ordersController);
+            editCustomer(context, ordersController);
           },
-          label: Labels.cancel,
-          icon: Icons.cancel,
+          label: Labels.customer,
+          icon: Icons.contacts,
         )),
         Flexible(
             child: ActionButton(

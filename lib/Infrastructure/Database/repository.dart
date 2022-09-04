@@ -13,7 +13,7 @@ class DatabaseRepository {
 
   // crud operations
 
-  Future<void> addOrder({required Order order}) async{
+  Future<void> addOrder({required Order order}) async {
     _database.insertOrder(orderToJson(order: order));
   }
 
@@ -100,7 +100,6 @@ class DatabaseRepository {
     _database.insertSeller(sellerToJson(seller: seller));
   }
 
-
   Future<void> updateSeller(
       {required Seller seller, required AppJson updatedValues}) async {
     SelectorBuilder selector = SelectorBuilder();
@@ -116,8 +115,9 @@ class DatabaseRepository {
     _database.removeSeller(selector);
   }
 
-  Future<void>  updateOrder({required Order order, required AppJson updatedValues}) async{
-     SelectorBuilder selector = SelectorBuilder();
+  Future<void> updateOrder(
+      {required Order order, required AppJson updatedValues}) async {
+    SelectorBuilder selector = SelectorBuilder();
 
     selector.eq(OrderFields.timeStamp.name, order.timeStamp);
 
@@ -125,7 +125,6 @@ class DatabaseRepository {
     modifier.map = updatedValues;
     _database.updateSeller(selector, modifier);
   }
-
 
   deleteOrder({required order}) {}
 
@@ -193,8 +192,6 @@ class DatabaseRepository {
     return sellers;
   }
 
-
-  loadOrders() {}
   // search x
 
   Future<List<ProductFamily>> searchProductFamily(
@@ -239,8 +236,19 @@ class DatabaseRepository {
     return records;
   }
 
+  Future<List<Order>> searchOrders({required AppJson search}) async {
+    List<Order> orders = [];
 
-  searchOrders({required search}) {}
+    SelectorBuilder selector = SelectorBuilder();
+    selector.map = search;
+    MongoDbDataStream data = await _database.searchOrder(selector);
+
+    await data.forEach((element) {
+      orders.add(orderFromJson(json: element));
+    });
+
+    return orders;
+  }
 
   // x from json
 
@@ -301,6 +309,7 @@ class DatabaseRepository {
       quantity: json[RecordFields.quantity.name] ?? -1,
       originalPrice: json[RecordFields.buyingPrice.name] ?? -1,
       sellingPrice: json[RecordFields.sellingPrice.name] ?? -1,
+      date: json[RecordFields.date.name] ?? '1990-1-1',
     );
 
     if (payementType == PaymentTypes.deposit.name) {
@@ -348,17 +357,17 @@ class DatabaseRepository {
       address: json[OrderFields.address.name] ?? Labels.error,
       city: json[OrderFields.city.name] ?? Labels.error,
       date: json[OrderFields.date.name] ?? Labels.error,
-      deliverToHome: json[OrderFields.deliverToHome.name] ?? Labels.error,
+      deliverToHome: json[OrderFields.deliverToHome.name] ?? false,
       deposit: json[OrderFields.deposit.name] ?? -1,
       status: json[OrderFields.status.name] ?? Labels.error,
       sellingPrice: json[OrderFields.sellingPrice.name] ?? -1,
       customerName: json[OrderFields.customerName.name] ?? Labels.error,
-      deliveryCost: json[OrderFields.deliveryCost.name] ?? Labels.error,
-      phoneNumber: json[OrderFields.phone.name] ?? Labels.error,
-      postalCode: json[OrderFields.postalCode.name] ?? Labels.error,
+      deliveryCost: json[OrderFields.deliveryCost.name] ?? -1,
+      phoneNumber: json[OrderFields.phone.name] ?? -1,
+      postalCode: json[OrderFields.postalCode.name] ?? -1,
       quantity: json[OrderFields.quantity.name] ?? -1,
-      sellerName: json[OrderFields.seller.name] ?? Labels.error, 
-      timeStamp: json[OrderFields.seller.name] ?? -1,
+      sellerName: json[OrderFields.seller.name] ?? Labels.error,
+      timeStamp: json[OrderFields.timeStamp.name] ?? -1,
     );
   }
 
@@ -476,5 +485,4 @@ class DatabaseRepository {
 
     return json;
   }
-
 }

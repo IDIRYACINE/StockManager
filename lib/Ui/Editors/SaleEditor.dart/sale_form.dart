@@ -5,7 +5,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/i_editors.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
-import 'package:stock_manager/Ui/Components/Editors/SaleEditor.dart/sale_mode.dart';
+import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';

@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/order_products_controller.dart';
-import 'package:stock_manager/Application/orders_controller.dart';
+import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
+import 'package:stock_manager/Application/Controllers/orders_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrdersTable extends StatelessWidget {
   const OrdersTable({Key? key}) : super(key: key);
 
-  List<String> ordersToCellsAdapter(Order orders) {
+  List<String> ordersToCellsAdapter(Order order) {
     return [
-      OrderFields.date.name,
-      OrderFields.customerName.name,
-      OrderFields.seller.name,
-      OrderFields.deposit.name,
-      OrderFields.remainingPayement.name,
+      order.date,
+      order.customerName,
+      order.sellerName,
+      order.deposit.toString(),
+      order.remainingPayement.toString(),
     ];
   }
 
@@ -104,7 +103,7 @@ class OrderProductsTable extends StatelessWidget {
                       valueListenable: orders.refreshOrderProducts,
                       builder: (context, value, child) {
                         return ListView.builder(
-                            itemCount: orders.ordersCount,
+                            itemCount: orders.selectedOrder.products.length,
                             itemBuilder: (context, index) {
                               return SelectableRow<OrderProduct>(
                                 dataCellHelper: orderProductsToCellAdapter,

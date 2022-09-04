@@ -18,10 +18,15 @@ class ModelSelector extends StatefulWidget{
 }
 
 class _ModelSelectorState extends State<ModelSelector>{
+  int selectedColorIndex = 0;
 
-  void onColorSelected(ProductModel model){}
+  void onColorSelected(ProductModel model){
+    widget.colorSelectorCallback(model.color);
+  }
 
-  void onSizeSelected(ProductModel model){}
+  void onSizeSelected(ProductModel model){
+    widget.sizeSelectorCallback(model.size);
+  }
 
   DropdownMenuItem<ProductModel> sizeAdapter(ProductModel model){
     return DropdownMenuItem(

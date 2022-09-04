@@ -1,3 +1,4 @@
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/metadata.dart';
 
 class ProductModel {
@@ -53,24 +54,22 @@ class Record {
   Record({
     required this.payementType,
     required this.timeStamp,
-    this.date,
-    required this.sellerName ,
+    required this.date,
+    required this.sellerName,
     required this.product,
-    required this.productColor ,
-    required this.productSize ,
-    required this.barcode ,
+    required this.productColor,
+    required this.productSize,
+    required this.barcode,
     required this.reference,
     this.customer,
     this.deposit,
     this.remainingPayement,
-    required this.quantity ,
+    required this.quantity,
     required this.originalPrice,
-    required this.sellingPrice ,
+    required this.sellingPrice,
   });
 
-  String? date = (DateTime dateTime) {
-    return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
-  }(DateTime.now());
+  String date;
 
   int timeStamp;
   String sellerName;
@@ -106,7 +105,7 @@ class Record {
     double? sellingPrice,
   }) {
     return Record(
-      date : date?? this.date,
+      date: date ?? this.date,
       payementType: payementType ?? this.payementType,
       timeStamp: timeStamp ?? this.timeStamp,
       originalPrice: originalPrice ?? this.originalPrice,
@@ -123,24 +122,26 @@ class Record {
     );
   }
 
-  static Record defaultInstance({required String payementType , required int timeStamp}){
-     return Record (
-    payementType: payementType,
-    timeStamp : timeStamp,
-    sellerName : '',
-    product : '',
-    productColor : '',
-    productSize : '',
-    barcode : 0,
-    reference : '',
-    customer : '',
-    deposit : 0,
-    remainingPayement : 0,
-    quantity : 1,
-    originalPrice : 0,
-    sellingPrice : 0,)
-  ;
-}
+  static Record defaultInstance(
+      {required String payementType}) {
+    return Record(
+      payementType: payementType,
+      date: Utility.getDate(),
+      timeStamp: Utility.getTimeStamp(),
+      sellerName: '',
+      product: '',
+      productColor: '',
+      productSize: '',
+      barcode: 0,
+      reference: '',
+      customer: '',
+      deposit: 0,
+      remainingPayement: 0,
+      quantity: 1,
+      originalPrice: 0,
+      sellingPrice: 0,
+    );
+  }
 }
 
 class Seller {
@@ -244,7 +245,7 @@ class Customer {
 class Order {
   Order({
     required this.timeStamp,
-    this.date,
+    required this.date,
     required this.products,
     required this.status,
     required this.quantity,
@@ -259,24 +260,21 @@ class Order {
     required this.deliverToHome,
     required this.deliveryCost,
   });
-  
 
-  String? date = (DateTime dateTime) {
-    return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
-  }(DateTime.now());
+  String date;
 
   int? timeStamp;
   String sellerName;
   List<OrderProduct> products;
   int quantity;
   double deposit;
-  OrderStatus status;
+  String status;
   double? remainingPayement;
   double deliveryCost;
   bool deliverToHome;
   double sellingPrice;
   String customerName;
-  int? phoneNumber;
+  int phoneNumber;
   String address;
   String city;
   int postalCode;
@@ -284,7 +282,7 @@ class Order {
   static Order defaultInstance() {
     return Order(
         products: [],
-        status: OrderStatus.canceled,
+        status: OrderStatus.confirmed.name,
         quantity: 0,
         sellerName: '',
         customerName: '',
@@ -296,14 +294,14 @@ class Order {
         sellingPrice: 0,
         deliverToHome: true,
         deliveryCost: 0,
-        timeStamp: 0
-        );
+        timeStamp: Utility.getTimeStamp(),
+        date: Utility.getDate());
   }
 
   Order copyWith({
     List<OrderProduct>? products,
     String? date,
-    OrderStatus? status,
+    String? status,
     int? quantity,
     int? timeStamp,
     String? sellerName,
@@ -332,6 +330,7 @@ class Order {
       deliverToHome: deliverToHome ?? this.deliverToHome,
       deliveryCost: deliveryCost ?? this.deliveryCost,
       timeStamp: timeStamp ?? this.timeStamp,
+      date: date ?? this.date,
     );
   }
 }

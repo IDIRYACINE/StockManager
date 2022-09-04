@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
-import 'package:stock_manager/Ui/Components/Editors/ProductEditor/product_mode.dart';
+import 'package:stock_manager/Ui/Editors/ProductEditor/product_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
-import 'package:stock_manager/Ui/Components/Editors/SellersEditor.dart/seller_mode.dart';
+import 'package:stock_manager/Ui/Editors/SellersEditor.dart/seller_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

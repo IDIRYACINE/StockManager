@@ -3,69 +3,71 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_editors.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
-import 'package:stock_manager/Ui/Components/Editors/SaleEditor.dart/sale_form.dart';
+import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_form.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-import 'sale_mode.dart';
+import 'editor_forms.dart';
+import 'editor_mode.dart';
 
-class SaleEditor extends StatelessWidget {
-  const SaleEditor(
+class OrderProductEditor extends StatelessWidget {
+  const OrderProductEditor(
       {Key? key,
-      required this.record,
       this.editMode = false,
-      required this.confirmLabel,
+      required this.orderProduct,
       this.createCallback,
       this.editCallback,
-      this.onSearch})
+      required this.confirmLabel,
+      this.onSearch,
+      required this.order})
       : assert(
-          (editMode && editCallback != null) ||
-              (!editMode && createCallback != null),
-          'editMode and its callback must be set together',
+          ((createCallback == null) && (editCallback != null)) ||
+             ((createCallback != null) && (editCallback == null)),
+          'set only one callback edit or create',
         ),
         super(key: key);
 
-  final Record record;
+  final bool editMode;
+  final OrderProduct orderProduct;
+  final Order order;
   final int searchBarFlex = 2;
   final int bodyFlex = 5;
   final int actionsFlex = 1;
-
-  final Callback<Record>? createCallback;
-  final EditorCallback<AppJson, Record>? editCallback;
-
-  final bool editMode;
-  final EditorSearchCallback? onSearch;
+  final Callback<OrderProduct>? createCallback;
+  final Callback<OrderProduct>? editCallback;
   final String confirmLabel;
+  final EditorSearchCallback? onSearch;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
+    final OrderProductEditorMode<Callback<OrderProduct>> orderProductEditorMode =
+        OrderProductEditorMode.createModeInstance(orderProduct, order);
 
-    final dynamic saleEditorMode = editMode
-        ? SaleEditorMode.editModeInstance(record)
-        : SaleEditorMode.createModeInstance(record);
-    final ProductFormEditor productFormEditor = ProductFormEditor(
-    
-    );
+    final ProductFormEditor productFormEditor = ProductFormEditor();
 
     void updateProduct(List<Product> products) {
       if (products.isNotEmpty) {
         Product p = products.first;
+
         productFormEditor.productNameController.text = p.name;
-        productFormEditor.minSellingPriceController.text = p.sellingPrice.toString();
-        productFormEditor.sellingPriceController.text = p.sellingPrice.toString();
+        productFormEditor.minSellingPriceController.text =
+            p.sellingPrice.toString();
+        productFormEditor.sellingPriceController.text =
+            p.sellingPrice.toString();
         productFormEditor.familyController.text = p.productFamily;
         productFormEditor.referenceController.text = p.reference;
 
-        record.product = p.name;
-        record.reference = p.reference;
-        record.barcode = p.barcode;
-        record.originalPrice = p.originalPrice;
-        record.sellingPrice = p.sellingPrice;
+        orderProductEditorMode.sellingPriceController.text = p.sellingPrice.toString();
+        
+        orderProduct.product = p.name;
+        orderProduct.reference = p.reference;
+        orderProduct.sellingPrice = p.sellingPrice;
 
         product.value = p;
       }
@@ -83,10 +85,11 @@ class SaleEditor extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              if(!editMode)
               Flexible(
                 flex: searchBarFlex,
                 child: DefaultDecorator(
-                  child:SearchBar(onSearch: _onSearch),
+                  child: SearchBar(onSearch: _onSearch),
                 ),
               ),
               Expanded(
@@ -105,11 +108,9 @@ class SaleEditor extends StatelessWidget {
                       child: DefaultDecorator(
                           child: Padding(
                         padding: const EdgeInsets.all(Measures.small),
-                        child: SaleForm(
+                        child: OrderProductForm(
                           product: product,
-                          record: record,
-                          saleEditorMode: saleEditorMode, 
-                          minSellingPriceController: productFormEditor.minSellingPriceController,
+                          orderProductEditorMode: orderProductEditorMode,
                         ),
                       )),
                     ),
@@ -130,10 +131,11 @@ class SaleEditor extends StatelessWidget {
                       label: confirmLabel,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          if (editMode) {
-                            saleEditorMode.confirm(editCallback);
-                          } else {
-                            saleEditorMode.confirm(createCallback);
+                          if (!editMode) {
+                            orderProductEditorMode.confirm(createCallback!);
+                          }
+                          else{
+                            orderProductEditorMode.confirm(editCallback!);
                           }
                         }
                       },

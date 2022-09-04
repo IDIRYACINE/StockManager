@@ -29,7 +29,7 @@ class OrdersLiveDataModel with ChangeNotifier {
   }
 
   void addOrder(Order element) {
-    _loadedOrders.add(element);
+    _loadedOrders.add(selectedOrder);
     _toggleRefresh(_refreshOrders);
   }
 
@@ -60,7 +60,7 @@ class OrdersLiveDataModel with ChangeNotifier {
   }
 
   OrderProduct orderProduct(int index) =>
-      _loadedOrders[selectedOrderIndex].products[index];
+      selectedOrder.products[index];
 
   void removeOrderProduct(OrderProduct orderProduct) {
     selectedOrder.products.remove(orderProduct);

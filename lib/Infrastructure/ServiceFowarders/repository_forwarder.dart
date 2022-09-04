@@ -339,7 +339,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> loadOrders(ServiceMessageData message) async {
-    List<Order> orders = await _repository.loadOrders();
+    List<Order> orders = await _repository.searchOrders(search:{});
 
     ServiceResponse response = ServiceResponse(
       hasData: true,
