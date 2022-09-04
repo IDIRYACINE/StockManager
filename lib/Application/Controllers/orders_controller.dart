@@ -36,7 +36,7 @@ class OrdersController {
 
     ordersLiveModel.addOrder(order);
 
-    //TODO
+    //TODO : update stock 
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,

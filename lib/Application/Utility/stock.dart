@@ -5,10 +5,9 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 abstract class StockUtility {
+
   static void claimStockQuantity(
       String reference, int quantity, StockLiveDataModel stockLiveDataModel) {
-    SelectorBuilder selector =
-        SelectorBuilder().eq(RecordFields.reference.name, reference);
 
     ModifierBuilder modifier =
         ModifierBuilder().inc(RecordFields.quantity.name, quantity);
@@ -16,13 +15,13 @@ abstract class StockUtility {
     stockLiveDataModel.reclaimStock(reference, quantity);
 
     Map<ServicesData, dynamic> data = {
-      ServicesData.databaseSelector: selector.map,
+      ServicesData.instance: reference,
       ServicesData.updatedValues: modifier.map,
     };
 
     ServiceMessage message = ServiceMessage(
         data: data,
-        event: DatabaseEvent.updatePurchaseRecord,
+        event: DatabaseEvent.updateProduct,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
   }

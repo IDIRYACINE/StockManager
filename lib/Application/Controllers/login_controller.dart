@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -36,7 +37,9 @@ class LoginController {
     if (isConnected) {
       Provider.of<ControllersProvider>(context, listen: false).init(context);
       Provider.of<NavigationStore>(context, listen: false).init();
-    _loadData();
+
+    _loadData(Provider.of<LiveModelProvider>(context, listen: false));
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const App()));
     }
@@ -61,24 +64,41 @@ class LoginController {
     return message;
   }
 
-  void _loadData() {
+  void _loadData(LiveModelProvider liveModelProvider) {
+
     ServiceMessage loadSellers = ServiceMessage(
         service: AppServices.database,
         event: DatabaseEvent.loadSellers,
+        hasCallback: true,
+        callback:(sellers) {
+          liveModelProvider.sellersLiveModel.setAll(sellers);
+        } ,
         data: {});
 
     ServiceMessage loadProducts = ServiceMessage(
         service: AppServices.database,
+        hasCallback: true,
+        callback: (products) {
+          liveModelProvider.stockLiveModel.setAllProducts(products);
+        },
         event: DatabaseEvent.loadProducts,
         data: {});
 
     ServiceMessage loadFamillies = ServiceMessage(
         service: AppServices.database,
+        hasCallback: true,
+        callback: (famillies) {
+          liveModelProvider.stockLiveModel.setAllFamillies(famillies);
+        },
         event: DatabaseEvent.loadProductFamillies,
         data: {});
 
     ServiceMessage loadRecords = ServiceMessage(
         service: AppServices.database,
+        hasCallback: true,
+        callback: (records) {
+          liveModelProvider.recordsLiveModel.setAllRecords(records);
+        },
         event: DatabaseEvent.loadPurchaseRecords,
         data: {});
 

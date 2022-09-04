@@ -44,20 +44,19 @@ class SaleEditor extends StatelessWidget {
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
-
     final dynamic saleEditorMode = editMode
         ? SaleEditorMode.editModeInstance(record)
         : SaleEditorMode.createModeInstance(record);
-    final ProductFormEditor productFormEditor = ProductFormEditor(
-    
-    );
+    final ProductFormEditor productFormEditor = ProductFormEditor();
 
     void updateProduct(List<Product> products) {
       if (products.isNotEmpty) {
         Product p = products.first;
         productFormEditor.productNameController.text = p.name;
-        productFormEditor.minSellingPriceController.text = p.sellingPrice.toString();
-        productFormEditor.sellingPriceController.text = p.sellingPrice.toString();
+        productFormEditor.minSellingPriceController.text =
+            p.sellingPrice.toString();
+        productFormEditor.sellingPriceController.text =
+            p.sellingPrice.toString();
         productFormEditor.familyController.text = p.productFamily;
         productFormEditor.referenceController.text = p.reference;
 
@@ -83,12 +82,13 @@ class SaleEditor extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Flexible(
-                flex: searchBarFlex,
-                child: DefaultDecorator(
-                  child:SearchBar(onSearch: _onSearch),
+              if (!editMode)
+                Flexible(
+                  flex: searchBarFlex,
+                  child: DefaultDecorator(
+                    child: SearchBar(onSearch: _onSearch),
+                  ),
                 ),
-              ),
               Expanded(
                 flex: bodyFlex,
                 child: Row(
@@ -108,8 +108,9 @@ class SaleEditor extends StatelessWidget {
                         child: SaleForm(
                           product: product,
                           record: record,
-                          saleEditorMode: saleEditorMode, 
-                          sellingPriceController: productFormEditor.sellingPriceController,
+                          saleEditorMode: saleEditorMode,
+                          sellingPriceController:
+                              productFormEditor.sellingPriceController,
                         ),
                       )),
                     ),
@@ -130,6 +131,7 @@ class SaleEditor extends StatelessWidget {
                       label: confirmLabel,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
+
                           if (editMode) {
                             saleEditorMode.confirm(editCallback);
                           } else {

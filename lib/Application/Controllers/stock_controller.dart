@@ -115,6 +115,8 @@ class _ProductsDelegate implements IStockDelegate<Product> {
           service: AppServices.database);
 
       ServicesStore.instance.sendMessage(message);
+
+      Navigator.pop(context);
     }
 
     showDialog(
@@ -133,7 +135,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   void edit(BuildContext context, Product product, int index) {
     void onEdit(Map<String, dynamic> updatedField, Product product) {
       Map<ServicesData, dynamic> data = {
-        ServicesData.instance: product,
+        ServicesData.instance: product.reference,
         ServicesData.databaseSelector: updatedField,
       };
 
@@ -143,6 +145,8 @@ class _ProductsDelegate implements IStockDelegate<Product> {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
       stockLiveDataModel.updateProduct(product, index);
+
+      Navigator.pop(context);
     }
 
     showDialog(
@@ -251,8 +255,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
             onSelected: onSelect,
             onDeselected: onDeselect,
             adapter: StockController.productFamilyDropdownAdapter,
-            values: stockLiveDataModel
-                .loadedProductFamillies)
+            values: stockLiveDataModel.loadedProductFamillies)
       ];
     }
 
@@ -342,6 +345,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
       stockLiveDataModel.updateProductFamily(family, index);
+      Navigator.pop(context);
     }
 
     showDialog(

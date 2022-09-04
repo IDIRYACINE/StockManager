@@ -116,7 +116,7 @@ class DespositController {
 
   List<String> recordToRowData(Record record) {
     return [
-      record.date,
+      record.date.toString(),
       record.product,
       record.sellerName,
       record.deposit.toString(),

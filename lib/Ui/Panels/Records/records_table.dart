@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -16,7 +17,7 @@ class RecordsTable extends StatefulWidget {
 class _RecordsTableState extends State<RecordsTable> {
   List<String> recordToCellsAdapter(Record record) {
     return [
-      record.date,
+      Utility.formatDateTimeToDisplay(record.date),
       record.payementType,
       record.product,
       record.sellerName,

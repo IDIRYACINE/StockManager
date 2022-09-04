@@ -13,7 +13,7 @@ import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SalesController {
-  SalesController(this.recordsLiveModel,this.stockLiveModel);
+  SalesController(this.recordsLiveModel, this.stockLiveModel);
 
   RecordsLiveDataModel recordsLiveModel;
   StockLiveDataModel stockLiveModel;
@@ -31,8 +31,7 @@ class SalesController {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
 
-     recordsLiveModel
-          .updateSaleRecordAt(record, index);
+      recordsLiveModel.updateSaleRecordAt(record, index);
     }
 
     showDialog(
@@ -47,16 +46,14 @@ class SalesController {
   }
 
   void add(BuildContext context) {
-    void _onConfirm(Record record) {
-    recordsLiveModel
-          .addSaleRecord(record);
 
+    void _onConfirm(Record record) {
+      recordsLiveModel.addSaleRecord(record);
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
       };
 
-      
-      StockUtility.claimStockQuantity(record.reference, -1,stockLiveModel);
+      StockUtility.claimStockQuantity(record.reference, -1, stockLiveModel);
 
       ServiceMessage message = ServiceMessage(
           data: data,
@@ -64,14 +61,14 @@ class SalesController {
           service: AppServices.database);
 
       ServicesStore.instance.sendMessage(message);
+
+      Navigator.pop(context);
     }
 
     void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
-      Product? searchedProduct =
-         stockLiveModel
-              .searchProduct(searchValue);
+      Product? searchedProduct = stockLiveModel.searchProduct(searchValue);
 
-      if (searchedProduct != null) {
+      if (searchedProduct == null) {
         Map<ServicesData, dynamic> data = {
           ServicesData.databaseSelector: SelectorBuilder()
               .eq(ProductFields.reference.name, searchValue)
@@ -87,7 +84,7 @@ class SalesController {
 
         ServicesStore.instance.sendMessage(message);
       } else {
-        callback([searchedProduct!]);
+        callback([searchedProduct]);
       }
     }
 
@@ -117,12 +114,9 @@ class SalesController {
 
   void remove(BuildContext context, Record record) {
     void onRemove() {
-      
-
       recordsLiveModel.removeSaleRecord(record);
-      
-      
-      StockUtility.claimStockQuantity(record.reference, 1,stockLiveModel);
+
+      StockUtility.claimStockQuantity(record.reference, 1, stockLiveModel);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(

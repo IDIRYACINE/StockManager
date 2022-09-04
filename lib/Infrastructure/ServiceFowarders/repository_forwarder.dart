@@ -17,8 +17,8 @@ class DatabaseFrowarder {
     ServiceResponse response;
 
     _repository.updateProduct(
-      product: serviceMessage.data[ServicesData.instance],
-      updatedValues: serviceMessage.data[ServicesData.databaseSelector],
+      reference: serviceMessage.data[ServicesData.instance],
+      updatedValues: serviceMessage.data[ServicesData.updatedValues],
     );
 
     response = ServiceResponse(
@@ -208,6 +208,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> searchPurchaseRecord(
       ServiceMessageData message) async {
+
     List<Record> records = await _repository.searchRecord(
       search: message.data[ServicesData.databaseSelector],
     );
@@ -382,7 +383,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> searchOrders(ServiceMessageData message) async {
     List<Order> orders = await _repository.searchOrders(
-      search: message.data[ServicesData.instance],
+      search: message.data[ServicesData.databaseSelector],
     );
 
     ServiceResponse response = ServiceResponse(

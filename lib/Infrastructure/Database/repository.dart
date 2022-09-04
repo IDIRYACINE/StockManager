@@ -22,14 +22,14 @@ class DatabaseRepository {
   }
 
   Future<void> updateProduct(
-      {required Product product, required AppJson updatedValues}) async {
+      {required String reference, required AppJson updatedValues}) async {
     SelectorBuilder selector = SelectorBuilder();
 
-    selector.eq(ProductFields.reference.name, product.reference);
+    selector.eq(ProductFields.reference.name, reference);
 
     ModifierBuilder modifier = ModifierBuilder();
     List<ProductModel>? models =
-        updatedValues["\$set"][ProductFields.models.name];
+        updatedValues["\$set"]?[ProductFields.models.name];
 
     if (models != null) {
       List<AppJson> jsonModels = [];
@@ -296,6 +296,7 @@ class DatabaseRepository {
 
   Record recordFromJson({required AppJson<dynamic> json}) {
     String payementType = json[RecordFields.paymentType.name] ?? Labels.error;
+
     Record record = Record(
       payementType: payementType,
       sellerName: json[RecordFields.seller.name] ?? Labels.error,
@@ -309,7 +310,7 @@ class DatabaseRepository {
       quantity: json[RecordFields.quantity.name] ?? -1,
       originalPrice: json[RecordFields.buyingPrice.name] ?? -1,
       sellingPrice: json[RecordFields.sellingPrice.name] ?? -1,
-      date: json[RecordFields.date.name] ?? '1990-1-1',
+      date: json[RecordFields.date.name] ?? DateTime(1990),
     );
 
     if (payementType == PaymentTypes.deposit.name) {
@@ -438,6 +439,7 @@ class DatabaseRepository {
     json[RecordFields.quantity.name] = record.quantity;
     json[RecordFields.buyingPrice.name] = record.originalPrice;
     json[RecordFields.sellingPrice.name] = record.sellingPrice;
+    json[RecordFields.date.name] =  record.date;
 
     if (record.payementType == PaymentTypes.deposit.name) {
       json[RecordFields.deposit.name] = record.deposit;

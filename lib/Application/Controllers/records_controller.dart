@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -21,15 +23,22 @@ class RecordsController {
 
     void onResult(List<Record> records) {
       recordsLiveModel.setAllRecords(records);
-
       Navigator.pop(context);
     }
 
-    ServiceMessageDataMap data = {};
+    DateTime today = Utility.getTodayEndSearchTime();
+
+    SelectorBuilder selector = SelectorBuilder()
+    .lte(RecordFields.date.name, today);
+    
+
+    ServiceMessageDataMap data = {
+      ServicesData.databaseSelector : selector.map,
+    };
 
     ServiceMessage message = ServiceMessage<List<Record>>(
       data: data,
-      event: DatabaseEvent.loadPurchaseRecords,
+      event: DatabaseEvent.searchPurchaseRecord,
       service: AppServices.database,
       callback: onResult,
       hasCallback: true,

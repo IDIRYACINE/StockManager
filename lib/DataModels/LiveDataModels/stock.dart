@@ -45,7 +45,6 @@ class StockLiveDataModel   {
   }
 
   void setAllProducts(Iterable<Product> elements) {
-    //TODO
     _loadedProducts.clear();
     _loadedProducts.addAll(elements);
     toggleRefresh(_refreshProducts);

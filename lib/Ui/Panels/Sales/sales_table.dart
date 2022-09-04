@@ -64,6 +64,9 @@ class _SalesTableState extends State<SalesTable> {
                                 onDelete: controller.remove,
                                 onEdit: controller.edit,
                                 index: index,
+                                contextMenuItems: const [
+                                  ContextMenuOperation.remove
+                                ],
                                 dataModel: records.purchaseRecord(index),
                               );
                             });

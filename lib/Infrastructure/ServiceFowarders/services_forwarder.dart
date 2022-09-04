@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:stock_manager/Infrastructure/Database/database.dart';
@@ -26,7 +25,7 @@ class ServicesForwarder {
   void handleMessage(dynamic message) async{
     ServiceMessageData serviceMessage = message as ServiceMessageData;
     ServiceResponse? response;
-    log('${serviceMessage.event.name} : ${serviceMessage.data.toString()}');
+    print(message.event.name);
 
     // try {
       response = await _callbacks[message.event]?.call(serviceMessage);
@@ -35,7 +34,7 @@ class ServicesForwarder {
           hasData: false,
           messageId: serviceMessage.messageId,
           status: OperationStatus.failure);
-    // } catch (e) {
+    // } on Exception catch (_, e) {
     //   response = ServiceResponse(
     //       hasData: false,
     //       messageId: serviceMessage.messageId,

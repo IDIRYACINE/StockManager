@@ -309,11 +309,9 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
   }
 
   void queryGenerator(mongo.SelectorBuilder selector) {
-
      selector
-        .gte(widget.identifier, 'ISODate($minValue)')
-        .lte(widget.identifier, 'ISODate($maxValue)');
-
+        .gte(widget.identifier, DateTime.parse(minValue))
+        .lte(widget.identifier, DateTime.parse(maxValue));
   }
 
   @override

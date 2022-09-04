@@ -50,7 +50,6 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
   void setSellingPrice(String? price){
     if(price != null && price !='') {
       orderProduct.sellingPrice = double.parse(price);
-      sellingPriceController.text = price;
     }
   }
 
@@ -84,7 +83,6 @@ class _ModeEdit extends OrderProductEditorMode<EditorCallback<AppJson, OrderProd
   void setSellingPrice(String? price){
     if(price != null && price !='') {
       double sellingPrice = double.parse(price);
-      orderProduct.sellingPrice = sellingPrice;
       updatedFields[OrderFields.sellingPrice] = sellingPrice;
     }
   }

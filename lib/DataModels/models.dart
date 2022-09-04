@@ -44,7 +44,7 @@ class Product {
       sellingPrice: 0,
       reference: '',
       totalQuantity: 0,
-      models: [ProductModel()],
+      models: [],
       imageUrl: null,
     );
   }
@@ -69,8 +69,7 @@ class Record {
     required this.sellingPrice,
   });
 
-  String date;
-
+  DateTime date;
   int timeStamp;
   String sellerName;
   String product;
@@ -93,7 +92,7 @@ class Record {
     String? sellerName,
     String? product,
     String? productColor,
-    String? date,
+    DateTime? date,
     String? productSize,
     int? barcode,
     String? reference,
@@ -303,7 +302,7 @@ class Order {
         deliverToHome: true,
         deliveryCost: 0,
         timeStamp: Utility.getTimeStamp(),
-        date: Utility.getDate());
+        date: Utility.getDateString());
   }
 
   List<OrderProduct> _copyProducts(){
