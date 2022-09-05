@@ -34,7 +34,8 @@ class ControllersProvider with ChangeNotifier {
 
     depositController = DespositController(
         liveModelsProvider.recordsLiveModel, liveModelsProvider.stockLiveModel);
-    ordersController = OrdersController(liveModelsProvider.ordersLiveModel);
+    ordersController = OrdersController(
+        liveModelsProvider.ordersLiveModel, liveModelsProvider.stockLiveModel);
     orderProductsController = OrderProductsController(
         liveModelsProvider.stockLiveModel, liveModelsProvider.ordersLiveModel);
   }

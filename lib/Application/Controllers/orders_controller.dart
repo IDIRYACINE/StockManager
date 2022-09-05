@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/stock.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -14,15 +16,13 @@ import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrdersController {
-
-  OrdersController(this.ordersLiveModel);
+  OrdersController(this.ordersLiveModel, this.stockLiveModel);
 
   final OrdersLiveDataModel ordersLiveModel;
-
+  final StockLiveDataModel stockLiveModel;
 
   void add(BuildContext context) {
-    ordersLiveModel.selectedOrder =
-        Order.defaultInstance();
+    ordersLiveModel.selectedOrder = Order.defaultInstance();
 
     showDialog(
         context: context,
@@ -30,13 +30,14 @@ class OrdersController {
   }
 
   void addOrder(BuildContext context) {
-    
-
     Order order = ordersLiveModel.selectedOrder;
 
-    ordersLiveModel.addOrder(order);
+    List<String> references = [];
+    for (int i = 0; i < order.products.length; i++) {
+      references.add(order.products[i].reference);
+    }
 
-    //TODO : update stock 
+    StockUtility.claimStockQuantityBatch(references, -1, stockLiveModel);
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,
@@ -52,8 +53,6 @@ class OrdersController {
   }
 
   void edit(BuildContext context, Order order, int index) {
-   
-
     ordersLiveModel.selectedOrderIndex = index;
     ordersLiveModel.selectedOrder = order.copyWith();
 
@@ -68,38 +67,34 @@ class OrdersController {
   }
 
   void editCustomer(BuildContext context) {
+    void onEdit(AppJson json, order) {
+      Order order = ordersLiveModel.selectedOrder;
+      int index = ordersLiveModel.selectedOrderIndex;
+      
+      Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
 
-    void onEdit(AppJson json , order){
-     
+      json.forEach((key, value) {
+        updatedField[key] = value;
+      });
 
-    Order order = ordersLiveModel.selectedOrder;
-    int index = ordersLiveModel.selectedOrderIndex;
-    Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
-
-    json.forEach((key, value) {
-      updatedField[key] = value;
-     });
-
-    Provider.of<OrdersLiveDataModel>(context, listen: false)
-        .updateOrder(order, index);
+      Provider.of<OrdersLiveDataModel>(context, listen: false)
+          .updateOrder(order, index);
     }
-    
+
     showDialog(
       context: context,
       builder: (context) => Material(
         child: OrderCustomerEditor(
           confirmLabel: Labels.save,
           order: Provider.of<OrdersLiveDataModel>(context, listen: false)
-              .selectedOrder, 
-              editCallback: onEdit,
+              .selectedOrder,
+          editCallback: onEdit,
         ),
       ),
     );
   }
 
   void updateOrder(BuildContext context) {
-   
-
     Order order = ordersLiveModel.selectedOrder;
     int index = ordersLiveModel.selectedOrderIndex;
     Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
@@ -115,14 +110,12 @@ class OrdersController {
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
 
-   ordersLiveModel
-        .updateOrder(order, index);
+    ordersLiveModel.updateOrder(order, index);
   }
 
   void refresh(BuildContext context) {
     void onResult(List<Order> order) {
-      ordersLiveModel
-          .setAllOrders(order);
+      ordersLiveModel.setAllOrders(order);
     }
 
     ServiceMessage message = ServiceMessage<List<Order>>(
@@ -138,6 +131,13 @@ class OrdersController {
   void remove(BuildContext context, Order order) {
     void onRemove() {
       ordersLiveModel.removeOrder(order);
+
+      List<String> references = [];
+      for (int i = 0; i < order.products.length; i++) {
+        references.add(order.products[i].reference);
+      }
+
+      StockUtility.claimStockQuantityBatch(references, 1, stockLiveModel);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: order};
 
@@ -161,8 +161,7 @@ class OrdersController {
     PopupsUtility.showLoadingAlert(context);
 
     void _onResult(List<Order> order) {
-      ordersLiveModel
-          .setAllOrders(order);
+      ordersLiveModel.setAllOrders(order);
       Navigator.pop(context);
     }
 
@@ -182,8 +181,7 @@ class OrdersController {
 
   void search(BuildContext context) {
     void _onResult(List<Order> orders) {
-      ordersLiveModel
-          .setAllOrders(orders);
+      ordersLiveModel.setAllOrders(orders);
       Navigator.pop(context);
     }
 
@@ -240,7 +238,7 @@ class OrdersController {
 
   List<String> orderToRowData(Order order) {
     return [
-      order.date ,
+      order.date,
       order.customerName.toString(),
       order.sellerName,
       order.deposit.toString(),

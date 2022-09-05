@@ -58,6 +58,8 @@ class ServicesForwarder {
     _callbacks[DatabaseEvent.searchProduct] = _databaseForwarder.searchProduct;
     _callbacks[DatabaseEvent.deleteProduct] = _databaseForwarder.deleteProduct;
     _callbacks[DatabaseEvent.updateProduct] = _databaseForwarder.updateProduct;
+    _callbacks[DatabaseEvent.updateProductBatch] = _databaseForwarder.updateProductBatch;
+
 
     _callbacks[DatabaseEvent.insertProductFamily] = _databaseForwarder.addProductFamily;
     _callbacks[DatabaseEvent.loadProductFamillies] = _databaseForwarder.loadProductFamilies;

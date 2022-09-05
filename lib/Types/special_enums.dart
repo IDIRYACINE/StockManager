@@ -45,6 +45,7 @@ enum DatabaseEvent{
   updateOrder,
   updateProductFamily,
   updateProduct,
+  updateProductBatch,
   updatePurchaseRecord,
   updateSeller,
   deleteProductFamily,
@@ -88,6 +89,7 @@ enum ServicesData {
   databaseSelector,
   updatedValues,
   instance,
+  instanceList,
   identifier,
   password
   

@@ -395,4 +395,24 @@ class DatabaseFrowarder {
 
     return response;
   }
+
+  Future<ServiceResponse> updateProductBatch(ServiceMessageData message) async{
+    List<String> references = message.data[ServicesData.instanceList];
+
+    for(int i=0 ; i<references.length;i++){
+        await _repository.updateProduct(
+        reference: references[i],
+        updatedValues: message.data[ServicesData.updatedValues],
+    );
+    }
+    
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
 }

@@ -25,4 +25,26 @@ abstract class StockUtility {
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
   }
+
+  static void claimStockQuantityBatch(
+      List<String> references, int quantity, StockLiveDataModel stockLiveDataModel) {
+
+    ModifierBuilder modifier =
+        ModifierBuilder().inc(RecordFields.quantity.name, quantity);
+
+    for(int i = 0 ; i <references.length;i++){
+      stockLiveDataModel.reclaimStock(references[i], quantity);
+    }
+
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instanceList: references,
+      ServicesData.updatedValues: modifier.map,
+    };
+
+    ServiceMessage message = ServiceMessage(
+        data: data,
+        event: DatabaseEvent.updateProductBatch,
+        service: AppServices.database);
+    ServicesStore.instance.sendMessage(message);
+  }
 }
