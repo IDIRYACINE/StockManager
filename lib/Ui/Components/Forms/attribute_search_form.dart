@@ -5,7 +5,7 @@ import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
-import 'package:stock_manager/Ui/Components/Generics/date_picker.dart';
+import 'package:stock_manager/Ui/Generics/date_picker.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 abstract class SearchField {

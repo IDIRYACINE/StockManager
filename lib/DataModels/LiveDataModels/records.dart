@@ -33,6 +33,10 @@ class RecordsLiveDataModel   {
   ValueListenable<bool> get salesRefresh => _salesRefresh;
   ValueListenable<double> get totalPrice => _totalPrice;
 
+  List<Record> get purchaseRecords => _purchaseRecords;
+    List<Record> get records => _loadedRecords;
+
+
   void toggleRefresh(ValueNotifier<bool> refresh) {
     refresh.value = !refresh.value;
   }
@@ -107,5 +111,9 @@ class RecordsLiveDataModel   {
     _updateRecord();
 
     toggleRefresh(_salesRefresh);
+  }
+
+  Record saleRecord(int index) {
+    return _purchaseRecords[index];
   }
 }

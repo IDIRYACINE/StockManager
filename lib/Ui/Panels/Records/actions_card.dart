@@ -24,6 +24,7 @@ class ActionsCard extends StatelessWidget {
         .search(context);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -114,6 +115,11 @@ class SearchActionsCard extends StatelessWidget {
         .quickSearch(context,selector.map);
   }
 
+
+  void onPrint(BuildContext context,RecordsController controller){
+    controller.printRecords(context);
+  }
+
  
   void registerQuery(Callback<SelectorBuilder> queryGenerator){
     queryGenerators.add(queryGenerator);
@@ -161,6 +167,13 @@ class SearchActionsCard extends StatelessWidget {
               onAdvancedSearch(context,controller);
             },
             child:const Icon(Icons.filter),
+          )),
+          Flexible(
+              child: ElevatedButton(
+            onPressed: () {
+              onPrint(context,controller);
+            },
+            child:const Icon(Icons.print),
           )),
         ],
       ),

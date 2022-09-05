@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/Printer/printer.dart';
+import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
+import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/Application/Utility/stock.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
@@ -46,7 +49,6 @@ class SalesController {
   }
 
   void add(BuildContext context) {
-
     void _onConfirm(Record record) {
       recordsLiveModel.addSaleRecord(record);
       Map<ServicesData, dynamic> data = {
@@ -131,5 +133,31 @@ class SalesController {
         builder: (context) => AlertDialog(
             content: ConfirmDialog(
                 onConfirm: onRemove, message: Messages.deleteElement)));
+  }
+
+  void printPurchases(BuildContext context) {
+    
+    InvoicePage<Record> invoicePage = InvoicePage(
+        paddings: Measures.paddingNormal,
+        headers: Titles.pruchaseInvoiceHeaders,
+        cellAdapter: Adapter.recordToInvoiceRowData,
+        data: recordsLiveModel.purchaseRecords,
+        footerData: Titles.invoiceFooterHeaders,
+        invoiceAttributes: [
+          InvoiceItem(Labels.customerName,
+              recordsLiveModel.saleRecord(0).customer ?? ''),
+          InvoiceItem(
+              Labels.sellerName, recordsLiveModel.saleRecord(0).sellerName),
+        ],
+        invoicePayementAttributes: [
+          InvoiceItem(Labels.total, '200'),
+        ]);
+
+    AppPrinter appPrinter = AppPrinter();
+    appPrinter.createNewDocument();
+    appPrinter.addPage(invoicePage.build());
+    appPrinter
+        .prepareDocument()
+        .then((value) => appPrinter.displayPreview(context));
   }
 }

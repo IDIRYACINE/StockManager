@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/Printer/printer.dart';
+import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
+import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -28,12 +31,11 @@ class RecordsController {
 
     DateTime today = Utility.getTodayEndSearchTime();
 
-    SelectorBuilder selector = SelectorBuilder()
-    .lte(RecordFields.date.name, today);
-    
+    SelectorBuilder selector =
+        SelectorBuilder().lte(RecordFields.date.name, today);
 
     ServiceMessageDataMap data = {
-      ServicesData.databaseSelector : selector.map,
+      ServicesData.databaseSelector: selector.map,
     };
 
     ServiceMessage message = ServiceMessage<List<Record>>(
@@ -134,4 +136,52 @@ class RecordsController {
 
     ServicesStore.instance.sendMessage(message);
   }
+
+  void printRecords(BuildContext context) {
+
+    AppPrinter appPrinter = AppPrinter();
+    appPrinter.createNewDocument();
+
+    List<Record> records = recordsLiveModel.records;
+
+    int maxRowsPerPage = 30;
+    int pageCount = Utility.calculatePageCount(records.length, maxRowsPerPage);
+    int currentIndex = 0;
+    int currentPage = 0;
+
+
+    while( currentPage < pageCount){
+      
+      int endIndex = currentIndex + maxRowsPerPage;
+      endIndex = endIndex > records.length ? records.length : endIndex;
+
+      RecordReportTotals totals = Utility.calculateRecordReportTotals(records,currentIndex,endIndex) ;
+
+      RecordsPage<Record> recordPage = RecordsPage(
+        paddings: Measures.paddingNormal,
+        headers: Titles.recordReportHeaders,
+        cellAdapter: Adapter.recordToReportRecordRow,
+        data: recordsLiveModel.records,
+        invoicePayementAttributes: [
+          InvoiceItem(Labels.totalDeposit, totals.totalDeposit.toString()),
+          InvoiceItem(Labels.profit, totals.totalProfit.toString()),
+          InvoiceItem(Labels.remainingPayement, totals.totalRemainingPayement.toString()),
+          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString()),
+        ],
+        endIndex: currentIndex + maxRowsPerPage , 
+        startIndex: currentIndex);
+
+      appPrinter.addPage(recordPage.build());  
+      
+      currentIndex += maxRowsPerPage;
+      currentPage++;
+    }
+
+
+    appPrinter
+        .prepareDocument()
+        .then((value) => appPrinter.displayPreview(context));
+  }
+
+ 
 }

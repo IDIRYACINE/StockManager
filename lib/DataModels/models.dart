@@ -1,6 +1,16 @@
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/metadata.dart';
 
+class RecordReportTotals{
+  final double totalDeposit;
+  final double totalRemainingPayement;
+  final double totalProfit;
+  final double totalNetProfit;
+
+  RecordReportTotals(this.totalDeposit, this.totalRemainingPayement, this.totalProfit, this.totalNetProfit);
+  
+}
+
 class ProductModel {
   ProductModel({
     this.color = 'black',
@@ -62,8 +72,8 @@ class Record {
     required this.barcode,
     required this.reference,
     this.customer,
-    this.deposit,
-    this.remainingPayement,
+    required this.deposit,
+    required this.remainingPayement,
     required this.quantity,
     required this.originalPrice,
     required this.sellingPrice,
@@ -78,8 +88,8 @@ class Record {
   int quantity;
   double originalPrice;
   double sellingPrice;
-  double? deposit;
-  double? remainingPayement;
+  double deposit;
+  double remainingPayement;
   String? customer;
   String payementType;
   int barcode;
@@ -118,6 +128,7 @@ class Record {
       productColor: productColor ?? this.productColor,
       productSize: productSize ?? this.productSize,
       sellingPrice: sellingPrice ?? this.sellingPrice,
+       remainingPayement: remainingPayement ?? this.remainingPayement,
     );
   }
 

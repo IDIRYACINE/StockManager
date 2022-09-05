@@ -79,6 +79,28 @@ abstract class Titles {
     Labels.remainingPayement,
     Labels.sellingPrice,
   ];
+
+  static const List<String> pruchaseInvoiceHeaders =  [
+    Labels.productName,
+    Labels.quantity,
+    Labels.price,
+    Labels.total,
+  ];
+
+  static const List<String> invoiceFooterHeaders = [
+    "Number",
+    "Address",
+    "Facebook"
+  ];
+
+  static const List<String> recordReportHeaders = [
+    Labels.payementType,
+    Labels.productName,
+    Labels.buyingPrice,
+    Labels.sellingPrice,
+    Labels.payed,
+    Labels.remainingPayement,
+  ];
 }
 
 abstract class Labels {
@@ -156,6 +178,12 @@ abstract class Labels {
   static const username = 'Username';
   static const password = 'Password';
   static const loading = 'Loading';
+  static const print = 'Print';
+  static String netProfit = 'Net Profit';
+  static String profit = 'Profit';
+  static const payed = 'Payed';
+
+  static const totalDeposit = 'Total Deposit';
 
 }
 
@@ -198,6 +226,14 @@ abstract class Measures {
   static const contextMenuXoffset = 10.0;
   static const contextMenuWidth = 200.0;
   static const contextMenuHeight = 200.0;
+
+  static const h1TextSize = 30.0;
+  static const h2TextSize = 20.0;
+  static const h3TextSize = 16.0;
+  static const h4TextSize = 14.0;
+  static const h5TextSize = 12.0;
+  static const h6TextSize = 10.0;
+  
 }
 
 abstract class Messages {

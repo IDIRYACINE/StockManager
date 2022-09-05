@@ -61,6 +61,8 @@ class DepositEditor extends StatelessWidget {
         record.barcode = p.barcode;
         record.reference = p.reference;
         record.sellingPrice = p.sellingPrice;
+        record.product = p.name;
+        record.remainingPayement = p.sellingPrice - depositMode.depositController.text.toDouble();
 
         product.value = p;
       }

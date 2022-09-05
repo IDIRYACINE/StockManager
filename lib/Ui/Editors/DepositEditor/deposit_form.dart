@@ -55,7 +55,7 @@ class _DepositFormState extends State<DepositForm> {
                         .loadedSellers,
                     label: const Text(Labels.sellerName)),
                 AttributeTextField(
-                  controller: widget.depositMode.nameController,
+                  initialValue: widget.record.customer,
                   onChanged: widget.depositMode.setCustomerName,
                   label: Labels.customerName,
                 ),

@@ -55,10 +55,11 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
   _ModeCreate(this.record);
 
   final Record record;
+  
   @override
   void setRemainingPayement(String? remainingPayement) {
     if (remainingPayement != null) {
-      record.remainingPayement = double.tryParse(remainingPayement);
+      record.remainingPayement = double.tryParse(remainingPayement) ?? 0;
     }
   }
 
@@ -67,7 +68,7 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
     if (sellingPrice != null && sellingPrice != '') {
       record.sellingPrice = double.parse(sellingPrice);
       remainingPaymenentController.text =
-          (record.sellingPrice - record.deposit!).toString();
+          (record.sellingPrice - record.deposit).toString();
     }
   }
 
@@ -81,7 +82,7 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
     if (deposit != null && deposit != "") {
       record.deposit = double.parse(deposit);
       remainingPaymenentController.text =
-          (record.sellingPrice - record.deposit!).toString();
+          (record.sellingPrice - record.deposit).toString();
     }
   }
 
@@ -113,13 +114,12 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
 
   final Record record;
 
-  final Map<RecordFields, Record> updatedValues = {};
+  final AppJson<dynamic> updatedValues = {};
 
   @override
   void setRemainingPayement(String? remainingPayement) {
     if (remainingPayement != null) {
-      record.remainingPayement = double.tryParse(remainingPayement);
-      updatedValues[RecordFields.remainingPayement] = record;
+      record.remainingPayement = double.tryParse(remainingPayement) ?? 0;
     }
   }
 
@@ -127,42 +127,51 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
   void setSellingPrice(String? sellingPrice) {
     if (sellingPrice != null && sellingPrice !='') {
       record.sellingPrice = double.parse(sellingPrice);
-      updatedValues[RecordFields.sellingPrice] = record;
+
     }
   }
 
   @override
   void setSellerName(Seller seller) {
     record.sellerName = seller.name;
-    updatedValues[RecordFields.seller] = record;
+    updatedValues[RecordFields.seller.name] = seller.name;
   }
 
   @override
   void setDeposit(String? deposit) {
     if (deposit != null && deposit!='')  {
-      record.deposit = double.parse(deposit);
-      updatedValues[RecordFields.deposit] = record;
+      double parsedDeposit = double.parse(deposit);
+      record.deposit = parsedDeposit;
+      
+      double remainingPayement = record.sellingPrice - parsedDeposit;
+
+      remainingPaymenentController.text =
+          remainingPayement.toString();
+
+      updatedValues[RecordFields.deposit.name] = parsedDeposit;
+      updatedValues[RecordFields.remainingPayement.name] = remainingPayement;
+
     }
   }
 
   @override
   void setCustomerName(String? customerName) {
-    if (customerName != null) {
+    if (customerName != null && customerName != '') {
       record.customer = customerName;
-      updatedValues[RecordFields.customer] = record;
+      updatedValues[RecordFields.customer.name] = customerName;
     }
   }
 
   @override
   void setColor(String color) {
     record.productColor = color;
-    updatedValues[RecordFields.productColor] = record;
+    updatedValues[RecordFields.productColor.name] = color;
   }
 
   @override
   void setSize(String size) {
     record.productSize = size;
-    updatedValues[RecordFields.productSize] = record;
+    updatedValues[RecordFields.productSize.name] = size;
   }
 
   @override
@@ -170,7 +179,7 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
     ModifierBuilder query = ModifierBuilder();
 
     updatedValues.forEach((key, value) {
-      query.set(key.name, value);
+      query.set(key, value);
     });
 
     callback(query.map, record);

@@ -307,10 +307,12 @@ class DatabaseRepository {
       barcode: json[RecordFields.barcode.name] ?? Labels.error,
       reference: json[RecordFields.reference.name] ?? Labels.error,
       customer: json[RecordFields.customer.name] ?? Labels.error,
-      quantity: json[RecordFields.quantity.name] ?? -1,
-      originalPrice: json[RecordFields.buyingPrice.name] ?? -1,
-      sellingPrice: json[RecordFields.sellingPrice.name] ?? -1,
+      quantity: json[RecordFields.quantity.name] ?? 0,
+      originalPrice: json[RecordFields.buyingPrice.name] ?? 0,
+      sellingPrice: json[RecordFields.sellingPrice.name] ?? 0,
       date: json[RecordFields.date.name] ?? DateTime(1990),
+       deposit: json[RecordFields.quantity.name] ?? 0, 
+       remainingPayement: json[RecordFields.quantity.name] ?? 0,
     );
 
     if (payementType == PaymentTypes.deposit.name) {
@@ -332,7 +334,7 @@ class DatabaseRepository {
   OrderProduct orderProductFromJson({required AppJson<dynamic> json}) {
     return OrderProduct(
       reference: json[ProductFields.reference.name] ?? Labels.error,
-      sellingPrice: json[ProductFields.sellingPrice.name] ?? -1,
+      sellingPrice: json[ProductFields.sellingPrice.name] ?? 0,
       product: json[ProductFields.name.name] ?? Labels.error,
       productColor: json[ProductModelFields.color.name] ?? Labels.error,
       productSize: json[ProductModelFields.size.name] ?? Labels.error,
@@ -359,16 +361,16 @@ class DatabaseRepository {
       city: json[OrderFields.city.name] ?? Labels.error,
       date: json[OrderFields.date.name] ?? Labels.error,
       deliverToHome: json[OrderFields.deliverToHome.name] ?? false,
-      deposit: json[OrderFields.deposit.name] ?? -1,
+      deposit: json[OrderFields.deposit.name] ?? 0,
       status: json[OrderFields.status.name] ?? Labels.error,
-      totalPrice: json[OrderFields.sellingPrice.name] ?? -1,
+      totalPrice: json[OrderFields.sellingPrice.name] ?? 0,
       customerName: json[OrderFields.customerName.name] ?? Labels.error,
-      deliveryCost: json[OrderFields.deliveryCost.name] ?? -1,
-      phoneNumber: json[OrderFields.phone.name] ?? -1,
-      postalCode: json[OrderFields.postalCode.name] ?? -1,
-      quantity: json[OrderFields.quantity.name] ?? -1,
+      deliveryCost: json[OrderFields.deliveryCost.name] ?? 0,
+      phoneNumber: json[OrderFields.phone.name] ?? 0,
+      postalCode: json[OrderFields.postalCode.name] ?? 0,
+      quantity: json[OrderFields.quantity.name] ?? 0,
       sellerName: json[OrderFields.seller.name] ?? Labels.error,
-      timeStamp: json[OrderFields.timeStamp.name] ?? -1,
+      timeStamp: json[OrderFields.timeStamp.name] ?? 0,
     );
   }
 

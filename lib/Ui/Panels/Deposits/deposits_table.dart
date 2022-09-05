@@ -22,7 +22,7 @@ class _DepositsTableState extends State<DepositsTable> {
       record.product,
       record.customer!,
       record.sellerName,
-      record.deposit!.toString(),
+      record.deposit.toString(),
       record.remainingPayement.toString(),
       record.sellingPrice.toString(),
     ];
