@@ -1,27 +1,31 @@
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/metadata.dart';
 
-class RecordReportTotals{
-  final double totalDeposit;
-  final double totalRemainingPayement;
-  final double totalProfit;
-  final double totalNetProfit;
 
-  RecordReportTotals(this.totalDeposit, this.totalRemainingPayement, this.totalProfit, this.totalNetProfit);
-  
-}
 
 class ProductModel {
   ProductModel({
-    this.color = 'black',
-    this.size = 's',
-    this.quantity = 1,
+    required this.index,
+    required this.color ,
+    required this.sizes ,
+    required this.sizesQuantiites,
   });
 
+  int index;
   String color;
-  String size;
-  int quantity;
+  List<String> sizes;
+  List<int> sizesQuantiites;
+
+  static defaultInstance(int index){
+    return ProductModel(
+      index: index,
+      color: "Default",
+      sizes: [],
+      sizesQuantiites: [],
+    );
+  }
 }
+
 
 class Product {
   Product(
@@ -155,11 +159,13 @@ class Record {
 }
 
 class Seller {
+  int sellerCode;
   String name;
   int phone;
   String imageUrl;
 
-  Seller({required this.name, required this.phone, required this.imageUrl});
+  Seller({  required  this.sellerCode,
+required this.name, required this.phone, required this.imageUrl});
 
   Seller copyWith({
     String? name,
@@ -167,6 +173,7 @@ class Seller {
     String? imageUrl,
   }) {
     return Seller(
+      sellerCode: sellerCode,
       name: name ?? this.name,
       phone: phone ?? this.phone,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -175,6 +182,7 @@ class Seller {
 
   static Seller defaultInstance() {
     return Seller(
+      sellerCode: 0,
       name: '',
       phone: 0,
       imageUrl: '',

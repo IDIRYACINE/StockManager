@@ -81,14 +81,24 @@ class ProductModelRow extends StatelessWidget {
       required this.onDelete,
       required this.onColorChanged,
       required this.onQuantityChanged,
-      required this.onSizeChanged, required this.index})
+      required this.onSizeChanged,
+      required this.index})
       : super(key: key);
+
   final ProductModel model;
   final int index;
   final VoidCallback onDelete;
   final Callback2<String, int> onColorChanged;
-  final Callback2<String, int> onQuantityChanged;
-  final Callback2<String, int> onSizeChanged;
+  final Callback3<String, int, int> onQuantityChanged;
+  final Callback3<String, int, int> onSizeChanged;
+
+  void onModelSizeChanged(String value, int sizeIndex) {
+    onSizeChanged(value, index, sizeIndex);
+  }
+
+  void onModelQuantityChanged(String value, int quantityIndex) {
+    onQuantityChanged(value, index, quantityIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +117,46 @@ class ProductModelRow extends StatelessWidget {
           },
         )),
         Flexible(
+          child: ListView.builder(
+            itemCount: model.sizes.length,
+            itemBuilder: ((context, index) => _SizeQuantityRow(
+                onQuantityChanged: onModelQuantityChanged,
+                onSizeChanged: onModelSizeChanged,
+                index: index,
+                model: model)),
+          ),
+        ),
+        Flexible(
+            child: DefaultButton(
+          label: Labels.remove,
+          onPressed: onDelete,
+        ))
+      ],
+    );
+  }
+}
+
+class _SizeQuantityRow extends StatelessWidget {
+  const _SizeQuantityRow(
+      {Key? key,
+      required this.onQuantityChanged,
+      required this.onSizeChanged,
+      required this.index,
+      required this.model})
+      : super(key: key);
+
+  final Callback2<String, int> onQuantityChanged;
+  final Callback2<String, int> onSizeChanged;
+  final int index;
+  final ProductModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Flexible(
             child: AttributeTextField(
-          initialValue: model.size,
+          initialValue: model.sizes[index],
           label: Labels.size,
           onChanged: (value) {
             if (value != null) {
@@ -118,7 +166,7 @@ class ProductModelRow extends StatelessWidget {
         )),
         Flexible(
             child: AttributeTextField(
-          initialValue: model.quantity.toString(),
+          initialValue: model.sizesQuantiites[index].toString(),
           label: Labels.quantity,
           onChanged: (value) {
             if (value != null) {
@@ -126,11 +174,6 @@ class ProductModelRow extends StatelessWidget {
             }
           },
         )),
-        Flexible(
-            child: DefaultButton(
-          label: Labels.remove,
-          onPressed: onDelete,
-        ))
       ],
     );
   }

@@ -99,3 +99,16 @@ enum ContextMenuOperation{
   edit,
   remove,
 }
+
+enum StatsType{
+   topStates,
+  topProducts,
+  topSellers,
+}
+
+enum StatsVisibility{
+  daily,
+  weekly,
+  monthly,
+  yearly,
+}

@@ -1,22 +1,22 @@
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/Database/database.dart';
-import 'package:stock_manager/Infrastructure/Database/repository.dart';
+import 'package:stock_manager/Infrastructure/Database/database_dao.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class DatabaseFrowarder {
   DatabaseFrowarder(this._database) {
-    _repository = DatabaseRepository(_database);
+    _databaseDao = DatabaseDAO(_database);
   }
 
-  late DatabaseRepository _repository;
+  late DatabaseDAO _databaseDao;
   final Database _database;
 
   Future<ServiceResponse> updateProduct(
       ServiceMessageData serviceMessage) async {
     ServiceResponse response;
 
-    _repository.updateProduct(
+    _databaseDao.updateProduct(
       reference: serviceMessage.data[ServicesData.instance],
       updatedValues: serviceMessage.data[ServicesData.updatedValues],
     );
@@ -34,7 +34,7 @@ class DatabaseFrowarder {
       ServiceMessageData serviceMessage) async {
     ServiceResponse response;
 
-    _repository.deleteProduct(
+    _databaseDao.deleteProduct(
       product: serviceMessage.data[ServicesData.instance],
     );
 
@@ -51,7 +51,7 @@ class DatabaseFrowarder {
       ServiceMessageData serviceMessage) async {
     ServiceResponse response;
 
-    List<Product> products = await _repository.searchProduct(
+    List<Product> products = await _databaseDao.searchProduct(
       search: serviceMessage.data[ServicesData.databaseSelector],
     );
 
@@ -67,7 +67,7 @@ class DatabaseFrowarder {
   Future<ServiceResponse> addProduct(ServiceMessageData serviceMessage) async {
     ServiceResponse response;
 
-    _repository.insertProduct(
+    _databaseDao.insertProduct(
       product: serviceMessage.data[ServicesData.instance],
     );
 
@@ -95,7 +95,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> loadProducts(
       ServiceMessageData serviceMessage) async {
-    List<Product> data = await _repository.loadProducts();
+    List<Product> data = await _databaseDao.loadProducts();
 
     ServiceResponse response = ServiceResponse(
         hasData: true,
@@ -107,7 +107,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> addProductFamily(ServiceMessageData message) async {
-    await _repository.insertProductFamily(
+    await _databaseDao.insertProductFamily(
       productFamily: message.data[ServicesData.instance],
     );
 
@@ -134,7 +134,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> updateProductFamily(
       ServiceMessageData message) async {
-    await _repository.updateProductFamily(
+    await _databaseDao.updateProductFamily(
       productFamily: message.data[ServicesData.instance],
       updatedValues: message.data[ServicesData.databaseSelector],
     );
@@ -150,7 +150,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> searchProductFamily(
       ServiceMessageData message) async {
-    List<ProductFamily> famillies = await _repository.searchProductFamily(
+    List<ProductFamily> famillies = await _databaseDao.searchProductFamily(
       search: message.data[ServicesData.databaseSelector],
     );
 
@@ -166,7 +166,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> loadProductFamilies(
       ServiceMessageData message) async {
-    List<ProductFamily> famillies = await _repository.loadProductFamillies();
+    List<ProductFamily> famillies = await _databaseDao.loadProductFamillies();
 
     ServiceResponse response = ServiceResponse(
       hasData: true,
@@ -180,7 +180,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> loadPurchaseRecords(
       ServiceMessageData message) async {
-    List<Record> records = await _repository.loadPurchaseRecord();
+    List<Record> records = await _databaseDao.loadPurchaseRecord();
 
     ServiceResponse response = ServiceResponse(
       hasData: true,
@@ -193,7 +193,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> addPurchaseRecord(ServiceMessageData message) async {
-    await _repository.insertRecord(
+    await _databaseDao.insertRecord(
       record: message.data[ServicesData.instance],
     );
 
@@ -209,7 +209,7 @@ class DatabaseFrowarder {
   Future<ServiceResponse> searchPurchaseRecord(
       ServiceMessageData message) async {
 
-    List<Record> records = await _repository.searchRecord(
+    List<Record> records = await _databaseDao.searchRecord(
       search: message.data[ServicesData.databaseSelector],
     );
 
@@ -225,7 +225,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> updatePurchaseRecord(
       ServiceMessageData message) async {
-    await _repository.updatePurchaseRecord(
+    await _databaseDao.updatePurchaseRecord(
       record: message.data[ServicesData.instance],
       updatedValues: message.data[ServicesData.databaseSelector],
     );
@@ -241,7 +241,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> deletePurchaseRecord(
       ServiceMessageData message) async {
-    await _repository.deletePurchaseRecord(
+    await _databaseDao.deletePurchaseRecord(
       record: message.data[ServicesData.instance],
     );
 
@@ -255,7 +255,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> addSeller(ServiceMessageData message) async {
-    await _repository.insertSeller(
+    await _databaseDao.insertSeller(
       seller: message.data[ServicesData.instance],
     );
 
@@ -269,7 +269,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> loadSellers(ServiceMessageData message) async {
-    List<Seller> sellers = await _repository.loadSellers();
+    List<Seller> sellers = await _databaseDao.loadSellers();
 
     ServiceResponse response = ServiceResponse(
       hasData: true,
@@ -282,7 +282,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> deleteSeller(ServiceMessageData message) async {
-    await _repository.deleteSeller(
+    await _databaseDao.deleteSeller(
       seller: message.data[ServicesData.instance],
     );
 
@@ -296,7 +296,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> updateSeller(ServiceMessageData message) async {
-    await _repository.updateSeller(
+    await _databaseDao.updateSeller(
       seller: message.data[ServicesData.instance],
       updatedValues: message.data[ServicesData.databaseSelector],
     );
@@ -312,7 +312,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> deleteProductFamily(
       ServiceMessageData message) async {
-    await _repository.deleteProductFamily(
+    await _databaseDao.deleteProductFamily(
       productFamily: message.data[ServicesData.instance],
     );
 
@@ -326,7 +326,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> addOrder(ServiceMessageData message) async {
-    await _repository.addOrder(
+    await _databaseDao.addOrder(
       order: message.data[ServicesData.instance],
     );
 
@@ -340,7 +340,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> loadOrders(ServiceMessageData message) async {
-    List<Order> orders = await _repository.searchOrders(search:{});
+    List<Order> orders = await _databaseDao.searchOrders(search:{});
 
     ServiceResponse response = ServiceResponse(
       hasData: true,
@@ -353,7 +353,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> updateOrder(ServiceMessageData message) async {
-    await _repository.updateOrder(
+    await _databaseDao.updateOrder(
       order: message.data[ServicesData.instance],
       updatedValues: message.data[ServicesData.databaseSelector],
     );
@@ -368,7 +368,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> deleteOrder(ServiceMessageData message) async {
-    await _repository.deleteOrder(
+    await _databaseDao.deleteOrder(
       order: message.data[ServicesData.instance],
     );
 
@@ -382,7 +382,7 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> searchOrders(ServiceMessageData message) async {
-    List<Order> orders = await _repository.searchOrders(
+    List<Order> orders = await _databaseDao.searchOrders(
       search: message.data[ServicesData.databaseSelector],
     );
 
@@ -400,7 +400,7 @@ class DatabaseFrowarder {
     List<String> references = message.data[ServicesData.instanceList];
 
     for(int i=0 ; i<references.length;i++){
-        await _repository.updateProduct(
+        await _databaseDao.updateProduct(
         reference: references[i],
         updatedValues: message.data[ServicesData.updatedValues],
     );

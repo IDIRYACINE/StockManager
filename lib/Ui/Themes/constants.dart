@@ -182,8 +182,9 @@ abstract class Labels {
   static String netProfit = 'Net Profit';
   static String profit = 'Profit';
   static const payed = 'Payed';
-
   static const totalDeposit = 'Total Deposit';
+  static const topSellers = 'Sellers';
+  static const topProducts = 'Top Products';
 
 }
 

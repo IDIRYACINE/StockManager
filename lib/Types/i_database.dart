@@ -108,6 +108,7 @@ enum OrderFields{
 }
 
 enum SellerFields{
+  code,
   name,
   phone,
   imageUrl
