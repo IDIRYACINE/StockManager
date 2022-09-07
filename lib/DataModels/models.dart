@@ -1,13 +1,11 @@
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/metadata.dart';
 
-
-
 class ProductModel {
   ProductModel({
     required this.index,
-    required this.color ,
-    required this.sizes ,
+    required this.color,
+    required this.sizes,
     required this.sizesQuantiites,
   });
 
@@ -16,7 +14,7 @@ class ProductModel {
   List<String> sizes;
   List<int> sizesQuantiites;
 
-  static defaultInstance(int index){
+  static defaultInstance(int index) {
     return ProductModel(
       index: index,
       color: "Default",
@@ -26,13 +24,12 @@ class ProductModel {
   }
 }
 
-
 class Product {
   Product(
       {required this.barcode,
       required this.name,
       required this.productFamily,
-      required this.originalPrice,
+      required this.buyingPrice,
       required this.sellingPrice,
       required this.reference,
       required this.totalQuantity,
@@ -42,7 +39,7 @@ class Product {
   String reference;
   int barcode;
   String name;
-  double originalPrice;
+  double buyingPrice;
   String? imageUrl;
   double sellingPrice;
   int totalQuantity;
@@ -54,7 +51,7 @@ class Product {
       barcode: 0,
       name: '',
       productFamily: '',
-      originalPrice: 0,
+      buyingPrice: 0,
       sellingPrice: 0,
       reference: '',
       totalQuantity: 0,
@@ -132,12 +129,11 @@ class Record {
       productColor: productColor ?? this.productColor,
       productSize: productSize ?? this.productSize,
       sellingPrice: sellingPrice ?? this.sellingPrice,
-       remainingPayement: remainingPayement ?? this.remainingPayement,
+      remainingPayement: remainingPayement ?? this.remainingPayement,
     );
   }
 
-  static Record defaultInstance(
-      {required String payementType}) {
+  static Record defaultInstance({required String payementType}) {
     return Record(
       payementType: payementType,
       date: Utility.getDate(),
@@ -151,7 +147,7 @@ class Record {
       customer: '',
       deposit: 0,
       remainingPayement: 0,
-      quantity: 1,
+      quantity: 0,
       originalPrice: 0,
       sellingPrice: 0,
     );
@@ -164,8 +160,11 @@ class Seller {
   int phone;
   String imageUrl;
 
-  Seller({  required  this.sellerCode,
-required this.name, required this.phone, required this.imageUrl});
+  Seller(
+      {required this.sellerCode,
+      required this.name,
+      required this.phone,
+      required this.imageUrl});
 
   Seller copyWith({
     String? name,
@@ -217,9 +216,11 @@ class OrderProduct {
     required this.productSize,
     required this.reference,
     required this.sellingPrice,
+    required this.buyingPrice,
   });
 
   String reference;
+  double buyingPrice;
   String product;
   String productSize;
   String productColor;
@@ -232,6 +233,7 @@ class OrderProduct {
       productSize: '',
       reference: '',
       sellingPrice: 0,
+      buyingPrice: 0,
     );
   }
 
@@ -241,6 +243,7 @@ class OrderProduct {
     String? productSize,
     String? reference,
     double? sellingPrice,
+    double? buyingPrice,
   }) {
     return OrderProduct(
       product: product ?? this.product,
@@ -248,6 +251,7 @@ class OrderProduct {
       productSize: productSize ?? this.productSize,
       reference: reference ?? this.reference,
       sellingPrice: sellingPrice ?? this.sellingPrice,
+      buyingPrice: buyingPrice ?? this.buyingPrice,
     );
   }
 }
@@ -285,9 +289,10 @@ class Order {
     required this.totalPrice,
     required this.deliverToHome,
     required this.deliveryCost,
+    required this.remainingPayement,
   });
 
-  String date;
+  DateTime date;
 
   int? timeStamp;
   String sellerName;
@@ -295,7 +300,7 @@ class Order {
   int quantity;
   double deposit;
   String status;
-  double? remainingPayement;
+  double remainingPayement;
   double deliveryCost;
   bool deliverToHome;
   double totalPrice;
@@ -321,20 +326,20 @@ class Order {
         deliverToHome: true,
         deliveryCost: 0,
         timeStamp: Utility.getTimeStamp(),
-        date: Utility.getDateString());
+        date: Utility.getDate(), remainingPayement: 0);
   }
 
-  List<OrderProduct> _copyProducts(){
+  List<OrderProduct> _copyProducts() {
     List<OrderProduct> copyList = [];
     for (OrderProduct product in products) {
       copyList.add(product.copyWith());
     }
     return copyList;
-  } 
+  }
 
   Order copyWith({
     List<OrderProduct>? products,
-    String? date,
+    DateTime? date,
     String? status,
     int? quantity,
     int? timeStamp,
@@ -348,6 +353,7 @@ class Order {
     double? sellingPrice,
     bool? deliverToHome,
     double? deliveryCost,
+    double? remainingPayement,
   }) {
     return Order(
       products: products ?? _copyProducts(),
@@ -364,7 +370,7 @@ class Order {
       deliverToHome: deliverToHome ?? this.deliverToHome,
       deliveryCost: deliveryCost ?? this.deliveryCost,
       timeStamp: timeStamp ?? this.timeStamp,
-      date: date ?? this.date,
+      date: date ?? this.date, remainingPayement: remainingPayement ?? this.remainingPayement,
     );
   }
 }

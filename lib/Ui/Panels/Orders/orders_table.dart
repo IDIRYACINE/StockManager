@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
@@ -15,7 +16,7 @@ class OrdersTable extends StatelessWidget {
 
   List<String> ordersToCellsAdapter(Order order) {
     return [
-      order.date,
+      Utility.formatDateTimeToDisplay(order.date),
       order.sellerName,
       order.customerName,
       order.deposit.toString(),

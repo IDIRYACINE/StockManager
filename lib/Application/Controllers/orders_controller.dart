@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/Printer/printer.dart';
+import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
+import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/Application/Utility/stock.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/models_stats.dart';
+import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
@@ -70,15 +76,15 @@ class OrdersController {
     void onEdit(AppJson json, order) {
       Order order = ordersLiveModel.selectedOrder;
       int index = ordersLiveModel.selectedOrderIndex;
-      
+
       Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
 
       json.forEach((key, value) {
         updatedField[key] = value;
       });
 
-      Provider.of<OrdersLiveDataModel>(context, listen: false)
-          .updateOrder(order, index);
+      ordersLiveModel.updateOrder(order, index);
+      Navigator.pop(context);
     }
 
     showDialog(
@@ -86,8 +92,7 @@ class OrdersController {
       builder: (context) => Material(
         child: OrderCustomerEditor(
           confirmLabel: Labels.save,
-          order: Provider.of<OrdersLiveDataModel>(context, listen: false)
-              .selectedOrder,
+          order: ordersLiveModel.selectedOrder,
           editCallback: onEdit,
         ),
       ),
@@ -111,6 +116,7 @@ class OrdersController {
     ServicesStore.instance.sendMessage(message);
 
     ordersLiveModel.updateOrder(order, index);
+    Navigator.pop(context);
   }
 
   void refresh(BuildContext context) {
@@ -118,11 +124,16 @@ class OrdersController {
       ordersLiveModel.setAllOrders(order);
     }
 
+    SelectorBuilder selector = SelectorBuilder();
+    Utility.searchByTodayDate(selector);
+
     ServiceMessage message = ServiceMessage<List<Order>>(
-        data: {},
+        data: {
+          ServicesData.databaseSelector: selector.map,
+        },
         hasCallback: true,
         callback: onResult,
-        event: DatabaseEvent.loadOrders,
+        event: DatabaseEvent.searchOrders,
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
@@ -238,7 +249,7 @@ class OrdersController {
 
   List<String> orderToRowData(Order order) {
     return [
-      order.date,
+      Utility.formatDateTimeToDisplay(order.date),
       order.customerName.toString(),
       order.sellerName,
       order.deposit.toString(),
@@ -248,5 +259,101 @@ class OrdersController {
 
   void cancel(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  void print(BuildContext context) {
+    AppPrinter appPrinter = AppPrinter();
+    appPrinter.createNewDocument();
+
+    List<Order> orders = ordersLiveModel.orders;
+
+    int totalOrderProducts = _calculateTotalOrderProducts(orders);
+
+    int maxRowsPerPage = 30;
+    int pageCount =
+        Utility.calculatePageCount(totalOrderProducts, maxRowsPerPage);
+
+    int currentPage = 0;
+
+    PrimitiveWrapper<int> orderIndex = PrimitiveWrapper(0);
+
+    while (currentPage < pageCount) {
+      List<OrderProductReportWrapper> orderProducts =
+          _selectOrderProductsOnPageAndTheirOrderIndexes(
+              orders, orderIndex, maxRowsPerPage);
+
+      OrderReportTotals totals =
+          Utility.calculateOrderReportTotals(orderProducts);
+
+      RecordsPage<OrderProductReportWrapper> recordPage = RecordsPage(
+        title: Titles.dailyOrdersReport,
+        paddings: Measures.extraSmall,
+        headers: Titles.ordersReportHeaders,
+        headersTextSize: Measures.h5TextSize,
+        rowsTextSize: Measures.h5TextSize,
+        cellAdapter: Adapter.orderProductWrapperToReportRow,
+        data: orderProducts,
+        invoicePayementAttributes: [
+          InvoiceItem(Labels.totalDeposit, totals.totalDeposit.toString()),
+          InvoiceItem(Labels.profit, totals.totalProfit.toString()),
+          InvoiceItem(Labels.remainingPayement,
+              totals.totalRemainingPayement.toString()),
+          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString()),
+        ],
+        endIndex: orderProducts.length,
+        startIndex: 0,
+      );
+
+      appPrinter.addPage(recordPage.build());
+
+      currentPage++;
+    }
+
+    appPrinter
+        .prepareDocument()
+        .then((value) => appPrinter.displayPreview(context));
+  }
+
+  int _calculateTotalOrderProducts(List<Order> orders) {
+    int total = 0;
+    for (int i = 0; i < orders.length; i++) {
+      total += orders[i].products.length;
+    }
+    return total;
+  }
+
+  List<OrderProductReportWrapper>
+      _selectOrderProductsOnPageAndTheirOrderIndexes(List<Order> orders,
+          PrimitiveWrapper<int> orderIndex, int maxRowsPerPage) {
+    if (orderIndex.value >= orders.length) {
+      return [];
+    }
+
+    List<OrderProductReportWrapper> products = [];
+    int currentRowCount = 0;
+
+    while (currentRowCount < maxRowsPerPage) {
+      Order order = orders[orderIndex.value];
+      int productIndex = 0;
+      List<OrderProductReportWrapper> tempProducts = [];
+      bool isLast = false;
+
+      while (currentRowCount < maxRowsPerPage &&
+          productIndex < order.products.length) {
+        OrderProduct product = order.products[productIndex];
+        isLast = productIndex == order.products.length - 1;
+        tempProducts.add(OrderProductReportWrapper(order, product, isLast));
+        currentRowCount++;
+      }
+
+      if (isLast) {
+        products.addAll(tempProducts);
+        orderIndex.value++;
+      } else {
+        return products;
+      }
+    }
+
+    return products;
   }
 }

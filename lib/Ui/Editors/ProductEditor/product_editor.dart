@@ -71,7 +71,7 @@ class ProductEditor extends StatelessWidget {
                                 onImageSelected: modeDelegate.setImage,
                               ),
                             )),
-                            Flexible(
+                            Expanded(
                                 child: DefaultDecorator(
                                     child: ProductModels(
                                         productEditorMode: modeDelegate,

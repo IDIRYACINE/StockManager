@@ -151,7 +151,7 @@ class SalesController {
         ],
         invoicePayementAttributes: [
           InvoiceItem(Labels.total, '200'),
-        ]);
+        ], title: Labels.shopName);
 
     AppPrinter appPrinter = AppPrinter();
     appPrinter.createNewDocument();

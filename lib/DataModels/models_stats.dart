@@ -101,3 +101,15 @@ class RecordReportTotals {
   RecordReportTotals(this.totalDeposit, this.totalRemainingPayement,
       this.totalProfit, this.totalNetProfit);
 }
+
+
+class OrderReportTotals {
+  final double totalDeposit;
+  final double totalRemainingPayement;
+  final double totalProfit;
+  final double totalNetProfit;
+  final double shippingTotal;
+
+  OrderReportTotals(this.totalDeposit, this.totalRemainingPayement,
+      this.totalProfit, this.totalNetProfit, this.shippingTotal);
+}

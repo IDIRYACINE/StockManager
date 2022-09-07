@@ -149,6 +149,10 @@ class SearchActionsCard extends StatelessWidget {
     controller.quickSearch(context, selector.map);
   }
 
+  void onPrint(BuildContext context, OrdersController controller) {
+    controller.print(context);
+  }
+
   void registerQuery(Callback<SelectorBuilder> queryGenerator) {
     queryGenerators.add(queryGenerator);
   }
@@ -192,6 +196,13 @@ class SearchActionsCard extends StatelessWidget {
               onAdvancedSearch(context, controller);
             },
             child: const Icon(Icons.filter),
+          )),
+                    Flexible(
+              child: ElevatedButton(
+            onPressed: () {
+              onPrint(context, controller);
+            },
+            child: const Icon(Icons.print),
           )),
         ],
       ),

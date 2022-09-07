@@ -53,7 +53,7 @@ class StockController {
       product.name,
       product.productFamily,
       product.totalQuantity.toString(),
-      product.originalPrice.toString(),
+      product.buyingPrice.toString(),
       product.name,
     ];
   }

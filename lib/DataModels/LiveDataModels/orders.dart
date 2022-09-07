@@ -5,6 +5,8 @@ import 'package:stock_manager/Types/i_database.dart';
 class OrdersLiveDataModel  {
   final List<Order> _loadedOrders = [];
 
+  List<Order>  get orders => _loadedOrders;
+
   int get ordersCount => _loadedOrders.length;
 
   Order order(int index) => _loadedOrders[index];

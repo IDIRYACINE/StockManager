@@ -35,6 +35,9 @@ class _ModelSelectorState extends State<ModelSelector> {
 
   List<int> sizesIndexes() {
     List<int> indexes = [];
+    if(widget.productModels.isEmpty){
+      return indexes;
+    }
     for (int i = 0;
         i < widget.productModels[selectedColorIndex].sizes.length;
         i++) {

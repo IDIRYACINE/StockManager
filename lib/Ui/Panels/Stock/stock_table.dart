@@ -43,7 +43,7 @@ class _ProductsTable extends StatelessWidget {
       product.name,
       product.reference,
       product.productFamily,
-      product.originalPrice.toString(),
+      product.buyingPrice.toString(),
       product.totalQuantity.toString(),
     ];
   }

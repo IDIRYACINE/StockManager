@@ -85,8 +85,8 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
   @override
   void setBuyingPrice(String? buyingPrice) {
     if (buyingPrice != null) {
-      product.originalPrice = double.parse(buyingPrice);
-      updatedField[ProductFields.buyingPrice] = product.originalPrice;
+      product.buyingPrice = double.parse(buyingPrice);
+      updatedField[ProductFields.buyingPrice] = product.buyingPrice;
     }
   }
 
@@ -150,7 +150,7 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
         product.models[modelIndex].sizesQuantiites[index] +
         parsedQuantity;
     product.models[modelIndex].sizesQuantiites[index] = parsedQuantity;
-    
+
     updatedField[ProductFields.quantity] = product.totalQuantity;
   }
 
@@ -220,7 +220,7 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
   @override
   void setBuyingPrice(String? buyingPrice) {
     if (buyingPrice != null) {
-      product.originalPrice = double.parse(buyingPrice);
+      product.buyingPrice = double.parse(buyingPrice);
     }
   }
 

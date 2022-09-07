@@ -80,7 +80,7 @@ abstract class Titles {
     Labels.sellingPrice,
   ];
 
-  static const List<String> pruchaseInvoiceHeaders =  [
+  static const List<String> pruchaseInvoiceHeaders = [
     Labels.productName,
     Labels.quantity,
     Labels.price,
@@ -101,6 +101,18 @@ abstract class Titles {
     Labels.payed,
     Labels.remainingPayement,
   ];
+
+  static const ordersReportHeaders = [
+    Labels.customer,
+    Labels.city,
+    Labels.productName,
+    Labels.color,
+    Labels.size,
+    Labels.sellingPrice,
+    Labels.deposit,
+  ];
+
+  static const dailyOrdersReport = 'Daily Orders Report';
 }
 
 abstract class Labels {
@@ -186,6 +198,9 @@ abstract class Labels {
   static const topSellers = 'Sellers';
   static const topProducts = 'Top Products';
 
+  static const addSize = 'Add Size';
+
+  static const shopName = 'Marwa Boutique';
 }
 
 abstract class Measures {
@@ -234,7 +249,6 @@ abstract class Measures {
   static const h4TextSize = 14.0;
   static const h5TextSize = 12.0;
   static const h6TextSize = 10.0;
-  
 }
 
 abstract class Messages {

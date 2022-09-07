@@ -170,7 +170,7 @@ class RecordsController {
           InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString()),
         ],
         endIndex: currentIndex + maxRowsPerPage , 
-        startIndex: currentIndex);
+        startIndex: currentIndex, title: Labels.shopName);
 
       appPrinter.addPage(recordPage.build());  
       

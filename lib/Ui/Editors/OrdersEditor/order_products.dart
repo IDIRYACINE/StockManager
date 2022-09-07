@@ -68,6 +68,7 @@ class OrderProductEditor extends StatelessWidget {
         orderProduct.product = p.name;
         orderProduct.reference = p.reference;
         orderProduct.sellingPrice = p.sellingPrice;
+        orderProduct.buyingPrice = p.buyingPrice;
 
         product.value = p;
       }

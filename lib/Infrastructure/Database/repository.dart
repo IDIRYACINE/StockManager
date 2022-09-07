@@ -17,10 +17,27 @@ abstract class DatabaseRepository {
     );
   }
 
-  static ProductModel productModelFromJson({required AppJson json}) {
+  static ProductModel productModelFromJson({required AppJson json , required int index}) {
+
+    List<String> sizes = [];
+    List<dynamic>? sizesJson = json[ProductModelFields.size.name];
+    if (sizesJson != null) {
+      for (var element in sizesJson) {
+        sizes.add(element);
+      }
+    }
+
+    List<dynamic>? quantitiesJson = json[ProductModelFields.quantity.name];
+    List<int> sizesQuantities = [];
+    if(quantitiesJson != null){
+      sizesQuantities = quantitiesJson.map((e) => e as int).toList();
+    }
+
     return ProductModel(
       color: json[ProductModelFields.color.name] ?? Labels.error,
-      sizes: json[ProductModelFields.size.name] ?? {},
+      sizes: sizes, 
+      index: index, 
+      sizesQuantiites: sizesQuantities,
     );
   }
 
@@ -31,8 +48,8 @@ abstract class DatabaseRepository {
     ProductModel model;
 
     if (rawModels != null) {
-      for (var element in rawModels) {
-        model = productModelFromJson(json: element);
+      for (int i=0 ; i < rawModels.length ; i++) {
+        model = productModelFromJson(json: rawModels[i], index: i);
         models.add(model);
       }
     }
@@ -42,7 +59,7 @@ abstract class DatabaseRepository {
       name: json[ProductFields.name.name] ?? Labels.error,
       productFamily: json[ProductFields.family.name] ?? Labels.error,
       imageUrl: json[ProductFields.imageUrl.name] ?? Labels.error,
-      originalPrice: json[ProductFields.buyingPrice.name] ?? Labels.error,
+      buyingPrice: json[ProductFields.buyingPrice.name] ?? Labels.error,
       reference: json[ProductFields.reference.name] ?? Labels.error,
       sellingPrice: json[ProductFields.sellingPrice.name] ?? Labels.error,
       models: models,
@@ -94,7 +111,8 @@ abstract class DatabaseRepository {
       sellingPrice: json[ProductFields.sellingPrice.name] ?? 0,
       product: json[ProductFields.name.name] ?? Labels.error,
       productColor: json[ProductModelFields.color.name] ?? Labels.error,
-      productSize: json[ProductModelFields.size.name] ?? Labels.error,
+      productSize: json[ProductModelFields.size.name] ?? Labels.error, 
+      buyingPrice: json[ProductFields.buyingPrice.name] ?? 0,
     );
   }
 
@@ -128,6 +146,7 @@ abstract class DatabaseRepository {
       quantity: json[OrderFields.quantity.name] ?? 0,
       sellerName: json[OrderFields.seller.name] ?? Labels.error,
       timeStamp: json[OrderFields.timeStamp.name] ?? 0,
+      remainingPayement: json[OrderFields.remainingPayement.name] ?? 0,
     );
   }
 
@@ -156,7 +175,7 @@ abstract class DatabaseRepository {
     json[ProductFields.name.name] = product.name;
     json[ProductFields.family.name] = product.productFamily;
     json[ProductFields.imageUrl.name] = product.imageUrl;
-    json[ProductFields.buyingPrice.name] = product.originalPrice;
+    json[ProductFields.buyingPrice.name] = product.buyingPrice;
     json[ProductFields.reference.name] = product.reference;
     json[ProductFields.sellingPrice.name] = product.sellingPrice;
     json[ProductFields.models.name] = models;
@@ -170,6 +189,7 @@ abstract class DatabaseRepository {
 
     json[ProductModelFields.color.name] = model.color;
     json[ProductModelFields.size.name] = model.sizes;
+    json[ProductModelFields.quantity.name] = model.sizesQuantiites;
 
     return json;
   }
@@ -230,6 +250,9 @@ abstract class DatabaseRepository {
     json[OrderFields.postalCode.name] = order.postalCode;
     json[OrderFields.quantity.name] = order.quantity;
     json[OrderFields.seller.name] = order.sellerName;
+    json[OrderFields.timeStamp.name] = order.timeStamp;
+    json[OrderFields.remainingPayement.name] = order.remainingPayement;
+
 
     return json;
   }
