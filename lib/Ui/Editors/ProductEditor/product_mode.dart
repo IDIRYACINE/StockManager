@@ -1,4 +1,5 @@
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
@@ -20,17 +21,17 @@ abstract class ProductEditorMode<T> {
 
   void addModel();
 
-  void removeModel(int index);
+  void removeModel(String id);
 
-  void addSize(int modelIndex);
+  void addSize(String modelIndex);
 
-  void removeSize(int modelIndex, int index);
+  void removeSize(String modelIndex, String index);
 
-  void setModelColor(String color, int index);
+  void setModelColor(String color, String index);
 
-  void setModelSize(String size, int modelIndex, int index);
+  void setModelSize(String size, String modelIndex, String index);
 
-  void setModelQuantity(String quantity, int modelIndex, int index);
+  void setModelQuantity(String quantity, String modelIndex, String index);
 
   void confirm(T confirmCallback);
 
@@ -108,48 +109,48 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
 
   @override
   void addModel() {
-    int modelsLength = product.models.length;
-    product.models.add(ProductModel.defaultInstance(modelsLength));
+    String id = Utility.getTimeStamp().toString();
+    product.models[id] = ProductModel.defaultInstance(id);
     product.totalQuantity += 1;
     updatedField[ProductFields.models] = product.models;
     updatedField[ProductFields.quantity] = product.totalQuantity;
   }
 
   @override
-  void removeModel(int index) {
+  void removeModel(String index) {
     int modelQuantity = 0;
 
-    for (int i = 0; i < product.models[index].sizesQuantiites.length; i++) {
-      modelQuantity += product.models[index].sizesQuantiites[i];
-    }
+    product.models[index]?.sizes.forEach((key, value) {
+      modelQuantity += value.quantity;
+    });
 
     product.totalQuantity = product.totalQuantity - modelQuantity;
-
-    product.models.removeAt(index);
+    product.models.remove(index);
     updatedField[ProductFields.models] = product.models;
     updatedField[ProductFields.quantity] = product.totalQuantity;
   }
 
   @override
-  void setModelColor(String color, int index) {
-    product.models[index].color = color;
+  void setModelColor(String color, String index) {
+    product.models[index]?.color = color;
     updatedField[ProductFields.models] = product.models;
   }
 
   @override
-  void setModelSize(String size, int modelIndex, int index) {
-    product.models[modelIndex].sizes[index] = size;
+  void setModelSize(String size, String modelIndex, String index) {
+    product.models[modelIndex]!.sizes[index]!.size = size;
     updatedField[ProductFields.models] = product.models;
   }
 
   @override
-  void setModelQuantity(String quantity, int modelIndex, int index) {
+  void setModelQuantity(String quantity, String modelIndex, String index) {
     int parsedQuantity = int.parse(quantity);
+    int oldQuantity = product.models[modelIndex]!.sizes[index]!.quantity;
 
-    product.totalQuantity = product.totalQuantity -
-        product.models[modelIndex].sizesQuantiites[index] +
-        parsedQuantity;
-    product.models[modelIndex].sizesQuantiites[index] = parsedQuantity;
+    product.totalQuantity =
+        product.totalQuantity - oldQuantity + parsedQuantity;
+
+    product.models[modelIndex]!.sizes[index]!.quantity = parsedQuantity;
 
     updatedField[ProductFields.quantity] = product.totalQuantity;
   }
@@ -166,21 +167,23 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
   }
 
   @override
-  void addSize(int modelIndex) {
-    product.models[modelIndex].sizes.add('');
-    product.models[modelIndex].sizesQuantiites.add(1);
+  void addSize(String modelIndex) {
+    String id = Utility.getTimeStamp().toString();
+    product.models[modelIndex]!.sizes[id] = ModelSize.defaultInstance();
+
     product.totalQuantity += 1;
     updatedField[ProductFields.models] = product.models;
     updatedField[ProductFields.quantity] = product.totalQuantity;
   }
 
   @override
-  void removeSize(int modelIndex, int index) {
-    product.totalQuantity = product.totalQuantity -
-        product.models[modelIndex].sizesQuantiites[index];
+  void removeSize(String modelIndex, String index) {
+    int oldQuantity = product.models[modelIndex]!.sizes[index]!.quantity;
 
-    product.models[modelIndex].sizes.removeAt(index);
-    product.models[modelIndex].sizesQuantiites.removeAt(index);
+    product.totalQuantity = product.totalQuantity - oldQuantity;
+
+    product.models[modelIndex]!.sizes.remove(index);
+
     updatedField[ProductFields.models] = product.models;
     updatedField[ProductFields.quantity] = product.totalQuantity;
   }
@@ -240,41 +243,43 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
 
   @override
   void addModel() {
-    int index = product.models.length;
-    product.models.add(ProductModel.defaultInstance(index));
+    String id = Utility.getTimeStamp().toString();
+    product.models[id] = ProductModel.defaultInstance(id);
     product.totalQuantity += 1;
   }
 
   @override
-  void removeModel(int index) {
+  void removeModel(String index) {
     int modelQuantity = 0;
-
-    for (int i = 0; i < product.models[index].sizesQuantiites.length; i++) {
-      modelQuantity += product.models[index].sizesQuantiites[i];
-    }
+    product.models[index]!.sizes.forEach((key, value) {
+      modelQuantity += value.quantity;
+    });
 
     product.totalQuantity = product.totalQuantity - modelQuantity;
 
-    product.models.removeAt(index);
+    product.models.remove(index);
   }
 
   @override
-  void setModelColor(String color, int index) {
-    product.models[index].color = color;
+  void setModelColor(String color, String index) {
+    product.models[index]!.color = color;
   }
 
   @override
-  void setModelSize(String size, int modelIndex, int index) {
-    product.models[modelIndex].sizes[index] = size;
+  void setModelSize(String size, String modelIndex, String index) {
+    product.models[modelIndex]!.sizes[index]!.size = size;
   }
 
   @override
-  void setModelQuantity(String quantity, int modelIndex, int index) {
-    int parsedQuantity = int.parse(quantity);
-    product.totalQuantity = product.totalQuantity -
-        product.models[modelIndex].sizesQuantiites[index] +
-        parsedQuantity;
-    product.models[modelIndex].sizesQuantiites[index] = parsedQuantity;
+  void setModelQuantity(String quantity, String modelIndex, String index) {
+    if (quantity != '') {
+      int parsedQuantity = int.parse(quantity);
+      int oldQuantity = product.models[modelIndex]!.sizes[index]!.quantity;
+
+      product.totalQuantity =
+          product.totalQuantity - oldQuantity + parsedQuantity;
+      product.models[modelIndex]!.sizes[index]!.quantity = parsedQuantity;
+    }
   }
 
   @override
@@ -283,18 +288,15 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
   }
 
   @override
-  void removeSize(int modelIndex, int index) {
-    product.totalQuantity -= product.models[modelIndex].sizesQuantiites[index];
+  void removeSize(String modelIndex, String index) {
+    product.totalQuantity -= product.models[modelIndex]!.sizes[index]!.quantity;
 
-    product.models[modelIndex].sizes.removeAt(index);
-    product.models[modelIndex].sizesQuantiites.removeAt(index);
+    product.models[modelIndex]!.sizes.remove(index);
   }
 
   @override
-  void addSize(int modelIndex) {
-    product.totalQuantity += 1;
-
-    product.models[modelIndex].sizes.add('');
-    product.models[modelIndex].sizesQuantiites.add(1);
+  void addSize(String modelIndex) {
+    String id = Utility.getTimeStamp().toString();
+    product.models[modelIndex]!.sizes[id] = ModelSize.defaultInstance();
   }
 }

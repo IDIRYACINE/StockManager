@@ -28,11 +28,13 @@ abstract class Utility {
   }
 
   static void searchByTodayDate(SelectorBuilder selector){
-    DateTime start = DateTime.now();
-    DateTime end = DateTime(start.year, start.month, start.day,23,59,59);
+    DateTime now = DateTime.now();
 
-    selector.gte(RecordFields.date.name, start)
-    .lte(RecordFields.date.name, end);
+    DateTime start = DateTime(now.year, now.month, now.day,0,0,0);
+    // DateTime end = DateTime(now.year, now.month, now.day,23,59,59);
+
+    selector.gt(RecordFields.date.name, start);
+   
   }
 
    static RecordReportTotals calculateRecordReportTotals(List<Record> records,[int startIndex = 0 , int? endIndex]){

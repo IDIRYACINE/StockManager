@@ -128,7 +128,28 @@ class DatabaseDAO{
     _database.updateSeller(selector, modifier);
   }
 
-  deleteOrder({required order}) {}
+  Future<void> deleteOrder({required Order order}) async{
+    SelectorBuilder selector = SelectorBuilder();
+    selector.eq(OrderFields.timeStamp.name, order.timeStamp);
+
+    for (OrderProduct element in order.products) {
+      SelectorBuilder orderProductSelector = SelectorBuilder();
+      orderProductSelector.eq(ProductFields.reference.name, element.reference);
+
+      String modifyModelQuantitySelector = 
+      '${ProductFields.models.name}.${element.productColor}.${element.productSize}';
+
+      ModifierBuilder orderProductModifier = ModifierBuilder()
+      .inc(ProductFields.quantity.name, 1)
+      .inc(modifyModelQuantitySelector, 1);
+
+      _database.updateProduct(orderProductSelector, orderProductModifier);
+
+
+    }
+
+    _database.removeOrder(selector);
+  }
 
   // load x
   Future<List<Product>> loadProducts() async {
@@ -242,12 +263,16 @@ class DatabaseDAO{
     List<Order> orders = [];
 
     SelectorBuilder selector = SelectorBuilder();
+    
     selector.map = search;
     MongoDbDataStream data = await _database.searchOrder(selector);
 
     await data.forEach((element) {
       orders.add(DatabaseRepository.orderFromJson(json: element));
     });
+
+    print(search.toString());
+    print(orders.length);
 
     return orders;
   }

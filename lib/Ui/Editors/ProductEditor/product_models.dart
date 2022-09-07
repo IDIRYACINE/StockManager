@@ -21,15 +21,25 @@ class ProductModels extends StatefulWidget {
 }
 
 class _ProductModelsState extends State<ProductModels> {
+  late List<String> modelKeys;
+
+  @override
+  void initState() {
+    modelKeys = widget.product.models.keys.toList();
+    super.initState();
+  }
+
   void add() {
     setState(() {
       widget.productEditorMode.addModel();
+      modelKeys = widget.product.models.keys.toList();
     });
   }
 
-  void remove(int index) {
+  void remove(String id) {
     setState(() {
-      widget.productEditorMode.removeModel(index);
+      widget.productEditorMode.removeModel(id);
+      modelKeys = widget.product.models.keys.toList();
     });
   }
 
@@ -54,28 +64,28 @@ class _ProductModelsState extends State<ProductModels> {
           ),
         ),
         Expanded(
-          flex: widget.lowerRowFlex,
+            flex: widget.lowerRowFlex,
             child: ListView.builder(
-          
-          itemCount: widget.product.models.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              margin: const EdgeInsets.only(top:Measures.small),
-              child: ProductModelRow(
-                model: widget.product.models[index],
-                index: index,
-                onDeleteModel: () {
-                  remove(index);
-                },
-                onColorChanged: widget.productEditorMode.setModelColor,
-                onQuantityChanged: widget.productEditorMode.setModelQuantity,
-                onSizeChanged: widget.productEditorMode.setModelSize,
-                onDeleteSize: widget.productEditorMode.removeSize,
-                onAddSize: widget.productEditorMode.addSize,
-              ),
-            );
-          },
-        ))
+              itemCount: modelKeys.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  margin: const EdgeInsets.only(top: Measures.small),
+                  child: ProductModelRow(
+                    model: widget.product.models[modelKeys[index]]!,
+                    id: modelKeys[index],
+                    onDeleteModel: () {
+                      remove(modelKeys[index]);
+                    },
+                    onColorChanged: widget.productEditorMode.setModelColor,
+                    onQuantityChanged:
+                        widget.productEditorMode.setModelQuantity,
+                    onSizeChanged: widget.productEditorMode.setModelSize,
+                    onDeleteSize: widget.productEditorMode.removeSize,
+                    onAddSize: widget.productEditorMode.addSize,
+                  ),
+                );
+              },
+            ))
       ],
     );
   }
@@ -89,42 +99,49 @@ class ProductModelRow extends StatefulWidget {
       required this.onColorChanged,
       required this.onQuantityChanged,
       required this.onSizeChanged,
-      required this.index,
+      required this.id,
       required this.onDeleteSize,
       required this.onAddSize})
       : super(key: key);
 
   final ProductModel model;
-  final int index;
+  final String id;
 
   final VoidCallback onDeleteModel;
-  final Callback<int> onAddSize;
-  final Callback2<int, int> onDeleteSize;
-  final Callback2<String, int> onColorChanged;
-  final Callback3<String, int, int> onQuantityChanged;
-  final Callback3<String, int, int> onSizeChanged;
+  final Callback<String> onAddSize;
+  final Callback2<String, String> onDeleteSize;
+  final Callback2<String, String> onColorChanged;
+  final Callback3<String, String, String> onQuantityChanged;
+  final Callback3<String, String, String> onSizeChanged;
 
   @override
   State<ProductModelRow> createState() => _ProductModelRowState();
 }
 
 class _ProductModelRowState extends State<ProductModelRow> {
-  void onModelSizeChanged(String value, int sizeIndex) {
-    widget.onSizeChanged(value, widget.index, sizeIndex);
+  late List<String> sizesIds = [];
+
+  @override
+  void initState() {
+    sizesIds = widget.model.sizes.keys.toList();
+    super.initState();
   }
 
-  void onModelQuantityChanged(String value, int quantityIndex) {
-    widget.onQuantityChanged(value, widget.index, quantityIndex);
+  void onModelSizeChanged(String value, String sizeIndex) {
+    widget.onSizeChanged(value, widget.id, sizeIndex);
   }
 
-  void onDeleteModelSize(int sizeIndex) {
-    widget.onDeleteSize(widget.index, sizeIndex);
+  void onModelQuantityChanged(String value, String quantityIndex) {
+    widget.onQuantityChanged(value, widget.id, quantityIndex);
+  }
+
+  void onDeleteModelSize(String sizeIndex) {
+    widget.onDeleteSize(widget.id, sizeIndex);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,7 +153,7 @@ class _ProductModelRowState extends State<ProductModelRow> {
               label: Labels.color,
               onChanged: (value) {
                 if (value != null) {
-                  widget.onColorChanged(value, widget.index);
+                  widget.onColorChanged(value, widget.id);
                 }
               },
             )),
@@ -151,7 +168,8 @@ class _ProductModelRowState extends State<ProductModelRow> {
                 label: Labels.addSize,
                 onPressed: () {
                   setState(() {
-                    widget.onAddSize(widget.index);
+                    widget.onAddSize(widget.id);
+                    sizesIds = widget.model.sizes.keys.toList();
                   });
                 },
               ),
@@ -164,11 +182,12 @@ class _ProductModelRowState extends State<ProductModelRow> {
             child: _SizeQuantityRow(
               onQuantityChanged: onModelQuantityChanged,
               onSizeChanged: onModelSizeChanged,
-              index: widget.index,
+              sizeId: sizesIds[i],
               model: widget.model,
               onDeleteSize: (index) {
                 setState(() {
                   onDeleteModelSize(index);
+                  sizesIds = widget.model.sizes.keys.toList();
                 });
               },
             ),
@@ -183,15 +202,15 @@ class _SizeQuantityRow extends StatelessWidget {
       {Key? key,
       required this.onQuantityChanged,
       required this.onSizeChanged,
-      required this.index,
+      required this.sizeId,
       required this.model,
       required this.onDeleteSize})
       : super(key: key);
 
-  final Callback2<String, int> onQuantityChanged;
-  final Callback2<String, int> onSizeChanged;
-  final Callback<int> onDeleteSize;
-  final int index;
+  final Callback2<String, String> onQuantityChanged;
+  final Callback2<String, String> onSizeChanged;
+  final Callback<String> onDeleteSize;
+  final String sizeId;
   final ProductModel model;
 
   @override
@@ -201,21 +220,21 @@ class _SizeQuantityRow extends StatelessWidget {
       children: [
         Flexible(
             child: AttributeTextField(
-          initialValue: model.sizes[index],
+          initialValue: model.sizes[sizeId]!.size,
           label: Labels.size,
           onChanged: (value) {
             if (value != null) {
-              onSizeChanged(value, index);
+              onSizeChanged(value, sizeId);
             }
           },
         )),
         Flexible(
           child: AttributeTextField(
-            initialValue: model.sizesQuantiites[index].toString(),
+            initialValue: model.sizes[sizeId]!.quantity.toString(),
             label: Labels.quantity,
             onChanged: (value) {
               if (value != null) {
-                onQuantityChanged(value, index);
+                onQuantityChanged(value, sizeId);
               }
             },
           ),
@@ -224,7 +243,7 @@ class _SizeQuantityRow extends StatelessWidget {
             child: DefaultButton(
           label: Labels.remove,
           onPressed: () {
-            onDeleteSize(index);
+            onDeleteSize(sizeId);
           },
         ))
       ],

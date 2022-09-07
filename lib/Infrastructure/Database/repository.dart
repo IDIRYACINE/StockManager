@@ -17,41 +17,32 @@ abstract class DatabaseRepository {
     );
   }
 
-  static ProductModel productModelFromJson({required AppJson json , required int index}) {
+  static ProductModel productModelFromJson({required AppJson json , required String index}) {
 
-    List<String> sizes = [];
-    List<dynamic>? sizesJson = json[ProductModelFields.size.name];
-    if (sizesJson != null) {
-      for (var element in sizesJson) {
-        sizes.add(element);
-      }
-    }
+    Map<String,dynamic>? jsonSizes = json[ProductModelFields.size.name]; 
+    Map<String,ModelSize> sizes = {};
 
-    List<dynamic>? quantitiesJson = json[ProductModelFields.quantity.name];
-    List<int> sizesQuantities = [];
-    if(quantitiesJson != null){
-      sizesQuantities = quantitiesJson.map((e) => e as int).toList();
+    if(jsonSizes != null){
+      jsonSizes.forEach((key, value) {
+        sizes[key] = modelSizefromJson(json: value);
+      });
     }
 
     return ProductModel(
       color: json[ProductModelFields.color.name] ?? Labels.error,
-      sizes: sizes, 
-      index: index, 
-      sizesQuantiites: sizesQuantities,
+      id: index, 
+      sizes: sizes,
     );
   }
-
+  
   static Product productFromJson({required AppJson<dynamic> json}) {
-    List<ProductModel> models = [];
-    List<dynamic>? rawModels = json[ProductFields.models.name];
-
-    ProductModel model;
+    Map<String,ProductModel> models = {};
+    Map<String,dynamic>? rawModels = json[ProductFields.models.name];
 
     if (rawModels != null) {
-      for (int i=0 ; i < rawModels.length ; i++) {
-        model = productModelFromJson(json: rawModels[i], index: i);
-        models.add(model);
-      }
+        rawModels.forEach((key, value) {
+          models[key] = productModelFromJson(json: value, index: key);
+        });
     }
 
     return Product(
@@ -165,11 +156,11 @@ abstract class DatabaseRepository {
   static AppJson<dynamic> productToJson({required Product product}) {
     AppJson<dynamic> json = {};
 
-    List<AppJson<dynamic>> models = [];
+    Map<String,dynamic> models = {};
 
-    for (ProductModel model in product.models) {
-      models.add(productModelToJson(model: model));
-    }
+    product.models.forEach((key, value) { 
+      models[key] = productModelToJson(model: value);
+    });
 
     json[ProductFields.barcode.name] = product.barcode;
     json[ProductFields.name.name] = product.name;
@@ -181,15 +172,26 @@ abstract class DatabaseRepository {
     json[ProductFields.models.name] = models;
     json[ProductFields.quantity.name] = product.totalQuantity;
 
+    print(json.toString());
+
     return json;
   }
 
   static AppJson<dynamic> productModelToJson({required ProductModel model}) {
     AppJson<dynamic> json = {};
+    Map<String,dynamic> jsonSize = {};
+
+    model.sizes.forEach((key, value) {
+      jsonSize[key] = {
+        ProductModelFields.size.name: value.size,
+        ProductModelFields.quantity.name: value.quantity,
+      };
+     });
 
     json[ProductModelFields.color.name] = model.color;
-    json[ProductModelFields.size.name] = model.sizes;
-    json[ProductModelFields.quantity.name] = model.sizesQuantiites;
+
+    json[ProductModelFields.size.name] = jsonSize;
+
 
     return json;
   }
@@ -267,5 +269,12 @@ abstract class DatabaseRepository {
     json[ProductModelFields.size.name] = product.productSize;
 
     return json;
+  }
+  
+  static ModelSize modelSizefromJson({required json}) {
+    return ModelSize(
+       json[ProductModelFields.size.name] ?? '',
+      json[ProductModelFields.quantity.name] ?? 0,
+    );
   }
 }

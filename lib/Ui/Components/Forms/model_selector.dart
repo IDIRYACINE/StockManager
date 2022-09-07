@@ -12,7 +12,7 @@ class ModelSelector extends StatefulWidget {
       required this.colorSelectorCallback})
       : super(key: key);
 
-  final List<ProductModel> productModels;
+  final Map<String, ProductModel> productModels;
   final Callback<String> sizeSelectorCallback, colorSelectorCallback;
 
   @override
@@ -20,47 +20,50 @@ class ModelSelector extends StatefulWidget {
 }
 
 class _ModelSelectorState extends State<ModelSelector> {
-  int selectedColorIndex = 0;
+  String selectedColorIndex = "0";
 
-  void onColorSelected(ProductModel model) {
-    selectedColorIndex = widget.productModels.indexOf(model);
-
-    widget.colorSelectorCallback(model.color);
+  @override
+  void initState() {
+    if (widget.productModels.isNotEmpty) {
+      selectedColorIndex = widget.productModels.keys.first;
+    }
+    super.initState();
   }
 
-  void onSizeSelected(int index) {
+  void onColorSelected(String colorIndex) {
+    setState(() {
+      selectedColorIndex = colorIndex;
+      String color = widget.productModels[colorIndex]!.color;
+      widget.colorSelectorCallback(color);
+    });
+  }
+
+  void onSizeSelected(String index) {
     widget.sizeSelectorCallback(
-        widget.productModels[selectedColorIndex].sizes[index]);
+        widget.productModels[selectedColorIndex]!.sizes[index]!.size);
   }
 
-  List<int> sizesIndexes() {
-    List<int> indexes = [];
-    if(widget.productModels.isEmpty){
-      return indexes;
-    }
-    for (int i = 0;
-        i < widget.productModels[selectedColorIndex].sizes.length;
-        i++) {
-      indexes.add(i);
-    }
-    return indexes;
+  List<String> sizesIndexes() {
+    return widget.productModels[selectedColorIndex]?.sizes.keys.toList() ?? [];
   }
 
-  DropdownMenuItem<int> sizeAdapter(int sizeIndex) {
-    ProductModel model = widget.productModels[selectedColorIndex];
+  DropdownMenuItem<String> sizeAdapter(String sizeIndex) {
+    String size =
+        widget.productModels[selectedColorIndex]!.sizes[sizeIndex]!.size;
 
     return DropdownMenuItem(
       value: sizeIndex,
-      child: Text(model.sizes[sizeIndex]),
+      child: Text(size),
     );
   }
 
-  DropdownMenuItem<ProductModel> colorAdapter(ProductModel model) {
-    selectedColorIndex = model.index;
+  DropdownMenuItem<String> colorAdapter(String index) {
+    selectedColorIndex = index;
+    String color = widget.productModels[index]!.color;
 
     return DropdownMenuItem(
-      value: model,
-      child: Text(model.color),
+      value: index,
+      child: Text(color),
     );
   }
 
@@ -69,16 +72,16 @@ class _ModelSelectorState extends State<ModelSelector> {
     return Row(
       children: [
         Expanded(
-            child: SelectorDropDown<ProductModel>(
+            child: SelectorDropDown<String>(
                 onSelect: onColorSelected,
                 adapter: colorAdapter,
-                items: widget.productModels,
+                items: widget.productModels.keys.toList(),
                 label: const Text(Labels.colors))),
         const SizedBox(
           width: Measures.small,
         ),
         Expanded(
-            child: SelectorDropDown<int>(
+            child: SelectorDropDown<String>(
           onSelect: onSizeSelected,
           adapter: sizeAdapter,
           items: sizesIndexes(),

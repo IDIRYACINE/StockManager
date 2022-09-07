@@ -3,24 +3,33 @@ import 'package:stock_manager/DataModels/metadata.dart';
 
 class ProductModel {
   ProductModel({
-    required this.index,
+    required this.id,
     required this.color,
     required this.sizes,
-    required this.sizesQuantiites,
   });
 
-  int index;
+  String id;
   String color;
-  List<String> sizes;
-  List<int> sizesQuantiites;
+  Map<String,ModelSize> sizes;
 
-  static defaultInstance(int index) {
+  static defaultInstance(String id) {
     return ProductModel(
-      index: index,
+      id: id,
       color: "Default",
-      sizes: [],
-      sizesQuantiites: [],
+      sizes: {},
     );
+  }
+}
+
+class ModelSize {
+
+   String size;
+   int quantity;
+
+  ModelSize(this.size, this.quantity);
+
+  static ModelSize defaultInstance() {
+    return ModelSize("Default", 1);
   }
 }
 
@@ -43,7 +52,7 @@ class Product {
   String? imageUrl;
   double sellingPrice;
   int totalQuantity;
-  List<ProductModel> models;
+  Map<String,ProductModel> models;
   String productFamily;
 
   static Product defaultInstance() {
@@ -55,7 +64,7 @@ class Product {
       sellingPrice: 0,
       reference: '',
       totalQuantity: 0,
-      models: [],
+      models: {},
       imageUrl: null,
     );
   }
