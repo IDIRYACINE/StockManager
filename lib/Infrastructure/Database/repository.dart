@@ -5,8 +5,6 @@ import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 abstract class DatabaseRepository {
-
-
   // x from json
 
   static ProductFamily productFamilyFromJson({required AppJson<dynamic> json}) {
@@ -17,12 +15,12 @@ abstract class DatabaseRepository {
     );
   }
 
-  static ProductModel productModelFromJson({required AppJson json , required String index}) {
+  static ProductModel productModelFromJson(
+      {required AppJson json, required String index}) {
+    Map<String, dynamic>? jsonSizes = json[ProductModelFields.size.name];
+    Map<String, ModelSize> sizes = {};
 
-    Map<String,dynamic>? jsonSizes = json[ProductModelFields.size.name]; 
-    Map<String,ModelSize> sizes = {};
-
-    if(jsonSizes != null){
+    if (jsonSizes != null) {
       jsonSizes.forEach((key, value) {
         sizes[key] = modelSizefromJson(json: value);
       });
@@ -30,19 +28,19 @@ abstract class DatabaseRepository {
 
     return ProductModel(
       color: json[ProductModelFields.color.name] ?? Labels.error,
-      id: index, 
+      id: index,
       sizes: sizes,
     );
   }
-  
+
   static Product productFromJson({required AppJson<dynamic> json}) {
-    Map<String,ProductModel> models = {};
-    Map<String,dynamic>? rawModels = json[ProductFields.models.name];
+    Map<String, ProductModel> models = {};
+    Map<String, dynamic>? rawModels = json[ProductFields.models.name];
 
     if (rawModels != null) {
-        rawModels.forEach((key, value) {
-          models[key] = productModelFromJson(json: value, index: key);
-        });
+      rawModels.forEach((key, value) {
+        models[key] = productModelFromJson(json: value, index: key);
+      });
     }
 
     return Product(
@@ -55,6 +53,7 @@ abstract class DatabaseRepository {
       sellingPrice: json[ProductFields.sellingPrice.name] ?? Labels.error,
       models: models,
       totalQuantity: json[ProductFields.quantity.name] ?? Labels.error,
+      familyReference: json[ProductFields.familyReference.name] ?? Labels.error,
     );
   }
 
@@ -75,8 +74,10 @@ abstract class DatabaseRepository {
       originalPrice: json[RecordFields.buyingPrice.name] ?? 0,
       sellingPrice: json[RecordFields.sellingPrice.name] ?? 0,
       date: json[RecordFields.date.name] ?? DateTime(1990),
-       deposit: json[RecordFields.quantity.name] ?? 0, 
-       remainingPayement: json[RecordFields.quantity.name] ?? 0,
+      deposit: json[RecordFields.quantity.name] ?? 0,
+      remainingPayement: json[RecordFields.quantity.name] ?? 0,
+      colorId: json[RecordFields.colorId.name] ?? Labels.error,
+      sizeId: json[RecordFields.sizeId.name] ?? Labels.error,
     );
 
     if (payementType == PaymentTypes.deposit.name) {
@@ -91,19 +92,21 @@ abstract class DatabaseRepository {
     return Seller(
       name: json[SellerFields.name.name] ?? Labels.error,
       imageUrl: json[SellerFields.imageUrl.name] ?? Labels.error,
-      phone: json[SellerFields.phone.name] ?? 0, 
+      phone: json[SellerFields.phone.name] ?? 0,
       sellerCode: json[SellerFields.code.name] ?? 0,
     );
   }
 
   static OrderProduct orderProductFromJson({required AppJson<dynamic> json}) {
     return OrderProduct(
-      reference: json[ProductFields.reference.name] ?? Labels.error,
-      sellingPrice: json[ProductFields.sellingPrice.name] ?? 0,
-      product: json[ProductFields.name.name] ?? Labels.error,
-      productColor: json[ProductModelFields.color.name] ?? Labels.error,
-      productSize: json[ProductModelFields.size.name] ?? Labels.error, 
-      buyingPrice: json[ProductFields.buyingPrice.name] ?? 0,
+      reference: json[OrderProductFields.reference.name] ?? Labels.error,
+      sellingPrice: json[OrderProductFields.sellingPrice.name] ?? 0,
+      product: json[OrderProductFields.name.name] ?? Labels.error,
+      productColor: json[OrderProductFields.color.name] ?? Labels.error,
+      productSize: json[OrderProductFields.size.name] ?? Labels.error,
+      buyingPrice: json[OrderProductFields.buyingPrice.name] ?? 0,
+      productColorId: json[OrderProductFields.sizeId.name] ?? Labels.error,
+      productSizeId: json[OrderProductFields.colorId.name] ?? Labels.error,
     );
   }
 
@@ -156,9 +159,9 @@ abstract class DatabaseRepository {
   static AppJson<dynamic> productToJson({required Product product}) {
     AppJson<dynamic> json = {};
 
-    Map<String,dynamic> models = {};
+    Map<String, dynamic> models = {};
 
-    product.models.forEach((key, value) { 
+    product.models.forEach((key, value) {
       models[key] = productModelToJson(model: value);
     });
 
@@ -171,32 +174,30 @@ abstract class DatabaseRepository {
     json[ProductFields.sellingPrice.name] = product.sellingPrice;
     json[ProductFields.models.name] = models;
     json[ProductFields.quantity.name] = product.totalQuantity;
-
-    print(json.toString());
+    json[ProductFields.familyReference.name] = product.familyReference;
 
     return json;
   }
 
   static AppJson<dynamic> productModelToJson({required ProductModel model}) {
     AppJson<dynamic> json = {};
-    Map<String,dynamic> jsonSize = {};
+    Map<String, dynamic> jsonSize = {};
 
     model.sizes.forEach((key, value) {
       jsonSize[key] = {
         ProductModelFields.size.name: value.size,
         ProductModelFields.quantity.name: value.quantity,
       };
-     });
+    });
 
     json[ProductModelFields.color.name] = model.color;
 
     json[ProductModelFields.size.name] = jsonSize;
 
-
     return json;
   }
 
- static  AppJson<dynamic> sellerToJson({required Seller seller}) {
+  static AppJson<dynamic> sellerToJson({required Seller seller}) {
     AppJson<dynamic> json = {};
 
     json[SellerFields.name.name] = seller.name;
@@ -219,7 +220,7 @@ abstract class DatabaseRepository {
     json[RecordFields.quantity.name] = record.quantity;
     json[RecordFields.buyingPrice.name] = record.originalPrice;
     json[RecordFields.sellingPrice.name] = record.sellingPrice;
-    json[RecordFields.date.name] =  record.date;
+    json[RecordFields.date.name] = record.date;
 
     if (record.payementType == PaymentTypes.deposit.name) {
       json[RecordFields.deposit.name] = record.deposit;
@@ -255,7 +256,6 @@ abstract class DatabaseRepository {
     json[OrderFields.timeStamp.name] = order.timeStamp;
     json[OrderFields.remainingPayement.name] = order.remainingPayement;
 
-
     return json;
   }
 
@@ -270,10 +270,10 @@ abstract class DatabaseRepository {
 
     return json;
   }
-  
+
   static ModelSize modelSizefromJson({required json}) {
     return ModelSize(
-       json[ProductModelFields.size.name] ?? '',
+      json[ProductModelFields.size.name] ?? '',
       json[ProductModelFields.quantity.name] ?? 0,
     );
   }

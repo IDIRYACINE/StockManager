@@ -12,15 +12,8 @@ class DefaultDecorator extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onBackground,
-        borderRadius: BorderRadius.circular(Measures.small),
-        boxShadow: showShadows ? [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: Measures.small,
-            spreadRadius: Measures.small,
-          ),
-        ] : null,
+        borderRadius: BorderRadius.circular(Measures.small)
+       
       ),
       child: InputDecorator(
           decoration: InputDecoration(

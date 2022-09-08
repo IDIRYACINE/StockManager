@@ -1,6 +1,4 @@
-
-
-class SearchWrapper{
+class SearchWrapper {
   final List<AttributeWrapper> _searchParameters;
 
   SearchWrapper(this._searchParameters);
@@ -8,27 +6,25 @@ class SearchWrapper{
   List<AttributeWrapper> get searchParameters => _searchParameters;
 }
 
-class LoadWrapper{
+class LoadWrapper {
   int limit;
   int offset;
 
   LoadWrapper(this.limit, this.offset);
 }
 
-class AttributeWrapper{
-
+class AttributeWrapper {
   final Enum _attributeName;
 
   final String _attributeValue;
 
-  AttributeWrapper(this._attributeName,this._attributeValue);
+  AttributeWrapper(this._attributeName, this._attributeValue);
 
   String get attributeName => _attributeName.toString();
   String get attributeValue => _attributeValue;
-
 }
 
-enum Collections{
+enum Collections {
   records,
   orders,
   sellers,
@@ -36,7 +32,7 @@ enum Collections{
   productsFamily,
 }
 
-enum Indexes{
+enum Indexes {
   date,
   barcode,
   reference,
@@ -44,7 +40,7 @@ enum Indexes{
   phone,
 }
 
-enum ProductFields{
+enum ProductFields {
   name,
   reference,
   imageUrl,
@@ -53,26 +49,27 @@ enum ProductFields{
   models,
   quantity,
   family,
+  familyReference,
   barcode,
-
 }
 
-enum ProductModelFields{
-  color,
-  size,
-  quantity
-}
+enum ProductModelFields { color, size, quantity }
 
-enum RecordFields{
+enum RecordFields {
   timeStamp,
   date,
   product,
   productSize,
+  productSizeId,
   productColor,
+  productColorId,
+
   seller,
   paymentType,
   buyingPrice,
   sellingPrice,
+  colorId,
+  sizeId,
   customer,
   deposit,
   barcode,
@@ -81,7 +78,7 @@ enum RecordFields{
   quantity
 }
 
-enum OrderFields{
+enum OrderFields {
   timeStamp,
   date,
   status,
@@ -101,21 +98,24 @@ enum OrderFields{
 
   reference,
   productColor,
+  productColorId,
+  productSizeId,
   productSize,
   productName,
   sellingPrice,
-
 }
 
-enum SellerFields{
-  code,
-  name,
-  phone,
-  imageUrl
-}
-enum ProductFamilyFields{
-  name,
+enum SellerFields { code, name, phone, imageUrl }
+
+enum ProductFamilyFields { name, reference, imageUrl }
+
+enum OrderProductFields {
   reference,
-  imageUrl
+  sellingPrice,
+  name,
+  color,
+  size,
+  buyingPrice,
+  sizeId,
+  colorId,
 }
-

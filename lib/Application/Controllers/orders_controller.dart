@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:pdf/widgets.dart' as pdf;
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/adapters_data.dart';
@@ -261,7 +262,7 @@ class OrdersController {
     Navigator.pop(context);
   }
 
-  void print(BuildContext context) {
+  void printReport(BuildContext context) {
     AppPrinter appPrinter = AppPrinter();
     appPrinter.createNewDocument();
 
@@ -269,7 +270,7 @@ class OrdersController {
 
     int totalOrderProducts = _calculateTotalOrderProducts(orders);
 
-    int maxRowsPerPage = 30;
+    int maxRowsPerPage = Measures.recordsMaxRowsPrint;
     int pageCount =
         Utility.calculatePageCount(totalOrderProducts, maxRowsPerPage);
 
@@ -278,9 +279,11 @@ class OrdersController {
     PrimitiveWrapper<int> orderIndex = PrimitiveWrapper(0);
 
     while (currentPage < pageCount) {
+
       List<OrderProductReportWrapper> orderProducts =
           _selectOrderProductsOnPageAndTheirOrderIndexes(
               orders, orderIndex, maxRowsPerPage);
+
 
       OrderReportTotals totals =
           Utility.calculateOrderReportTotals(orderProducts);
@@ -298,7 +301,7 @@ class OrdersController {
           InvoiceItem(Labels.profit, totals.totalProfit.toString()),
           InvoiceItem(Labels.remainingPayement,
               totals.totalRemainingPayement.toString()),
-          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString()),
+          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString(),pdf.Font.timesBold()),
         ],
         endIndex: orderProducts.length,
         startIndex: 0,
@@ -325,6 +328,7 @@ class OrdersController {
   List<OrderProductReportWrapper>
       _selectOrderProductsOnPageAndTheirOrderIndexes(List<Order> orders,
           PrimitiveWrapper<int> orderIndex, int maxRowsPerPage) {
+
     if (orderIndex.value >= orders.length) {
       return [];
     }
@@ -332,18 +336,20 @@ class OrdersController {
     List<OrderProductReportWrapper> products = [];
     int currentRowCount = 0;
 
-    while (currentRowCount < maxRowsPerPage) {
+    while ((currentRowCount < maxRowsPerPage) && (orderIndex.value < orders.length)) {
       Order order = orders[orderIndex.value];
       int productIndex = 0;
       List<OrderProductReportWrapper> tempProducts = [];
       bool isLast = false;
 
-      while (currentRowCount < maxRowsPerPage &&
-          productIndex < order.products.length) {
+      while ((currentRowCount < maxRowsPerPage) &&
+          (productIndex < order.products.length)) {
+
         OrderProduct product = order.products[productIndex];
         isLast = productIndex == order.products.length - 1;
         tempProducts.add(OrderProductReportWrapper(order, product, isLast));
         currentRowCount++;
+        productIndex++;
       }
 
       if (isLast) {

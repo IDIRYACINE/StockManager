@@ -7,11 +7,13 @@ class SelectorDropDown<T> extends StatefulWidget {
       required this.items,
       this.label,
       this.adapter,
-      required this.onSelect})
+      required this.onSelect,
+       this.initialSelection})
       : super(key: key);
 
   final List<T> items;
   final Widget? label;
+  final T? initialSelection;
   final DropDownMenuItemAdapter<T>? adapter;
   final Callback<T> onSelect;
 
@@ -22,9 +24,9 @@ class SelectorDropDown<T> extends StatefulWidget {
 class _SelectorDropDownState<T> extends State<SelectorDropDown<T>> {
   @override
   void initState() {
-    super.initState();
-
     onSelect = widget.onSelect;
+    selectedValue = widget.initialSelection;
+    super.initState();
   }
 
   T? selectedValue;
@@ -74,6 +76,7 @@ class _SelectorDropDownState<T> extends State<SelectorDropDown<T>> {
     return DropdownButton<T>(
         hint: widget.label,
         isExpanded: true,
+        
         value: selectedValue,
         items: buildDropDownItems(),
         onChanged: (T? value) {

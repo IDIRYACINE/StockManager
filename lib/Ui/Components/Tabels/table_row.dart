@@ -39,21 +39,7 @@ class SelectableRow<T> extends StatefulWidget {
 }
 
 class _SelectableRowState<T> extends State<SelectableRow<T>> {
-  late bool isSelected;
-  late Color backgroundColor, textColor;
 
-  @override
-  void initState() {
-    isSelected = false;
-    super.initState();
-  }
-
-  void initColors(ThemeData theme) {
-    backgroundColor =
-        isSelected ? theme.colorScheme.primary : theme.colorScheme.onBackground;
-    textColor =
-        isSelected ? theme.colorScheme.onPrimary : theme.colorScheme.surface;
-  }
 
   void onRowClicked(BuildContext context, T record, int rowIndex,TapDownDetails details) {
      void _onContextMenuSelected(ContextMenuOperation? operation) {
@@ -85,7 +71,6 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
 
   @override
   Widget build(BuildContext context) {
-    initColors(Theme.of(context));
     final data = widget.dataCellHelper(widget.dataModel);
 
     return GestureDetector(
@@ -95,21 +80,24 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
           }
       },
         
-        child: Container(
-          color: backgroundColor,
-          child: Row(
-            children: [
-              for (int i = 0; i < data.length; i++)
-                Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.all(widget.paddings),
-                  child: TableRowText(
-                    color: textColor,
-                    data: data[i],
-                  ),
-                ))
-            ],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                for (int i = 0; i < data.length; i++)
+                  Expanded(
+                      child: Padding(
+                    padding: EdgeInsets.all(widget.paddings),
+                    child: TableRowText(
+                      data: data[i],
+                    ),
+                  ))
+              ],
+            ),
+            const Divider(
+            )
+          ],
         ));
   }
 }

@@ -63,6 +63,7 @@ abstract class Titles {
     Labels.productFamily,
     Labels.sellingPrice,
     Labels.price,
+    Labels.remainingPayement,
   ];
 
   static const List<String> productModelsHeaders = [
@@ -242,6 +243,8 @@ abstract class Measures {
   static const contextMenuXoffset = 10.0;
   static const contextMenuWidth = 200.0;
   static const contextMenuHeight = 200.0;
+
+  static const recordsMaxRowsPrint = 19;
 
   static const h1TextSize = 30.0;
   static const h2TextSize = 20.0;

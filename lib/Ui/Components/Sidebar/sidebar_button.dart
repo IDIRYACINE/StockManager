@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SidebarButton extends StatefulWidget {
   final String title;
@@ -33,25 +32,10 @@ class _SidebarButtonState extends State<SidebarButton> {
     }
     navigationStore = Provider.of<NavigationStore>(context);
 
-    selectedBackground = Theme.of(context).colorScheme.primary;
-    unselectedBackground = Theme.of(context).colorScheme.onBackground;
-    selectedTextColor = Theme.of(context).colorScheme.onPrimary;
-    unselectedTextColor = Theme.of(context).colorScheme.surface;
 
     isInitialized = true;
   }
 
-  void _checkIfActive() {
-    bool isActive = navigationStore.selectedIndex.value == widget.index;
-
-    if (isActive) {
-      backgroundColor = selectedBackground;
-      textColor = selectedTextColor;
-      return;
-    }
-    backgroundColor = unselectedBackground;
-    textColor = unselectedTextColor;
-  }
 
   void onClicked() {
     navigationStore.navigateToPanel(widget.index);
@@ -60,27 +44,16 @@ class _SidebarButtonState extends State<SidebarButton> {
   @override
   Widget build(BuildContext context) {
     _init();
-    _checkIfActive();
 
     return SizedBox(
-      width:  Measures.sidebarButtonWidth,
-      height: Measures.sidebarButtonHeight,
-      child: InkResponse(
-        highlightShape: BoxShape.rectangle,
+      width: double.infinity,
+      child: TextButton(
+        onPressed: onClicked, 
+
+        child: Text(widget.title),
+
         
-          onTap: onClicked,
-          child: Card(
-              color: backgroundColor,
-              elevation: Measures.small,
-              child: Center(
-                child: Text(
-                  widget.title,
-                  style: TextStyle(color: textColor),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-      ),
+        ),
     );
   }
 }

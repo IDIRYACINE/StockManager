@@ -182,13 +182,13 @@ class _InvoicePayement extends pw.StatelessWidget {
             child: pw.Text(
               item.label,
               style:
-                  pw.TextStyle(fontSize: invoiceTextSize, fontBold: item.font),
+                  pw.TextStyle(fontSize: invoiceTextSize, font: item.font,),
             ),
           ),
           pw.Expanded(
             child: pw.Text(
               item.value,
-              style: pw.TextStyle(fontSize: invoiceTextSize),
+              style: pw.TextStyle(fontSize: invoiceTextSize, font: item.font,),
             ),
           ),
         ],
@@ -331,10 +331,9 @@ class _InvoiceTable<T> extends pw.StatelessWidget {
         children: rowWidgets,
       );
     }
-
     return pw.Table(children: [
       buildHeader(),
-      for (int i = startIndex; i < endIndex; i++) buildRow(i),
+      for (int i = startIndex; i < endIndex; i++) buildRow(0)
     ]);
   }
 }

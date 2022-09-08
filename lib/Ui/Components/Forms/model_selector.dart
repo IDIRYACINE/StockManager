@@ -13,7 +13,7 @@ class ModelSelector extends StatefulWidget {
       : super(key: key);
 
   final Map<String, ProductModel> productModels;
-  final Callback<String> sizeSelectorCallback, colorSelectorCallback;
+  final Callback2<String, String> sizeSelectorCallback, colorSelectorCallback;
 
   @override
   State<StatefulWidget> createState() => _ModelSelectorState();
@@ -34,13 +34,13 @@ class _ModelSelectorState extends State<ModelSelector> {
     setState(() {
       selectedColorIndex = colorIndex;
       String color = widget.productModels[colorIndex]!.color;
-      widget.colorSelectorCallback(color);
+      widget.colorSelectorCallback(color, colorIndex);
     });
   }
 
   void onSizeSelected(String index) {
-    widget.sizeSelectorCallback(
-        widget.productModels[selectedColorIndex]!.sizes[index]!.size);
+    String size = widget.productModels[selectedColorIndex]!.sizes[index]!.size;
+    widget.sizeSelectorCallback(size, index);
   }
 
   List<String> sizesIndexes() {

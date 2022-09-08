@@ -10,7 +10,7 @@ class ProductModel {
 
   String id;
   String color;
-  Map<String,ModelSize> sizes;
+  Map<String, ModelSize> sizes;
 
   static defaultInstance(String id) {
     return ProductModel(
@@ -22,9 +22,8 @@ class ProductModel {
 }
 
 class ModelSize {
-
-   String size;
-   int quantity;
+  String size;
+  int quantity;
 
   ModelSize(this.size, this.quantity);
 
@@ -43,16 +42,18 @@ class Product {
       required this.reference,
       required this.totalQuantity,
       required this.models,
+      required this.familyReference,
       required this.imageUrl});
 
   String reference;
   int barcode;
   String name;
+  String familyReference;
   double buyingPrice;
   String? imageUrl;
   double sellingPrice;
   int totalQuantity;
-  Map<String,ProductModel> models;
+  Map<String, ProductModel> models;
   String productFamily;
 
   static Product defaultInstance() {
@@ -66,6 +67,7 @@ class Product {
       totalQuantity: 0,
       models: {},
       imageUrl: null,
+      familyReference: '',
     );
   }
 }
@@ -81,6 +83,8 @@ class Record {
     required this.productSize,
     required this.barcode,
     required this.reference,
+    required this.colorId,
+    required this.sizeId,
     this.customer,
     required this.deposit,
     required this.remainingPayement,
@@ -95,6 +99,8 @@ class Record {
   String product;
   String productSize;
   String productColor;
+  String colorId;
+  String sizeId;
   int quantity;
   double originalPrice;
   double sellingPrice;
@@ -122,6 +128,8 @@ class Record {
     int? quantity,
     double? originalPrice,
     double? sellingPrice,
+    String? colorId,
+    String? sizeId,
   }) {
     return Record(
       date: date ?? this.date,
@@ -139,6 +147,8 @@ class Record {
       productSize: productSize ?? this.productSize,
       sellingPrice: sellingPrice ?? this.sellingPrice,
       remainingPayement: remainingPayement ?? this.remainingPayement,
+      colorId: colorId ?? this.colorId,
+      sizeId: sizeId ?? this.sizeId,
     );
   }
 
@@ -159,6 +169,8 @@ class Record {
       quantity: 0,
       originalPrice: 0,
       sellingPrice: 0,
+      colorId: '',
+      sizeId: '',
     );
   }
 }
@@ -226,6 +238,8 @@ class OrderProduct {
     required this.reference,
     required this.sellingPrice,
     required this.buyingPrice,
+    required this.productSizeId,
+    required this.productColorId,
   });
 
   String reference;
@@ -233,6 +247,8 @@ class OrderProduct {
   String product;
   String productSize;
   String productColor;
+  String productSizeId;
+  String productColorId;
   double sellingPrice;
 
   static OrderProduct defaultInstance() {
@@ -243,6 +259,8 @@ class OrderProduct {
       reference: '',
       sellingPrice: 0,
       buyingPrice: 0,
+      productColorId: '',
+      productSizeId: '',
     );
   }
 
@@ -253,6 +271,8 @@ class OrderProduct {
     String? reference,
     double? sellingPrice,
     double? buyingPrice,
+    String? productSizeId,
+    String? productColorId,
   }) {
     return OrderProduct(
       product: product ?? this.product,
@@ -261,6 +281,8 @@ class OrderProduct {
       reference: reference ?? this.reference,
       sellingPrice: sellingPrice ?? this.sellingPrice,
       buyingPrice: buyingPrice ?? this.buyingPrice,
+      productColorId: productColorId ?? this.productColorId,
+      productSizeId: productSizeId ?? this.productColorId,
     );
   }
 }
@@ -335,7 +357,8 @@ class Order {
         deliverToHome: true,
         deliveryCost: 0,
         timeStamp: Utility.getTimeStamp(),
-        date: Utility.getDate(), remainingPayement: 0);
+        date: Utility.getDate(),
+        remainingPayement: 0);
   }
 
   List<OrderProduct> _copyProducts() {
@@ -379,7 +402,8 @@ class Order {
       deliverToHome: deliverToHome ?? this.deliverToHome,
       deliveryCost: deliveryCost ?? this.deliveryCost,
       timeStamp: timeStamp ?? this.timeStamp,
-      date: date ?? this.date, remainingPayement: remainingPayement ?? this.remainingPayement,
+      date: date ?? this.date,
+      remainingPayement: remainingPayement ?? this.remainingPayement,
     );
   }
 }

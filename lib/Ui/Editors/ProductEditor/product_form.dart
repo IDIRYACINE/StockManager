@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
@@ -8,15 +9,17 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 
 import 'product_mode.dart';
 
-
 class ProductForm extends StatelessWidget {
-  const ProductForm({Key? key, required this.editMode, required this.product, required this.productEditorMode})
+  const ProductForm(
+      {Key? key,
+      required this.editMode,
+      required this.product,
+      required this.productEditorMode})
       : super(key: key);
 
   final Product product;
   final bool editMode;
-  final ProductEditorMode productEditorMode ;
-
+  final ProductEditorMode productEditorMode;
 
   DropdownMenuItem<ProductFamily> buildProductFamilyDropdownMenuItem(
       ProductFamily productFamily) {
@@ -28,18 +31,21 @@ class ProductForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final StockLiveDataModel stockLiveModel =
+        Provider.of<LiveModelProvider>(context, listen: false).stockLiveModel;
     return Padding(
       padding: const EdgeInsets.all(Measures.medium),
       child: Column(
         children: [
-          Expanded(
+          Flexible(
               child: SelectorDropDown<ProductFamily>(
-            onSelect: (value) => {productEditorMode.setProductFamily(value.name)},
+            onSelect: (value) =>
+                {productEditorMode.setProductFamily(value.name)},
             adapter: buildProductFamilyDropdownMenuItem,
-            items: Provider.of<LiveModelProvider>(context,listen: false).stockLiveModel.loadedProductFamillies,
+            initialSelection:
+                stockLiveModel.searchProductFamily(product.familyReference),
+            items: stockLiveModel.loadedProductFamillies,
             label: const Text(Labels.selectProductFamily),
-            
           )),
           Expanded(
               child: AttributeTextField(

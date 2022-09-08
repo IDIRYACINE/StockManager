@@ -30,10 +30,9 @@ class RecordsController {
       Navigator.pop(context);
     }
 
-    DateTime today = Utility.getTodayEndSearchTime();
+    SelectorBuilder selector = SelectorBuilder();
 
-    SelectorBuilder selector =
-        SelectorBuilder().lte(RecordFields.date.name, today);
+    Utility.searchByTodayDate(selector);
 
     ServiceMessageDataMap data = {
       ServicesData.databaseSelector: selector.map,
@@ -139,7 +138,6 @@ class RecordsController {
   }
 
   void printRecords(BuildContext context) {
-
     AppPrinter appPrinter = AppPrinter();
     appPrinter.createNewDocument();
 
@@ -150,39 +148,37 @@ class RecordsController {
     int currentIndex = 0;
     int currentPage = 0;
 
-
-    while( currentPage < pageCount){
-      
+    while (currentPage < pageCount) {
       int endIndex = currentIndex + maxRowsPerPage;
       endIndex = endIndex > records.length ? records.length : endIndex;
 
-      RecordReportTotals totals = Utility.calculateRecordReportTotals(records,currentIndex,endIndex) ;
+      RecordReportTotals totals =
+          Utility.calculateRecordReportTotals(records, currentIndex, endIndex);
 
       RecordsPage<Record> recordPage = RecordsPage(
-        paddings: Measures.paddingNormal,
-        headers: Titles.recordReportHeaders,
-        cellAdapter: Adapter.recordToReportRecordRow,
-        data: recordsLiveModel.records,
-        invoicePayementAttributes: [
-          InvoiceItem(Labels.totalDeposit, totals.totalDeposit.toString()),
-          InvoiceItem(Labels.profit, totals.totalProfit.toString()),
-          InvoiceItem(Labels.remainingPayement, totals.totalRemainingPayement.toString()),
-          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString()),
-        ],
-        endIndex: currentIndex + maxRowsPerPage , 
-        startIndex: currentIndex, title: Labels.shopName);
+          paddings: Measures.paddingNormal,
+          headers: Titles.recordReportHeaders,
+          cellAdapter: Adapter.recordToReportRecordRow,
+          data: recordsLiveModel.records,
+          invoicePayementAttributes: [
+            InvoiceItem(Labels.totalDeposit, totals.totalDeposit.toString()),
+            InvoiceItem(Labels.profit, totals.totalProfit.toString()),
+            InvoiceItem(Labels.remainingPayement,
+                totals.totalRemainingPayement.toString()),
+            InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString()),
+          ],
+          endIndex: currentIndex + maxRowsPerPage,
+          startIndex: currentIndex,
+          title: Labels.shopName);
 
-      appPrinter.addPage(recordPage.build());  
-      
+      appPrinter.addPage(recordPage.build());
+
       currentIndex += maxRowsPerPage;
       currentPage++;
     }
-
 
     appPrinter
         .prepareDocument()
         .then((value) => appPrinter.displayPreview(context));
   }
-
- 
 }

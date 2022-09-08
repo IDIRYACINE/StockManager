@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:stock_manager/Infrastructure/Database/database.dart';
@@ -39,7 +40,7 @@ class ServicesForwarder {
           hasData: false,
           messageId: serviceMessage.messageId,
           status: OperationStatus.error);
-        print(e.toString());
+        log(e.toString());
     }
 
     uiThreadPort.send(response);

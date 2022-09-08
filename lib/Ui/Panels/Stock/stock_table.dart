@@ -79,7 +79,7 @@ class _ProductsTable extends StatelessWidget {
                         onDelete: controller.remove,
                         onEdit: controller.edit,
                         index: index,
-                        dataModel: stock.product(index),
+                        dataModel: stock.productAt(index),
                       );
                     });
               }),
@@ -127,7 +127,7 @@ class _FamilliesTable extends StatelessWidget {
                         onDelete: controller.remove,
                         onEdit: controller.edit,
                         index: index,
-                        dataModel: stock.productFamily(index),
+                        dataModel: stock.productFamilyAt(index),
                       );
                     });
               }),

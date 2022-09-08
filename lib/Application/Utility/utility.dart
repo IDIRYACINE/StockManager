@@ -31,7 +31,6 @@ abstract class Utility {
     DateTime now = DateTime.now();
 
     DateTime start = DateTime(now.year, now.month, now.day,0,0,0);
-    // DateTime end = DateTime(now.year, now.month, now.day,23,59,59);
 
     selector.gt(RecordFields.date.name, start);
    

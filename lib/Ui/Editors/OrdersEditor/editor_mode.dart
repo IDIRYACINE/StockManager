@@ -1,13 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
-abstract class OrderProductEditorMode<T>  {
-
- final TextEditingController productNameController =
+abstract class OrderProductEditorMode<T> {
+  final TextEditingController productNameController =
       TextEditingController(text: '');
 
   final TextEditingController referenceController =
@@ -24,19 +22,20 @@ abstract class OrderProductEditorMode<T>  {
 
   void setSellingPrice(String? price);
 
-  void setColor(String color);
+  void setColor(String color, String colorId);
 
-  void setSize(String size);
+  void setSize(String size, String sizeId);
 
   void confirm(T callback);
 
-  static OrderProductEditorMode<Callback<OrderProduct>> createModeInstance(OrderProduct orderProduct,Order order) {
-    return _ModeCreate(orderProduct,order);
+  static OrderProductEditorMode<Callback<OrderProduct>> createModeInstance(
+      OrderProduct orderProduct, Order order) {
+    return _ModeCreate(orderProduct, order);
   }
 
-  static OrderProductEditorMode<EditorCallback<AppJson, OrderProduct>> editModeInstance(
-      OrderProduct orderProduct,Order order) {
-    return _ModeEdit(orderProduct,order);
+  static OrderProductEditorMode<EditorCallback<AppJson, OrderProduct>>
+      editModeInstance(OrderProduct orderProduct, Order order) {
+    return _ModeEdit(orderProduct, order);
   }
 }
 
@@ -47,21 +46,22 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
   _ModeCreate(this.orderProduct, this.order);
 
   @override
-  void setSellingPrice(String? price){
-    if(price != null && price !='') {
+  void setSellingPrice(String? price) {
+    if (price != null && price != '') {
       orderProduct.sellingPrice = double.parse(price);
     }
   }
 
-
   @override
-  void setColor(String color){
+  void setColor(String color, String colorId) {
     orderProduct.productColor = color;
+    orderProduct.productColorId = colorId;
   }
 
   @override
-  void setSize(String size){
+  void setSize(String size, String sizeId) {
     orderProduct.productSize = size;
+    orderProduct.productSizeId = sizeId;
   }
 
   @override
@@ -70,7 +70,8 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
   }
 }
 
-class _ModeEdit extends OrderProductEditorMode<EditorCallback<AppJson, OrderProduct>> {
+class _ModeEdit
+    extends OrderProductEditorMode<EditorCallback<AppJson, OrderProduct>> {
   final OrderProduct orderProduct;
   final Order order;
 
@@ -78,25 +79,29 @@ class _ModeEdit extends OrderProductEditorMode<EditorCallback<AppJson, OrderProd
 
   Map<OrderFields, dynamic> updatedFields = {};
 
-
   @override
-  void setSellingPrice(String? price){
-    if(price != null && price !='') {
+  void setSellingPrice(String? price) {
+    if (price != null && price != '') {
       double sellingPrice = double.parse(price);
       updatedFields[OrderFields.sellingPrice] = sellingPrice;
     }
   }
 
   @override
-  void setColor(String color){
+  void setColor(String color, String colorId) {
     orderProduct.productColor = color;
+    orderProduct.productColorId = colorId;
     updatedFields[OrderFields.productColor] = color;
+    updatedFields[OrderFields.productColorId] = colorId;
   }
 
   @override
-  void setSize(String size){
+  void setSize(String size, String sizeId) {
     orderProduct.productSize = size;
+    orderProduct.productSizeId = sizeId;
+
     updatedFields[OrderFields.productSize] = size;
+    updatedFields[OrderFields.productSizeId] = sizeId;
   }
 
   @override
@@ -111,19 +116,14 @@ class _ModeEdit extends OrderProductEditorMode<EditorCallback<AppJson, OrderProd
   }
 }
 
-
-
-
-abstract class OrderFormEditorMode<T>  {
-
+abstract class OrderFormEditorMode<T> {
   void setSeller(Seller seller);
 
   void setClient(String? client);
 
   void setDeposit(String? deposit);
 
-
-  void setDeliveryCost(String? deliveryCost) ;
+  void setDeliveryCost(String? deliveryCost);
 
   void setPhoneNumber(String? phoneNumber);
 
@@ -133,75 +133,70 @@ abstract class OrderFormEditorMode<T>  {
 
   void confirm(T callback);
 
-
   static OrderFormEditorMode<Callback<Order>> editModeInstance(
-      Order order,AppJson updatedValuesCache) {
-    return _ModeCustomerForm(order,updatedValuesCache);
+      Order order, AppJson updatedValuesCache) {
+    return _ModeCustomerForm(order, updatedValuesCache);
   }
-
 }
 
 class _ModeCustomerForm extends OrderFormEditorMode<Callback<Order>> {
-
   _ModeCustomerForm(this.order, this.updatedValuesCache);
 
-    final Order order;
-    final AppJson updatedValuesCache;
-
+  final Order order;
+  final AppJson updatedValuesCache;
 
   @override
-  void setSeller(Seller seller){
+  void setSeller(Seller seller) {
     order.sellerName = seller.name;
   }
 
   @override
-  void setClient(String? client){
-    if(client != null && client !='') {
+  void setClient(String? client) {
+    if (client != null && client != '') {
       order.customerName = client;
       updatedValuesCache[OrderFields.customerName.name] = client;
     }
   }
 
   @override
-  void setDeposit(String? deposit){
-    if(deposit != null && deposit !='') {
+  void setDeposit(String? deposit) {
+    if (deposit != null && deposit != '') {
       order.deposit = double.parse(deposit);
       updatedValuesCache[OrderFields.deposit.name] = double.parse(deposit);
     }
   }
 
   @override
-  void setState(String? state){
-    if(state != null && state !='') {
+  void setState(String? state) {
+    if (state != null && state != '') {
       order.city = state;
       updatedValuesCache[OrderFields.city.name] = state;
     }
   }
 
   @override
-  void setAddress(String? address ){
-    if(address != null && address !='') {
+  void setAddress(String? address) {
+    if (address != null && address != '') {
       order.address = address;
       updatedValuesCache[OrderFields.address.name] = address;
     }
   }
 
-
   @override
   void setPhoneNumber(String? phoneNumber) {
-    if(phoneNumber != null && phoneNumber !='') {
+    if (phoneNumber != null && phoneNumber != '') {
       int phone = int.parse(phoneNumber);
       order.phoneNumber = phone;
       updatedValuesCache[OrderFields.phone.name] = phone;
     }
   }
 
-
   @override
   void setDeliveryCost(String? deliveryCost) {
-    if(deliveryCost != null && deliveryCost !='') {
+    if (deliveryCost != null && deliveryCost != '') {
       order.deliveryCost = double.parse(deliveryCost);
-      updatedValuesCache[OrderFields.deliveryCost.name] = double.parse(deliveryCost);
+      updatedValuesCache[OrderFields.deliveryCost.name] =
+          double.parse(deliveryCost);
     }
   }
 
@@ -209,7 +204,4 @@ class _ModeCustomerForm extends OrderFormEditorMode<Callback<Order>> {
   void confirm(Callback<Order> callback) {
     callback(order);
   }
-  
-  
 }
-

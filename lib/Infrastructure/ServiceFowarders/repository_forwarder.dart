@@ -15,7 +15,7 @@ class DatabaseFrowarder {
   Future<ServiceResponse> updateProduct(
       ServiceMessageData serviceMessage) async {
     ServiceResponse response;
-
+    
     _databaseDao.updateProduct(
       reference: serviceMessage.data[ServicesData.instance],
       updatedValues: serviceMessage.data[ServicesData.updatedValues],

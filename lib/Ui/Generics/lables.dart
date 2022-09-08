@@ -13,10 +13,10 @@ class TableColumnText extends StatelessWidget{
 }
 
 class TableRowText extends StatelessWidget{
-  const TableRowText({Key? key, required this.data, required this.color}) : super(key: key);
+  const TableRowText({Key? key, required this.data,  this.color}) : super(key: key);
 
   final String data;
-  final Color color;
+  final Color? color;
   final double fontSize = Measures.large;
 
   @override

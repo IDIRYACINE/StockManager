@@ -133,10 +133,12 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
   @override
   void edit(BuildContext context, Product product, int index) {
+    
     void onEdit(Map<String, dynamic> updatedField, Product product) {
+     
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: product.reference,
-        ServicesData.databaseSelector: updatedField,
+        ServicesData.updatedValues: updatedField,
       };
 
       ServiceMessage message = ServiceMessage(
@@ -333,6 +335,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
   @override
   void edit(BuildContext context, ProductFamily family, int index) {
+
     void onEdit(Map<String, dynamic> updatedField, ProductFamily family) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: family,

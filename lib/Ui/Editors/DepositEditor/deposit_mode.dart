@@ -35,9 +35,9 @@ abstract class DepositEditorMode<T> {
 
   void setCustomerName(String? customerName);
 
-  void setColor(String color);
+  void setColor(String color, String colorId);
 
-  void setSize(String size);
+  void setSize(String size, String sizeId);
 
   void confirm(T callback);
 
@@ -55,7 +55,7 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
   _ModeCreate(this.record);
 
   final Record record;
-  
+
   @override
   void setRemainingPayement(String? remainingPayement) {
     if (remainingPayement != null) {
@@ -94,13 +94,15 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
   }
 
   @override
-  void setColor(String color) {
+  void setColor(String color, String colorId) {
     record.productColor = color;
+    record.colorId = colorId;
   }
 
   @override
-  void setSize(String size) {
+  void setSize(String size, String sizeId) {
     record.productSize = size;
+    record.sizeId = sizeId;
   }
 
   @override
@@ -125,9 +127,8 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
 
   @override
   void setSellingPrice(String? sellingPrice) {
-    if (sellingPrice != null && sellingPrice !='') {
+    if (sellingPrice != null && sellingPrice != '') {
       record.sellingPrice = double.parse(sellingPrice);
-
     }
   }
 
@@ -139,18 +140,16 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
 
   @override
   void setDeposit(String? deposit) {
-    if (deposit != null && deposit!='')  {
+    if (deposit != null && deposit != '') {
       double parsedDeposit = double.parse(deposit);
       record.deposit = parsedDeposit;
-      
+
       double remainingPayement = record.sellingPrice - parsedDeposit;
 
-      remainingPaymenentController.text =
-          remainingPayement.toString();
+      remainingPaymenentController.text = remainingPayement.toString();
 
       updatedValues[RecordFields.deposit.name] = parsedDeposit;
       updatedValues[RecordFields.remainingPayement.name] = remainingPayement;
-
     }
   }
 
@@ -163,15 +162,19 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
   }
 
   @override
-  void setColor(String color) {
+  void setColor(String color, String colorId) {
     record.productColor = color;
+    record.colorId = colorId;
     updatedValues[RecordFields.productColor.name] = color;
+    updatedValues[RecordFields.productColorId.name] = colorId;
   }
 
   @override
-  void setSize(String size) {
+  void setSize(String size, String sizeId) {
     record.productSize = size;
+    record.sizeId = sizeId;
     updatedValues[RecordFields.productSize.name] = size;
+    updatedValues[RecordFields.productSizeId.name] = sizeId;
   }
 
   @override

@@ -4,17 +4,15 @@ import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
 abstract class SaleEditorMode<T> {
- 
-
   void setSeller(Seller seller);
 
   void setSellingPrice(String? price);
 
   void setCustomer(String? customer);
 
-  void setColor(String color);
+  void setColor(String color, String colorId);
 
-  void setSize(String size);
+  void setSize(String size, String sizeId);
 
   void confirm(T callback);
 
@@ -34,32 +32,34 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   _ModeCreate(this.record);
 
   @override
-  void setSeller(Seller seller){
+  void setSeller(Seller seller) {
     record.sellerName = seller.name;
   }
 
   @override
-  void setSellingPrice(String? price){
-    if(price != null){
+  void setSellingPrice(String? price) {
+    if (price != null) {
       record.sellingPrice = double.parse(price);
     }
   }
 
   @override
-  void setCustomer(String? customer){
-    if(customer != null){
+  void setCustomer(String? customer) {
+    if (customer != null) {
       record.customer = customer;
     }
   }
 
   @override
-  void setColor(String color){
+  void setColor(String color, String colorId) {
     record.productColor = color;
+    record.colorId = colorId;
   }
 
   @override
-  void setSize(String size){
+  void setSize(String size, String sizeId) {
     record.productSize = size;
+    record.sizeId = sizeId;
   }
 
   @override
@@ -76,37 +76,41 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   Map<RecordFields, dynamic> updatedFields = {};
 
   @override
-  void setSeller(Seller seller){
+  void setSeller(Seller seller) {
     record.sellerName = seller.name;
     updatedFields[RecordFields.seller] = seller.name;
   }
 
   @override
-  void setSellingPrice(String? price){
-    if(price != null){
+  void setSellingPrice(String? price) {
+    if (price != null) {
       record.sellingPrice = double.parse(price);
       updatedFields[RecordFields.sellingPrice] = double.parse(price);
     }
   }
 
   @override
-  void setCustomer(String? customer){
-    if(customer != null){
+  void setCustomer(String? customer) {
+    if (customer != null) {
       record.customer = customer;
       updatedFields[RecordFields.customer] = customer;
     }
   }
 
   @override
-  void setColor(String color){
+  void setColor(String color, String colorId) {
     record.productColor = color;
+    record.colorId = colorId;
     updatedFields[RecordFields.productColor] = color;
+    updatedFields[RecordFields.productColorId] = colorId;
   }
 
   @override
-  void setSize(String size){
+  void setSize(String size, String sizeId) {
     record.productSize = size;
+    record.sizeId = sizeId;
     updatedFields[RecordFields.productSize] = size;
+    updatedFields[RecordFields.productSizeId] = sizeId;
   }
 
   @override

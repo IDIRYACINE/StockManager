@@ -30,14 +30,14 @@ class DatabaseDAO{
     selector.eq(ProductFields.reference.name, reference);
 
     ModifierBuilder modifier = ModifierBuilder();
-    List<ProductModel>? models =
+    AppJson<ProductModel>? models =
         updatedValues["\$set"]?[ProductFields.models.name];
-
+    
     if (models != null) {
-      List<AppJson> jsonModels = [];
-      for (ProductModel model in models) {
-        jsonModels.add(DatabaseRepository.productModelToJson(model: model));
-      }
+      AppJson jsonModels = {};
+      models.forEach((key, value) {
+        jsonModels[key] = DatabaseRepository.productModelToJson(model:value);
+      });
       updatedValues["\$set"][ProductFields.models.name] = jsonModels;
     }
 
@@ -125,6 +125,7 @@ class DatabaseDAO{
 
     ModifierBuilder modifier = ModifierBuilder();
     modifier.map = updatedValues;
+
     _database.updateSeller(selector, modifier);
   }
 
@@ -270,9 +271,6 @@ class DatabaseDAO{
     await data.forEach((element) {
       orders.add(DatabaseRepository.orderFromJson(json: element));
     });
-
-    print(search.toString());
-    print(orders.length);
 
     return orders;
   }

@@ -150,7 +150,7 @@ class SearchActionsCard extends StatelessWidget {
   }
 
   void onPrint(BuildContext context, OrdersController controller) {
-    controller.print(context);
+    controller.printReport(context);
   }
 
   void registerQuery(Callback<SelectorBuilder> queryGenerator) {

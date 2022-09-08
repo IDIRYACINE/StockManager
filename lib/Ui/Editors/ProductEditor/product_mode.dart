@@ -124,7 +124,9 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
       modelQuantity += value.quantity;
     });
 
-    product.totalQuantity = product.totalQuantity - modelQuantity;
+    int newQuantity = product.totalQuantity - modelQuantity;
+    product.totalQuantity = newQuantity < 0 ? 0 : newQuantity;
+    
     product.models.remove(index);
     updatedField[ProductFields.models] = product.models;
     updatedField[ProductFields.quantity] = product.totalQuantity;
@@ -144,15 +146,18 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
 
   @override
   void setModelQuantity(String quantity, String modelIndex, String index) {
-    int parsedQuantity = int.parse(quantity);
-    int oldQuantity = product.models[modelIndex]!.sizes[index]!.quantity;
+    if (quantity != '') {
+      int parsedQuantity = int.parse(quantity);
+      int oldQuantity = product.models[modelIndex]!.sizes[index]!.quantity;
 
-    product.totalQuantity =
-        product.totalQuantity - oldQuantity + parsedQuantity;
+      product.totalQuantity =
+          product.totalQuantity - oldQuantity + parsedQuantity;
 
-    product.models[modelIndex]!.sizes[index]!.quantity = parsedQuantity;
+      product.models[modelIndex]!.sizes[index]!.quantity = parsedQuantity;
 
-    updatedField[ProductFields.quantity] = product.totalQuantity;
+      updatedField[ProductFields.quantity] = product.totalQuantity;
+      updatedField[ProductFields.models] = product.models;
+    }
   }
 
   @override
@@ -255,8 +260,9 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
       modelQuantity += value.quantity;
     });
 
-    product.totalQuantity = product.totalQuantity - modelQuantity;
-
+    int newQuantity = product.totalQuantity - modelQuantity;
+    product.totalQuantity = newQuantity < 0 ? 0 : newQuantity;
+    
     product.models.remove(index);
   }
 
