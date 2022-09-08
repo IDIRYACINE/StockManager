@@ -49,8 +49,8 @@ class StockLiveDataModel {
     return _productFamilyRegister.searchProductFamily(key);
   }
 
-  void reclaimStock(String key, int quantity) {
-    _productRegister.reclaimStock(key, quantity);
+  void reclaimStock(String key,String colorKey,String sizeKey, int quantity) {
+    _productRegister.reclaimStock(key, colorKey,sizeKey,quantity);
   }
 
   ValueListenable<bool> get refreshProductsFamily => _productFamilyRegister.refreshProductsFamily;
@@ -136,7 +136,10 @@ class _ProductRegister {
 
   void setAllProducts(Iterable<Product> elements) {
     _loadedProducts.clear();
-    _loadedProducts.addAll(elements);
+    for (Product element in elements) {
+      _loadedProducts.add(element);
+      _registerProduct(element);
+    }
     toggleRefresh(refreshProducts);
   }
 
@@ -160,10 +163,11 @@ class _ProductRegister {
     return _productsRegister[key];
   }
 
-  void reclaimStock(String key, int quantity) {
+  void reclaimStock(String key,String colorKey,String sizeKey, int quantity) {
     Product? product = searchProduct(key);
     if (product != null) {
       product.totalQuantity += quantity;
+      product.models[colorKey]?.sizes[sizeKey]?.quantity += quantity;
     }
     toggleRefresh(refreshProducts);
   }

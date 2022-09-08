@@ -4,6 +4,7 @@ import 'package:stock_manager/DataModels/models_utility.dart';
 abstract class Adapter {
   static List<String> orderProductWrapperToReportRow(
       OrderProductReportWrapper product) {
+
     List<String> rawData = [
       product.order.customerName,
       product.order.city,

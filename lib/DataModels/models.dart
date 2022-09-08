@@ -61,8 +61,8 @@ class Product {
       barcode: 0,
       name: '',
       productFamily: '',
-      buyingPrice: 0,
-      sellingPrice: 0,
+      buyingPrice: 0.0,
+      sellingPrice: 0.0,
       reference: '',
       totalQuantity: 0,
       models: {},
@@ -110,6 +110,7 @@ class Record {
   String payementType;
   int barcode;
   String reference;
+
 
   // dart Record copyWith
   Record copyWith({
@@ -164,11 +165,11 @@ class Record {
       barcode: 0,
       reference: '',
       customer: '',
-      deposit: 0,
-      remainingPayement: 0,
+      deposit: 0.0,
+      remainingPayement: 0.0,
       quantity: 0,
-      originalPrice: 0,
-      sellingPrice: 0,
+      originalPrice: 0.0,
+      sellingPrice: 0.0,
       colorId: '',
       sizeId: '',
     );
@@ -240,6 +241,7 @@ class OrderProduct {
     required this.buyingPrice,
     required this.productSizeId,
     required this.productColorId,
+    required this.timeStamp,
   });
 
   String reference;
@@ -250,6 +252,7 @@ class OrderProduct {
   String productSizeId;
   String productColorId;
   double sellingPrice;
+  String timeStamp;
 
   static OrderProduct defaultInstance() {
     return OrderProduct(
@@ -261,6 +264,7 @@ class OrderProduct {
       buyingPrice: 0,
       productColorId: '',
       productSizeId: '',
+       timeStamp: Utility.getTimeStamp().toString(),
     );
   }
 
@@ -273,6 +277,7 @@ class OrderProduct {
     double? buyingPrice,
     String? productSizeId,
     String? productColorId,
+    String? timeStamp,
   }) {
     return OrderProduct(
       product: product ?? this.product,
@@ -283,6 +288,7 @@ class OrderProduct {
       buyingPrice: buyingPrice ?? this.buyingPrice,
       productColorId: productColorId ?? this.productColorId,
       productSizeId: productSizeId ?? this.productColorId,
+       timeStamp: timeStamp ?? this.timeStamp,
     );
   }
 }
@@ -325,9 +331,9 @@ class Order {
 
   DateTime date;
 
-  int? timeStamp;
+  int timeStamp;
   String sellerName;
-  List<OrderProduct> products;
+  Map<String,OrderProduct> products;
   int quantity;
   double deposit;
   String status;
@@ -343,7 +349,7 @@ class Order {
 
   static Order defaultInstance() {
     return Order(
-        products: [],
+        products: {},
         status: OrderStatus.confirmed.name,
         quantity: 0,
         sellerName: '',
@@ -361,16 +367,18 @@ class Order {
         remainingPayement: 0);
   }
 
-  List<OrderProduct> _copyProducts() {
-    List<OrderProduct> copyList = [];
-    for (OrderProduct product in products) {
-      copyList.add(product.copyWith());
-    }
-    return copyList;
+  Map<String,OrderProduct> _copyProducts() {
+    Map<String,OrderProduct> copyProducts = {};
+
+    products.forEach((key, value) {
+      copyProducts[key] = value.copyWith();
+    });
+    
+    return copyProducts;
   }
 
   Order copyWith({
-    List<OrderProduct>? products,
+    Map<String,OrderProduct>? products,
     DateTime? date,
     String? status,
     int? quantity,

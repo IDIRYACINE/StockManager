@@ -11,7 +11,7 @@ abstract class ProductEditorMode<T> {
 
   void setReference(String? reference);
 
-  void setProductFamily(String productFamily);
+  void setProductFamily(String productFamily,String familyReference);
 
   void setBuyingPrice(String? buyingPrice);
 
@@ -78,9 +78,11 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
   }
 
   @override
-  void setProductFamily(String productFamily) {
+  void setProductFamily(String productFamily,String familyReference) {
     product.productFamily = productFamily;
+    product.familyReference = familyReference;
     updatedField[ProductFields.family] = productFamily;
+    updatedField[ProductFields.familyReference] = familyReference;
   }
 
   @override
@@ -201,7 +203,7 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
 
   @override
   void setBarcode(String? barcode) {
-    if (barcode != null) {
+    if (barcode != null && barcode != '') {
       product.barcode = int.parse(barcode);
     }
   }
@@ -221,13 +223,14 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
   }
 
   @override
-  void setProductFamily(String productFamily) {
+  void setProductFamily(String productFamily,String familyReference) {
     product.productFamily = productFamily;
+    product.familyReference = familyReference;
   }
 
   @override
   void setBuyingPrice(String? buyingPrice) {
-    if (buyingPrice != null) {
+    if (buyingPrice != null && buyingPrice != '') {
       product.buyingPrice = double.parse(buyingPrice);
     }
   }

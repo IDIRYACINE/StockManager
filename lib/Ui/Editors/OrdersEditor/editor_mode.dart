@@ -48,7 +48,11 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
   @override
   void setSellingPrice(String? price) {
     if (price != null && price != '') {
-      orderProduct.sellingPrice = double.parse(price);
+      double sellingPrice = double.parse(price);
+
+      order.totalPrice += sellingPrice - orderProduct.sellingPrice;
+      order.remainingPayement += order.totalPrice - order.deposit;
+      orderProduct.sellingPrice = sellingPrice;
     }
   }
 
@@ -83,6 +87,13 @@ class _ModeEdit
   void setSellingPrice(String? price) {
     if (price != null && price != '') {
       double sellingPrice = double.parse(price);
+
+      order.totalPrice += sellingPrice - orderProduct.sellingPrice;
+      order.remainingPayement += order.totalPrice - order.deposit;
+      orderProduct.sellingPrice = sellingPrice;
+      
+      updatedFields[OrderFields.remainingPayement] = order.remainingPayement;
+      updatedFields[OrderFields.totalPrice] = order.totalPrice;
       updatedFields[OrderFields.sellingPrice] = sellingPrice;
     }
   }
@@ -148,6 +159,7 @@ class _ModeCustomerForm extends OrderFormEditorMode<Callback<Order>> {
   @override
   void setSeller(Seller seller) {
     order.sellerName = seller.name;
+    updatedValuesCache[OrderFields.seller.name] = seller.name;
   }
 
   @override
@@ -162,7 +174,9 @@ class _ModeCustomerForm extends OrderFormEditorMode<Callback<Order>> {
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != '') {
       order.deposit = double.parse(deposit);
+      order.remainingPayement = order.totalPrice - order.deposit;
       updatedValuesCache[OrderFields.deposit.name] = double.parse(deposit);
+      updatedValuesCache[OrderFields.remainingPayement.name] = order.remainingPayement;
     }
   }
 

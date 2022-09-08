@@ -106,18 +106,19 @@ class InvoicePage<T> {
         return pw.Column(
           children: [
             pw.Text(title, style: pw.TextStyle(fontSize: titleTextSize)),
+            pw.SizedBox(height: Measures.medium),
             pw.Expanded(
               child: pw.Padding(
                 padding: pw.EdgeInsets.all(paddings),
                 child: pw.Column(children: [
                   _InvoiceWidget(invoiceAttributes,invoicesTextSize),
-                  pw.SizedBox(height: Measures.small),
+                  pw.SizedBox(height: Measures.medium),
                   _InvoiceTable(
                       endIndex: data.length,
                       cellAdapter: cellAdapter,
                       data: data,
                       headers: headers, headerTextSize: headersTextSize, rowsTextSize: rowsTextSize),
-                  pw.SizedBox(height: Measures.small),
+                  pw.SizedBox(height: Measures.medium),
                   _InvoicePayement(
                     invoicePayementAttributes,invoicesTextSize
                   ),
@@ -333,7 +334,7 @@ class _InvoiceTable<T> extends pw.StatelessWidget {
     }
     return pw.Table(children: [
       buildHeader(),
-      for (int i = startIndex; i < endIndex; i++) buildRow(0)
+      for (int i = startIndex; i < endIndex; i++) buildRow(i)
     ]);
   }
 }

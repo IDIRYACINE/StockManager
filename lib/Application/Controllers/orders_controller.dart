@@ -4,7 +4,6 @@ import 'package:pdf/widgets.dart' as pdf;
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/adapters_data.dart';
-import 'package:stock_manager/Application/Utility/stock.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
@@ -30,21 +29,15 @@ class OrdersController {
 
   void add(BuildContext context) {
     ordersLiveModel.selectedOrder = Order.defaultInstance();
+    _addOrder();
 
     showDialog(
         context: context,
         builder: (context) => const Material(child: OrderProductsPanel()));
   }
 
-  void addOrder(BuildContext context) {
+  void _addOrder() {
     Order order = ordersLiveModel.selectedOrder;
-
-    List<String> references = [];
-    for (int i = 0; i < order.products.length; i++) {
-      references.add(order.products[i].reference);
-    }
-
-    StockUtility.claimStockQuantityBatch(references, -1, stockLiveModel);
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,
@@ -56,12 +49,11 @@ class OrdersController {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-    Navigator.pop(context);
   }
 
   void edit(BuildContext context, Order order, int index) {
     ordersLiveModel.selectedOrderIndex = index;
-    ordersLiveModel.selectedOrder = order.copyWith();
+    ordersLiveModel.selectedOrder = order;
 
     showDialog(
       context: context,
@@ -75,16 +67,7 @@ class OrdersController {
 
   void editCustomer(BuildContext context) {
     void onEdit(AppJson json, order) {
-      Order order = ordersLiveModel.selectedOrder;
-      int index = ordersLiveModel.selectedOrderIndex;
-
-      Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
-
-      json.forEach((key, value) {
-        updatedField[key] = value;
-      });
-
-      ordersLiveModel.updateOrder(order, index);
+      _updateOrderCustomer(json);
       Navigator.pop(context);
     }
 
@@ -100,14 +83,15 @@ class OrdersController {
     );
   }
 
-  void updateOrder(BuildContext context) {
+  void _updateOrderCustomer(AppJson<dynamic> updatedValues) {
+
+
     Order order = ordersLiveModel.selectedOrder;
     int index = ordersLiveModel.selectedOrderIndex;
-    Map<String, dynamic> updatedField = ordersLiveModel.updatedValues;
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,
-      ServicesData.databaseSelector: updatedField,
+      ServicesData.databaseSelector: updatedValues,
     };
 
     ServiceMessage message = ServiceMessage<Order>(
@@ -117,7 +101,6 @@ class OrdersController {
     ServicesStore.instance.sendMessage(message);
 
     ordersLiveModel.updateOrder(order, index);
-    Navigator.pop(context);
   }
 
   void refresh(BuildContext context) {
@@ -140,16 +123,9 @@ class OrdersController {
     ServicesStore.instance.sendMessage(message);
   }
 
-  void remove(BuildContext context, Order order) {
+  void remove(BuildContext context, Order order,int index) {
     void onRemove() {
-      ordersLiveModel.removeOrder(order);
-
-      List<String> references = [];
-      for (int i = 0; i < order.products.length; i++) {
-        references.add(order.products[i].reference);
-      }
-
-      StockUtility.claimStockQuantityBatch(references, 1, stockLiveModel);
+      ordersLiveModel.removeOrder(order,index);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: order};
 
@@ -266,24 +242,20 @@ class OrdersController {
     AppPrinter appPrinter = AppPrinter();
     appPrinter.createNewDocument();
 
-    List<Order> orders = ordersLiveModel.orders;
-
-    int totalOrderProducts = _calculateTotalOrderProducts(orders);
+    Map<int,Order> ordersMap = ordersLiveModel.orders;
 
     int maxRowsPerPage = Measures.recordsMaxRowsPrint;
     int pageCount =
-        Utility.calculatePageCount(totalOrderProducts, maxRowsPerPage);
+        Utility.calculatePageCount(ordersMap.length, maxRowsPerPage);
 
     int currentPage = 0;
 
     PrimitiveWrapper<int> orderIndex = PrimitiveWrapper(0);
 
     while (currentPage < pageCount) {
-
       List<OrderProductReportWrapper> orderProducts =
-          _selectOrderProductsOnPageAndTheirOrderIndexes(
-              orders, orderIndex, maxRowsPerPage);
-
+          _selectOrderProducts(
+              ordersMap, orderIndex, maxRowsPerPage);
 
       OrderReportTotals totals =
           Utility.calculateOrderReportTotals(orderProducts);
@@ -301,7 +273,8 @@ class OrdersController {
           InvoiceItem(Labels.profit, totals.totalProfit.toString()),
           InvoiceItem(Labels.remainingPayement,
               totals.totalRemainingPayement.toString()),
-          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString(),pdf.Font.timesBold()),
+          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString(),
+              pdf.Font.timesBold()),
         ],
         endIndex: orderProducts.length,
         startIndex: 0,
@@ -336,18 +309,63 @@ class OrdersController {
     List<OrderProductReportWrapper> products = [];
     int currentRowCount = 0;
 
-    while ((currentRowCount < maxRowsPerPage) && (orderIndex.value < orders.length)) {
+    while ((currentRowCount < maxRowsPerPage) &&
+        (orderIndex.value < orders.length)) {
       Order order = orders[orderIndex.value];
+      List<String> keys = order.products.keys.toList();
       int productIndex = 0;
       List<OrderProductReportWrapper> tempProducts = [];
       bool isLast = false;
 
       while ((currentRowCount < maxRowsPerPage) &&
           (productIndex < order.products.length)) {
-
-        OrderProduct product = order.products[productIndex];
+        OrderProduct product = order.products[keys[productIndex]]!;
         isLast = productIndex == order.products.length - 1;
         tempProducts.add(OrderProductReportWrapper(order, product, isLast));
+        currentRowCount++;
+        productIndex++;
+      }
+
+      if (isLast) {
+        products.addAll(tempProducts);
+        orderIndex.value++;
+      } else {
+        return products;
+      }
+    }
+
+    return products;
+  }
+
+
+  List<OrderProductReportWrapper>
+      _selectOrderProducts(Map<int,Order> orders,
+          PrimitiveWrapper<int> orderIndex, int maxRowsPerPage) {
+            
+    if (orderIndex.value >= orders.length) {
+      return [];
+    }
+
+    List<OrderProductReportWrapper> products = [];
+    int currentRowCount = 0;
+    final List<int> orderskeys = orders.keys.toList();
+
+    while ((currentRowCount < maxRowsPerPage) &&
+        (orderIndex.value < orders.length)) {
+
+      Order order = orders[orderskeys[orderIndex.value]]!;
+
+      List<String> keys = order.products.keys.toList();
+      int productIndex = 0;
+      List<OrderProductReportWrapper> tempProducts = [];
+      bool isLast = false;
+
+      while ((currentRowCount < maxRowsPerPage) &&
+          (productIndex < order.products.length)) {
+        OrderProduct product = order.products[keys[productIndex]]!;
+        isLast = productIndex == order.products.length - 1;
+        tempProducts.add(OrderProductReportWrapper(order, product, isLast));
+
         currentRowCount++;
         productIndex++;
       }

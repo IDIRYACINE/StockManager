@@ -71,19 +71,14 @@ abstract class DatabaseRepository {
       reference: json[RecordFields.reference.name] ?? Labels.error,
       customer: json[RecordFields.customer.name] ?? Labels.error,
       quantity: json[RecordFields.quantity.name] ?? 0,
-      originalPrice: json[RecordFields.buyingPrice.name] ?? 0,
-      sellingPrice: json[RecordFields.sellingPrice.name] ?? 0,
+      originalPrice: json[RecordFields.buyingPrice.name] ?? 0.0,
+      sellingPrice: json[RecordFields.sellingPrice.name] ?? 0.0,
       date: json[RecordFields.date.name] ?? DateTime(1990),
-      deposit: json[RecordFields.quantity.name] ?? 0,
-      remainingPayement: json[RecordFields.quantity.name] ?? 0,
+      deposit: json[RecordFields.deposit.name] ?? 0.0,
+      remainingPayement: json[RecordFields.remainingPayement.name] ?? 0.0,
       colorId: json[RecordFields.colorId.name] ?? Labels.error,
       sizeId: json[RecordFields.sizeId.name] ?? Labels.error,
     );
-
-    if (payementType == PaymentTypes.deposit.name) {
-      record.deposit = json[RecordFields.deposit.name] ?? Labels.error;
-      record.remainingPayement = json[RecordFields.remainingPayement.name] ?? 0;
-    }
 
     return record;
   }
@@ -97,7 +92,7 @@ abstract class DatabaseRepository {
     );
   }
 
-  static OrderProduct orderProductFromJson({required AppJson<dynamic> json}) {
+  static OrderProduct orderProductFromJson({required AppJson<dynamic> json,required String key}) {
     return OrderProduct(
       reference: json[OrderProductFields.reference.name] ?? Labels.error,
       sellingPrice: json[OrderProductFields.sellingPrice.name] ?? 0,
@@ -107,21 +102,22 @@ abstract class DatabaseRepository {
       buyingPrice: json[OrderProductFields.buyingPrice.name] ?? 0,
       productColorId: json[OrderProductFields.sizeId.name] ?? Labels.error,
       productSizeId: json[OrderProductFields.colorId.name] ?? Labels.error,
+      timeStamp: key,
     );
   }
 
   static Order orderFromJson({required AppJson<dynamic> json}) {
-    List<OrderProduct> products = [];
+    AppJson<OrderProduct> products = {};
 
-    List<dynamic>? rawProducts = json[OrderFields.products.name];
+    AppJson<dynamic>? rawProducts = json[OrderFields.products.name];
 
     OrderProduct product;
 
     if (rawProducts != null) {
-      for (var element in rawProducts) {
-        product = orderProductFromJson(json: element);
-        products.add(product);
-      }
+      rawProducts.forEach((key, element) {
+        product = orderProductFromJson(json: element,key: key);
+        products[key] = product;
+      });
     }
 
     return Order(
@@ -233,11 +229,11 @@ abstract class DatabaseRepository {
   static AppJson<dynamic> orderToJson({required Order order}) {
     AppJson<dynamic> json = {};
 
-    List<AppJson<dynamic>> products = [];
+    AppJson<dynamic> products = {};
 
-    for (OrderProduct product in order.products) {
-      products.add(orderProductToJson(product: product));
-    }
+    order.products.forEach((key, product) {
+      products[key] = orderProductToJson(product: product);
+    });
 
     json[OrderFields.products.name] = products;
     json[OrderFields.address.name] = order.address;
@@ -267,6 +263,9 @@ abstract class DatabaseRepository {
     json[ProductFields.sellingPrice.name] = product.sellingPrice;
     json[ProductModelFields.color.name] = product.productColor;
     json[ProductModelFields.size.name] = product.productSize;
+
+    json[ProductModelFields.colorId.name] = product.productColorId;
+    json[ProductModelFields.sizeId.name] = product.productSizeId;
 
     return json;
   }

@@ -25,6 +25,7 @@ class OrdersTable extends StatelessWidget {
     ];
   }
 
+
   @override
   Widget build(BuildContext context) {
     OrdersController controller =
@@ -50,13 +51,14 @@ class OrdersTable extends StatelessWidget {
                 Expanded(
                   child: ValueListenableBuilder<bool>(
                       valueListenable: orders.refreshOrders,
+
                       builder: (context, value, child) {
                         return ListView.builder(
                             itemCount: orders.ordersCount,
                             itemBuilder: (context, index) {
                               return SelectableRow<Order>(
                                 dataCellHelper: ordersToCellsAdapter,
-                                onDelete: controller.remove,
+                                onDelete: (context,order){controller.remove(context,order,index);},
                                 onEdit: controller.edit,
                                 index: index,
                                 dataModel: orders.order(index),
@@ -71,7 +73,7 @@ class OrdersTable extends StatelessWidget {
 
 class OrderProductsTable extends StatelessWidget {
   const OrderProductsTable({Key? key}) : super(key: key);
-
+  
   List<String> orderProductsToCellAdapter(OrderProduct orderProduct) {
     return [
       orderProduct.product,
@@ -91,6 +93,7 @@ class OrderProductsTable extends StatelessWidget {
     OrdersLiveDataModel orders =
         Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
 
+
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -108,8 +111,11 @@ class OrderProductsTable extends StatelessWidget {
                   child: ValueListenableBuilder<bool>(
                       valueListenable: orders.refreshOrderProducts,
                       builder: (context, value, child) {
+                        
+                      final keys = orders.selectedOrder.products.keys.toList();
+
                         return ListView.builder(
-                            itemCount: orders.selectedOrder.products.length,
+                            itemCount: keys.length,
                             itemBuilder: (context, index) {
                               return SelectableRow<OrderProduct>(
                                 dataCellHelper: orderProductsToCellAdapter,
@@ -119,7 +125,7 @@ class OrderProductsTable extends StatelessWidget {
                                 contextMenuItems: const [
                                   ContextMenuOperation.remove
                                 ],
-                                dataModel: orders.orderProduct(index),
+                                dataModel: orders.orderProduct(keys[index]),
                               );
                             });
                       }),

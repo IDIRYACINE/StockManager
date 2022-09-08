@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -50,28 +49,11 @@ class OrderProductsFloatingActions extends StatelessWidget {
     controller.add(context);
   }
 
-  void save(BuildContext context, OrdersController controller) {
-    if (isEditing) {
-      controller.updateOrder(context);
-    } else {
-      controller.addOrder(context);
-    }
-    Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel
-        .updatedValues
-        .clear();
+  void done(BuildContext context, OrdersController controller) {
+    Navigator.pop(context);
   }
-
-  void cancel(BuildContext context, OrdersController controller) {
-    Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel
-        .updatedValues
-        .clear();
-
-    controller.cancel(context);
-  }
-
 
   void editCustomer(BuildContext context, OrdersController controller) {
-    
     controller.editCustomer(context);
   }
 
@@ -88,15 +70,6 @@ class OrderProductsFloatingActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        
-        Flexible(
-            child: ActionButton(
-          onPressed: () {
-            cancel(context, ordersController);
-          },
-          label: Labels.cancel,
-          icon: Icons.cancel,
-        )),
         Flexible(
             child: ActionButton(
           onPressed: () {
@@ -105,7 +78,7 @@ class OrderProductsFloatingActions extends StatelessWidget {
           label: Labels.add,
           icon: Icons.add,
         )),
-          Flexible(
+        Flexible(
             child: ActionButton(
           onPressed: () {
             editCustomer(context, ordersController);
@@ -116,10 +89,10 @@ class OrderProductsFloatingActions extends StatelessWidget {
         Flexible(
             child: ActionButton(
           onPressed: () {
-            save(context, ordersController);
+            done(context, ordersController);
           },
-          label: Labels.save,
-          icon: Icons.check,
+          label: Labels.cancel,
+          icon: Icons.done,
         )),
       ],
     );
@@ -197,7 +170,7 @@ class SearchActionsCard extends StatelessWidget {
             },
             child: const Icon(Icons.filter),
           )),
-                    Flexible(
+          Flexible(
               child: ElevatedButton(
             onPressed: () {
               onPrint(context, controller);

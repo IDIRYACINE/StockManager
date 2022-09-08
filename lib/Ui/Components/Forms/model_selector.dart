@@ -20,15 +20,8 @@ class ModelSelector extends StatefulWidget {
 }
 
 class _ModelSelectorState extends State<ModelSelector> {
-  String selectedColorIndex = "0";
+  String? selectedColorIndex ;
 
-  @override
-  void initState() {
-    if (widget.productModels.isNotEmpty) {
-      selectedColorIndex = widget.productModels.keys.first;
-    }
-    super.initState();
-  }
 
   void onColorSelected(String colorIndex) {
     setState(() {
@@ -44,21 +37,22 @@ class _ModelSelectorState extends State<ModelSelector> {
   }
 
   List<String> sizesIndexes() {
-    return widget.productModels[selectedColorIndex]?.sizes.keys.toList() ?? [];
+    ProductModel? model = widget.productModels[selectedColorIndex];
+
+    return model == null ? [] : model.sizes.keys.toList();
   }
 
   DropdownMenuItem<String> sizeAdapter(String sizeIndex) {
-    String size =
-        widget.productModels[selectedColorIndex]!.sizes[sizeIndex]!.size;
+    String? size =
+        widget.productModels[selectedColorIndex]!.sizes[sizeIndex]?.size;
 
     return DropdownMenuItem(
       value: sizeIndex,
-      child: Text(size),
+      child: Text(size??'error'),
     );
   }
 
   DropdownMenuItem<String> colorAdapter(String index) {
-    selectedColorIndex = index;
     String color = widget.productModels[index]!.color;
 
     return DropdownMenuItem(

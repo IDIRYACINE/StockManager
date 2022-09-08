@@ -66,16 +66,15 @@ class _ProductModelsState extends State<ProductModels> {
         Expanded(
             flex: widget.lowerRowFlex,
             child: ListView.builder(
-              itemCount: modelKeys.length,
+              itemCount:modelKeys.length,
               itemBuilder: (BuildContext context, int index) {
+
                 return Container(
                   margin: const EdgeInsets.only(top: Measures.small),
                   child: ProductModelRow(
                     model: widget.product.models[modelKeys[index]]!,
                     id: modelKeys[index],
-                    onDeleteModel: () {
-                      remove(modelKeys[index]);
-                    },
+                    onDeleteModel:remove,
                     onColorChanged: widget.productEditorMode.setModelColor,
                     onQuantityChanged:
                         widget.productEditorMode.setModelQuantity,
@@ -107,7 +106,7 @@ class ProductModelRow extends StatefulWidget {
   final ProductModel model;
   final String id;
 
-  final VoidCallback onDeleteModel;
+  final Callback<String> onDeleteModel;
   final Callback<String> onAddSize;
   final Callback2<String, String> onDeleteSize;
   final Callback2<String, String> onColorChanged;
@@ -160,7 +159,7 @@ class _ProductModelRowState extends State<ProductModelRow> {
             Flexible(
               child: DefaultButton(
                 label: Labels.remove,
-                onPressed: widget.onDeleteModel,
+                onPressed: (){widget.onDeleteModel(widget.id);},
               ),
             ),
             Flexible(

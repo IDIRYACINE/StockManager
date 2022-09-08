@@ -3,7 +3,6 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/adapters_data.dart';
-import 'package:stock_manager/Application/Utility/stock.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -54,8 +53,6 @@ class SalesController {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
       };
-
-      StockUtility.claimStockQuantity(record.reference, -1, stockLiveModel);
 
       ServiceMessage message = ServiceMessage(
           data: data,
@@ -118,8 +115,6 @@ class SalesController {
     void onRemove() {
       recordsLiveModel.removeSaleRecord(record);
 
-      StockUtility.claimStockQuantity(record.reference, 1, stockLiveModel);
-
       Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(
           data: data,
@@ -136,12 +131,19 @@ class SalesController {
   }
 
   void printPurchases(BuildContext context) {
-    
+    List<Record> records = recordsLiveModel.purchaseRecords;
+
+    double totals = 0 ;
+
+    for (Record record in records) {
+      totals += record.sellingPrice;
+    }
+
     InvoicePage<Record> invoicePage = InvoicePage(
         paddings: Measures.paddingNormal,
         headers: Titles.pruchaseInvoiceHeaders,
         cellAdapter: Adapter.recordToInvoiceRowData,
-        data: recordsLiveModel.purchaseRecords,
+        data: records,
         footerData: Titles.invoiceFooterHeaders,
         invoiceAttributes: [
           InvoiceItem(Labels.customerName,
@@ -150,8 +152,10 @@ class SalesController {
               Labels.sellerName, recordsLiveModel.saleRecord(0).sellerName),
         ],
         invoicePayementAttributes: [
-          InvoiceItem(Labels.total, '200'),
-        ], title: Labels.shopName);
+          InvoiceItem(Labels.total, totals.toString()),
+          
+        ],
+        title: Labels.shopName);
 
     AppPrinter appPrinter = AppPrinter();
     appPrinter.createNewDocument();

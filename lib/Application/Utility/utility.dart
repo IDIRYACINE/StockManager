@@ -20,35 +20,36 @@ abstract class Utility {
 
   static DateTime getTodayEndSearchTime() {
     DateTime now = DateTime.now();
-    return DateTime(now.year, now.month, now.day,23,59,59);
+    return DateTime(now.year, now.month, now.day, 23, 59, 59);
   }
 
-  static String formatDateTimeToDisplay(DateTime time){
+  static String formatDateTimeToDisplay(DateTime time) {
     return '${time.year}-${time.month}-${time.day}';
   }
 
-  static void searchByTodayDate(SelectorBuilder selector){
+  static void searchByTodayDate(SelectorBuilder selector) {
     DateTime now = DateTime.now();
 
-    DateTime start = DateTime(now.year, now.month, now.day,0,0,0);
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0);
 
     selector.gt(RecordFields.date.name, start);
-   
   }
 
-   static RecordReportTotals calculateRecordReportTotals(List<Record> records,[int startIndex = 0 , int? endIndex]){
+  static RecordReportTotals calculateRecordReportTotals(List<Record> records,
+      [int startIndex = 0, int? endIndex]) {
+    int length = ((endIndex == null) || endIndex > records.length)
+        ? records.length
+        : endIndex;
 
-    int length = ((endIndex == null) || endIndex > records.length)? records.length : endIndex;
-   
     double totalProfit = 0;
     double totalNetProfit = 0;
     double totalDeposit = 0;
     double totalRemainingPayement = 0;
 
-    for (int i= startIndex ; i <length ; i++) {   
+    for (int i = startIndex; i < length; i++) {
       Record record = records[i];
       totalProfit += record.sellingPrice;
-      totalNetProfit += record.sellingPrice - record.originalPrice;
+      totalNetProfit += (record.sellingPrice - record.originalPrice);
       totalDeposit += record.deposit;
       totalRemainingPayement += record.remainingPayement;
     }
@@ -56,44 +57,34 @@ abstract class Utility {
     totalProfit += totalDeposit;
     totalNetProfit += totalDeposit;
 
-    return RecordReportTotals(totalDeposit, totalRemainingPayement, totalProfit, totalNetProfit);
+    return RecordReportTotals(
+        totalDeposit, totalRemainingPayement, totalProfit, totalNetProfit);
   }
 
-
-   static OrderReportTotals calculateOrderReportTotals(List<OrderProductReportWrapper> orders){
-
-   
+  static OrderReportTotals calculateOrderReportTotals(
+      List<OrderProductReportWrapper> orders) {
     double totalProfit = 0;
     double totalNetProfit = 0;
-    double totalDeposit = 0;
-    double totalRemainingPayement = 0;
-    double shippingTotal = 0;
 
-    for (int i= 0 ; i < orders.length ; i++) {   
-      Order order = orders[i].order;
-
-      for (OrderProduct product in order.products) {
-        totalProfit += product.sellingPrice;
-        totalNetProfit += product.sellingPrice - product.buyingPrice;
-      }
-      
-      totalDeposit += order.deposit;
-      totalRemainingPayement += (totalProfit - totalDeposit);
-      shippingTotal += order.deliveryCost;
+    for (int i = 0; i < orders.length; i++) {
+      OrderProduct product = orders[i].orderProduct;
+      totalProfit += product.sellingPrice ;
+      totalNetProfit += product.sellingPrice - product.buyingPrice;
     }
 
-    totalProfit += totalDeposit;
-    totalNetProfit += totalDeposit;
+    Order order = orders.first.order;
 
-    return OrderReportTotals(totalDeposit, totalRemainingPayement, totalProfit, totalNetProfit,shippingTotal);
+    double totalDeposit = order.deposit;
+    double totalRemainingPayement = totalProfit - totalDeposit;
+    double shippingTotal = order.deliveryCost;
+    totalNetProfit -= totalRemainingPayement;
+
+    return OrderReportTotals(totalDeposit, totalRemainingPayement, totalProfit,
+        totalNetProfit, shippingTotal);
   }
 
-
-
-  static int calculatePageCount(int itemsLength, int maxRowsPerPage){
+  static int calculatePageCount(int itemsLength, int maxRowsPerPage) {
     int expectedPageCount = (itemsLength / maxRowsPerPage).floor();
     return expectedPageCount < 1 ? 1 : expectedPageCount;
   }
-
-
 }

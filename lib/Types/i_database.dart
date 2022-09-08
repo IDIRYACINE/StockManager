@@ -48,12 +48,13 @@ enum ProductFields {
   sellingPrice,
   models,
   quantity,
+  size,
   family,
   familyReference,
   barcode,
 }
 
-enum ProductModelFields { color, size, quantity }
+enum ProductModelFields { color, size, quantity ,colorId, sizeId}
 
 enum RecordFields {
   timeStamp,
@@ -118,4 +119,5 @@ enum OrderProductFields {
   buyingPrice,
   sizeId,
   colorId,
+  timeStamp,
 }

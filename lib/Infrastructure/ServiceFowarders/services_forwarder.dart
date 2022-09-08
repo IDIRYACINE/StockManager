@@ -86,6 +86,8 @@ class ServicesForwarder {
     _callbacks[DatabaseEvent.searchOrders] = _databaseForwarder.searchOrders;
     _callbacks[DatabaseEvent.deleteOrder] = _databaseForwarder.deleteOrder;
     
+    _callbacks[DatabaseEvent.insertOrderProduct] = _databaseForwarder.insertOrderProduct;
+    _callbacks[DatabaseEvent.deleteOrderProduct] = _databaseForwarder.deleteOrderProduct;
 
   }
 

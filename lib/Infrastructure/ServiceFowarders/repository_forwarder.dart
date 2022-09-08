@@ -325,6 +325,36 @@ class DatabaseFrowarder {
     return response;
   }
 
+  Future<ServiceResponse> insertOrderProduct(ServiceMessageData message) async {
+      await _databaseDao.addOrderProduct(
+      orderProduct: message.data[ServicesData.instance],
+      selector : message.data[ServicesData.databaseSelector],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> deleteOrderProduct(ServiceMessageData message) async{
+     await _databaseDao.deleteOrderProduct(
+      selector : message.data[ServicesData.databaseSelector],
+      orderProduct: message.data[ServicesData.instance],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
   Future<ServiceResponse> addOrder(ServiceMessageData message) async {
     await _databaseDao.addOrder(
       order: message.data[ServicesData.instance],
@@ -415,4 +445,5 @@ class DatabaseFrowarder {
 
     return response;
   }
+
 }

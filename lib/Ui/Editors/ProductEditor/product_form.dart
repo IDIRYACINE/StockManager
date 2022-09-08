@@ -39,8 +39,8 @@ class ProductForm extends StatelessWidget {
         children: [
           Flexible(
               child: SelectorDropDown<ProductFamily>(
-            onSelect: (value) =>
-                {productEditorMode.setProductFamily(value.name)},
+            onSelect: (family) =>
+                {productEditorMode.setProductFamily(family.name,family.reference)},
             adapter: buildProductFamilyDropdownMenuItem,
             initialSelection:
                 stockLiveModel.searchProductFamily(product.familyReference),

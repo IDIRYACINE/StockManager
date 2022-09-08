@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:pdf/widgets.dart' as pdf;
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/adapters_data.dart';
@@ -143,7 +144,7 @@ class RecordsController {
 
     List<Record> records = recordsLiveModel.records;
 
-    int maxRowsPerPage = 30;
+    int maxRowsPerPage = Measures.recordsMaxRowsPrint;
     int pageCount = Utility.calculatePageCount(records.length, maxRowsPerPage);
     int currentIndex = 0;
     int currentPage = 0;
@@ -158,6 +159,8 @@ class RecordsController {
       RecordsPage<Record> recordPage = RecordsPage(
           paddings: Measures.paddingNormal,
           headers: Titles.recordReportHeaders,
+          headersTextSize: Measures.h5TextSize,
+          rowsTextSize: Measures.h5TextSize,
           cellAdapter: Adapter.recordToReportRecordRow,
           data: recordsLiveModel.records,
           invoicePayementAttributes: [
@@ -165,11 +168,15 @@ class RecordsController {
             InvoiceItem(Labels.profit, totals.totalProfit.toString()),
             InvoiceItem(Labels.remainingPayement,
                 totals.totalRemainingPayement.toString()),
-            InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString()),
+            InvoiceItem(
+              Labels.netProfit,
+              totals.totalNetProfit.toString(),
+              pdf.Font.timesBold(),
+            ),
           ],
-          endIndex: currentIndex + maxRowsPerPage,
+          endIndex: endIndex,
           startIndex: currentIndex,
-          title: Labels.shopName);
+          title: Labels.dailySalesReport);
 
       appPrinter.addPage(recordPage.build());
 

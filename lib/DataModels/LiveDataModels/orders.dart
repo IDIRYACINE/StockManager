@@ -1,19 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Types/i_database.dart';
 
-class OrdersLiveDataModel  {
-  final List<Order> _loadedOrders = [];
+class OrdersLiveDataModel {
+  final Map<int, Order> _loadedOrders = {};
+  final List<int> _keys = [];
 
-  List<Order>  get orders => _loadedOrders;
+  Map<int, Order> get orders => _loadedOrders;
 
   int get ordersCount => _loadedOrders.length;
 
-  Order order(int index) => _loadedOrders[index];
+  Order order(int index) => _loadedOrders[_keys[index]]!;
 
   int selectedOrderIndex = 0;
-
-  VoidCallback? refreshRowCallback;
 
   final ValueNotifier<bool> _refreshOrders = ValueNotifier(false);
 
@@ -23,8 +21,6 @@ class OrdersLiveDataModel  {
 
   ValueListenable<bool> get refreshOrderProducts => _refreshOrderProducts;
 
-  Map<String, dynamic> updatedValues = {};
-
   late Order selectedOrder;
 
   void _toggleRefresh(ValueNotifier<bool> notifier) {
@@ -32,71 +28,67 @@ class OrdersLiveDataModel  {
   }
 
   void addOrder(Order element) {
-    _loadedOrders.add(selectedOrder);
+    _loadedOrders[element.timeStamp] = selectedOrder;
+    _keys.add(element.timeStamp);
+
     _toggleRefresh(_refreshOrders);
   }
 
   void clearOrders() {
     _loadedOrders.clear();
+    _keys.clear();
+
     _toggleRefresh(_refreshOrders);
   }
 
-  void removeOrder(Order element) {
-    _loadedOrders.remove(element);
-    _toggleRefresh(_refreshOrders);
-  }
-
-  void removeOrderAt(int index) {
-    _loadedOrders.removeAt(index);
+  void removeOrder(Order element , int index) {
+    _loadedOrders.remove(element.timeStamp);
+    _keys.removeAt(index);
     _toggleRefresh(_refreshOrders);
   }
 
   void setAllOrders(Iterable<Order> elements) {
     _loadedOrders.clear();
-    _loadedOrders.addAll(elements);
+    for (Order order in elements) {
+      _loadedOrders[order.timeStamp] = order;
+      _keys.add(order.timeStamp);
+    }
     _toggleRefresh(_refreshOrders);
   }
 
   void updateOrder(Order order, int index) {
-    _loadedOrders[index] = order;
+    _loadedOrders[_keys[index]] = order;
     _toggleRefresh(_refreshOrders);
   }
 
-  OrderProduct orderProduct(int index) =>
-      selectedOrder.products[index];
+  OrderProduct orderProduct(String id) => selectedOrder.products[id]!;
 
   void removeOrderProduct(OrderProduct orderProduct) {
-    updatedValues[OrderFields.products.name] = selectedOrder.products;
-
     _updateOrderPrices(orderProduct.sellingPrice * -1);
-    selectedOrder.products.remove(orderProduct);
+    selectedOrder.products.remove(orderProduct.timeStamp);
     _toggleRefresh(_refreshOrderProducts);
   }
 
   void addOrderProduct(OrderProduct orderProduct) {
-    updatedValues[OrderFields.products.name] = selectedOrder.products;
-
     _updateOrderPrices(orderProduct.sellingPrice);
-    selectedOrder.products.add(orderProduct);
+    selectedOrder.products[orderProduct.timeStamp] = orderProduct;
+
     _toggleRefresh(_refreshOrderProducts);
   }
 
-  void updateOrderProduct(OrderProduct orderProduct, int index) {
-        updatedValues[OrderFields.products.name] = selectedOrder.products;
-
+  void updateOrderProduct(OrderProduct orderProduct) {
     double priceChange = orderProduct.sellingPrice -
-        selectedOrder.products[index].sellingPrice;
+        selectedOrder.products[orderProduct.timeStamp]!.sellingPrice;
 
     _updateOrderPrices(priceChange);
 
-    selectedOrder.products[index] = orderProduct;
+    selectedOrder.products[orderProduct.timeStamp] = orderProduct;
     _toggleRefresh(_refreshOrderProducts);
   }
 
-  void _updateOrderPrices(double productSellingPrice){
+  void _updateOrderPrices(double productSellingPrice) {
     selectedOrder.totalPrice += productSellingPrice;
-    selectedOrder.remainingPayement = selectedOrder.totalPrice - selectedOrder.deposit;
+    selectedOrder.remainingPayement =
+        selectedOrder.totalPrice - selectedOrder.deposit;
   }
-
-  
 }

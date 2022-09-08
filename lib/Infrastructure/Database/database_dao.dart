@@ -1,4 +1,3 @@
-
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -7,8 +6,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'database.dart';
 import 'repository.dart';
 
-class DatabaseDAO{
-
+class DatabaseDAO {
   final Database _database;
 
   DatabaseDAO(this._database);
@@ -16,6 +14,14 @@ class DatabaseDAO{
   // crud operations
 
   Future<void> addOrder({required Order order}) async {
+    order.products.forEach((key, product) async {
+      await _updateStockQuantity(
+          reference: product.reference,
+          quantity: -1,
+          colorId: product.productColorId,
+          sizeId: product.productColorId);
+    });
+
     _database.insertOrder(DatabaseRepository.orderToJson(order: order));
   }
 
@@ -32,11 +38,11 @@ class DatabaseDAO{
     ModifierBuilder modifier = ModifierBuilder();
     AppJson<ProductModel>? models =
         updatedValues["\$set"]?[ProductFields.models.name];
-    
+
     if (models != null) {
       AppJson jsonModels = {};
       models.forEach((key, value) {
-        jsonModels[key] = DatabaseRepository.productModelToJson(model:value);
+        jsonModels[key] = DatabaseRepository.productModelToJson(model: value);
       });
       updatedValues["\$set"][ProductFields.models.name] = jsonModels;
     }
@@ -54,7 +60,8 @@ class DatabaseDAO{
 
   Future<void> insertProductFamily(
       {required ProductFamily productFamily}) async {
-    _database.insertProductFamily(DatabaseRepository.productFamilyToJson(family: productFamily));
+    _database.insertProductFamily(
+        DatabaseRepository.productFamilyToJson(family: productFamily));
   }
 
   Future<void> updateProductFamily(
@@ -77,7 +84,14 @@ class DatabaseDAO{
   }
 
   Future<void> insertRecord({required Record record}) async {
-    _database.insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
+    await _updateStockQuantity(
+        reference: record.reference,
+        quantity: -1,
+        colorId: record.colorId,
+        sizeId: record.sizeId);
+
+    _database
+        .insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
   }
 
   Future<void> updatePurchaseRecord(
@@ -95,6 +109,13 @@ class DatabaseDAO{
   Future<void> deletePurchaseRecord({required Record record}) async {
     SelectorBuilder selector =
         SelectorBuilder().eq(RecordFields.timeStamp.name, record.timeStamp);
+
+    await _updateStockQuantity(
+        reference: record.reference,
+        quantity: 1,
+        colorId: record.colorId,
+        sizeId: record.sizeId);
+
     _database.removePurchaseRecord(selector);
   }
 
@@ -124,30 +145,24 @@ class DatabaseDAO{
     selector.eq(OrderFields.timeStamp.name, order.timeStamp);
 
     ModifierBuilder modifier = ModifierBuilder();
-    modifier.map = updatedValues;
+    updatedValues.forEach((key, value) {
+      modifier.set(key, value);
+    });
 
-    _database.updateSeller(selector, modifier);
+    _database.updateOrder(selector, modifier);
   }
 
-  Future<void> deleteOrder({required Order order}) async{
+  Future<void> deleteOrder({required Order order}) async {
     SelectorBuilder selector = SelectorBuilder();
     selector.eq(OrderFields.timeStamp.name, order.timeStamp);
 
-    for (OrderProduct element in order.products) {
-      SelectorBuilder orderProductSelector = SelectorBuilder();
-      orderProductSelector.eq(ProductFields.reference.name, element.reference);
-
-      String modifyModelQuantitySelector = 
-      '${ProductFields.models.name}.${element.productColor}.${element.productSize}';
-
-      ModifierBuilder orderProductModifier = ModifierBuilder()
-      .inc(ProductFields.quantity.name, 1)
-      .inc(modifyModelQuantitySelector, 1);
-
-      _database.updateProduct(orderProductSelector, orderProductModifier);
-
-
-    }
+    order.products.forEach((key, product) async {
+      await _updateStockQuantity(
+          reference: product.reference,
+          quantity: 1,
+          colorId: product.productColorId,
+          sizeId: product.productSizeId);
+    });
 
     _database.removeOrder(selector);
   }
@@ -264,7 +279,7 @@ class DatabaseDAO{
     List<Order> orders = [];
 
     SelectorBuilder selector = SelectorBuilder();
-    
+
     selector.map = search;
     MongoDbDataStream data = await _database.searchOrder(selector);
 
@@ -273,5 +288,57 @@ class DatabaseDAO{
     });
 
     return orders;
+  }
+
+  Future<void> _updateStockQuantity(
+      {required String reference,
+      required int quantity,
+      required String colorId,
+      required String sizeId}) async {
+    SelectorBuilder orderProductSelector = SelectorBuilder();
+    orderProductSelector.eq(ProductFields.reference.name, reference);
+
+    String modifyModelQuantitySelector =
+        '${ProductFields.models.name}.$colorId.${ProductFields.size.name}.$sizeId.${ProductFields.quantity.name}';
+
+    ModifierBuilder orderProductModifier = ModifierBuilder()
+        .inc(ProductFields.quantity.name, quantity)
+        .inc(modifyModelQuantitySelector, quantity);
+
+    _database.updateProduct(orderProductSelector, orderProductModifier);
+  }
+
+  Future<void> addOrderProduct(
+      {required OrderProduct orderProduct,
+      required AppJson<dynamic> selector}) async {
+    SelectorBuilder selectorBuilder = SelectorBuilder();
+    selectorBuilder.map = selector;
+
+    ModifierBuilder updatedValues = ModifierBuilder().set(
+        '${OrderFields.products.name}.${orderProduct.timeStamp}',
+        DatabaseRepository.orderProductToJson(product: orderProduct));
+
+    _updateStockQuantity(reference: orderProduct.reference,
+     quantity: -1, colorId: orderProduct.productColorId, sizeId: orderProduct.productSizeId);    
+
+    _database.updateOrder(selectorBuilder, updatedValues);
+  }
+
+  Future<void> deleteOrderProduct(
+      {required AppJson<dynamic> selector,
+      required OrderProduct orderProduct}) async {
+    SelectorBuilder selectorBuilder = SelectorBuilder();
+    selectorBuilder.map = selector;
+
+    ModifierBuilder updatedValues = ModifierBuilder()
+        .unset('${OrderFields.products.name}.${orderProduct.timeStamp}');
+
+    _updateStockQuantity(
+        reference: orderProduct.reference,
+        quantity: 1,
+        colorId: orderProduct.productColorId,
+        sizeId: orderProduct.productSizeId);
+
+    _database.updateOrder(selectorBuilder, updatedValues);
   }
 }
