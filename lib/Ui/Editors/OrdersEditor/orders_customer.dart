@@ -29,7 +29,7 @@ class OrderCustomerEditor extends StatelessWidget {
 
     final AppJson<dynamic> updatedValuesCache = {};
 
-    final OrderFormEditorMode<Callback<Order>> editorMode =
+    final  dynamic editorMode =
         OrderFormEditorMode.editModeInstance(order, updatedValuesCache);
 
     return Padding(
@@ -65,7 +65,7 @@ class OrderCustomerEditor extends StatelessWidget {
                       label: confirmLabel,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          editCallback(updatedValuesCache,order);
+                          editorMode.confirm(editCallback);
                         }
                       },
                     ),

@@ -15,7 +15,7 @@ class DatabaseFrowarder {
   Future<ServiceResponse> updateProduct(
       ServiceMessageData serviceMessage) async {
     ServiceResponse response;
-    
+
     _databaseDao.updateProduct(
       reference: serviceMessage.data[ServicesData.instance],
       updatedValues: serviceMessage.data[ServicesData.updatedValues],
@@ -208,7 +208,6 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> searchPurchaseRecord(
       ServiceMessageData message) async {
-
     List<Record> records = await _databaseDao.searchRecord(
       search: message.data[ServicesData.databaseSelector],
     );
@@ -326,9 +325,9 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> insertOrderProduct(ServiceMessageData message) async {
-      await _databaseDao.addOrderProduct(
+    await _databaseDao.addOrderProduct(
       orderProduct: message.data[ServicesData.instance],
-      selector : message.data[ServicesData.databaseSelector],
+      selector: message.data[ServicesData.databaseSelector],
     );
 
     ServiceResponse response = ServiceResponse(
@@ -340,9 +339,9 @@ class DatabaseFrowarder {
     return response;
   }
 
-  Future<ServiceResponse> deleteOrderProduct(ServiceMessageData message) async{
-     await _databaseDao.deleteOrderProduct(
-      selector : message.data[ServicesData.databaseSelector],
+  Future<ServiceResponse> deleteOrderProduct(ServiceMessageData message) async {
+    await _databaseDao.deleteOrderProduct(
+      selector: message.data[ServicesData.databaseSelector],
       orderProduct: message.data[ServicesData.instance],
     );
 
@@ -370,7 +369,9 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> loadOrders(ServiceMessageData message) async {
-    List<Order> orders = await _databaseDao.searchOrders(search:{});
+
+    List<Order> orders = await _databaseDao.searchOrders(
+        search: message.data[ServicesData.databaseSelector]);
 
     ServiceResponse response = ServiceResponse(
       hasData: true,
@@ -383,9 +384,10 @@ class DatabaseFrowarder {
   }
 
   Future<ServiceResponse> updateOrder(ServiceMessageData message) async {
+    
     await _databaseDao.updateOrder(
       order: message.data[ServicesData.instance],
-      updatedValues: message.data[ServicesData.databaseSelector],
+      updatedValues: message.data[ServicesData.updatedValues],
     );
 
     ServiceResponse response = ServiceResponse(
@@ -426,16 +428,15 @@ class DatabaseFrowarder {
     return response;
   }
 
-  Future<ServiceResponse> updateProductBatch(ServiceMessageData message) async{
+  Future<ServiceResponse> updateProductBatch(ServiceMessageData message) async {
     List<String> references = message.data[ServicesData.instanceList];
 
-    for(int i=0 ; i<references.length;i++){
-        await _databaseDao.updateProduct(
+    for (int i = 0; i < references.length; i++) {
+      await _databaseDao.updateProduct(
         reference: references[i],
         updatedValues: message.data[ServicesData.updatedValues],
-    );
+      );
     }
-    
 
     ServiceResponse response = ServiceResponse(
       hasData: false,
@@ -445,5 +446,4 @@ class DatabaseFrowarder {
 
     return response;
   }
-
 }

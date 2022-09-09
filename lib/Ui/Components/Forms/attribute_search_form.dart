@@ -298,7 +298,7 @@ class SearchFieldDate extends StatefulWidget {
 class _SearchFieldDateState extends State<SearchFieldDate> {
   bool isChecked = false;
 
-  String minValue = '', maxValue = '';
+  DateTime minValue = DateTime.now();
 
   void onBoxChecked(bool value) {
     value ? widget.onSelected!(queryGenerator) : widget.onDeselected!(queryGenerator);
@@ -310,8 +310,8 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
 
   void queryGenerator(mongo.SelectorBuilder selector) {
      selector
-        .gte(widget.identifier, DateTime.parse(minValue))
-        .lte(widget.identifier, DateTime.parse(maxValue));
+        .gte(widget.identifier, minValue)
+        ;
   }
 
   @override
@@ -338,14 +338,7 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
                 minValue = value;
               }),
         ),
-        const SizedBox(width: Measures.medium),
-        Expanded(
-          child: DatePicker(
-              label: widget.endLabel,
-              onDatePicked: (value) {
-                maxValue = value;
-              }),
-        ),
+       
       ],
     );
   }

@@ -67,8 +67,9 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
   void setSellingPrice(String? sellingPrice) {
     if (sellingPrice != null && sellingPrice != '') {
       record.sellingPrice = double.parse(sellingPrice);
+      record.remainingPayement = record.sellingPrice - record.deposit;
       remainingPaymenentController.text =
-          (record.sellingPrice - record.deposit).toString();
+          record.remainingPayement.toString();
     }
   }
 
@@ -81,8 +82,9 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != "") {
       record.deposit = double.parse(deposit);
+      record.remainingPayement = record.sellingPrice - record.deposit;
       remainingPaymenentController.text =
-          (record.sellingPrice - record.deposit).toString();
+          record.remainingPayement.toString();
     }
   }
 

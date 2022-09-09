@@ -57,7 +57,7 @@ class OrderForm extends StatelessWidget {
       : super(key: key);
 
   final Order order;
-  final OrderFormEditorMode<Callback<Order>> orderFormEditorMode;
+  final OrderFormEditorMode<Callback2<AppJson,Order>> orderFormEditorMode;
 
   DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller) {
     return DropdownMenuItem(

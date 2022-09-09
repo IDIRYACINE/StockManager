@@ -28,8 +28,8 @@ abstract class OrderProductEditorMode<T> {
 
   void confirm(T callback);
 
-  static OrderProductEditorMode<Callback<OrderProduct>> createModeInstance(
-      OrderProduct orderProduct, Order order) {
+  static OrderProductEditorMode<Callback2<AppJson,OrderProduct>> createModeInstance(
+      OrderProduct orderProduct, Order order,) {
     return _ModeCreate(orderProduct, order);
   }
 
@@ -39,11 +39,14 @@ abstract class OrderProductEditorMode<T> {
   }
 }
 
-class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
+class _ModeCreate extends OrderProductEditorMode<Callback2<AppJson,OrderProduct>> {
   final OrderProduct orderProduct;
   final Order order;
 
-  _ModeCreate(this.orderProduct, this.order);
+  _ModeCreate(this.orderProduct, this.order,);
+
+  final Map<OrderFields, dynamic> updateFieldsCache = {} ;
+
 
   @override
   void setSellingPrice(String? price) {
@@ -53,6 +56,9 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
       order.totalPrice += sellingPrice - orderProduct.sellingPrice;
       order.remainingPayement += order.totalPrice - order.deposit;
       orderProduct.sellingPrice = sellingPrice;
+
+      updateFieldsCache[OrderFields.remainingPayement] = order.remainingPayement;
+      updateFieldsCache[OrderFields.totalPrice] = order.totalPrice;
     }
   }
 
@@ -69,8 +75,15 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
   }
 
   @override
-  void confirm(Callback<OrderProduct> callback) {
-    callback(orderProduct);
+  void confirm(EditorCallback<AppJson, OrderProduct> callback) {
+    final ModifierBuilder modifierBuilder = ModifierBuilder();
+
+    updateFieldsCache.forEach((key, value) {
+      modifierBuilder.set(key.name, value);
+    });
+
+    callback(modifierBuilder.map, orderProduct);
+  
   }
 }
 
@@ -144,13 +157,13 @@ abstract class OrderFormEditorMode<T> {
 
   void confirm(T callback);
 
-  static OrderFormEditorMode<Callback<Order>> editModeInstance(
-      Order order, AppJson updatedValuesCache) {
+  static OrderFormEditorMode editModeInstance(
+      Order order,  updatedValuesCache) {
     return _ModeCustomerForm(order, updatedValuesCache);
   }
 }
 
-class _ModeCustomerForm extends OrderFormEditorMode<Callback<Order>> {
+class _ModeCustomerForm extends OrderFormEditorMode<Callback2<AppJson,Order>> {
   _ModeCustomerForm(this.order, this.updatedValuesCache);
 
   final Order order;
@@ -215,7 +228,14 @@ class _ModeCustomerForm extends OrderFormEditorMode<Callback<Order>> {
   }
 
   @override
-  void confirm(Callback<Order> callback) {
-    callback(order);
+  void confirm(Callback2<AppJson,Order> callback) {
+  final ModifierBuilder modifierBuilder = ModifierBuilder();
+
+    updatedValuesCache.forEach((key, value) {
+      modifierBuilder.set(key, value);
+    });
+
+
+    callback(modifierBuilder.map,order);
   }
 }

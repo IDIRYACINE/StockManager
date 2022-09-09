@@ -92,7 +92,8 @@ abstract class DatabaseRepository {
     );
   }
 
-  static OrderProduct orderProductFromJson({required AppJson<dynamic> json,required String key}) {
+  static OrderProduct orderProductFromJson(
+      {required AppJson<dynamic> json, required String key}) {
     return OrderProduct(
       reference: json[OrderProductFields.reference.name] ?? Labels.error,
       sellingPrice: json[OrderProductFields.sellingPrice.name] ?? 0,
@@ -102,6 +103,7 @@ abstract class DatabaseRepository {
       buyingPrice: json[OrderProductFields.buyingPrice.name] ?? 0,
       productColorId: json[OrderProductFields.sizeId.name] ?? Labels.error,
       productSizeId: json[OrderProductFields.colorId.name] ?? Labels.error,
+      
       timeStamp: key,
     );
   }
@@ -115,7 +117,7 @@ abstract class DatabaseRepository {
 
     if (rawProducts != null) {
       rawProducts.forEach((key, element) {
-        product = orderProductFromJson(json: element,key: key);
+        product = orderProductFromJson(json: element, key: key);
         products[key] = product;
       });
     }
@@ -128,7 +130,7 @@ abstract class DatabaseRepository {
       deliverToHome: json[OrderFields.deliverToHome.name] ?? false,
       deposit: json[OrderFields.deposit.name] ?? 0,
       status: json[OrderFields.status.name] ?? Labels.error,
-      totalPrice: json[OrderFields.sellingPrice.name] ?? 0,
+      totalPrice: json[OrderFields.totalPrice.name] ?? 0,
       customerName: json[OrderFields.customerName.name] ?? Labels.error,
       deliveryCost: json[OrderFields.deliveryCost.name] ?? 0,
       phoneNumber: json[OrderFields.phone.name] ?? 0,
@@ -241,6 +243,7 @@ abstract class DatabaseRepository {
     json[OrderFields.date.name] = order.date;
     json[OrderFields.deliverToHome.name] = order.deliverToHome;
     json[OrderFields.deposit.name] = order.deposit;
+    json[OrderFields.totalPrice.name] = order.totalPrice;
     json[OrderFields.status.name] = order.status;
     json[OrderFields.sellingPrice.name] = order.totalPrice;
     json[OrderFields.customerName.name] = order.customerName;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -38,7 +40,7 @@ class LoginController {
       Provider.of<ControllersProvider>(context, listen: false).init(context);
       Provider.of<NavigationStore>(context, listen: false).init();
 
-    _loadData(Provider.of<LiveModelProvider>(context, listen: false));
+      _loadData(Provider.of<LiveModelProvider>(context, listen: false));
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const App()));
@@ -65,14 +67,13 @@ class LoginController {
   }
 
   void _loadData(LiveModelProvider liveModelProvider) {
-
     ServiceMessage loadSellers = ServiceMessage(
         service: AppServices.database,
         event: DatabaseEvent.loadSellers,
         hasCallback: true,
-        callback:(sellers) {
+        callback: (sellers) {
           liveModelProvider.sellersLiveModel.setAll(sellers);
-        } ,
+        },
         data: {});
 
     ServiceMessage loadProducts = ServiceMessage(
@@ -102,10 +103,24 @@ class LoginController {
         event: DatabaseEvent.loadPurchaseRecords,
         data: {});
 
+    SelectorBuilder selector = SelectorBuilder();
+    Utility.searchByTodayDate(selector);
+    
+    ServiceMessage loadOrders = ServiceMessage(
+        service: AppServices.database,
+        hasCallback: true,
+        callback: (orders) {
+          liveModelProvider.ordersLiveModel.setAllOrders(orders);
+        },
+        event: DatabaseEvent.loadOrders,
+        data: {
+          ServicesData.databaseSelector: selector.map,
+        });
+
     ServicesStore.instance.sendMessage(loadSellers);
     ServicesStore.instance.sendMessage(loadProducts);
     ServicesStore.instance.sendMessage(loadFamillies);
     ServicesStore.instance.sendMessage(loadRecords);
-    
+    ServicesStore.instance.sendMessage(loadOrders);
   }
 }

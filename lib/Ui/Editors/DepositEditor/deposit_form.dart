@@ -41,37 +41,39 @@ class _DepositFormState extends State<DepositForm> {
       child: ValueListenableBuilder<Product>(
           valueListenable: widget.product,
           builder: (context, product, child) {
-           
-
             return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
                 SelectorDropDown(
                     onSelect: widget.depositMode.setSellerName,
                     adapter: sellerDropdownAdapter,
-                    items: Provider.of<LiveModelProvider>(context,
-                            listen: false).sellersLiveModel
-                        .loadedSellers,
+                    items:
+                        Provider.of<LiveModelProvider>(context, listen: false)
+                            .sellersLiveModel
+                            .loadedSellers,
                     label: const Text(Labels.sellerName)),
+                const SizedBox(height: Measures.medium),
                 AttributeTextField(
                   initialValue: widget.record.customer,
                   onChanged: widget.depositMode.setCustomerName,
                   label: Labels.customerName,
                 ),
+                const SizedBox(height: Measures.medium),
                 AttributeTextField(
                   controller: widget.depositMode.sellingPriceController,
                   onChanged: widget.depositMode.setSellingPrice,
                   label: Labels.sellingPrice,
                 ),
+                const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller : widget.depositMode.depositController,
+                  controller: widget.depositMode.depositController,
                   onChanged: widget.depositMode.setDeposit,
                   label: Labels.deposit,
                 ),
+                const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller:
-                      widget.depositMode.remainingPaymenentController,
+                  controller: widget.depositMode.remainingPaymenentController,
                   label: Labels.remainingPayement,
                   readOnly: true,
                 ),
@@ -81,6 +83,7 @@ class _DepositFormState extends State<DepositForm> {
                   colorSelectorCallback: widget.depositMode.setColor,
                   sizeSelectorCallback: widget.depositMode.setSize,
                 ),
+                const SizedBox(height: Measures.medium),
               ],
             );
           }),
@@ -89,7 +92,8 @@ class _DepositFormState extends State<DepositForm> {
 }
 
 class ProductForm extends StatefulWidget {
-  const ProductForm({Key? key, required this.product, required this.editorMode}) : super(key: key);
+  const ProductForm({Key? key, required this.product, required this.editorMode})
+      : super(key: key);
   final ValueListenable<Product> product;
   final DepositEditorMode editorMode;
   @override
@@ -97,57 +101,50 @@ class ProductForm extends StatefulWidget {
 }
 
 class _ProductFormState extends State<ProductForm> {
-  
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      controller: ScrollController(),
-      child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              DefaultDecorator(
-                child: ValueListenableBuilder<Product>(
-        valueListenable: widget.product,
-        builder: (context, product, child) {
-         
-          return FaultToleratedImage(
+        controller: ScrollController(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            DefaultDecorator(
+              child: ValueListenableBuilder<Product>(
+                valueListenable: widget.product,
+                builder: (context, product, child) {
+                  return FaultToleratedImage(
                     imageUrl: product.imageUrl ?? '',
                   );
-                  },
-                ),
+                },
               ),
-              const SizedBox(height: Measures.medium),
-              AttributeTextField(
-                controller: widget.editorMode.nameController,
-                label: Labels.name,
-                readOnly: true,
-              ),
-              const SizedBox(height: Measures.medium),
-              AttributeTextField(
-                controller: widget.editorMode.referenceController,
-                label: Labels.reference,
-                readOnly: true,
-              ),
-              const SizedBox(height: Measures.medium),
-              AttributeTextField(
-               controller: widget.editorMode.familyController,
-                label: Labels.productFamily,
-                readOnly: true,
-              ),
-              const SizedBox(height: Measures.medium),
-              AttributeTextField(
-                 controller: widget.editorMode.minSellingPriceController,
-                label: Labels.sellingPrice,
-                readOnly: true,
-              ),
-              
-              const SizedBox(height: Measures.medium),
-            ],
-          )
-        );
-    
+            ),
+            const SizedBox(height: Measures.medium),
+            AttributeTextField(
+              controller: widget.editorMode.nameController,
+              label: Labels.name,
+              readOnly: true,
+            ),
+            const SizedBox(height: Measures.medium),
+            AttributeTextField(
+              controller: widget.editorMode.referenceController,
+              label: Labels.reference,
+              readOnly: true,
+            ),
+            const SizedBox(height: Measures.medium),
+            AttributeTextField(
+              controller: widget.editorMode.familyController,
+              label: Labels.productFamily,
+              readOnly: true,
+            ),
+            const SizedBox(height: Measures.medium),
+            AttributeTextField(
+              controller: widget.editorMode.minSellingPriceController,
+              label: Labels.sellingPrice,
+              readOnly: true,
+            ),
+            const SizedBox(height: Measures.medium),
+          ],
+        ));
   }
 }
-

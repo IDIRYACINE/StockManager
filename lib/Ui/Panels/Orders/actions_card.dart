@@ -50,6 +50,7 @@ class OrderProductsFloatingActions extends StatelessWidget {
   }
 
   void done(BuildContext context, OrdersController controller) {
+    controller.done();
     Navigator.pop(context);
   }
 

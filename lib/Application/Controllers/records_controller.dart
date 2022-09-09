@@ -123,7 +123,6 @@ class RecordsController {
       Navigator.pop(context);
     }
 
-    _showLoadingAlert(context);
     Map<ServicesData, dynamic> data = {
       ServicesData.databaseSelector: query,
     };

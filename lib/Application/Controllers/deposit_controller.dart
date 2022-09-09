@@ -53,7 +53,7 @@ class DespositController {
       recordsLiveModel.addDepositRecord(record);
 
     stockLiveModel.reclaimStock(record.reference,
-        record.colorId, record.sizeId, 1);
+        record.colorId, record.sizeId, -1);
         
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
@@ -68,7 +68,20 @@ class DespositController {
     }
 
   void edit(BuildContext context, Record record, int index) {
-    void onEdit(Map<String, dynamic> updatedField, Record record) {
+    
+
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+                content: DepositEditor(
+              record: record.copyWith(),
+              editMode: true,
+              editCallback: _onEdit,
+              confirmLabel: Labels.update,
+            )));
+  }
+
+  void _onEdit(Map<String, dynamic> updatedField, Record record) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
         ServicesData.databaseSelector: updatedField,
@@ -81,17 +94,6 @@ class DespositController {
       ServicesStore.instance.sendMessage(message);
       recordsLiveModel.updateDepositRecord(record);
     }
-
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: DepositEditor(
-              record: record.copyWith(),
-              editMode: true,
-              editCallback: onEdit,
-              confirmLabel: Labels.update,
-            )));
-  }
 
   void remove(BuildContext context, Record record) {
     void onRemove() {

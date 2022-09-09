@@ -21,8 +21,10 @@ class OrderProductsController {
   bool isEditing = false;
 
   void add(BuildContext context) {
-    void _onConfirm(OrderProduct orderProduct) {
+    void _onConfirm(AppJson updatedValues, OrderProduct orderProduct) {
       _onAdd(orderProduct);
+
+      _updateOrder(updatedValues);
       Navigator.pop(context);
     }
 
@@ -46,22 +48,38 @@ class OrderProductsController {
 
     stockLiveModel.reclaimStock(orderProduct.reference,
         orderProduct.productColorId, orderProduct.productSizeId, -1);
-    
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: orderProduct,
-        ServicesData.databaseSelector: SelectorBuilder()
-            .eq(OrderFields.timeStamp.name,
-                ordersLiveModel.selectedOrder.timeStamp)
-            .map
-      };
 
-      ServiceMessage message = ServiceMessage<List<Product>>(
-          data: data,
-          event: DatabaseEvent.insertOrderProduct,
-          service: AppServices.database);
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instance: orderProduct,
+      ServicesData.databaseSelector: SelectorBuilder()
+          .eq(OrderFields.timeStamp.name,
+              ordersLiveModel.selectedOrder.timeStamp)
+          .map
+    };
 
-      ServicesStore.instance.sendMessage(message);
+    ServiceMessage message = ServiceMessage<List<Product>>(
+        data: data,
+        event: DatabaseEvent.insertOrderProduct,
+        service: AppServices.database);
+
+    ServicesStore.instance.sendMessage(message);
+  }
+
+  void _updateOrder(AppJson values) {
+    Order order = ordersLiveModel.selectedOrder;
     
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instance: order,
+      ServicesData.updatedValues : values,
+     
+    };
+
+    ServiceMessage message = ServiceMessage<List<Product>>(
+        data: data,
+        event: DatabaseEvent.updateOrder,
+        service: AppServices.database);
+
+    ServicesStore.instance.sendMessage(message);
   }
 
   void _onSearch(String searchValue, OnEditorSearchResulCallback callback) {
@@ -104,6 +122,13 @@ class OrderProductsController {
   void remove(BuildContext context, OrderProduct orderProduct) {
     void onRemove() {
       _onRemove(orderProduct);
+      
+      Order order = ordersLiveModel.selectedOrder;
+      final ModifierBuilder modifierBuilder = ModifierBuilder()
+      .set(OrderFields.remainingPayement.name, order.remainingPayement)
+      .set(OrderFields.totalPrice.name, order.totalPrice)
+      ;
+      _updateOrder(modifierBuilder.map);
     }
 
     showDialog(
@@ -120,12 +145,11 @@ class OrderProductsController {
   }
 
   void _onRemove(OrderProduct orderProduct) {
-    
     ordersLiveModel.removeOrderProduct(orderProduct);
 
     stockLiveModel.reclaimStock(orderProduct.reference,
         orderProduct.productColorId, orderProduct.productSizeId, 1);
-    
+
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: orderProduct,
       ServicesData.databaseSelector: SelectorBuilder()

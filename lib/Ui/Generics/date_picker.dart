@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
 
@@ -7,7 +8,7 @@ class DatePicker extends StatefulWidget {
 
   const DatePicker({Key? key, required this.onDatePicked, required this.label}) : super(key: key);
 
-  final VoidValueCallback<String> onDatePicked; 
+  final Callback<DateTime> onDatePicked; 
   final String label;
 
   @override
@@ -17,7 +18,7 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker>{
 
-  String selectedDate = '';
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,8 @@ class _DatePickerState extends State<DatePicker>{
       ).then((date){
         if(date != null){
           setState(() {
-            selectedDate = '${date.year}-${date.month}-${date.day}';
-                      widget.onDatePicked(selectedDate);
+            selectedDate = date;
+            widget.onDatePicked(selectedDate);
 
           });
         }
@@ -44,7 +45,7 @@ class _DatePickerState extends State<DatePicker>{
         Expanded(
             child: DefaultDecorator(
               title: widget.label,
-              child: Text(selectedDate)),
+              child: Text(Utility.formatDateTimeToDisplay(selectedDate))),
             ),
       ],
     ));

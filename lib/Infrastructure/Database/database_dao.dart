@@ -145,9 +145,7 @@ class DatabaseDAO {
     selector.eq(OrderFields.timeStamp.name, order.timeStamp);
 
     ModifierBuilder modifier = ModifierBuilder();
-    updatedValues.forEach((key, value) {
-      modifier.set(key, value);
-    });
+    modifier.map = updatedValues;
 
     _database.updateOrder(selector, modifier);
   }

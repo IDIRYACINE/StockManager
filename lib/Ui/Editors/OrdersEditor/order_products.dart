@@ -23,7 +23,7 @@ class OrderProductEditor extends StatelessWidget {
       required this.order})
       : assert(
           ((createCallback == null) && (editCallback != null)) ||
-             ((createCallback != null) && (editCallback == null)),
+              ((createCallback != null) && (editCallback == null)),
           'set only one callback edit or create',
         ),
         super(key: key);
@@ -34,7 +34,7 @@ class OrderProductEditor extends StatelessWidget {
   final int searchBarFlex = 2;
   final int bodyFlex = 5;
   final int actionsFlex = 1;
-  final Callback<OrderProduct>? createCallback;
+  final Callback2<AppJson,OrderProduct>? createCallback;
   final Callback<OrderProduct>? editCallback;
   final String confirmLabel;
   final EditorSearchCallback? onSearch;
@@ -46,7 +46,10 @@ class OrderProductEditor extends StatelessWidget {
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
-    final OrderProductEditorMode<Callback<OrderProduct>> orderProductEditorMode =
+
+
+    final OrderProductEditorMode<Callback2<AppJson,OrderProduct>>
+        orderProductEditorMode =
         OrderProductEditorMode.createModeInstance(orderProduct, order);
 
     final ProductFormEditor productFormEditor = ProductFormEditor();
@@ -63,12 +66,15 @@ class OrderProductEditor extends StatelessWidget {
         productFormEditor.familyController.text = p.productFamily;
         productFormEditor.referenceController.text = p.reference;
 
-        orderProductEditorMode.sellingPriceController.text = p.sellingPrice.toString();
-        
+        orderProductEditorMode.sellingPriceController.text =
+            p.sellingPrice.toString();
+
         orderProduct.product = p.name;
         orderProduct.reference = p.reference;
         orderProduct.sellingPrice = p.sellingPrice;
         orderProduct.buyingPrice = p.buyingPrice;
+
+        orderProductEditorMode.setSellingPrice(p.sellingPrice.toString());
 
         product.value = p;
       }
@@ -86,13 +92,13 @@ class OrderProductEditor extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if(!editMode)
-              Flexible(
-                flex: searchBarFlex,
-                child: DefaultDecorator(
-                  child: SearchBar(onSearch: _onSearch),
+              if (!editMode)
+                Flexible(
+                  flex: searchBarFlex,
+                  child: DefaultDecorator(
+                    child: SearchBar(onSearch: _onSearch),
+                  ),
                 ),
-              ),
               Expanded(
                 flex: bodyFlex,
                 child: Row(
@@ -134,9 +140,6 @@ class OrderProductEditor extends StatelessWidget {
                         if (formKey.currentState!.validate()) {
                           if (!editMode) {
                             orderProductEditorMode.confirm(createCallback!);
-                          }
-                          else{
-                            orderProductEditorMode.confirm(editCallback!);
                           }
                         }
                       },

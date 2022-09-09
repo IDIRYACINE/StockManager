@@ -50,6 +50,8 @@ class SalesController {
   void add(BuildContext context) {
     void _onConfirm(Record record) {
       recordsLiveModel.addSaleRecord(record);
+      stockLiveModel.reclaimStock(record.reference, record.colorId, record.sizeId, -1);
+
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: record,
       };
@@ -114,6 +116,7 @@ class SalesController {
   void remove(BuildContext context, Record record) {
     void onRemove() {
       recordsLiveModel.removeSaleRecord(record);
+      stockLiveModel.reclaimStock(record.reference, record.colorId, record.sizeId, 1);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(

@@ -62,7 +62,8 @@ class DepositEditor extends StatelessWidget {
         record.reference = p.reference;
         record.sellingPrice = p.sellingPrice;
         record.product = p.name;
-        record.remainingPayement = p.sellingPrice - depositMode.depositController.text.toDouble();
+        record.remainingPayement = p.sellingPrice - record.deposit;
+        record.originalPrice = p.buyingPrice;
 
         product.value = p;
       }
@@ -100,14 +101,11 @@ class DepositEditor extends StatelessWidget {
                     const SizedBox(width: Measures.small),
                     Expanded(
                       child: DefaultDecorator(
-                          child: Padding(
-                        padding: const EdgeInsets.all(Measures.small),
-                        child: DepositForm(
-                          depositMode: depositMode,
-                          record: record,
-                          product: product,
-                        ),
-                      )),
+                          child: DepositForm(
+                            depositMode: depositMode,
+                            record: record,
+                            product: product,
+                          )),
                     ),
                   ],
                 ),
@@ -131,6 +129,8 @@ class DepositEditor extends StatelessWidget {
                           } else {
                             depositMode.confirm(createCallback);
                           }
+                                                      Navigator.pop(context);
+
                         }
                       },
                     ),

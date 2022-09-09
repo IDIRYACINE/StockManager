@@ -41,7 +41,7 @@ class OrdersLiveDataModel {
     _toggleRefresh(_refreshOrders);
   }
 
-  void removeOrder(Order element , int index) {
+  void removeOrder(Order element, int index) {
     _loadedOrders.remove(element.timeStamp);
     _keys.removeAt(index);
     _toggleRefresh(_refreshOrders);
@@ -64,31 +64,24 @@ class OrdersLiveDataModel {
   OrderProduct orderProduct(String id) => selectedOrder.products[id]!;
 
   void removeOrderProduct(OrderProduct orderProduct) {
-    _updateOrderPrices(orderProduct.sellingPrice * -1);
     selectedOrder.products.remove(orderProduct.timeStamp);
+    selectedOrder.totalPrice -= orderProduct.sellingPrice;
+    selectedOrder.remainingPayement -= orderProduct.sellingPrice;
+
     _toggleRefresh(_refreshOrderProducts);
   }
 
   void addOrderProduct(OrderProduct orderProduct) {
-    _updateOrderPrices(orderProduct.sellingPrice);
     selectedOrder.products[orderProduct.timeStamp] = orderProduct;
+    selectedOrder.totalPrice += orderProduct.sellingPrice;
+    selectedOrder.remainingPayement += orderProduct.sellingPrice;
 
     _toggleRefresh(_refreshOrderProducts);
+    _toggleRefresh(_refreshOrders);
   }
 
   void updateOrderProduct(OrderProduct orderProduct) {
-    double priceChange = orderProduct.sellingPrice -
-        selectedOrder.products[orderProduct.timeStamp]!.sellingPrice;
-
-    _updateOrderPrices(priceChange);
-
     selectedOrder.products[orderProduct.timeStamp] = orderProduct;
     _toggleRefresh(_refreshOrderProducts);
-  }
-
-  void _updateOrderPrices(double productSellingPrice) {
-    selectedOrder.totalPrice += productSellingPrice;
-    selectedOrder.remainingPayement =
-        selectedOrder.totalPrice - selectedOrder.deposit;
   }
 }
