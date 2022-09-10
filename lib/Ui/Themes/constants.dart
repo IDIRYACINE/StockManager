@@ -204,6 +204,10 @@ abstract class Labels {
   static const shopName = 'Marwa Boutique';
 
   static const dailySalesReport = 'Daily Sales Report';
+
+  static const done = 'Done';
+
+  static const addProduct = 'Add Product';
 }
 
 abstract class Measures {

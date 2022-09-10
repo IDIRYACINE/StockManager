@@ -43,8 +43,11 @@ class ProductForm extends StatelessWidget {
         children: [
           Flexible(
               child: SelectorDropDown<ProductFamily>(
-            onSelect: (family) =>
-                {productEditorMode.setProductFamily(family.name,family.reference)},
+            onSelect: (family) 
+                {
+                  productEditorMode.setProductFamily(family.name,family.reference);
+                  familyNotifier.value = family;
+                  },
             initialSelection:familyNotifier
                 ,
             items: familliesDropdown,

@@ -15,7 +15,7 @@ class OrdersFloatingActions extends StatelessWidget {
   const OrdersFloatingActions({Key? key}) : super(key: key);
 
   void add(BuildContext context, OrdersController controller) {
-    controller.add(context);
+    controller.addSpreadedOrder(context);
   }
 
   @override
@@ -183,3 +183,5 @@ class SearchActionsCard extends StatelessWidget {
     );
   }
 }
+
+

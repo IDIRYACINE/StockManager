@@ -96,9 +96,11 @@ class SaleEditor extends StatelessWidget {
                   children: [
                     Expanded(
                         child: DefaultDecorator(
-                            child: ProductForm(
-                      product: product,
-                      productFormEditor: productFormEditor,
+                            child: SingleChildScrollView(
+                      child: ProductForm(
+                        product: product,
+                        productFormEditor: productFormEditor,
+                      ),
                     ))),
                     const SizedBox(width: Measures.small),
                     Expanded(
@@ -131,7 +133,6 @@ class SaleEditor extends StatelessWidget {
                       label: confirmLabel,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-
                           if (editMode) {
                             saleEditorMode.confirm(editCallback);
                           } else {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
+import 'package:stock_manager/Application/Utility/utility_wrappers.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
@@ -24,7 +25,6 @@ class OrdersTable extends StatelessWidget {
       order.deliveryCost.toString(),
     ];
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +51,15 @@ class OrdersTable extends StatelessWidget {
                 Expanded(
                   child: ValueListenableBuilder<bool>(
                       valueListenable: orders.refreshOrders,
-
                       builder: (context, value, child) {
                         return ListView.builder(
                             itemCount: orders.ordersCount,
                             itemBuilder: (context, index) {
                               return SelectableRow<Order>(
                                 dataCellHelper: ordersToCellsAdapter,
-                                onDelete: (context,order){controller.remove(context,order,index);},
+                                onDelete: (context, order) {
+                                  controller.remove(context, order, index);
+                                },
                                 onEdit: controller.edit,
                                 index: index,
                                 dataModel: orders.order(index),
@@ -73,7 +74,7 @@ class OrdersTable extends StatelessWidget {
 
 class OrderProductsTable extends StatelessWidget {
   const OrderProductsTable({Key? key}) : super(key: key);
-  
+
   List<String> orderProductsToCellAdapter(OrderProduct orderProduct) {
     return [
       orderProduct.product,
@@ -93,7 +94,6 @@ class OrderProductsTable extends StatelessWidget {
     OrdersLiveDataModel orders =
         Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
 
-
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -111,8 +111,8 @@ class OrderProductsTable extends StatelessWidget {
                   child: ValueListenableBuilder<bool>(
                       valueListenable: orders.refreshOrderProducts,
                       builder: (context, value, child) {
-                        
-                      final keys = orders.selectedOrder.products.keys.toList();
+                        final keys =
+                            orders.selectedOrder.products.keys.toList();
 
                         return ListView.builder(
                             itemCount: keys.length,
@@ -130,6 +130,80 @@ class OrderProductsTable extends StatelessWidget {
                             });
                       }),
                 ),
+              ],
+            )));
+  }
+}
+
+class OrdersTableSpreaded extends StatelessWidget {
+  const OrdersTableSpreaded({Key? key}) : super(key: key);
+
+  List<String> ordersToCellsAdapter(SpreadedOrdersWrapper order) {
+    return [
+      Utility.formatDateTimeToDisplay(order.order.date),
+      order.order.sellerName,
+      order.order.customerName,
+      order.order.deposit.toString(),
+      order.order.remainingPayement.toString(),
+      order.order.deliveryCost.toString(),
+    ];
+  }
+
+  List<Widget> buildRows(
+      OrdersLiveDataModel liveModel , OrderProductsController controller) {
+    List<Widget> rows = [];
+
+    liveModel.orders.forEach((orderKey, order) {
+
+      order.products.forEach((productKey, product) { 
+
+        SpreadedOrdersWrapper wrapper = SpreadedOrdersWrapper(order,product);
+
+        final row = Expanded(
+            child: SelectableRow<SpreadedOrdersWrapper>(
+          dataCellHelper: ordersToCellsAdapter,
+          onDelete: (context, spreadedOrder) {
+            controller.remove(context, spreadedOrder.product);
+          },
+          //onEdit: (ctx, spreadedWrapper, rowIndex) => ,
+          index: 0, // dont need it unless edit is enabled
+          dataModel: wrapper,
+        ));
+
+        rows.add(row);
+
+      });
+      
+    });
+
+    return rows;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+
+    OrderProductsController productsController =
+        Provider.of<ControllersProvider>(context, listen: false)
+            .orderProductsController;
+
+    OrdersLiveDataModel orders =
+        Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
+
+    return SizedBox(
+        width: double.infinity,
+        child: Card(
+            elevation: Measures.small,
+            child: Column(
+              children: [
+                Flexible(
+                    child: SelectableRow(
+                  clickable: false,
+                  dataCellHelper: (index) => Titles.ordersTableColumns,
+                  index: -1,
+                  dataModel: 0,
+                )),
+                ...buildRows(orders,productsController)
               ],
             )));
   }

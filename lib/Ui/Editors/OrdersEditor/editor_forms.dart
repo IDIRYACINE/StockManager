@@ -5,10 +5,12 @@ import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart
 import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Types/i_editors.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/editor_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
+import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrderProductForm extends StatelessWidget {
@@ -52,13 +54,17 @@ class OrderProductForm extends StatelessWidget {
   }
 }
 
-class OrderForm extends StatelessWidget {
-  const OrderForm(
-      {Key? key, required this.order, required this.orderFormEditorMode})
+class SpreadedOrderProductForm extends StatelessWidget {
+  const SpreadedOrderProductForm(
+      {Key? key,
+      required this.product,
+      required this.orderProductEditorMode,
+      required this.productFormEditor})
       : super(key: key);
 
-  final Order order;
-  final OrderFormEditorMode<Callback2<AppJson, Order>> orderFormEditorMode;
+  final ValueListenable<Product> product;
+  final OrderProductEditorMode orderProductEditorMode;
+  final ProductFormEditor productFormEditor;
 
   DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller) {
     return DropdownMenuItem(
@@ -66,6 +72,46 @@ class OrderForm extends StatelessWidget {
       child: Text(seller.name),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: ScrollController(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ProductForm(product: product, productFormEditor: productFormEditor),
+          AttributeTextField(
+            controller: orderProductEditorMode.sellingPriceController,
+            onChanged: orderProductEditorMode.setSellingPrice,
+            label: Labels.sellingPrice,
+          ),
+          const SizedBox(height: Measures.small),
+          ValueListenableBuilder<Product>(
+              valueListenable: product,
+              builder: (context, product, child) {
+                return ModelSelector(
+                  productModels: product.models,
+                  colorSelectorCallback: orderProductEditorMode.setColor,
+                  sizeSelectorCallback: orderProductEditorMode.setSize,
+                );
+              }),
+        ],
+      ),
+    );
+  }
+}
+
+class OrderForm extends StatelessWidget {
+  const OrderForm(
+      {Key? key, required this.order, required this.orderFormEditorMode})
+      : super(key: key);
+
+  final Order order;
+  final OrderFormEditorMode orderFormEditorMode;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +128,11 @@ class OrderForm extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
-        SelectorDropDown(
-          onSelect: orderFormEditorMode.setSeller,
+        SelectorDropDown<Seller>(
+          onSelect: (seller){
+            orderFormEditorMode.setSeller(seller);
+            sellerNotifier.value = seller;
+          },
           items: sellersDropdown,
           label: const Text(Labels.sellerName),
           initialSelection: sellerNotifier,

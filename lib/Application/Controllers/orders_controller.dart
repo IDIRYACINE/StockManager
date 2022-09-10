@@ -18,6 +18,7 @@ import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_customer.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
+import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_spreaded.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -29,15 +30,48 @@ class OrdersController {
 
   void add(BuildContext context) {
     ordersLiveModel.selectedOrder = Order.defaultInstance();
-    _addOrder();
+    // _addOrder();
 
     showDialog(
         context: context,
         builder: (context) => const Material(child: OrderProductsPanel()));
   }
 
-  void _addOrder() {
-    Order order = ordersLiveModel.selectedOrder;
+  void addSpreadedOrder(BuildContext context) {
+    ordersLiveModel.selectedOrder = Order.defaultInstance();
+
+    showDialog(
+        context: context,
+        builder: (context) => 
+        Material(child: 
+        SpreardedOrderEditor
+        (order: ordersLiveModel.selectedOrder, 
+        createOrderCallback: _addOrder,
+        onSearch: _onSearchProduct,
+        confirmLabel: Labels.add,
+       )));
+  }
+
+
+  void _onSearchProduct(String searchValue, OnEditorSearchResulCallback callback) {
+    print('searching for $searchValue');
+
+    Map<ServicesData, dynamic> data = {
+      ServicesData.databaseSelector:
+          SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
+    };
+
+    ServiceMessage message = ServiceMessage<List<Product>>(
+        callback: callback,
+        hasCallback: true,
+        data: data,
+        event: DatabaseEvent.searchProduct,
+        service: AppServices.database);
+
+    ServicesStore.instance.sendMessage(message);
+  }
+
+  void _addOrder(Order order) {
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,
@@ -327,7 +361,5 @@ class OrdersController {
     return products;
   }
 
-  void done() {
-
-  }
+  void done() {}
 }

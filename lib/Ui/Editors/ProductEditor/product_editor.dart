@@ -38,6 +38,7 @@ class ProductEditor extends StatelessWidget {
     final dynamic modeDelegate = editMode
         ? ProductEditorMode.editModeInstance(product)
         : ProductEditorMode.createModeInstance(product);
+
     return Form(
         key: formKey,
         child: Padding(

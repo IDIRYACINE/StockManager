@@ -21,10 +21,9 @@ class OrderProductsController {
   bool isEditing = false;
 
   void add(BuildContext context) {
-    void _onConfirm(AppJson updatedValues, OrderProduct orderProduct) {
+    void _onConfirm(OrderProduct orderProduct) {
       _onAdd(orderProduct);
 
-      _updateOrder(updatedValues);
       Navigator.pop(context);
     }
 
@@ -104,19 +103,19 @@ class OrderProductsController {
   }
 
   void edit(BuildContext context, OrderProduct orderProduct, int index) {
-    showDialog(
-      context: context,
-      builder: (context) => Material(
-        child: OrderProductEditor(
-          orderProduct: orderProduct.copyWith(),
-          editMode: true,
-          editCallback: _onEdit,
-          confirmLabel: Labels.update,
-          order: Provider.of<OrdersLiveDataModel>(context, listen: false)
-              .selectedOrder,
-        ),
-      ),
-    );
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => Material(
+    //     child: OrderProductEditor(
+    //       orderProduct: orderProduct.copyWith(),
+    //       editMode: true,
+    //       editCallback: _onEdit,
+    //       confirmLabel: Labels.update,
+    //       order: Provider.of<OrdersLiveDataModel>(context, listen: false)
+    //           .selectedOrder,
+    //     ),
+    //   ),
+    // );
   }
 
   void remove(BuildContext context, OrderProduct orderProduct) {

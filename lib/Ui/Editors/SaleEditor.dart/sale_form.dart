@@ -87,46 +87,45 @@ class ProductForm extends StatefulWidget {
 class _ProductFormState extends State<ProductForm> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: [
-        DefaultDecorator(
-          child: ValueListenableBuilder<Product>(
-              valueListenable: widget.product,
-              builder: (context, product, child) {
-                return FaultToleratedImage(
-                  imageUrl: product.imageUrl ?? '',
-                );
-              }),
-        ),
-        const SizedBox(height: Measures.medium),
-        AttributeTextField(
-          controller: widget.productFormEditor.productNameController,
-          label: Labels.name,
-          readOnly: true,
-        ),
-        const SizedBox(height: Measures.medium),
-        AttributeTextField(
-          controller: widget.productFormEditor.referenceController,
-          label: Labels.reference,
-          readOnly: true,
-        ),
-        const SizedBox(height: Measures.medium),
-        AttributeTextField(
-          controller: widget.productFormEditor.familyController,
-          label: Labels.productFamily,
-          readOnly: true,
-        ),
-        const SizedBox(height: Measures.medium),
-        AttributeTextField(
-          controller: widget.productFormEditor.minSellingPriceController,
-          label: Labels.sellingPrice,
-          readOnly: true,
-        ),
-        const SizedBox(height: Measures.medium),
+    DefaultDecorator(
+      child: ValueListenableBuilder<Product>(
+          valueListenable: widget.product,
+          builder: (context, product, child) {
+            return FaultToleratedImage(
+              imageUrl: product.imageUrl ?? '',
+            );
+          }),
+    ),
+    const SizedBox(height: Measures.medium),
+    AttributeTextField(
+      controller: widget.productFormEditor.productNameController,
+      label: Labels.name,
+      readOnly: true,
+    ),
+    const SizedBox(height: Measures.medium),
+    AttributeTextField(
+      controller: widget.productFormEditor.referenceController,
+      label: Labels.reference,
+      readOnly: true,
+    ),
+    const SizedBox(height: Measures.medium),
+    AttributeTextField(
+      controller: widget.productFormEditor.familyController,
+      label: Labels.productFamily,
+      readOnly: true,
+    ),
+    const SizedBox(height: Measures.medium),
+    AttributeTextField(
+      controller: widget.productFormEditor.minSellingPriceController,
+      label: Labels.sellingPrice,
+      readOnly: true,
+    ),
+    const SizedBox(height: Measures.medium),
       ],
-    ));
+    );
   }
 }

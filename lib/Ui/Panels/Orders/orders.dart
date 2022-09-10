@@ -18,7 +18,7 @@ class OrdersPanel extends StatelessWidget {
         const SizedBox(height: Measures.paddingLarge),
         Expanded(
           flex: lowerRowFlex,
-          child: const OrdersTable(),
+          child: const OrdersTableSpreaded(),
         ),
         Expanded(flex: upperRowFlex, child: const OrdersFloatingActions()),
       ]),

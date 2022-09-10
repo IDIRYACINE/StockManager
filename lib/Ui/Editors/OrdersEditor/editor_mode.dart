@@ -26,10 +26,19 @@ abstract class OrderProductEditorMode<T> {
 
   void setSize(String size, String sizeId);
 
+  void setUpdatedValuesMap(AppJson<dynamic> json);
+
+  void setOrderProduct(OrderProduct orderProduct);
+
+  void appendToOrder();
+
   void confirm(T callback);
 
-  static OrderProductEditorMode<Callback2<AppJson,OrderProduct>> createModeInstance(
-      OrderProduct orderProduct, Order order,) {
+  static OrderProductEditorMode<Callback< OrderProduct>>
+      createModeInstance(
+    OrderProduct orderProduct,
+    Order order,
+  ) {
     return _ModeCreate(orderProduct, order);
   }
 
@@ -39,13 +48,15 @@ abstract class OrderProductEditorMode<T> {
   }
 }
 
-class _ModeCreate extends OrderProductEditorMode<Callback2<AppJson,OrderProduct>> {
-  final OrderProduct orderProduct;
+class _ModeCreate
+    extends OrderProductEditorMode<Callback<OrderProduct>> {
+  OrderProduct orderProduct;
   final Order order;
 
-  _ModeCreate(this.orderProduct, this.order,);
-
-  final Map<OrderFields, dynamic> updateFieldsCache = {} ;
+  _ModeCreate(
+    this.orderProduct,
+    this.order,
+  );
 
 
   @override
@@ -57,8 +68,6 @@ class _ModeCreate extends OrderProductEditorMode<Callback2<AppJson,OrderProduct>
       order.remainingPayement += order.totalPrice - order.deposit;
       orderProduct.sellingPrice = sellingPrice;
 
-      updateFieldsCache[OrderFields.remainingPayement] = order.remainingPayement;
-      updateFieldsCache[OrderFields.totalPrice] = order.totalPrice;
     }
   }
 
@@ -75,26 +84,33 @@ class _ModeCreate extends OrderProductEditorMode<Callback2<AppJson,OrderProduct>
   }
 
   @override
-  void confirm(EditorCallback<AppJson, OrderProduct> callback) {
-    final ModifierBuilder modifierBuilder = ModifierBuilder();
+  void confirm(Callback< OrderProduct> callback) {
+    callback(orderProduct);
+  }
 
-    updateFieldsCache.forEach((key, value) {
-      modifierBuilder.set(key.name, value);
-    });
+  @override
+  void setOrderProduct(OrderProduct product) {
+    orderProduct = product;
+  }
 
-    callback(modifierBuilder.map, orderProduct);
-  
+  @override
+  void setUpdatedValuesMap(AppJson json) {
+  }
+
+  @override
+  void appendToOrder() {
+    order.products[orderProduct.timeStamp] = orderProduct;
   }
 }
 
 class _ModeEdit
     extends OrderProductEditorMode<EditorCallback<AppJson, OrderProduct>> {
-  final OrderProduct orderProduct;
+  OrderProduct orderProduct;
   final Order order;
 
   _ModeEdit(this.orderProduct, this.order);
 
-  Map<OrderFields, dynamic> updatedFields = {};
+  AppJson<dynamic> updatedFields = {};
 
   @override
   void setSellingPrice(String? price) {
@@ -104,10 +120,11 @@ class _ModeEdit
       order.totalPrice += sellingPrice - orderProduct.sellingPrice;
       order.remainingPayement += order.totalPrice - order.deposit;
       orderProduct.sellingPrice = sellingPrice;
-      
-      updatedFields[OrderFields.remainingPayement] = order.remainingPayement;
-      updatedFields[OrderFields.totalPrice] = order.totalPrice;
-      updatedFields[OrderFields.sellingPrice] = sellingPrice;
+
+      updatedFields[OrderFields.remainingPayement.name] =
+          order.remainingPayement;
+      updatedFields[OrderFields.totalPrice.name] = order.totalPrice;
+      updatedFields[OrderFields.sellingPrice.name] = sellingPrice;
     }
   }
 
@@ -115,8 +132,8 @@ class _ModeEdit
   void setColor(String color, String colorId) {
     orderProduct.productColor = color;
     orderProduct.productColorId = colorId;
-    updatedFields[OrderFields.productColor] = color;
-    updatedFields[OrderFields.productColorId] = colorId;
+    updatedFields[OrderFields.productColor.name] = color;
+    updatedFields[OrderFields.productColorId.name] = colorId;
   }
 
   @override
@@ -124,8 +141,14 @@ class _ModeEdit
     orderProduct.productSize = size;
     orderProduct.productSizeId = sizeId;
 
-    updatedFields[OrderFields.productSize] = size;
-    updatedFields[OrderFields.productSizeId] = sizeId;
+    updatedFields[OrderFields.productSize.name] = size;
+    updatedFields[OrderFields.productSizeId.name] = sizeId;
+  }
+
+  @override
+  void setOrderProduct(OrderProduct product) {
+    orderProduct = product;
+    updatedFields.clear();
   }
 
   @override
@@ -133,10 +156,20 @@ class _ModeEdit
     final ModifierBuilder modifierBuilder = ModifierBuilder();
 
     updatedFields.forEach((key, value) {
-      modifierBuilder.set(key.name, value);
+      modifierBuilder.set(key, value);
     });
 
     callback(modifierBuilder.map, orderProduct);
+  }
+
+  @override
+  void setUpdatedValuesMap(AppJson json) {
+    updatedFields = json;
+  }
+
+  @override
+  void appendToOrder() {
+    order.products[orderProduct.timeStamp] = orderProduct;
   }
 }
 
@@ -157,14 +190,18 @@ abstract class OrderFormEditorMode<T> {
 
   void confirm(T callback);
 
-  static OrderFormEditorMode editModeInstance(
-      Order order,  updatedValuesCache) {
-    return _ModeCustomerForm(order, updatedValuesCache);
+  static OrderFormEditorMode<Callback2<AppJson, Order>> editModeInstance(Order order, AppJson updatedValuesCache) {
+    return _EditCustomerForm(order, updatedValuesCache);
+  }
+
+  
+  static OrderFormEditorMode<Callback<Order>> createModeInstance(Order order) {
+    return _CreateCustomerForm(order);
   }
 }
 
-class _ModeCustomerForm extends OrderFormEditorMode<Callback2<AppJson,Order>> {
-  _ModeCustomerForm(this.order, this.updatedValuesCache);
+class _EditCustomerForm extends OrderFormEditorMode<Callback2<AppJson, Order>> {
+  _EditCustomerForm(this.order, this.updatedValuesCache);
 
   final Order order;
   final AppJson updatedValuesCache;
@@ -189,7 +226,8 @@ class _ModeCustomerForm extends OrderFormEditorMode<Callback2<AppJson,Order>> {
       order.deposit = double.parse(deposit);
       order.remainingPayement = order.totalPrice - order.deposit;
       updatedValuesCache[OrderFields.deposit.name] = double.parse(deposit);
-      updatedValuesCache[OrderFields.remainingPayement.name] = order.remainingPayement;
+      updatedValuesCache[OrderFields.remainingPayement.name] =
+          order.remainingPayement;
     }
   }
 
@@ -228,14 +266,76 @@ class _ModeCustomerForm extends OrderFormEditorMode<Callback2<AppJson,Order>> {
   }
 
   @override
-  void confirm(Callback2<AppJson,Order> callback) {
-  final ModifierBuilder modifierBuilder = ModifierBuilder();
+  void confirm(Callback2<AppJson, Order> callback) {
+    final ModifierBuilder modifierBuilder = ModifierBuilder();
 
     updatedValuesCache.forEach((key, value) {
       modifierBuilder.set(key, value);
     });
 
+    callback(modifierBuilder.map, order);
+  }
+}
 
-    callback(modifierBuilder.map,order);
+
+class _CreateCustomerForm extends OrderFormEditorMode<Callback< Order>> {
+  _CreateCustomerForm(this.order);
+
+  final Order order;
+
+  @override
+  void setSeller(Seller seller) {
+    order.sellerName = seller.name;
+  }
+
+  @override
+  void setClient(String? client) {
+    if (client != null && client != '') {
+      order.customerName = client;
+    }
+  }
+
+  @override
+  void setDeposit(String? deposit) {
+    if (deposit != null && deposit != '') {
+      order.deposit = double.parse(deposit);
+      order.remainingPayement = order.totalPrice - order.deposit;
+          order.remainingPayement;
+    }
+  }
+
+  @override
+  void setState(String? state) {
+    if (state != null && state != '') {
+      order.city = state;
+    }
+  }
+
+  @override
+  void setAddress(String? address) {
+    if (address != null && address != '') {
+      order.address = address;
+    }
+  }
+
+  @override
+  void setPhoneNumber(String? phoneNumber) {
+    if (phoneNumber != null && phoneNumber != '') {
+      int phone = int.parse(phoneNumber);
+      order.phoneNumber = phone;
+    }
+  }
+
+  @override
+  void setDeliveryCost(String? deliveryCost) {
+    if (deliveryCost != null && deliveryCost != '') {
+      order.deliveryCost = double.parse(deliveryCost);
+          double.parse(deliveryCost);
+    }
+  }
+
+  @override
+  void confirm(Callback< Order> callback) {
+    callback( order);
   }
 }
