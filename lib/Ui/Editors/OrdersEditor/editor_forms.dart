@@ -58,7 +58,7 @@ class OrderForm extends StatelessWidget {
       : super(key: key);
 
   final Order order;
-  final OrderFormEditorMode<Callback2<AppJson,Order>> orderFormEditorMode;
+  final OrderFormEditorMode<Callback2<AppJson, Order>> orderFormEditorMode;
 
   DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller) {
     return DropdownMenuItem(
@@ -69,21 +69,25 @@ class OrderForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final sellersLiveModel =
+    final sellersLiveModel =
         Provider.of<LiveModelProvider>(context, listen: false).sellersLiveModel;
 
     final sellersDropdown = sellersLiveModel.loadedSellers
         .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
         .toList();
-        
+
+    final ValueNotifier<Seller?> sellerNotifier = ValueNotifier(null);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown(
-            onSelect: orderFormEditorMode.setSeller,
-            items:sellersDropdown,
-            label: const Text(Labels.sellerName)),
+          onSelect: orderFormEditorMode.setSeller,
+          items: sellersDropdown,
+          label: const Text(Labels.sellerName),
+          initialSelection: sellerNotifier,
+        ),
         AttributeTextField(
           initialValue: order.customerName,
           label: Labels.customerName,

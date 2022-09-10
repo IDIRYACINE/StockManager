@@ -21,27 +21,29 @@ class ModelSelector extends StatefulWidget {
 }
 
 class _ModelSelectorState extends State<ModelSelector> {
-  String? selectedColorIndex;
-    String? selectedSizeIndex;
+  ValueNotifier<String?> selectedColorIndex = ValueNotifier(null);
+  ValueNotifier<String?> selectedSizeIndex = ValueNotifier(null);
+
+  List<DropdownMenuItem<String>>? sizes ;
 
 
   void onColorSelected(String colorIndex) {
-    setState(() {
-      selectedColorIndex = colorIndex;
-      selectedSizeIndex = null;
-      String color = widget.productModels[colorIndex]!.color;
-      widget.colorSelectorCallback(color, colorIndex);
-    });
+    ProductModel model = widget.productModels[colorIndex]!;
+    selectedColorIndex.value = colorIndex;
+    String color = model.color;
+    selectedSizeIndex.value = model.sizes.keys.first;
+    widget.colorSelectorCallback(color, colorIndex);
+
   }
 
   void onSizeSelected(String index) {
     String size = widget.productModels[selectedColorIndex]!.sizes[index]!.size;
-    selectedSizeIndex = index;
+    selectedSizeIndex.value = index;
     widget.sizeSelectorCallback(size, index);
   }
 
   List<DropdownMenuItem<String>> sizesDropdowns() {
-    ProductModel? model = widget.productModels[selectedColorIndex];
+    ProductModel? model = widget.productModels[selectedColorIndex.value];
 
     if (model == null) return [];
     List<DropdownMenuItem<String>> dropdowns = [];
@@ -50,6 +52,7 @@ class _ModelSelectorState extends State<ModelSelector> {
       dropdowns
           .add(DropdownAdapters.stringDropDownMenuItemAdapter(value.size, key));
     });
+
 
     return dropdowns;
   }
@@ -63,20 +66,13 @@ class _ModelSelectorState extends State<ModelSelector> {
       dropdowns.add(
           DropdownAdapters.stringDropDownMenuItemAdapter(value.color, key));
     });
-
+    
     return dropdowns;
   }
 
 
-  String? getSelectedSize(){
-    String? size = widget.productModels[selectedColorIndex]?.sizes[selectedSizeIndex]?.size;
-    return size;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final sizes = sizesDropdowns();
-
     final colors = colorsDropdowns();
 
     return Row(
@@ -94,7 +90,7 @@ class _ModelSelectorState extends State<ModelSelector> {
             child: SelectorDropDown<String>(
           onSelect: onSizeSelected,
           initialSelection: selectedSizeIndex,
-          items: sizes,
+          itemBuilder: sizesDropdowns,
           label: const Text(Labels.sizes),
         )),
       ],

@@ -36,14 +36,18 @@ class SaleForm extends StatelessWidget {
         .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
         .toList();
 
+    final ValueNotifier<Seller?> sellerNotifier = ValueNotifier(null);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown(
-            onSelect: saleEditorMode.setSeller,
-            items: sellersDropdown,
-            label: const Text(Labels.sellerName)),
+          onSelect: saleEditorMode.setSeller,
+          items: sellersDropdown,
+          label: const Text(Labels.sellerName),
+          initialSelection: sellerNotifier,
+        ),
         AttributeTextField(
           initialValue: record.customer,
           label: Labels.customerName,

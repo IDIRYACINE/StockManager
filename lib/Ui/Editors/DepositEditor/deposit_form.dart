@@ -37,6 +37,7 @@ class _DepositFormState extends State<DepositForm> {
     final sellersDropdown = sellersLiveModel.loadedSellers
         .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
         .toList();
+    final ValueNotifier<Seller?> sellerNotifier = ValueNotifier(null);
 
     return SingleChildScrollView(
       child: ValueListenableBuilder<Product>(
@@ -49,7 +50,8 @@ class _DepositFormState extends State<DepositForm> {
                 SelectorDropDown(
                     onSelect: widget.depositMode.setSellerName,
                     items: sellersDropdown,
-                    label: const Text(Labels.sellerName)),
+                    label: const Text(Labels.sellerName), 
+                    initialSelection: sellerNotifier,),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
                   initialValue: widget.record.customer,

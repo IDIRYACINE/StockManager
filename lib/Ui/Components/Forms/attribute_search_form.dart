@@ -51,7 +51,7 @@ class _SearchFieldTextState extends State<SearchFieldText> {
 
   String attributeValue = '';
 
-  late SearchType searchType;
+  ValueNotifier<SearchType?> searchType = ValueNotifier(null);
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class _SearchFieldTextState extends State<SearchFieldText> {
         ? attributeValue
         : widget.parser!(attributeValue);
 
-    switch (searchType) {
+    switch (searchType.value) {
       case SearchType.equals:
         selector.eq(widget.identifier, value);
         break;
@@ -95,16 +95,18 @@ class _SearchFieldTextState extends State<SearchFieldText> {
       case SearchType.lessThanEquals:
         selector.lte(widget.identifier, value);
         break;
+      default:
+        break;
     }
   }
 
   void onSelectSearchType(SearchType value) {
-    searchType = value;
+    searchType.value = value;
   }
 
   @override
   Widget build(BuildContext context) {
-    searchType = widget.allowedSearchTypes[0];
+    searchType.value = widget.allowedSearchTypes[0];
     widget.registerQueryGenerator?.call(queryGenerator);
 
     return Row(
@@ -135,6 +137,7 @@ class _SearchFieldTextState extends State<SearchFieldText> {
               child: SelectorDropDown(
                   label: const Text(Labels.searchType),
                   items: searchTypes,
+                  initialSelection: searchType,
                   onSelect: onSelectSearchType)),
       ],
     );
@@ -163,7 +166,7 @@ class SearchFieldDropDown<T> extends StatefulWidget {
 class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
   bool isChecked = false;
 
-  String attributeValue = '';
+  ValueNotifier<T?> attributeValue = ValueNotifier(null);
 
   SearchType searchType = SearchType.equals;
 
@@ -178,11 +181,17 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
   }
 
   void queryGenerator(mongo.SelectorBuilder selector) {
-    selector.eq(widget.identifier, attributeValue);
+    
+      String value = (attributeValue.value is Enum)
+          ? (attributeValue.value as Enum).name
+          : attributeValue.value.toString();
+
+      selector.eq(widget.identifier, value);
+    
   }
 
   void onSelect(T value) {
-    attributeValue = (value is Enum) ? value.name : value.toString();
+    attributeValue.value = value;
   }
 
   @override
@@ -207,6 +216,7 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
             child: SelectorDropDown(
                 label: Text(widget.label),
                 items: widget.values,
+                initialSelection: attributeValue,
                 onSelect: onSelect)),
       ],
     );

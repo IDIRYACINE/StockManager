@@ -33,6 +33,8 @@ class ProductForm extends StatelessWidget {
         .map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e))
         .toList();
 
+    final ValueNotifier<ProductFamily?> familyNotifier = ValueNotifier(stockLiveModel.searchProductFamily(product.familyReference));
+
 
 
     return Padding(
@@ -43,8 +45,8 @@ class ProductForm extends StatelessWidget {
               child: SelectorDropDown<ProductFamily>(
             onSelect: (family) =>
                 {productEditorMode.setProductFamily(family.name,family.reference)},
-            initialSelection:
-                stockLiveModel.searchProductFamily(product.familyReference),
+            initialSelection:familyNotifier
+                ,
             items: familliesDropdown,
             label: const Text(Labels.selectProductFamily),
           )),

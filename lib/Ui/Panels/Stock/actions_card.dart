@@ -77,6 +77,8 @@ class SearchActionsCard extends StatelessWidget {
         .map((e) => DropdownAdapters.enumDropDownMenuItemAdapter(e))
         .toList();
 
+    final stockNotifier = ValueNotifier(StockTypes.products);
+
     return Card(
       elevation: Measures.small,
       child: Row(
@@ -84,6 +86,7 @@ class SearchActionsCard extends StatelessWidget {
         children: [
           Flexible(
               child: SelectorDropDown<StockTypes>(
+                initialSelection:stockNotifier ,
             onSelect: controller.onSelectStockType,
             label: const Text(Labels.stockTypes),
             items: stockTypes,

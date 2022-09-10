@@ -1,34 +1,43 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 
 class SelectorDropDown<T> extends StatelessWidget {
   const SelectorDropDown(
       {Key? key,
-      required this.items,
+      this.items,
       this.label,
       required this.onSelect,
-      this.initialSelection})
+      required this.initialSelection, 
+      this.itemBuilder})
       : super(key: key);
 
   final List<DropdownMenuItem<T>>? items;
   final Widget? label;
-  final T? initialSelection;
+  final ValueListenable<T?> initialSelection;
   final Callback<T> onSelect;
+  final ValueCallback<List<DropdownMenuItem<T>>?>? itemBuilder;
 
   @override
   Widget build(BuildContext context) {
-    T? selectedValue = initialSelection;
 
-    return DropdownButton<T>(
-        hint: label,
-        isExpanded: true,
-        value: selectedValue,
-        items: items,
-        onChanged: (T? value) {
-          if (value != null) {
-            selectedValue = value;
-            onSelect(value);
-          }
-        });
+    return ValueListenableBuilder<T?>(
+      valueListenable: initialSelection,
+      builder: (context,value,child) {
+
+        final dropdownItems = items ?? itemBuilder!();
+
+        return DropdownButton<T>(
+            hint: label,
+            isExpanded: true,
+            value: value,
+            items: dropdownItems,
+            onChanged: (T? value) {
+              if (value != null) {
+                onSelect(value);
+              }
+            });
+      }
+    );
   }
 }
