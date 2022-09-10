@@ -25,4 +25,6 @@ abstract class AppColors {
 abstract class AppRessources {
   static const noPreviewImage = 'assets/images/no_image_found.png';
   static const addImage = 'assets/images/add_image.png';
+  static const whiteLogo = 'assets/images/white_logo.jpg';
+  static const blackLogo = 'assets/images/black_logo.jpg';
 }

@@ -26,6 +26,8 @@ class DespositController {
             SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
       };
 
+    
+
       ServiceMessage message = ServiceMessage<List<Product>>(
           callback: callback,
           hasCallback: true,
@@ -35,18 +37,17 @@ class DespositController {
 
       ServicesStore.instance.sendMessage(message);
     }
-
-    showDialog(
-        context: context,
-        builder: (context) => Material(
-                child: DepositEditor(
+    PopupsUtility.displayGenericPopup(
+      context ,
+      DepositEditor(
               record: Record.defaultInstance(
                 payementType: PaymentTypes.deposit.name,
               ),
               onSearch: onSearch,
               createCallback: _onAdd,
               confirmLabel: Labels.add,
-            )));
+            ));
+
   }
 
    void _onAdd(Record record) {

@@ -39,6 +39,7 @@ class _ActionButtonState  extends State<ActionButton>{
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: Colors.amber,
       onPressed: widget.onPressed, child: Icon(widget.icon),);
   }
 }

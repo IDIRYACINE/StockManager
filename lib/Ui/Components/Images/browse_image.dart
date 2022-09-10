@@ -51,13 +51,18 @@ class _BrowseImageState extends State<BrowseImage>{
 
 class FaultToleratedImage extends StatelessWidget{
 
-  const FaultToleratedImage({Key? key, required this.imageUrl}) : super(key: key);
+  const FaultToleratedImage({Key? key, required this.imageUrl, this.width, this.height}) : super(key: key);
 
   final String imageUrl;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
-    return Image.file(File(imageUrl),fit: BoxFit.fill,errorBuilder: (context,error,stack) => Image.asset(AppRessources.noPreviewImage),);
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Image.file(File(imageUrl),fit: BoxFit.fill,errorBuilder: (context,error,stack) => Image.asset(AppRessources.noPreviewImage),));
   }
 
 }

@@ -11,6 +11,15 @@ class NavigationStore with ChangeNotifier {
   final ValueNotifier<int> _selectedPanelIndex = ValueNotifier(0);
 
   final List<Widget> _panels = [];
+  final List<IconData> _panelIcons = [
+    Icons.shopping_cart ,
+   Icons.house,
+   Icons.monetization_on,
+   Icons.online_prediction_rounded,
+   Icons.receipt_long,
+   Icons.group,
+
+   ];
 
   // ignore: unused_field
   static const int salesIndex = 0,
@@ -39,4 +48,6 @@ class NavigationStore with ChangeNotifier {
     _selectedPanelIndex.value = index;
     notifyListeners();
   }
+
+  IconData? getSelectedPanelIcon(int index) =>_panelIcons[index];
 }

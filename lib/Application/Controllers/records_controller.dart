@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:pdf/widgets.dart' as pdf;
+import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/adapters_data.dart';
@@ -74,6 +75,11 @@ class RecordsController {
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
         RegisterSearchQueryBuilder onDeselect) {
+          
+      final paymentTypesDropdown = PaymentTypes.values
+          .map((e) => DropdownAdapters.enumDropDownMenuItemAdapter(e))
+          .toList();
+
       return [
         SearchFieldDate(
           startLabel: Labels.startDate,
@@ -87,8 +93,7 @@ class RecordsController {
             identifier: RecordFields.paymentType.name,
             onSelected: onSelect,
             onDeselected: onDeselect,
-            adapter: payementTypeDropdownAdapter,
-            values: PaymentTypes.values)
+            values: paymentTypesDropdown)
       ];
     }
 

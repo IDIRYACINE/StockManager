@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
@@ -28,15 +29,15 @@ class DepositForm extends StatefulWidget {
 }
 
 class _DepositFormState extends State<DepositForm> {
-  DropdownMenuItem<Seller> sellerDropdownAdapter(Seller seller) {
-    return DropdownMenuItem(
-      value: seller,
-      child: Text(seller.name),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final sellersLiveModel =
+        Provider.of<LiveModelProvider>(context, listen: false).sellersLiveModel;
+
+    final sellersDropdown = sellersLiveModel.loadedSellers
+        .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
+        .toList();
+
     return SingleChildScrollView(
       child: ValueListenableBuilder<Product>(
           valueListenable: widget.product,
@@ -47,11 +48,7 @@ class _DepositFormState extends State<DepositForm> {
               children: [
                 SelectorDropDown(
                     onSelect: widget.depositMode.setSellerName,
-                    adapter: sellerDropdownAdapter,
-                    items:
-                        Provider.of<LiveModelProvider>(context, listen: false)
-                            .sellersLiveModel
-                            .loadedSellers,
+                    items: sellersDropdown,
                     label: const Text(Labels.sellerName)),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/Ui/Panels/Sales/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Sales/price_card.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales_table.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SalesPanel extends StatelessWidget {
   final int spaceFlex = 1;
@@ -17,22 +18,28 @@ class SalesPanel extends StatelessWidget {
     return Column(mainAxisSize: MainAxisSize.max, children: [
       Expanded(
         flex: upperRowFlex,
-        child: Row(
-          children: [
-            Expanded(flex: priceCardFlex, child: const PriceCard()),
-            Spacer(
-              flex: spaceFlex,
-            ),
-            Expanded(
-              flex: actionsCardFlex,
-              child: const ActionsCard(),
-            ),
-          ],
+        child: Padding(
+          padding:  const EdgeInsets.all(Measures.paddingLarge),
+          child: Row(
+            children: [
+              Expanded(flex: priceCardFlex, child: const PriceCard()),
+              Spacer(
+                flex: spaceFlex,
+              ),
+              Expanded(
+                flex: actionsCardFlex,
+                child: const ActionsCard(),
+              ),
+            ],
+          ),
         ),
       ),
       Expanded(
         flex: lowerRowFlex,
-        child: const SalesTable(),
+        child: const Padding(
+          padding:  EdgeInsets.all(Measures.paddingLarge),
+          child:  SalesTable(),
+        ),
       )
     ]);
   }

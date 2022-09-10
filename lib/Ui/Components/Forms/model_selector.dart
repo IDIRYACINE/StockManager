@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
@@ -20,12 +21,14 @@ class ModelSelector extends StatefulWidget {
 }
 
 class _ModelSelectorState extends State<ModelSelector> {
-  String? selectedColorIndex ;
+  String? selectedColorIndex;
+    String? selectedSizeIndex;
 
 
   void onColorSelected(String colorIndex) {
     setState(() {
       selectedColorIndex = colorIndex;
+      selectedSizeIndex = null;
       String color = widget.productModels[colorIndex]!.color;
       widget.colorSelectorCallback(color, colorIndex);
     });
@@ -33,43 +36,56 @@ class _ModelSelectorState extends State<ModelSelector> {
 
   void onSizeSelected(String index) {
     String size = widget.productModels[selectedColorIndex]!.sizes[index]!.size;
+    selectedSizeIndex = index;
     widget.sizeSelectorCallback(size, index);
   }
 
-  List<String> sizesIndexes() {
+  List<DropdownMenuItem<String>> sizesDropdowns() {
     ProductModel? model = widget.productModels[selectedColorIndex];
 
-    return model == null ? [] : model.sizes.keys.toList();
+    if (model == null) return [];
+    List<DropdownMenuItem<String>> dropdowns = [];
+
+    model.sizes.forEach((key, value) {
+      dropdowns
+          .add(DropdownAdapters.stringDropDownMenuItemAdapter(value.size, key));
+    });
+
+    return dropdowns;
   }
 
-  DropdownMenuItem<String> sizeAdapter(String sizeIndex) {
-    String? size =
-        widget.productModels[selectedColorIndex]!.sizes[sizeIndex]?.size;
+  List<DropdownMenuItem<String>> colorsDropdowns() {
+    if (widget.productModels.isEmpty) return [];
 
-    return DropdownMenuItem(
-      value: sizeIndex,
-      child: Text(size??'error'),
-    );
+    List<DropdownMenuItem<String>> dropdowns = [];
+
+    widget.productModels.forEach((key, value) {
+      dropdowns.add(
+          DropdownAdapters.stringDropDownMenuItemAdapter(value.color, key));
+    });
+
+    return dropdowns;
   }
 
-  DropdownMenuItem<String> colorAdapter(String index) {
-    String color = widget.productModels[index]!.color;
 
-    return DropdownMenuItem(
-      value: index,
-      child: Text(color),
-    );
+  String? getSelectedSize(){
+    String? size = widget.productModels[selectedColorIndex]?.sizes[selectedSizeIndex]?.size;
+    return size;
   }
 
   @override
   Widget build(BuildContext context) {
+    final sizes = sizesDropdowns();
+
+    final colors = colorsDropdowns();
+
     return Row(
       children: [
         Expanded(
             child: SelectorDropDown<String>(
                 onSelect: onColorSelected,
-                adapter: colorAdapter,
-                items: widget.productModels.keys.toList(),
+                initialSelection: selectedColorIndex,
+                items: colors,
                 label: const Text(Labels.colors))),
         const SizedBox(
           width: Measures.small,
@@ -77,8 +93,8 @@ class _ModelSelectorState extends State<ModelSelector> {
         Expanded(
             child: SelectorDropDown<String>(
           onSelect: onSizeSelected,
-          adapter: sizeAdapter,
-          items: sizesIndexes(),
+          initialSelection: selectedSizeIndex,
+          items: sizes,
           label: const Text(Labels.sizes),
         )),
       ],

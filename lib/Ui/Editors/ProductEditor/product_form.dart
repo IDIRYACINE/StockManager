@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -21,18 +22,19 @@ class ProductForm extends StatelessWidget {
   final bool editMode;
   final ProductEditorMode productEditorMode;
 
-  DropdownMenuItem<ProductFamily> buildProductFamilyDropdownMenuItem(
-      ProductFamily productFamily) {
-    return DropdownMenuItem(
-      value: productFamily,
-      child: Text(productFamily.name),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     final StockLiveDataModel stockLiveModel =
         Provider.of<LiveModelProvider>(context, listen: false).stockLiveModel;
+
+
+    final familliesDropdown = stockLiveModel.loadedProductFamillies
+        .map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e))
+        .toList();
+
+
+
     return Padding(
       padding: const EdgeInsets.all(Measures.medium),
       child: Column(
@@ -41,10 +43,9 @@ class ProductForm extends StatelessWidget {
               child: SelectorDropDown<ProductFamily>(
             onSelect: (family) =>
                 {productEditorMode.setProductFamily(family.name,family.reference)},
-            adapter: buildProductFamilyDropdownMenuItem,
             initialSelection:
                 stockLiveModel.searchProductFamily(product.familyReference),
-            items: stockLiveModel.loadedProductFamillies,
+            items: familliesDropdown,
             label: const Text(Labels.selectProductFamily),
           )),
           Expanded(

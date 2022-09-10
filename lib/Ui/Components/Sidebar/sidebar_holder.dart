@@ -20,7 +20,7 @@ class SidebarHolder extends StatelessWidget{
         children: [
           const Flexible(child: Padding(
             padding: EdgeInsets.only(top:Measures.medium),
-            child: Logo(),
+            child: Logo(width: 200,height: 400,),
           )),
           Spacer(flex: sidebarButtonsSpacingFlex),
           const Flexible(child: SidebarButton(title: Labels.sales,index:NavigationStore.salesIndex)),

@@ -42,4 +42,6 @@ abstract class Adapter {
 
     return rawData;
   }
+
+
 }

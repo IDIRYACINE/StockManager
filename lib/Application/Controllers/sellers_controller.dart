@@ -26,19 +26,18 @@ class SellersController {
           service: AppServices.database);
 
       ServicesStore.instance.sendMessage(message);
-      Navigator.pop(context);
     }
-
-    showDialog(
-      context: context,
-      builder: (context) => Material(
-        child: SellersEditor(
+    
+    PopupsUtility.displayGenericPopup(
+      
+        context,SellersEditor(
           createCallback: _onConfirm,
           confirmLabel: Labels.add,
           seller: Seller.defaultInstance(),
-        ),
-      ),
-    );
+        )
+        
+        );
+
   }
 
   void edit(BuildContext context, Seller seller, int index) {

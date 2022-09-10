@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -235,6 +236,10 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
         RegisterSearchQueryBuilder onDeselect) {
+
+          final familliesDropddown = stockLiveDataModel.loadedProductFamillies.
+          map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e)).toList();
+
       return [
         SearchFieldText<int>(
           label: Labels.barcode,
@@ -256,8 +261,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
             identifier: ProductFields.family.name,
             onSelected: onSelect,
             onDeselected: onDeselect,
-            adapter: StockController.productFamilyDropdownAdapter,
-            values: stockLiveDataModel.loadedProductFamillies)
+            values: familliesDropddown)
       ];
     }
 

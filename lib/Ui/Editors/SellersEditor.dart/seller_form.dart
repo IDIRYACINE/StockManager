@@ -18,7 +18,7 @@ class SellerForm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Measures.small),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
@@ -28,13 +28,14 @@ class SellerForm extends StatelessWidget {
               onImageSelected: sellerEditorMode.setImage,
             ),
           )),
+          const SizedBox(height: Measures.large),
           Flexible(
               child: AttributeTextField(
             initialValue: seller.name,
             onChanged: sellerEditorMode.setName,
             label: Labels.sellerName,
           )),
-          const SizedBox(height: Measures.small),
+          const SizedBox(height: Measures.medium),
           Flexible(
               child: AttributeTextField(
             initialValue: seller.phone.toString(),

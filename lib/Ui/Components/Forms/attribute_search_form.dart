@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
+import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
@@ -20,11 +21,16 @@ class SearchFieldText<R> extends StatefulWidget {
     this.allowedSearchTypes = SearchType.values,
     this.onSelected,
     this.onDeselected,
-    this.parser, this.registerQueryGenerator,  this.isOptional = true,
-  }) : assert(
-    (registerQueryGenerator != null) && (onSelected == null && onDeselected == null) ||
-        (registerQueryGenerator == null) && (onSelected != null && onDeselected != null),
-  ),super(key: key);
+    this.parser,
+    this.registerQueryGenerator,
+    this.isOptional = true,
+  })  : assert(
+          (registerQueryGenerator != null) &&
+                  (onSelected == null && onDeselected == null) ||
+              (registerQueryGenerator == null) &&
+                  (onSelected != null && onDeselected != null),
+        ),
+        super(key: key);
 
   final String label;
   final String identifier;
@@ -33,7 +39,6 @@ class SearchFieldText<R> extends StatefulWidget {
   final SearchFieldParser<R>? parser;
   final bool isOptional;
   final RegisterSearchQueryBuilder? registerQueryGenerator;
-  
 
   @override
   State<StatefulWidget> createState() => _SearchFieldTextState();
@@ -42,9 +47,22 @@ class SearchFieldText<R> extends StatefulWidget {
 class _SearchFieldTextState extends State<SearchFieldText> {
   bool isChecked = false;
 
+  List<DropdownMenuItem<SearchType>>? searchTypes;
+
   String attributeValue = '';
 
-  late SearchType searchType ;
+  late SearchType searchType;
+
+  @override
+  void initState() {
+    if (widget.allowedSearchTypes.isNotEmpty) {
+      searchTypes = widget.allowedSearchTypes
+          .map((e) => DropdownAdapters.enumDropDownMenuItemAdapter(e))
+          .toList();
+    }
+
+    super.initState();
+  }
 
   void onBoxChecked(bool value) {
     value
@@ -57,26 +75,27 @@ class _SearchFieldTextState extends State<SearchFieldText> {
   }
 
   void queryGenerator(mongo.SelectorBuilder selector) {
-    dynamic value = (widget.parser == null )? attributeValue: widget.parser!(attributeValue);
+    dynamic value = (widget.parser == null)
+        ? attributeValue
+        : widget.parser!(attributeValue);
 
     switch (searchType) {
       case SearchType.equals:
-         selector.eq(widget.identifier, value);
+        selector.eq(widget.identifier, value);
         break;
       case SearchType.greaterThan:
-         selector.gt(widget.identifier, value);
+        selector.gt(widget.identifier, value);
         break;
       case SearchType.lessThan:
-         selector.lt(widget.identifier, value);
+        selector.lt(widget.identifier, value);
         break;
       case SearchType.greaterThanEquals:
-         selector.gte(widget.identifier, value);
+        selector.gte(widget.identifier, value);
         break;
       case SearchType.lessThanEquals:
-         selector.lte(widget.identifier, value);
+        selector.lte(widget.identifier, value);
         break;
     }
-
   }
 
   void onSelectSearchType(SearchType value) {
@@ -90,16 +109,16 @@ class _SearchFieldTextState extends State<SearchFieldText> {
 
     return Row(
       children: [
-        if(widget.isOptional)
-        Flexible(
-            child: Checkbox(
-          value: isChecked,
-          onChanged: (value) {
-            if (value != null) {
-              onBoxChecked(value);
-            }
-          },
-        )),
+        if (widget.isOptional)
+          Flexible(
+              child: Checkbox(
+            value: isChecked,
+            onChanged: (value) {
+              if (value != null) {
+                onBoxChecked(value);
+              }
+            },
+          )),
         const SizedBox(width: Measures.small),
         Expanded(
           child: AttributeTextField(
@@ -111,12 +130,12 @@ class _SearchFieldTextState extends State<SearchFieldText> {
               }),
         ),
         const SizedBox(width: Measures.medium),
-        if(widget.allowedSearchTypes.length > 1)
-        Expanded(
-            child: SelectorDropDown(
-                label: const Text(Labels.searchType),
-                items: widget.allowedSearchTypes,
-                onSelect: onSelectSearchType)),
+        if (searchTypes != null)
+          Expanded(
+              child: SelectorDropDown(
+                  label: const Text(Labels.searchType),
+                  items: searchTypes,
+                  onSelect: onSelectSearchType)),
       ],
     );
   }
@@ -129,13 +148,12 @@ class SearchFieldDropDown<T> extends StatefulWidget {
     required this.identifier,
     required this.onSelected,
     required this.onDeselected,
-    required this.values, this.adapter,
+    required this.values,
   }) : super(key: key);
 
   final String label;
-  final List<T> values;
+  final List<DropdownMenuItem<T>> values;
   final String identifier;
-  final DropDownMenuItemAdapter<T>? adapter;
   final OnSearchAttributeSelected onSelected, onDeselected;
 
   @override
@@ -164,7 +182,7 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
   }
 
   void onSelect(T value) {
-    attributeValue = ( value is Enum)? value.name : value.toString();
+    attributeValue = (value is Enum) ? value.name : value.toString();
   }
 
   @override
@@ -187,9 +205,8 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
         const SizedBox(width: Measures.medium),
         Expanded(
             child: SelectorDropDown(
-                label:  Text(widget.label),
+                label: Text(widget.label),
                 items: widget.values,
-                adapter: widget.adapter,
                 onSelect: onSelect)),
       ],
     );
@@ -221,7 +238,9 @@ class _SearchFieldRangedState extends State<SearchFieldRanged> {
   String minValue = '', maxValue = '';
 
   void onBoxChecked(bool value) {
-    value ? widget.onSelected(queryGenerator) : widget.onDeselected(queryGenerator);
+    value
+        ? widget.onSelected(queryGenerator)
+        : widget.onDeselected(queryGenerator);
 
     setState(() {
       isChecked = value;
@@ -229,10 +248,9 @@ class _SearchFieldRangedState extends State<SearchFieldRanged> {
   }
 
   void queryGenerator(mongo.SelectorBuilder selector) {
-     selector
+    selector
         .gte(widget.minIdentifier, minValue)
         .lte(widget.maxIdentifier, maxValue);
-
   }
 
   @override
@@ -279,11 +297,17 @@ class SearchFieldDate extends StatefulWidget {
       required this.startLabel,
       required this.endLabel,
       required this.identifier,
-       this.onSelected,
-       this.onDeselected,  this.isOptional = true, this.registerQueryGenerator}): assert(
-    (registerQueryGenerator != null) && (onSelected == null && onDeselected == null) ||
-        (registerQueryGenerator == null) && (onSelected != null && onDeselected != null),
-  ),super(key: key);
+      this.onSelected,
+      this.onDeselected,
+      this.isOptional = true,
+      this.registerQueryGenerator})
+      : assert(
+          (registerQueryGenerator != null) &&
+                  (onSelected == null && onDeselected == null) ||
+              (registerQueryGenerator == null) &&
+                  (onSelected != null && onDeselected != null),
+        ),
+        super(key: key);
 
   final String startLabel, endLabel;
   final String identifier;
@@ -301,7 +325,9 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
   DateTime minValue = DateTime.now();
 
   void onBoxChecked(bool value) {
-    value ? widget.onSelected!(queryGenerator) : widget.onDeselected!(queryGenerator);
+    value
+        ? widget.onSelected!(queryGenerator)
+        : widget.onDeselected!(queryGenerator);
 
     setState(() {
       isChecked = value;
@@ -309,9 +335,7 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
   }
 
   void queryGenerator(mongo.SelectorBuilder selector) {
-     selector
-        .gte(widget.identifier, minValue)
-        ;
+    selector.gte(widget.identifier, minValue);
   }
 
   @override
@@ -320,16 +344,16 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
 
     return Row(
       children: [
-        if(widget.isOptional)
-        Flexible(
-            child: Checkbox(
-          value: isChecked,
-          onChanged: (value) {
-            if (value != null) {
-              onBoxChecked(value);
-            }
-          },
-        )),
+        if (widget.isOptional)
+          Flexible(
+              child: Checkbox(
+            value: isChecked,
+            onChanged: (value) {
+              if (value != null) {
+                onBoxChecked(value);
+              }
+            },
+          )),
         const SizedBox(width: Measures.small),
         Expanded(
           child: DatePicker(
@@ -338,12 +362,10 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
                 minValue = value;
               }),
         ),
-       
       ],
     );
   }
 }
-
 
 class SearchBar extends StatelessWidget {
   const SearchBar({Key? key, required this.onSearch}) : super(key: key);

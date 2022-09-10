@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 
 import 'actions_card.dart';
 import 'sellers_table.dart';
@@ -11,12 +12,15 @@ class SellersPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Expanded(
-        flex: lowerRowFlex,
-        child: const SellersTable(),
-      ),
-      Expanded(flex: upperRowFlex, child: const SellersFloatingActions()),
-    ]);
+    return Padding(
+          padding:  const EdgeInsets.all(Measures.paddingLarge),
+      child: Column(children: [
+        Expanded(
+          flex: lowerRowFlex,
+          child: const SellersTable(),
+        ),
+        Expanded(flex: upperRowFlex, child: const SellersFloatingActions()),
+      ]),
+    );
   }
 }

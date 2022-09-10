@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: Labels.appName,
+      title: Labels.shopName,
       theme: AppThemes.lightTheme2,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       darkTheme: AppThemes.darkTheme2,
       home: const MyHomePage(),
     );

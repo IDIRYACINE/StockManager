@@ -38,7 +38,9 @@ class SellersEditor extends StatelessWidget {
       padding: const EdgeInsets.all(Measures.paddingNormal),
       child: Form(
           key: formKey,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start, children: [
             Flexible(
                 child: SellerForm(
               seller: seller,

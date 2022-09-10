@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/Ui/Panels/Orders/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders_table.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrdersPanel extends StatelessWidget {
   const OrdersPanel({Key? key}) : super(key: key);
@@ -10,14 +11,18 @@ class OrdersPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Expanded(flex: upperRowFlex, child: SearchActionsCard()),
-      Expanded(
-        flex: lowerRowFlex,
-        child: const OrdersTable(),
-      ),
-      Expanded(flex: upperRowFlex, child: const OrdersFloatingActions()),
-    ]);
+    return Padding(
+          padding:  const EdgeInsets.all(Measures.paddingLarge),
+      child: Column(children: [
+        Expanded(flex: upperRowFlex, child: SearchActionsCard()),
+        const SizedBox(height: Measures.paddingLarge),
+        Expanded(
+          flex: lowerRowFlex,
+          child: const OrdersTable(),
+        ),
+        Expanded(flex: upperRowFlex, child: const OrdersFloatingActions()),
+      ]),
+    );
   }
 }
 
@@ -34,13 +39,16 @@ class OrderProductsPanel extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Expanded(
-        flex: lowerRowFlex,
-        child: const OrderProductsTable(),
-      ),
-      Expanded(flex: upperRowFlex, child: 
-       OrderProductsFloatingActions(isEditing: isEditing,)),
-    ]);
+    return Padding(
+          padding:  const EdgeInsets.all(Measures.paddingLarge),
+      child: Column(children: [
+        Expanded(
+          flex: lowerRowFlex,
+          child: const OrderProductsTable(),
+        ),
+        Expanded(flex: upperRowFlex, child: 
+         OrderProductsFloatingActions(isEditing: isEditing,)),
+      ]),
+    );
   }
 }

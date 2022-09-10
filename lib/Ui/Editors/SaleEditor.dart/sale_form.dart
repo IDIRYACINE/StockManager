@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/i_editors.dart';
@@ -17,7 +18,8 @@ class SaleForm extends StatelessWidget {
       {Key? key,
       required this.product,
       required this.record,
-      required this.saleEditorMode, required this.sellingPriceController})
+      required this.saleEditorMode,
+      required this.sellingPriceController})
       : super(key: key);
 
   final ValueListenable<Product> product;
@@ -25,25 +27,22 @@ class SaleForm extends StatelessWidget {
   final SaleEditorMode saleEditorMode;
   final TextEditingController sellingPriceController;
 
-
-  DropdownMenuItem<Seller> sellerMenuItemAdapter(Seller seller) {
-    return DropdownMenuItem(
-      value: seller,
-      child: Text(seller.name),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final sellersLiveModel =
+        Provider.of<LiveModelProvider>(context, listen: false).sellersLiveModel;
+
+    final sellersDropdown = sellersLiveModel.loadedSellers
+        .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
+        .toList();
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown(
-            adapter: sellerMenuItemAdapter,
             onSelect: saleEditorMode.setSeller,
-            items: Provider.of<LiveModelProvider>(context, listen: false).sellersLiveModel
-                .loadedSellers,
+            items: sellersDropdown,
             label: const Text(Labels.sellerName)),
         AttributeTextField(
           initialValue: record.customer,
@@ -71,7 +70,9 @@ class SaleForm extends StatelessWidget {
 }
 
 class ProductForm extends StatefulWidget {
-  const ProductForm({Key? key, required this.product, required this.productFormEditor}) : super(key: key);
+  const ProductForm(
+      {Key? key, required this.product, required this.productFormEditor})
+      : super(key: key);
 
   final ValueListenable<Product> product;
   final ProductFormEditor productFormEditor;
@@ -80,51 +81,48 @@ class ProductForm extends StatefulWidget {
 }
 
 class _ProductFormState extends State<ProductForm> {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child:  Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                DefaultDecorator(
-                  child: ValueListenableBuilder<Product>(
-                    valueListenable: widget.product,
-                    builder:(context,product,child) {
-                      return FaultToleratedImage(
-                      imageUrl: product.imageUrl ?? '',
-                    );}
-                  ),
-                ),
-                const SizedBox(height: Measures.medium),
-                AttributeTextField(
-                  controller: widget.productFormEditor.productNameController,
-                  label: Labels.name,
-                  readOnly: true,
-                ),
-                const SizedBox(height: Measures.medium),
-                AttributeTextField(
-                  controller: widget.productFormEditor.referenceController,
-                  label: Labels.reference,
-                  readOnly: true,
-                ),
-                const SizedBox(height: Measures.medium),
-                AttributeTextField(
-                  controller: widget.productFormEditor.familyController,
-                  label: Labels.productFamily,
-                  readOnly: true,
-                ),
-                const SizedBox(height: Measures.medium),
-                AttributeTextField(
-                  controller: widget.productFormEditor.minSellingPriceController,
-                  label: Labels.sellingPrice,
-                  readOnly: true,
-                ),
-                const SizedBox(height: Measures.medium),
-              ],
-            ));
-          
-    
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        DefaultDecorator(
+          child: ValueListenableBuilder<Product>(
+              valueListenable: widget.product,
+              builder: (context, product, child) {
+                return FaultToleratedImage(
+                  imageUrl: product.imageUrl ?? '',
+                );
+              }),
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.productNameController,
+          label: Labels.name,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.referenceController,
+          label: Labels.reference,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.familyController,
+          label: Labels.productFamily,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.minSellingPriceController,
+          label: Labels.sellingPrice,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
+      ],
+    ));
   }
 }

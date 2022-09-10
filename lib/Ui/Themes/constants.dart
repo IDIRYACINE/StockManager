@@ -99,7 +99,7 @@ abstract class Titles {
     Labels.productName,
     Labels.buyingPrice,
     Labels.sellingPrice,
-    Labels.payed,
+    Labels.deposit,
     Labels.remainingPayement,
   ];
 
