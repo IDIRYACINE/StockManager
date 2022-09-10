@@ -42,8 +42,11 @@ class SaleForm extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
-        SelectorDropDown(
-          onSelect: saleEditorMode.setSeller,
+        SelectorDropDown<Seller>(
+          onSelect: (seller) {
+            saleEditorMode.setSeller(seller);
+            sellerNotifier.value = seller;
+          },
           items: sellersDropdown,
           label: const Text(Labels.sellerName),
           initialSelection: sellerNotifier,
@@ -91,40 +94,40 @@ class _ProductFormState extends State<ProductForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: [
-    DefaultDecorator(
-      child: ValueListenableBuilder<Product>(
-          valueListenable: widget.product,
-          builder: (context, product, child) {
-            return FaultToleratedImage(
-              imageUrl: product.imageUrl ?? '',
-            );
-          }),
-    ),
-    const SizedBox(height: Measures.medium),
-    AttributeTextField(
-      controller: widget.productFormEditor.productNameController,
-      label: Labels.name,
-      readOnly: true,
-    ),
-    const SizedBox(height: Measures.medium),
-    AttributeTextField(
-      controller: widget.productFormEditor.referenceController,
-      label: Labels.reference,
-      readOnly: true,
-    ),
-    const SizedBox(height: Measures.medium),
-    AttributeTextField(
-      controller: widget.productFormEditor.familyController,
-      label: Labels.productFamily,
-      readOnly: true,
-    ),
-    const SizedBox(height: Measures.medium),
-    AttributeTextField(
-      controller: widget.productFormEditor.minSellingPriceController,
-      label: Labels.sellingPrice,
-      readOnly: true,
-    ),
-    const SizedBox(height: Measures.medium),
+        DefaultDecorator(
+          child: ValueListenableBuilder<Product>(
+              valueListenable: widget.product,
+              builder: (context, product, child) {
+                return FaultToleratedImage(
+                  imageUrl: product.imageUrl ?? '',
+                );
+              }),
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.productNameController,
+          label: Labels.name,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.referenceController,
+          label: Labels.reference,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.familyController,
+          label: Labels.productFamily,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.minSellingPriceController,
+          label: Labels.sellingPrice,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
       ],
     );
   }

@@ -28,6 +28,18 @@ class _SalesTableState extends State<SalesTable> {
     ];
   }
 
+
+  void handleContextMenu(SelectableRowDetaills rowDetaills , SalesController controller){
+    switch(rowDetaills.operation){
+      
+      case ContextMenuOperation.remove:
+        controller.remove(rowDetaills.context, rowDetaills.data);
+        break;
+
+        default : 
+        break;
+    }}
+
   @override
   Widget build(BuildContext context) {
     SalesController controller =
@@ -45,11 +57,9 @@ class _SalesTableState extends State<SalesTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  clickable: false,
                   dataCellHelper: (v) => Titles.salesTableColumns,
                   index: -1,
                   dataModel: 0,
-                  contextMenuItems: const [ContextMenuOperation.remove],
                 )),
                 Expanded(
                   child: ValueListenableBuilder<bool>(
@@ -61,8 +71,7 @@ class _SalesTableState extends State<SalesTable> {
                               return SelectableRow<Record>(
                                 dataCellHelper: (record) =>
                                     recordToCellsAdapter(record),
-                                onDelete: controller.remove,
-                                onEdit: controller.edit,
+                              onClick: (detaills) => handleContextMenu(detaills,controller),
                                 index: index,
                                 contextMenuItems: const [
                                   ContextMenuOperation.remove

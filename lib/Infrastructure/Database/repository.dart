@@ -77,7 +77,8 @@ abstract class DatabaseRepository {
       deposit: json[RecordFields.deposit.name] ?? 0.0,
       remainingPayement: json[RecordFields.remainingPayement.name] ?? 0.0,
       colorId: json[RecordFields.colorId.name] ?? Labels.error,
-      sizeId: json[RecordFields.sizeId.name] ?? Labels.error,
+      sizeId: json[RecordFields.sizeId.name] ?? Labels.error, 
+      payementTypeIndex: json[RecordFields.paymentTypeIndex.name] ?? 0,
     );
 
     return record;

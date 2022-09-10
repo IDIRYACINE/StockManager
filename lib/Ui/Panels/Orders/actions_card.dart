@@ -6,7 +6,6 @@ import 'package:stock_manager/Application/Controllers/order_products_controller.
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -100,6 +99,7 @@ class OrderProductsFloatingActions extends StatelessWidget {
   }
 }
 
+
 class SearchActionsCard extends StatelessWidget {
   SearchActionsCard({Key? key}) : super(key: key);
 
@@ -146,7 +146,6 @@ class SearchActionsCard extends StatelessWidget {
             child: SearchFieldText(
                 label: Labels.customerName,
                 isOptional: false,
-                allowedSearchTypes: const [SearchType.equals],
                 registerQueryGenerator: registerQuery,
                 identifier: OrderFields.customerName.name),
           ),
@@ -164,13 +163,13 @@ class SearchActionsCard extends StatelessWidget {
             },
             child: const Icon(Icons.refresh),
           )),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onAdvancedSearch(context, controller);
-            },
-            child: const Icon(Icons.filter),
-          )),
+          // Flexible(
+          //     child: ElevatedButton(
+          //   onPressed: () {
+          //     onAdvancedSearch(context, controller);
+          //   },
+          //   child: const Icon(Icons.filter),
+          // )),
           Flexible(
               child: ElevatedButton(
             onPressed: () {

@@ -1,16 +1,8 @@
 
-enum OrderStatus{
-  receive,
-  confirmed,
-  shipped,
-  cancel,
-  reject,
-  payed,
-}
-
 enum PaymentTypes{
+  payement,
   deposit,
-  payement
+  remaining,
 }
 
 enum StockTypes{
@@ -37,6 +29,7 @@ enum AppServices{
 }
 
 enum DatabaseEvent{
+  insertRemainingRecord,
   insertProductFamily,
   insertProduct,
   insertPurchaseRecord,
@@ -100,10 +93,11 @@ enum ServicesData {
 enum ContextMenuOperation{
   edit,
   remove,
+  completePayment,
 }
 
 enum StatsType{
-   topStates,
+  topStates,
   topProducts,
   topSellers,
 }

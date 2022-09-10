@@ -446,4 +446,18 @@ class DatabaseFrowarder {
 
     return response;
   }
+
+  Future<ServiceResponse> addRemainingRecord(ServiceMessageData message) async {
+    await _databaseDao.insertRemainingRecord(
+      record: message.data[ServicesData.instance],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
 }

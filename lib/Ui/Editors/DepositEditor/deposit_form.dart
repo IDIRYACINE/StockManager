@@ -47,8 +47,10 @@ class _DepositFormState extends State<DepositForm> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                SelectorDropDown(
-                    onSelect: widget.depositMode.setSellerName,
+                SelectorDropDown<Seller>(
+                    onSelect: (seller){widget.depositMode.setSellerName(seller);
+                    sellerNotifier.value = seller; 
+                    },
                     items: sellersDropdown,
                     label: const Text(Labels.sellerName), 
                     initialSelection: sellerNotifier,),

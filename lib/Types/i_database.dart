@@ -54,7 +54,7 @@ enum ProductFields {
   barcode,
 }
 
-enum ProductModelFields { color, size, quantity ,colorId, sizeId}
+enum ProductModelFields { color, size, quantity, colorId, sizeId }
 
 enum RecordFields {
   timeStamp,
@@ -65,6 +65,7 @@ enum RecordFields {
   productColor,
   productColorId,
 
+  paymentTypeIndex,
   seller,
   paymentType,
   buyingPrice,

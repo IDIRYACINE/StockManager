@@ -58,12 +58,12 @@ abstract class Titles {
   // Records Table
   static const List<String> recordsTableColumns = [
     Labels.date,
-    Labels.payementType,
+    Labels.type,
     Labels.productName,
-    Labels.productFamily,
+    Labels.sellerName,
     Labels.sellingPrice,
-    Labels.price,
-    Labels.remainingPayement,
+    Labels.deposit,
+    Labels.remaining,
   ];
 
   static const List<String> productModelsHeaders = [
@@ -95,9 +95,8 @@ abstract class Titles {
   ];
 
   static const List<String> recordReportHeaders = [
-    Labels.payementType,
+    Labels.type,
     Labels.productName,
-    Labels.buyingPrice,
     Labels.sellingPrice,
     Labels.deposit,
     Labels.remainingPayement,
@@ -208,6 +207,10 @@ abstract class Labels {
   static const done = 'Done';
 
   static const addProduct = 'Add Product';
+  
+  static const type = 'Type';
+  
+  static const remaining = 'Remaining';
 }
 
 abstract class Measures {

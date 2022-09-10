@@ -28,14 +28,33 @@ class _DepositsTableState extends State<DepositsTable> {
     ];
   }
 
+
+  void handleContextMenu(SelectableRowDetaills rowDetaills , DespositController controller){
+    switch(rowDetaills.operation){
+      
+      case ContextMenuOperation.remove:
+        controller.remove(context, rowDetaills.data);
+        break;
+      case ContextMenuOperation.completePayment:
+        controller.completePayment(context, rowDetaills.data);
+        break;
+
+        default : 
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
     DespositController controller =
         Provider.of<ControllersProvider>(context, listen: false)
             .depositController;
 
     RecordsLiveDataModel records =
         Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
+
+
 
     return SizedBox(
         width: double.infinity,
@@ -45,7 +64,6 @@ class _DepositsTableState extends State<DepositsTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  clickable: false,
                   dataCellHelper: (v) => Titles.depositsTableColumns,
                   index: -1,
                   dataModel: 0,
@@ -59,12 +77,13 @@ class _DepositsTableState extends State<DepositsTable> {
                             itemBuilder: (context, index) {
                               return SelectableRow<Record>(
                                 contextMenuItems: const [
-                                  ContextMenuOperation.remove
+                                  ContextMenuOperation.remove,
+                                  ContextMenuOperation.completePayment,
+
                                 ],
                                 dataCellHelper: (record) =>
                                     recordToCellsAdapter(record),
-                                onDelete: controller.remove,
-                                onEdit: controller.edit,
+                              onClick: (details) => handleContextMenu(details, controller),
                                 dataModel: records.depositRecord(index),
                                 index: index,
                               );

@@ -4,6 +4,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Domain/Reports/report_deposit.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -12,6 +13,7 @@ import 'package:stock_manager/Ui/Editors/DepositEditor/deposit_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DespositController {
+
   DespositController(this.recordsLiveModel, this.stockLiveModel);
 
   final RecordsLiveDataModel recordsLiveModel;
@@ -26,8 +28,6 @@ class DespositController {
             SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
       };
 
-    
-
       ServiceMessage message = ServiceMessage<List<Product>>(
           callback: callback,
           hasCallback: true,
@@ -37,11 +37,12 @@ class DespositController {
 
       ServicesStore.instance.sendMessage(message);
     }
+    
     PopupsUtility.displayGenericPopup(
       context ,
       DepositEditor(
               record: Record.defaultInstance(
-                payementType: PaymentTypes.deposit.name,
+                paymentType: PaymentTypes.deposit,
               ),
               onSearch: onSearch,
               createCallback: _onAdd,
@@ -138,4 +139,64 @@ class DespositController {
       child: Text(type.name),
     );
   }
+
+
+  void quickSearch(BuildContext context, Map<String, dynamic> query) {
+    PopupsUtility.showLoadingAlert(context);
+
+    void _onResult(List<Record> records) {
+      recordsLiveModel.setAllDeposits(records);
+      Navigator.pop(context);
+    }
+
+    Map<ServicesData, dynamic> data = {
+      ServicesData.databaseSelector: query,
+    };
+
+    ServiceMessage<List<Record>> message = ServiceMessage(
+        service: AppServices.database,
+        event: DatabaseEvent.searchPurchaseRecord,
+        data: data,
+        hasCallback: true,
+        callback: _onResult);
+
+    ServicesStore.instance.sendMessage(message);
+  }
+
+
+  void printReport(BuildContext context) {
+    DepositReport report = DepositReport(recordsLiveModel.depositRecords);
+    report.printReport(context);
+  }
+
+  void clear(BuildContext context) {
+    recordsLiveModel.clearDeposits();
+  }
+
+  void completePayment(BuildContext context, Record data) {
+
+    Record remainingRecord = data.copyWith(
+      payementType: PaymentTypes.remaining.name,
+      payementTypeIndex: PaymentTypes.remaining.index,
+      remainingPayement: 0,
+      deposit: data.remainingPayement,
+      date: DateTime.now(),
+    );
+
+    recordsLiveModel.addRecord(remainingRecord);
+
+    Map<ServicesData, dynamic> messageData = {
+      ServicesData.instance: remainingRecord,
+    };
+
+    ServiceMessage<List<Record>> message = ServiceMessage(
+        service: AppServices.database,
+        event: DatabaseEvent.insertRemainingRecord,
+        data: messageData,
+        );
+
+    ServicesStore.instance.sendMessage(message);
+
+  }
+
 }

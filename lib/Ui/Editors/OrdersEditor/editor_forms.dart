@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_editors.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/editor_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
@@ -141,6 +140,13 @@ class OrderForm extends StatelessWidget {
           initialValue: order.customerName,
           label: Labels.customerName,
           onChanged: orderFormEditorMode.setClient,
+        ),
+        const SizedBox(height: Measures.small),
+
+         AttributeTextField(
+          initialValue: order.phoneNumber.toString(),
+          label: Labels.phoneNumber,
+          onChanged: orderFormEditorMode.setPhoneNumber,
         ),
         const SizedBox(height: Measures.small),
         AttributeTextField(

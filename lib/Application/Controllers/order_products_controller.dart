@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -97,10 +98,6 @@ class OrderProductsController {
     ServicesStore.instance.sendMessage(message);
   }
 
-  void _onEdit(OrderProduct orderProduct) {
-    ordersLiveModel.updateOrderProduct(orderProduct);
-    //nothing else currently disabled
-  }
 
   void edit(BuildContext context, OrderProduct orderProduct, int index) {
     // showDialog(
@@ -128,6 +125,12 @@ class OrderProductsController {
       .set(OrderFields.totalPrice.name, order.totalPrice)
       ;
       _updateOrder(modifierBuilder.map);
+
+      if(order.products.isEmpty){
+        int index =ordersLiveModel.selectedOrderIndex;
+        ordersLiveModel.removeOrder(order, index);
+        Provider.of<ControllersProvider>(context,listen: false).ordersController.onRemove(order,index);
+      }
     }
 
     showDialog(

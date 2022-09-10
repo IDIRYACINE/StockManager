@@ -26,6 +26,21 @@ class OrdersTable extends StatelessWidget {
     ];
   }
 
+  void handleContextMenu(SelectableRowDetaills rowDetaills , OrdersController controller){
+    switch(rowDetaills.operation){
+      
+      case ContextMenuOperation.remove:
+        controller.remove(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        break;
+      case ContextMenuOperation.edit:
+        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        break;
+
+        default : 
+        break;
+    }}
+
+
   @override
   Widget build(BuildContext context) {
     OrdersController controller =
@@ -43,7 +58,6 @@ class OrdersTable extends StatelessWidget {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  clickable: false,
                   dataCellHelper: (index) => Titles.ordersTableColumns,
                   index: -1,
                   dataModel: 0,
@@ -57,10 +71,7 @@ class OrdersTable extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return SelectableRow<Order>(
                                 dataCellHelper: ordersToCellsAdapter,
-                                onDelete: (context, order) {
-                                  controller.remove(context, order, index);
-                                },
-                                onEdit: controller.edit,
+                               onClick: (detaills) => handleContextMenu(detaills,controller),
                                 index: index,
                                 dataModel: orders.order(index),
                               );
@@ -85,6 +96,18 @@ class OrderProductsTable extends StatelessWidget {
     ];
   }
 
+
+  void handleContextMenu(SelectableRowDetaills rowDetaills , OrderProductsController controller){
+    switch(rowDetaills.operation){
+      
+      case ContextMenuOperation.remove:
+        controller.remove(rowDetaills.context, rowDetaills.data);
+        break;
+
+        default : 
+        break;
+    }}
+
   @override
   Widget build(BuildContext context) {
     OrderProductsController controller =
@@ -102,7 +125,6 @@ class OrderProductsTable extends StatelessWidget {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  clickable: false,
                   dataCellHelper: (index) => Titles.orderProductsTableColumns,
                   index: -1,
                   dataModel: 0,
@@ -119,8 +141,7 @@ class OrderProductsTable extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return SelectableRow<OrderProduct>(
                                 dataCellHelper: orderProductsToCellAdapter,
-                                onDelete: controller.remove,
-                                onEdit: controller.edit,
+                               onClick: (detaills) => handleContextMenu(detaills,controller),
                                 index: index,
                                 contextMenuItems: const [
                                   ContextMenuOperation.remove
@@ -149,6 +170,20 @@ class OrdersTableSpreaded extends StatelessWidget {
     ];
   }
 
+  void handleContextMenu(SelectableRowDetaills rowDetaills , OrderProductsController controller){
+    switch(rowDetaills.operation){
+      
+      case ContextMenuOperation.remove:
+        controller.remove(rowDetaills.context, rowDetaills.data);
+        break;
+      case ContextMenuOperation.edit:
+        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        break;
+
+        default : 
+        break;
+    }}
+
   List<Widget> buildRows(
       OrdersLiveDataModel liveModel , OrderProductsController controller) {
     List<Widget> rows = [];
@@ -162,10 +197,7 @@ class OrdersTableSpreaded extends StatelessWidget {
         final row = Expanded(
             child: SelectableRow<SpreadedOrdersWrapper>(
           dataCellHelper: ordersToCellsAdapter,
-          onDelete: (context, spreadedOrder) {
-            controller.remove(context, spreadedOrder.product);
-          },
-          //onEdit: (ctx, spreadedWrapper, rowIndex) => ,
+         onClick : (detaills) => handleContextMenu(detaills,controller),
           index: 0, // dont need it unless edit is enabled
           dataModel: wrapper,
         ));
@@ -198,7 +230,6 @@ class OrdersTableSpreaded extends StatelessWidget {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  clickable: false,
                   dataCellHelper: (index) => Titles.ordersTableColumns,
                   index: -1,
                   dataModel: 0,

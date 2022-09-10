@@ -1,5 +1,6 @@
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/metadata.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 
 class ProductModel {
   ProductModel({
@@ -75,6 +76,7 @@ class Product {
 class Record {
   Record({
     required this.payementType,
+    required this.payementTypeIndex,
     required this.timeStamp,
     required this.date,
     required this.sellerName,
@@ -108,13 +110,25 @@ class Record {
   double remainingPayement;
   String? customer;
   String payementType;
+  int payementTypeIndex;
   int barcode;
   String reference;
+
+  // we use this as an identifier to query transactions of the same payment
+  static int saleTimeStampId = 0;
+  static void generateSaleId() {
+    saleTimeStampId = DateTime.now().millisecondsSinceEpoch;
+  }
+  static int depositTimeStampId = 0;
+  static void generateDepositId() {
+    depositTimeStampId = DateTime.now().millisecondsSinceEpoch;
+  }
 
 
   // dart Record copyWith
   Record copyWith({
     String? payementType,
+    int? payementTypeIndex,
     int? timeStamp,
     String? sellerName,
     String? product,
@@ -149,15 +163,16 @@ class Record {
       sellingPrice: sellingPrice ?? this.sellingPrice,
       remainingPayement: remainingPayement ?? this.remainingPayement,
       colorId: colorId ?? this.colorId,
-      sizeId: sizeId ?? this.sizeId,
+      sizeId: sizeId ?? this.sizeId, 
+      payementTypeIndex: payementTypeIndex ?? this.payementTypeIndex,
     );
   }
 
-  static Record defaultInstance({required String payementType}) {
+  static Record defaultInstance({required PaymentTypes paymentType,}) {
     return Record(
-      payementType: payementType,
+      payementType: paymentType.name,
       date: Utility.getDate(),
-      timeStamp: Utility.getTimeStamp(),
+      timeStamp: Record.saleTimeStampId,
       sellerName: '',
       product: '',
       productColor: '',
@@ -171,9 +186,11 @@ class Record {
       originalPrice: 0.0,
       sellingPrice: 0.0,
       colorId: '',
-      sizeId: '',
+      sizeId: '', 
+      payementTypeIndex: paymentType.index,
     );
   }
+
 }
 
 class Seller {
@@ -264,7 +281,7 @@ class OrderProduct {
       buyingPrice: 0,
       productColorId: '',
       productSizeId: '',
-       timeStamp: Utility.getTimeStamp().toString(),
+      timeStamp: Utility.getTimeStamp().toString(),
     );
   }
 

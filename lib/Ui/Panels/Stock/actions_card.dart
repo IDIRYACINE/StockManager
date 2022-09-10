@@ -95,7 +95,6 @@ class SearchActionsCard extends StatelessWidget {
             child: SearchFieldText(
                 label: Labels.reference,
                 isOptional: false,
-                allowedSearchTypes: const [SearchType.equals],
                 registerQueryGenerator: registerQuery,
                 identifier: ProductFields.reference.name),
           ),

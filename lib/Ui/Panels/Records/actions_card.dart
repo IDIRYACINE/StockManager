@@ -161,13 +161,13 @@ class SearchActionsCard extends StatelessWidget {
             },
             child: const Icon(Icons.refresh),
           )),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onAdvancedSearch(context,controller);
-            },
-            child:const Icon(Icons.filter),
-          )),
+          // Flexible(
+          //     child: ElevatedButton(
+          //   onPressed: () {
+          //     onAdvancedSearch(context,controller);
+          //   },
+          //   child:const Icon(Icons.filter),
+          // )),
           Flexible(
               child: ElevatedButton(
             onPressed: () {

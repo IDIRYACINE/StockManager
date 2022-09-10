@@ -94,7 +94,7 @@ class SalesController {
         builder: (context) => Material(
                 child: SaleEditor(
               record: Record.defaultInstance(
-                payementType: PaymentTypes.payement.name,
+                paymentType: PaymentTypes.payement,
               ),
               onSearch: onSearch,
               confirmLabel: Labels.add,

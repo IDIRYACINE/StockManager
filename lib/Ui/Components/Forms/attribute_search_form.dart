@@ -18,7 +18,7 @@ class SearchFieldText<R> extends StatefulWidget {
     Key? key,
     required this.label,
     required this.identifier,
-    this.allowedSearchTypes = SearchType.values,
+    this.allowedSearchTypes,
     this.onSelected,
     this.onDeselected,
     this.parser,
@@ -35,7 +35,7 @@ class SearchFieldText<R> extends StatefulWidget {
   final String label;
   final String identifier;
   final OnSearchAttributeSelected? onSelected, onDeselected;
-  final List<SearchType> allowedSearchTypes;
+  final List<SearchType>? allowedSearchTypes;
   final SearchFieldParser<R>? parser;
   final bool isOptional;
   final RegisterSearchQueryBuilder? registerQueryGenerator;
@@ -51,12 +51,12 @@ class _SearchFieldTextState extends State<SearchFieldText> {
 
   String attributeValue = '';
 
-  ValueNotifier<SearchType?> searchType = ValueNotifier(null);
+  ValueNotifier<SearchType?> searchType = ValueNotifier(SearchType.equals);
 
   @override
   void initState() {
-    if (widget.allowedSearchTypes.isNotEmpty) {
-      searchTypes = widget.allowedSearchTypes
+    if (widget.allowedSearchTypes != null) {
+      searchTypes = widget.allowedSearchTypes!
           .map((e) => DropdownAdapters.enumDropDownMenuItemAdapter(e))
           .toList();
     }
@@ -106,7 +106,6 @@ class _SearchFieldTextState extends State<SearchFieldText> {
 
   @override
   Widget build(BuildContext context) {
-    searchType.value = widget.allowedSearchTypes[0];
     widget.registerQueryGenerator?.call(queryGenerator);
 
     return Row(
@@ -181,13 +180,11 @@ class _SearchFieldDropDownState<T> extends State<SearchFieldDropDown<T>> {
   }
 
   void queryGenerator(mongo.SelectorBuilder selector) {
-    
-      String value = (attributeValue.value is Enum)
-          ? (attributeValue.value as Enum).name
-          : attributeValue.value.toString();
+    String value = (attributeValue.value is Enum)
+        ? (attributeValue.value as Enum).name
+        : attributeValue.value.toString();
 
-      selector.eq(widget.identifier, value);
-    
+    selector.eq(widget.identifier, value);
   }
 
   void onSelect(T value) {

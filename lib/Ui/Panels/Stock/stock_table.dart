@@ -48,6 +48,19 @@ class _ProductsTable extends StatelessWidget {
     ];
   }
 
+  void handleContextMenu(SelectableRowDetaills rowDetaills , StockController controller){
+    switch(rowDetaills.operation){
+      
+      case ContextMenuOperation.remove:
+        controller.remove(rowDetaills.context, rowDetaills.data);
+        break;
+      case ContextMenuOperation.edit:
+        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        break;
+
+        default : 
+        break;
+    }}
   @override
   Widget build(BuildContext context) {
     StockController controller =
@@ -61,7 +74,6 @@ class _ProductsTable extends StatelessWidget {
       children: [
         Flexible(
             child: SelectableRow(
-          clickable: false,
           dataCellHelper: (value) => Titles.stockProductTableColumns,
           index: -1,
           dataModel: 0,
@@ -76,8 +88,8 @@ class _ProductsTable extends StatelessWidget {
                       return SelectableRow<Product>(
                         dataCellHelper: (product) =>
                             productToCellsAdapter(product),
-                        onDelete: controller.remove,
-                        onEdit: controller.edit,
+                     onClick : (detaills) => handleContextMenu(detaills,controller),
+                     contextMenuItems: const [ContextMenuOperation.edit,ContextMenuOperation.remove,],
                         index: index,
                         dataModel: stock.productAt(index),
                       );
@@ -96,6 +108,20 @@ class _FamilliesTable extends StatelessWidget {
     return [family.name, family.reference];
   }
 
+  void handleContextMenu(SelectableRowDetaills rowDetaills , StockController controller){
+    switch(rowDetaills.operation){
+      
+      case ContextMenuOperation.remove:
+        controller.remove(rowDetaills.context, rowDetaills.data);
+        break;
+      case ContextMenuOperation.edit:
+        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        break;
+
+        default : 
+        break;
+    }}
+
   @override
   Widget build(BuildContext context) {
     StockController controller =
@@ -109,7 +135,6 @@ class _FamilliesTable extends StatelessWidget {
       children: [
         Flexible(
             child: SelectableRow(
-          clickable: false,
           dataCellHelper: (value) => Titles.stockFamilliesTableColumns,
           index: -1,
           dataModel: 0,
@@ -124,8 +149,7 @@ class _FamilliesTable extends StatelessWidget {
                       return SelectableRow<ProductFamily>(
                         dataCellHelper: (family) =>
                             familyToCellsAdapter(family),
-                        onDelete: controller.remove,
-                        onEdit: controller.edit,
+                     onClick: (detaills) => handleContextMenu( detaills,controller),
                         index: index,
                         dataModel: stock.productFamilyAt(index),
                       );

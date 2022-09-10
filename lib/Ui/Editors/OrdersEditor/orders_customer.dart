@@ -45,9 +45,12 @@ class OrderCustomerEditor extends StatelessWidget {
                 child: DefaultDecorator(
                     child: Padding(
                   padding: const EdgeInsets.all(Measures.small),
-                  child: OrderForm(
-                    order: order,
-                    orderFormEditorMode: editorMode,
+                  child: SingleChildScrollView(
+                    controller: ScrollController(),
+                    child: OrderForm(
+                      order: order,
+                      orderFormEditorMode: editorMode,
+                    ),
                   ),
                 )),
               ),

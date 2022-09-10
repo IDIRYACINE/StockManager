@@ -12,11 +12,13 @@ class SelectableRow<T> extends StatefulWidget {
       this.paddings = Measures.tiny,
       required this.index,
       required this.dataModel,
-      this.clickable = true,
-      this.onEdit,
-      this.onDelete,
-      this.contextMenuItems})
-      : super(key: key);
+      this.contextMenuItems,
+      this.onClick})
+      : assert(
+         ( onClick != null && contextMenuItems != null )||
+            (  onClick == null && contextMenuItems == null),
+        ),
+        super(key: key);
 
   final RowCellAdapter<T> dataCellHelper;
 
@@ -26,11 +28,7 @@ class SelectableRow<T> extends StatefulWidget {
 
   final T dataModel;
 
-  final bool clickable;
-
-  final Callback3<BuildContext,T, int>? onEdit;
-
-  final Callback2<BuildContext,T>? onDelete;
+  final Callback<SelectableRowDetaills>? onClick;
 
   final List<ContextMenuOperation>? contextMenuItems;
 
@@ -39,34 +37,30 @@ class SelectableRow<T> extends StatefulWidget {
 }
 
 class _SelectableRowState<T> extends State<SelectableRow<T>> {
+  void onRowClicked(
+      BuildContext context, T data, int rowIndex, TapDownDetails details) {
+    void _onContextMenuSelected(ContextMenuOperation? operation) {
+      SelectableRowDetaills rowDetaills = SelectableRowDetaills<T>(
+        context: context,
+        data: data,
+          rowIndex: rowIndex, 
+           operation: operation);
 
-
-  void onRowClicked(BuildContext context, T record, int rowIndex,TapDownDetails details) {
-     void _onContextMenuSelected(ContextMenuOperation? operation) {
-
-      switch (operation) {
-        case ContextMenuOperation.edit:
-          widget.onEdit?.call(context,record,rowIndex);
-          break;
-        case ContextMenuOperation.remove:
-          widget.onDelete?.call(context,record);
-          break;
-          default :
-          break;
-      }
+      widget.onClick?.call(rowDetaills);
     }
 
     RelativeRect position = RelativeRect.fromLTRB(
-      details.globalPosition.dx, 
-      details.globalPosition.dy,
-       details.globalPosition.dx,
-       details.globalPosition.dy);
-    
+        details.globalPosition.dx,
+        details.globalPosition.dy,
+        details.globalPosition.dx,
+        details.globalPosition.dy);
+
     PopupsUtility.dispalyContextMenu<ContextMenuOperation>(
-        context: context,
-        items: PopupsUtility.buildEnumPopupItem(widget.contextMenuItems??ContextMenuOperation.values),
-        position: position,
-        ).then((value) => _onContextMenuSelected(value));
+      context: context,
+      items: PopupsUtility.buildEnumPopupItem(
+          widget.contextMenuItems ?? ContextMenuOperation.values),
+      position: position,
+    ).then((value) => _onContextMenuSelected(value));
   }
 
   @override
@@ -74,12 +68,11 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
     final data = widget.dataCellHelper(widget.dataModel);
 
     return GestureDetector(
-      onTapDown:(details){
-         if (widget.clickable) {
-            onRowClicked(context, widget.dataModel, widget.index,details);
+        onTapDown: (details) {
+          if (widget.onClick != null) {
+            onRowClicked(context, widget.dataModel, widget.index, details);
           }
-      },
-        
+        },
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -95,11 +88,24 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
                   ))
               ],
             ),
-            const Divider(
-            )
+            const Divider()
           ],
         ));
   }
+}
+
+class SelectableRowDetaills<T> {
+  final int rowIndex;
+  final T data;
+  final ContextMenuOperation? operation;
+  final BuildContext context;
+
+  SelectableRowDetaills(
+      {required this.rowIndex,
+      required,
+      required this.data,
+       this.operation,
+      required this.context});
 }
 
 class CustomTableRow extends StatefulWidget {

@@ -21,8 +21,8 @@ class _RecordsTableState extends State<RecordsTable> {
       record.payementType,
       record.product,
       record.sellerName,
-      record.originalPrice.toString(),
       record.sellingPrice.toString(),
+      record.deposit.toString(),
       record.remainingPayement.toString(),
     ];
   }
@@ -40,7 +40,6 @@ class _RecordsTableState extends State<RecordsTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  clickable: false,
                   dataCellHelper: (v) => Titles.recordsTableColumns,
                   index: -1,
                   dataModel: 0,
@@ -55,7 +54,7 @@ class _RecordsTableState extends State<RecordsTable> {
                               return SelectableRow<Record>(
                                 dataCellHelper: (record) =>
                                     recordToCellsAdapter(record),
-                                clickable: false,
+                               
                                 index: index,
                                 dataModel: records.record(index),
                               );

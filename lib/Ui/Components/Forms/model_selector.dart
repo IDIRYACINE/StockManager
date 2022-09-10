@@ -33,11 +33,12 @@ class _ModelSelectorState extends State<ModelSelector> {
     String color = model.color;
     selectedSizeIndex.value = model.sizes.keys.first;
     widget.colorSelectorCallback(color, colorIndex);
-
+    widget.sizeSelectorCallback(colorIndex,selectedSizeIndex.value!);
   }
 
   void onSizeSelected(String index) {
-    String size = widget.productModels[selectedColorIndex]!.sizes[index]!.size;
+ 
+    String size = widget.productModels[selectedColorIndex.value]!.sizes[index]!.size;
     selectedSizeIndex.value = index;
     widget.sizeSelectorCallback(size, index);
   }

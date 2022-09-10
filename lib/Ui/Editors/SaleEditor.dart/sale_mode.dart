@@ -39,7 +39,9 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   @override
   void setSellingPrice(String? price) {
     if (price != null) {
-      record.sellingPrice = double.parse(price);
+      double parsedPrice = double.parse(price);
+      record.sellingPrice = parsedPrice;
+      record.deposit = parsedPrice;
     }
   }
 
@@ -84,8 +86,12 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   @override
   void setSellingPrice(String? price) {
     if (price != null) {
-      record.sellingPrice = double.parse(price);
-      updatedFields[RecordFields.sellingPrice] = double.parse(price);
+      double parsedPrice = double.parse(price);
+      record.sellingPrice = parsedPrice;
+      record.deposit = parsedPrice;
+      updatedFields[RecordFields.sellingPrice] = parsedPrice;
+            updatedFields[RecordFields.deposit] = parsedPrice;
+
     }
   }
 
