@@ -59,10 +59,13 @@ class FaultToleratedImage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      width: width,
-      child: Image.file(File(imageUrl),fit: BoxFit.fill,errorBuilder: (context,error,stack) => Image.asset(AppRessources.noPreviewImage),));
+    return Image.file
+    (File(imageUrl),
+    width: width,
+    height: height,
+    fit: BoxFit.fill,
+    
+    errorBuilder: (context,error,stack) => Image.asset(AppRessources.noPreviewImage),);
   }
 
 }

@@ -24,7 +24,7 @@ abstract class Utility {
   }
 
   static String formatDateTimeToDisplay(DateTime time) {
-    return '${time.year}-${time.month}-${time.day}';
+    return '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}';
   }
 
   static void searchByTodayDate(SelectorBuilder selector) {

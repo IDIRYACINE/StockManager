@@ -42,6 +42,7 @@ abstract class Titles {
     Labels.date,
     Labels.sellerName,
     Labels.customer,
+    Labels.productName,
     Labels.deposit,
     Labels.remainingPayement,
     Labels.deliveryCost
@@ -104,12 +105,12 @@ abstract class Titles {
 
   static const ordersReportHeaders = [
     Labels.customer,
+    Labels.phoneNumber,
     Labels.city,
     Labels.productName,
-    Labels.color,
-    Labels.size,
     Labels.sellingPrice,
     Labels.deposit,
+    Labels.deliveryCost
   ];
 
   static const dailyOrdersReport = 'Daily Orders Report';
@@ -211,6 +212,8 @@ abstract class Labels {
   static const type = 'Type';
   
   static const remaining = 'Remaining';
+
+  static String invoiceId = 'Invoice Id';
 }
 
 abstract class Measures {
@@ -261,6 +264,10 @@ abstract class Measures {
   static const h4TextSize = 14.0;
   static const h5TextSize = 12.0;
   static const h6TextSize = 10.0;
+
+  static const invoiceLogoWidth = 100.0;
+
+  static const invoiceLogoHeight = 100.0;
 }
 
 abstract class Messages {

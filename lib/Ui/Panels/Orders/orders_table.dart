@@ -163,14 +163,21 @@ class OrderProductsTable extends StatelessWidget {
 class OrdersTableSpreaded extends StatelessWidget {
   const OrdersTableSpreaded({Key? key}) : super(key: key);
 
-  List<String> ordersToCellsAdapter(SpreadedOrdersWrapper order) {
+  List<String> ordersToCellsAdapter(SpreadedOrdersWrapper wrapper) {
+    bool isLast = (wrapper.index == wrapper.order.products.length - 1);
+
+    double displayedDeposit = !isLast? 0 : wrapper.order.deposit;
+    double displayedRemainingPayment =  !isLast? 0 : wrapper.order.remainingPayement;
+    double displayedDeliveryCost =  !isLast? 0 : wrapper.order.deliveryCost;
+
     return [
-      Utility.formatDateTimeToDisplay(order.order.date),
-      order.order.sellerName,
-      order.order.customerName,
-      order.order.deposit.toString(),
-      order.order.remainingPayement.toString(),
-      order.order.deliveryCost.toString(),
+      Utility.formatDateTimeToDisplay(wrapper.order.date),
+      wrapper.order.sellerName,
+      wrapper.order.customerName,
+      wrapper.product.product,
+      displayedDeposit.toString(),
+      displayedRemainingPayment.toString(),
+      displayedDeliveryCost.toString(),
     ];
   }
 
@@ -200,8 +207,10 @@ class OrdersTableSpreaded extends StatelessWidget {
     List<Widget> rows = [];
 
     liveModel.orders.forEach((orderKey, order) {
+      int productIndex = 0;
       order.products.forEach((productKey, product) {
-        SpreadedOrdersWrapper wrapper = SpreadedOrdersWrapper(order, product);
+
+        SpreadedOrdersWrapper wrapper = SpreadedOrdersWrapper(order, product,productIndex);
 
         final row = Expanded(
             child: SelectableRow<SpreadedOrdersWrapper>(
@@ -211,11 +220,12 @@ class OrdersTableSpreaded extends StatelessWidget {
             ContextMenuOperation.remove,
            
           ],
-          index: 0, // dont need it unless edit is enabled
+          index: productIndex, 
           dataModel: wrapper,
         ));
 
         rows.add(row);
+        productIndex++;
       });
     });
 

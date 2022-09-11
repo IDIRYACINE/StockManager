@@ -1,17 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
-import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class RecordsReport {
-
-  final List<Record> records ;
+  final List<Record> records;
 
   RecordsReport(this.records);
 
@@ -28,26 +24,20 @@ class RecordsReport {
       int endIndex = currentIndex + maxRowsPerPage;
       endIndex = endIndex > records.length ? records.length : endIndex;
 
-      RecordReportTotals totals =
-          Utility.calculateRecordReportTotals(records, currentIndex, endIndex);
+      _TotalsWrapper totals =
+          _calculateReportTotals(records, currentIndex, endIndex);
 
       RecordsPage<Record> recordPage = RecordsPage(
           paddings: Measures.paddingNormal,
           headers: Titles.recordReportHeaders,
           headersTextSize: Measures.h5TextSize,
           rowsTextSize: Measures.h5TextSize,
-          cellAdapter: Adapter.recordToReportRecordRow,
+          cellAdapter: _recordToReportRow,
           data: records,
           invoicePayementAttributes: [
-            InvoiceItem(Labels.totalDeposit, totals.totalDeposit.toString()),
-            InvoiceItem(Labels.profit, totals.totalProfit.toString()),
+            InvoiceItem(Labels.profit, totals.totalProfit.toString(),pdf.Font.timesBold()),
             InvoiceItem(Labels.remainingPayement,
-                totals.totalRemainingPayement.toString()),
-            InvoiceItem(
-              Labels.netProfit,
-              totals.totalNetProfit.toString(),
-              pdf.Font.timesBold(),
-            ),
+                totals.totalRemainingPayement.toString(),pdf.Font.timesBold()),
           ],
           endIndex: endIndex,
           startIndex: currentIndex,
@@ -63,4 +53,46 @@ class RecordsReport {
         .prepareDocument()
         .then((value) => appPrinter.displayPreview(context));
   }
+
+  _TotalsWrapper _calculateReportTotals(List<Record> records,
+      [int startIndex = 0, int? endIndex]) {
+    int length = ((endIndex == null) || endIndex > records.length)
+        ? records.length
+        : endIndex;
+
+    double totalProfit = 0;
+
+    double totalRemainingPayement = 0;
+
+    for (int i = startIndex; i < length; i++) {
+      Record record = records[i];
+      totalProfit += record.deposit;
+      totalRemainingPayement += record.remainingPayement;
+    }
+
+    return _TotalsWrapper(totalProfit, totalRemainingPayement);
+  }
+
+
+   List<String> _recordToReportRow(Record record) {
+    List<String> rawData = [
+      record.payementType,
+      record.product,
+      record.sellingPrice.toString(),
+      record.deposit.toString(),
+      record.remainingPayement.toString(),
+    ];
+
+    return rawData;
+  }
+}
+
+class _TotalsWrapper {
+  final double totalProfit;
+  final double totalRemainingPayement;
+
+  _TotalsWrapper(
+    this.totalProfit,
+    this.totalRemainingPayement,
+  );
 }

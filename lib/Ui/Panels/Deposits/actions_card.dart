@@ -54,7 +54,7 @@ class SearchActionsCard extends StatelessWidget {
         children: [
           Flexible(
             child: SearchFieldText(
-                label: Labels.customerName,
+                label: Labels.invoiceId,
                 isOptional: false,
                 registerQueryGenerator: registerQuery,
                 identifier: RecordFields.timeStamp.name),

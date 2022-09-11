@@ -4,7 +4,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Domain/Reports/report_deposit.dart';
+import 'package:stock_manager/Domain/Reports/bill_deposit.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -165,8 +165,8 @@ class DespositController {
 
 
   void printReport(BuildContext context) {
-    DepositReport report = DepositReport(recordsLiveModel.depositRecords);
-    report.printReport(context);
+    BillDeposit report = BillDeposit(recordsLiveModel.depositRecords,Record.depositTimeStampId.toString());
+    report.print(context);
   }
 
   void clear(BuildContext context) {
@@ -174,7 +174,6 @@ class DespositController {
   }
 
   void completePayment(BuildContext context, Record data) {
-    print(data.remainingPayement);
     
     Record remainingRecord = data.copyWith(
       payementType: PaymentTypes.remaining.name,

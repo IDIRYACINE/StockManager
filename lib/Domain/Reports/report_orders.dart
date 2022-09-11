@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
@@ -12,7 +10,6 @@ import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class OrdersReport {
-
   final Map<int, Order> ordersMap;
 
   OrdersReport(this.ordersMap);
@@ -33,8 +30,7 @@ class OrdersReport {
       List<OrderProductReportWrapper> orderProducts =
           _selectOrderProducts(ordersMap, orderIndex, maxRowsPerPage);
 
-      OrderReportTotals totals =
-          Utility.calculateOrderReportTotals(orderProducts);
+      _TotalsWrapper totals = _calculateOrderReportTotals(orderProducts);
 
       RecordsPage<OrderProductReportWrapper> recordPage = RecordsPage(
         title: Titles.dailyOrdersReport,
@@ -45,12 +41,12 @@ class OrdersReport {
         cellAdapter: Adapter.orderProductWrapperToReportRow,
         data: orderProducts,
         invoicePayementAttributes: [
-          InvoiceItem(Labels.totalDeposit, totals.totalDeposit.toString()),
-          InvoiceItem(Labels.profit, totals.totalProfit.toString()),
+          InvoiceItem(Labels.profit, totals.totalProfit.toString(),
+              pdf.Font.timesBold()),
+          InvoiceItem(Labels.deliveryCost, totals.shippingTotal.toString(),
+              pdf.Font.timesBold()),
           InvoiceItem(Labels.remainingPayement,
               totals.totalRemainingPayement.toString()),
-          InvoiceItem(Labels.netProfit, totals.totalNetProfit.toString(),
-              pdf.Font.timesBold()),
         ],
         endIndex: orderProducts.length,
         startIndex: 0,
@@ -64,6 +60,26 @@ class OrdersReport {
     appPrinter
         .prepareDocument()
         .then((value) => appPrinter.displayPreview(context));
+  }
+
+  static _TotalsWrapper _calculateOrderReportTotals(
+      List<OrderProductReportWrapper> orders) {
+    int lastExaminedId = orders[0].order.timeStamp;
+    double totalProfit = orders[0].order.deposit;
+    double totalRemainingPayement = orders[0].order.remainingPayement;
+    double shippingTotal = orders[0].order.deliveryCost;
+
+    for (int i = 0; i < orders.length; i++) {
+      Order order = orders[i].order;
+      if (order.timeStamp != lastExaminedId) {
+        totalProfit += order.deposit;
+        totalRemainingPayement += order.remainingPayement;
+        shippingTotal += order.deliveryCost;
+        lastExaminedId = order.timeStamp;
+      }
+    }
+
+    return _TotalsWrapper(totalRemainingPayement, totalProfit, shippingTotal);
   }
 
   List<OrderProductReportWrapper> _selectOrderProducts(Map<int, Order> orders,
@@ -105,4 +121,13 @@ class OrdersReport {
 
     return products;
   }
+}
+
+class _TotalsWrapper {
+  final double totalRemainingPayement;
+  final double totalProfit;
+  final double shippingTotal;
+
+  _TotalsWrapper(
+      this.totalRemainingPayement, this.totalProfit, this.shippingTotal);
 }

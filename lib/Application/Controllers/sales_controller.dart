@@ -7,6 +7,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -134,37 +135,8 @@ class SalesController {
   }
 
   void printPurchases(BuildContext context) {
-    List<Record> records = recordsLiveModel.purchaseRecords;
-
-    double totals = 0 ;
-
-    for (Record record in records) {
-      totals += record.sellingPrice;
-    }
-
-    InvoicePage<Record> invoicePage = InvoicePage(
-        paddings: Measures.paddingNormal,
-        headers: Titles.pruchaseInvoiceHeaders,
-        cellAdapter: Adapter.recordToInvoiceRowData,
-        data: records,
-        footerData: Titles.invoiceFooterHeaders,
-        invoiceAttributes: [
-          InvoiceItem(Labels.customerName,
-              recordsLiveModel.saleRecord(0).customer ?? ''),
-          InvoiceItem(
-              Labels.sellerName, recordsLiveModel.saleRecord(0).sellerName),
-        ],
-        invoicePayementAttributes: [
-          InvoiceItem(Labels.total, totals.toString()),
-          
-        ],
-        title: Labels.shopName);
-
-    AppPrinter appPrinter = AppPrinter();
-    appPrinter.createNewDocument();
-    appPrinter.addPage(invoicePage.build());
-    appPrinter
-        .prepareDocument()
-        .then((value) => appPrinter.displayPreview(context));
+    BillPurchase bill = BillPurchase(Record.depositTimeStampId.toString(),recordsLiveModel.purchaseRecords);
+    bill.print(context);
   }
+
 }

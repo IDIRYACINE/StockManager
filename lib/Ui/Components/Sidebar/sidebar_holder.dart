@@ -18,10 +18,10 @@ class SidebarHolder extends StatelessWidget{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Flexible(child: Padding(
+          const Padding(
             padding: EdgeInsets.only(top:Measures.medium),
-            child: Logo(width: 200,height: 400,),
-          )),
+            child: Logo(width: 200,height: 150,),
+          ),
           Spacer(flex: sidebarButtonsSpacingFlex),
           const Flexible(child: SidebarButton(title: Labels.sales,index:NavigationStore.salesIndex)),
           const SizedBox(height: Measures.medium),

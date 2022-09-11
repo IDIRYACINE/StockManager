@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart' as pdf;
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -42,7 +45,12 @@ class RecordsPage<T> {
           mainAxisAlignment: pw.MainAxisAlignment.start,
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
-            pw.Text(title, style: pw.TextStyle(fontSize: titleTextSize)),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+              pw.Text(title, style: pw.TextStyle(fontSize: titleTextSize)),
+              pw.Text(Utility.formatDateTimeToDisplay(DateTime.now()) , style: const pw.TextStyle(fontSize: Measures.medium)),
+            ]),
             pw.SizedBox(height: Measures.medium),
             pw.Expanded(
               child: pw.Padding(
@@ -54,11 +62,10 @@ class RecordsPage<T> {
                       cellAdapter: cellAdapter,
                       data: data,
                       headerTextSize: headersTextSize,
-                      headers: headers, rowsTextSize: rowsTextSize),
+                      headers: headers,
+                      rowsTextSize: rowsTextSize),
                   pw.SizedBox(height: Measures.small),
-                  _InvoicePayement(
-                    invoicePayementAttributes,invoicesTextSize
-                  ),
+                  _InvoicePayement(invoicePayementAttributes, invoicesTextSize),
                   pw.SizedBox(height: Measures.small),
                 ]),
               ),
@@ -73,7 +80,7 @@ class RecordsPage<T> {
 class InvoicePage<T> {
   InvoicePage({
     required this.title,
-      this.headersTextSize = Measures.h3TextSize,
+    this.headersTextSize = Measures.h3TextSize,
     this.rowsTextSize = Measures.h3TextSize,
     this.invoicesTextSize = Measures.h5TextSize,
     this.titleTextSize = Measures.h2TextSize,
@@ -92,7 +99,7 @@ class InvoicePage<T> {
   final RowCellAdapter<T> cellAdapter;
   final List<T> data;
   final List<String> footerData;
-  final String title;
+  final pw.Widget title;
   final double titleTextSize;
   final double headersTextSize;
   final double rowsTextSize;
@@ -104,24 +111,25 @@ class InvoicePage<T> {
     return pw.Page(
       build: (context) {
         return pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
-            pw.Text(title, style: pw.TextStyle(fontSize: titleTextSize)),
+            title,
             pw.SizedBox(height: Measures.medium),
             pw.Expanded(
               child: pw.Padding(
                 padding: pw.EdgeInsets.all(paddings),
                 child: pw.Column(children: [
-                  _InvoiceWidget(invoiceAttributes,invoicesTextSize),
+                  _InvoiceWidget(invoiceAttributes, invoicesTextSize),
                   pw.SizedBox(height: Measures.medium),
                   _InvoiceTable(
                       endIndex: data.length,
                       cellAdapter: cellAdapter,
                       data: data,
-                      headers: headers, headerTextSize: headersTextSize, rowsTextSize: rowsTextSize),
+                      headers: headers,
+                      headerTextSize: headersTextSize,
+                      rowsTextSize: rowsTextSize),
                   pw.SizedBox(height: Measures.medium),
-                  _InvoicePayement(
-                    invoicePayementAttributes,invoicesTextSize
-                  ),
+                  _InvoicePayement(invoicePayementAttributes, invoicesTextSize),
                   pw.SizedBox(height: Measures.small),
                   InvoiceFooter(footerData),
                 ]),
@@ -165,7 +173,8 @@ class _InvoiceWidget extends pw.StatelessWidget {
 
 class _InvoicePayement extends pw.StatelessWidget {
   _InvoicePayement(
-    this.rawData, this.invoiceTextSize,
+    this.rawData,
+    this.invoiceTextSize,
   );
 
   final List<InvoiceItem> rawData;
@@ -180,16 +189,23 @@ class _InvoicePayement extends pw.StatelessWidget {
         mainAxisAlignment: pw.MainAxisAlignment.end,
         children: [
           pw.Expanded(
-            child: pw.Text(
+            child:pw.Padding (
+              padding : const pw.EdgeInsets.only(left:Measures.small),
+              child:pw.Text(
               item.label,
-              style:
-                  pw.TextStyle(fontSize: invoiceTextSize, font: item.font,),
+              style: pw.TextStyle(
+                fontSize: invoiceTextSize,
+                font: item.font,
+              ),)
             ),
           ),
           pw.Expanded(
             child: pw.Text(
               item.value,
-              style: pw.TextStyle(fontSize: invoiceTextSize, font: item.font,),
+              style: pw.TextStyle(
+                fontSize: invoiceTextSize,
+                font: item.font,
+              ),
             ),
           ),
         ],
@@ -260,7 +276,7 @@ class _InvoiceTable<T> extends pw.StatelessWidget {
     required this.endIndex,
     this.headerColor = pdf.PdfColors.yellow900,
     this.rowBorderColor = pdf.PdfColors.grey,
-    required this.headerTextSize ,
+    required this.headerTextSize,
     required this.rowsTextSize,
     this.rowCellPadding = Measures.small,
     this.rowBorderWidth = .5,
@@ -332,9 +348,27 @@ class _InvoiceTable<T> extends pw.StatelessWidget {
         children: rowWidgets,
       );
     }
+
     return pw.Table(children: [
       buildHeader(),
       for (int i = startIndex; i < endIndex; i++) buildRow(i)
     ]);
+  }
+}
+
+class PrintableLogo extends pw.StatelessWidget {
+  PrintableLogo(this.logoUri, {this.width, this.height});
+
+  final String logoUri;
+  final double? height;
+  final double? width;
+
+  @override
+  pw.Widget build(pw.Context context) {
+    final logo = pw.MemoryImage(
+      File(logoUri).readAsBytesSync(),
+    );
+
+    return pw.Image(logo, width: width, height: height, fit: pw.BoxFit.fitWidth);
   }
 }

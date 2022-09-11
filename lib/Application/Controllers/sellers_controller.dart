@@ -27,17 +27,14 @@ class SellersController {
 
       ServicesStore.instance.sendMessage(message);
     }
-    
+
     PopupsUtility.displayGenericPopup(
-      
-        context,SellersEditor(
+        context,
+        SellersEditor(
           createCallback: _onConfirm,
           confirmLabel: Labels.add,
           seller: Seller.defaultInstance(),
-        )
-        
-        );
-
+        ));
   }
 
   void edit(BuildContext context, Seller seller, int index) {

@@ -2,17 +2,19 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 
 abstract class Adapter {
+  
   static List<String> orderProductWrapperToReportRow(
       OrderProductReportWrapper product) {
 
     List<String> rawData = [
       product.order.customerName,
+      product.order.phoneNumber.toString(),
       product.order.city,
       product.orderProduct.product,
-      product.orderProduct.productColor,
-      product.orderProduct.productSize,
       product.orderProduct.sellingPrice.toString(),
       product.isLast ? product.order.deposit.toString() : "0",
+      product.isLast ? product.order.deliveryCost.toString() : "0",
+
     ];
 
     return rawData;
