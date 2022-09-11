@@ -62,6 +62,7 @@ class SellersTable extends StatelessWidget {
                     return SelectableRow<Seller>(
                       dataCellHelper: sellerToCellsAdapter,
                      onClick: (detaills) => handleContextMenu(detaills,controller),
+                     contextMenuItems: const [ContextMenuOperation.edit,ContextMenuOperation.remove],
                       index: index, 
                       dataModel: sellers.seller(index),
                     );

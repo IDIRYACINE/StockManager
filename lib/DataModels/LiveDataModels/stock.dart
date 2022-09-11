@@ -97,6 +97,9 @@ class _ProducFamilyRegister {
   void setAllFamillies(List<ProductFamily> elements) {
     loadedProductFamillies.clear();
     loadedProductFamillies.addAll(elements);
+    for (ProductFamily element in elements) {
+      _familyRegister[element.reference] = element;
+    }
     toggleRefresh(refreshProductsFamily);
   }
 

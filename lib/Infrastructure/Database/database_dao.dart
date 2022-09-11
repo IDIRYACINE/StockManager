@@ -316,8 +316,11 @@ class DatabaseDAO {
         '${OrderFields.products.name}.${orderProduct.timeStamp}',
         DatabaseRepository.orderProductToJson(product: orderProduct));
 
-    _updateStockQuantity(reference: orderProduct.reference,
-     quantity: -1, colorId: orderProduct.productColorId, sizeId: orderProduct.productSizeId);    
+    _updateStockQuantity(
+        reference: orderProduct.reference,
+        quantity: -1,
+        colorId: orderProduct.productColorId,
+        sizeId: orderProduct.productSizeId);
 
     _database.updateOrder(selectorBuilder, updatedValues);
   }
@@ -338,5 +341,10 @@ class DatabaseDAO {
         sizeId: orderProduct.productSizeId);
 
     _database.updateOrder(selectorBuilder, updatedValues);
+  }
+
+  Future<void> insertRemainingRecord({required Record record}) async {
+    _database
+        .insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
   }
 }

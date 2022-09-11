@@ -149,12 +149,6 @@ class OrderForm extends StatelessWidget {
           onChanged: orderFormEditorMode.setPhoneNumber,
         ),
         const SizedBox(height: Measures.small),
-        AttributeTextField(
-          initialValue: order.phoneNumber.toString(),
-          label: Labels.phoneNumber,
-          onChanged: orderFormEditorMode.setPhoneNumber,
-        ),
-        const SizedBox(height: Measures.small),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

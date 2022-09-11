@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/Utility/utility_wrappers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -52,6 +53,8 @@ class SpreardedOrderEditor extends StatelessWidget {
     final OrderFormEditorMode<Callback<Order>> orderEditorMode =
         OrderFormEditorMode.createModeInstance(order);
 
+    late OrderProduct orderProduct;    
+
     orderProductEditorMode.setUpdatedValuesMap(updatedValuesCache) ;   
 
     void updateProduct(List<Product> products) {
@@ -65,14 +68,13 @@ class SpreardedOrderEditor extends StatelessWidget {
         productFormEditor.familyController.text = p.productFamily;
         productFormEditor.referenceController.text = p.reference;
 
-        OrderProduct orderProduct = OrderProduct.defaultInstance();
+        orderProduct = OrderProduct.defaultInstance();
         orderProduct.product = p.name;
         orderProduct.reference = p.reference;
         orderProduct.sellingPrice = p.sellingPrice;
         orderProduct.buyingPrice = p.buyingPrice;
 
         orderProductEditorMode.setOrderProduct(orderProduct);
-
         product.value = p;
       }
     }
@@ -105,9 +107,12 @@ class SpreardedOrderEditor extends StatelessWidget {
                       child: DefaultDecorator(
                           child: Padding(
                         padding: const EdgeInsets.all(Measures.small),
-                        child: OrderForm(
-                          order: order,
-                          orderFormEditorMode: orderEditorMode,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: OrderForm(
+                            order: order,
+                            orderFormEditorMode: orderEditorMode,
+                          ),
                         ),
                       )),
                     ),
@@ -143,6 +148,7 @@ class SpreardedOrderEditor extends StatelessWidget {
                     DefaultButton(
                       label: Labels.addProduct,
                       onPressed: () {
+                        orderProduct.timeStamp = Utility.getTimeStamp().toString();
                         orderProductEditorMode.appendToOrder();
                       },
                     ),

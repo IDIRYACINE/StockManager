@@ -65,7 +65,7 @@ class _ModeCreate
       double sellingPrice = double.parse(price);
 
       order.totalPrice += sellingPrice - orderProduct.sellingPrice;
-      order.remainingPayement += order.totalPrice - order.deposit;
+      order.remainingPayement += order.totalPrice ;
       orderProduct.sellingPrice = sellingPrice;
 
     }
@@ -99,6 +99,7 @@ class _ModeCreate
 
   @override
   void appendToOrder() {
+    
     order.products[orderProduct.timeStamp] = orderProduct;
   }
 }
@@ -118,7 +119,7 @@ class _ModeEdit
       double sellingPrice = double.parse(price);
 
       order.totalPrice += sellingPrice - orderProduct.sellingPrice;
-      order.remainingPayement += order.totalPrice - order.deposit;
+      order.remainingPayement += order.totalPrice ;
       orderProduct.sellingPrice = sellingPrice;
 
       updatedFields[OrderFields.remainingPayement.name] =
@@ -223,9 +224,12 @@ class _EditCustomerForm extends OrderFormEditorMode<Callback2<AppJson, Order>> {
   @override
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != '') {
-      order.deposit = double.parse(deposit);
-      order.remainingPayement = order.totalPrice - order.deposit;
-      updatedValuesCache[OrderFields.deposit.name] = double.parse(deposit);
+      double parsedDeposit = double.parse(deposit);
+
+      order.deposit = parsedDeposit;
+      order.remainingPayement += order.deposit - parsedDeposit;
+
+      updatedValuesCache[OrderFields.deposit.name] = parsedDeposit;
       updatedValuesCache[OrderFields.remainingPayement.name] =
           order.remainingPayement;
     }
@@ -298,9 +302,9 @@ class _CreateCustomerForm extends OrderFormEditorMode<Callback< Order>> {
   @override
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != '') {
-      order.deposit = double.parse(deposit);
-      order.remainingPayement = order.totalPrice - order.deposit;
-          order.remainingPayement;
+    double parsedDeposit = double.parse(deposit);
+      order.deposit = parsedDeposit;
+      order.remainingPayement += order.deposit - parsedDeposit;
     }
   }
 

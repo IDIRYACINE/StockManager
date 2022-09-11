@@ -26,20 +26,22 @@ class OrdersTable extends StatelessWidget {
     ];
   }
 
-  void handleContextMenu(SelectableRowDetaills rowDetaills , OrdersController controller){
-    switch(rowDetaills.operation){
-      
+  void handleContextMenu(
+      SelectableRowDetaills rowDetaills, OrdersController controller) {
+    switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
-        controller.remove(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        controller.remove(
+            rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
         break;
       case ContextMenuOperation.edit:
-        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        controller.edit(
+            rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
         break;
 
-        default : 
+      default:
         break;
-    }}
-
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,8 @@ class OrdersTable extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return SelectableRow<Order>(
                                 dataCellHelper: ordersToCellsAdapter,
-                               onClick: (detaills) => handleContextMenu(detaills,controller),
+                                onClick: (detaills) =>
+                                    handleContextMenu(detaills, controller),
                                 index: index,
                                 dataModel: orders.order(index),
                               );
@@ -96,17 +99,17 @@ class OrderProductsTable extends StatelessWidget {
     ];
   }
 
-
-  void handleContextMenu(SelectableRowDetaills rowDetaills , OrderProductsController controller){
-    switch(rowDetaills.operation){
-      
+  void handleContextMenu(
+      SelectableRowDetaills rowDetaills, OrderProductsController controller) {
+    switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data);
         break;
 
-        default : 
+      default:
         break;
-    }}
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +144,8 @@ class OrderProductsTable extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return SelectableRow<OrderProduct>(
                                 dataCellHelper: orderProductsToCellAdapter,
-                               onClick: (detaills) => handleContextMenu(detaills,controller),
+                                onClick: (detaills) =>
+                                    handleContextMenu(detaills, controller),
                                 index: index,
                                 contextMenuItems: const [
                                   ContextMenuOperation.remove
@@ -170,42 +174,49 @@ class OrdersTableSpreaded extends StatelessWidget {
     ];
   }
 
-  void handleContextMenu(SelectableRowDetaills rowDetaills , OrderProductsController controller){
-    switch(rowDetaills.operation){
-      
+  void handleContextMenu(
+      SelectableRowDetaills<SpreadedOrdersWrapper> rowDetaills,
+       OrderProductsController controller,
+       OrdersController ordersController) {
+    switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
-        controller.remove(rowDetaills.context, rowDetaills.data);
+        controller.remove(rowDetaills.context, rowDetaills.data.product);
         break;
       case ContextMenuOperation.edit:
-        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        ordersController.edit(
+            rowDetaills.context, rowDetaills.data.order, rowDetaills.rowIndex);
         break;
 
-        default : 
+      default:
         break;
-    }}
+    }
+  }
 
   List<Widget> buildRows(
-      OrdersLiveDataModel liveModel , OrderProductsController controller) {
+      OrdersLiveDataModel liveModel, 
+      OrderProductsController controller, 
+      OrdersController ordersController) {
+
     List<Widget> rows = [];
 
     liveModel.orders.forEach((orderKey, order) {
-
-      order.products.forEach((productKey, product) { 
-
-        SpreadedOrdersWrapper wrapper = SpreadedOrdersWrapper(order,product);
+      order.products.forEach((productKey, product) {
+        SpreadedOrdersWrapper wrapper = SpreadedOrdersWrapper(order, product);
 
         final row = Expanded(
             child: SelectableRow<SpreadedOrdersWrapper>(
           dataCellHelper: ordersToCellsAdapter,
-         onClick : (detaills) => handleContextMenu(detaills,controller),
+          onClick: (detaills) => handleContextMenu(detaills, controller,ordersController),
+          contextMenuItems: const [
+            ContextMenuOperation.remove,
+           
+          ],
           index: 0, // dont need it unless edit is enabled
           dataModel: wrapper,
         ));
 
         rows.add(row);
-
       });
-      
     });
 
     return rows;
@@ -213,11 +224,13 @@ class OrdersTableSpreaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-
     OrderProductsController productsController =
         Provider.of<ControllersProvider>(context, listen: false)
             .orderProductsController;
+
+ OrdersController ordersController =
+        Provider.of<ControllersProvider>(context, listen: false)
+            .ordersController;
 
     OrdersLiveDataModel orders =
         Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
@@ -226,16 +239,21 @@ class OrdersTableSpreaded extends StatelessWidget {
         width: double.infinity,
         child: Card(
             elevation: Measures.small,
-            child: Column(
-              children: [
-                Flexible(
-                    child: SelectableRow(
-                  dataCellHelper: (index) => Titles.ordersTableColumns,
-                  index: -1,
-                  dataModel: 0,
-                )),
-                ...buildRows(orders,productsController)
-              ],
+            child: ValueListenableBuilder<bool>(
+              valueListenable: orders.refreshOrders,
+              builder: (context,value,child) {
+                return Column(
+                  children: [
+                    Flexible(
+                        child: SelectableRow(
+                      dataCellHelper: (index) => Titles.ordersTableColumns,
+                      index: -1,
+                      dataModel: 0,
+                    )),
+                    ...buildRows(orders, productsController,ordersController)
+                  ],
+                );
+              }
             )));
   }
 }

@@ -182,7 +182,7 @@ class Record {
       customer: '',
       deposit: 0.0,
       remainingPayement: 0.0,
-      quantity: 0,
+      quantity: 1,
       originalPrice: 0.0,
       sellingPrice: 0.0,
       colorId: '',

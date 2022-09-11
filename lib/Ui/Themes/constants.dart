@@ -76,9 +76,9 @@ abstract class Titles {
     Labels.productName,
     Labels.customer,
     Labels.sellerName,
+    Labels.sellingPrice,
     Labels.deposit,
     Labels.remainingPayement,
-    Labels.sellingPrice,
   ];
 
   static const List<String> pruchaseInvoiceHeaders = [

@@ -1,7 +1,6 @@
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 abstract class DatabaseRepository {
@@ -213,6 +212,8 @@ abstract class DatabaseRepository {
     json[RecordFields.product.name] = record.product;
     json[RecordFields.productColor.name] = record.productColor;
     json[RecordFields.productSize.name] = record.productSize;
+    json[RecordFields.productColorId.name] = record.colorId;
+    json[RecordFields.productSizeId.name] = record.sizeId;
     json[RecordFields.barcode.name] = record.barcode;
     json[RecordFields.reference.name] = record.reference;
     json[RecordFields.customer.name] = record.customer;
@@ -220,11 +221,9 @@ abstract class DatabaseRepository {
     json[RecordFields.buyingPrice.name] = record.originalPrice;
     json[RecordFields.sellingPrice.name] = record.sellingPrice;
     json[RecordFields.date.name] = record.date;
-
-    if (record.payementType == PaymentTypes.deposit.name) {
-      json[RecordFields.deposit.name] = record.deposit;
-      json[RecordFields.remainingPayement.name] = record.remainingPayement;
-    }
+    json[RecordFields.deposit.name] = record.deposit;
+    json[RecordFields.remainingPayement.name] = record.remainingPayement;
+    
 
     return json;
   }

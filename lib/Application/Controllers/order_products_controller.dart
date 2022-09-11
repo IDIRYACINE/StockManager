@@ -99,22 +99,6 @@ class OrderProductsController {
   }
 
 
-  void edit(BuildContext context, OrderProduct orderProduct, int index) {
-    // showDialog(
-    //   context: context,
-    //   builder: (context) => Material(
-    //     child: OrderProductEditor(
-    //       orderProduct: orderProduct.copyWith(),
-    //       editMode: true,
-    //       editCallback: _onEdit,
-    //       confirmLabel: Labels.update,
-    //       order: Provider.of<OrdersLiveDataModel>(context, listen: false)
-    //           .selectedOrder,
-    //     ),
-    //   ),
-    // );
-  }
-
   void remove(BuildContext context, OrderProduct orderProduct) {
     void onRemove() {
       _onRemove(orderProduct);

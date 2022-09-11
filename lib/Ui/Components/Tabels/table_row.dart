@@ -28,7 +28,7 @@ class SelectableRow<T> extends StatefulWidget {
 
   final T dataModel;
 
-  final Callback<SelectableRowDetaills>? onClick;
+  final Callback<SelectableRowDetaills<T>>? onClick;
 
   final List<ContextMenuOperation>? contextMenuItems;
 
@@ -40,7 +40,7 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
   void onRowClicked(
       BuildContext context, T data, int rowIndex, TapDownDetails details) {
     void _onContextMenuSelected(ContextMenuOperation? operation) {
-      SelectableRowDetaills rowDetaills = SelectableRowDetaills<T>(
+      SelectableRowDetaills<T> rowDetaills = SelectableRowDetaills<T>(
         context: context,
         data: data,
           rowIndex: rowIndex, 

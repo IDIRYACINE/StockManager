@@ -22,16 +22,15 @@ class _DepositsTableState extends State<DepositsTable> {
       record.product,
       record.customer!,
       record.sellerName,
+      record.sellingPrice.toString(),
       record.deposit.toString(),
       record.remainingPayement.toString(),
-      record.sellingPrice.toString(),
     ];
   }
 
-
-  void handleContextMenu(SelectableRowDetaills rowDetaills , DespositController controller){
-    switch(rowDetaills.operation){
-      
+  void handleContextMenu(
+      SelectableRowDetaills rowDetaills, DespositController controller) {
+    switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(context, rowDetaills.data);
         break;
@@ -39,22 +38,19 @@ class _DepositsTableState extends State<DepositsTable> {
         controller.completePayment(context, rowDetaills.data);
         break;
 
-        default : 
+      default:
         break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     DespositController controller =
         Provider.of<ControllersProvider>(context, listen: false)
             .depositController;
 
     RecordsLiveDataModel records =
         Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
-
-
 
     return SizedBox(
         width: double.infinity,
@@ -79,11 +75,11 @@ class _DepositsTableState extends State<DepositsTable> {
                                 contextMenuItems: const [
                                   ContextMenuOperation.remove,
                                   ContextMenuOperation.completePayment,
-
                                 ],
                                 dataCellHelper: (record) =>
                                     recordToCellsAdapter(record),
-                              onClick: (details) => handleContextMenu(details, controller),
+                                onClick: (details) =>
+                                    handleContextMenu(details, controller),
                                 dataModel: records.depositRecord(index),
                                 index: index,
                               );

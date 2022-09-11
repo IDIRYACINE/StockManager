@@ -33,7 +33,9 @@ class ProductForm extends StatelessWidget {
         .map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e))
         .toList();
 
-    final ValueNotifier<ProductFamily?> familyNotifier = ValueNotifier(stockLiveModel.searchProductFamily(product.familyReference));
+    ProductFamily? initialFamily = stockLiveModel.searchProductFamily(product.familyReference);    
+
+    final ValueNotifier<ProductFamily?> familyNotifier = ValueNotifier(initialFamily);
 
 
 

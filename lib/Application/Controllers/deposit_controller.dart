@@ -174,7 +174,8 @@ class DespositController {
   }
 
   void completePayment(BuildContext context, Record data) {
-
+    print(data.remainingPayement);
+    
     Record remainingRecord = data.copyWith(
       payementType: PaymentTypes.remaining.name,
       payementTypeIndex: PaymentTypes.remaining.index,

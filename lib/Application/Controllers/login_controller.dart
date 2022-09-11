@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/live_models_provider.dart';
+import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -117,6 +118,8 @@ class LoginController {
           ServicesData.databaseSelector: selector.map,
         });
 
+    Record.generateDepositId();
+    Record.generateSaleId();
     ServicesStore.instance.sendMessage(loadSellers);
     ServicesStore.instance.sendMessage(loadProducts);
     ServicesStore.instance.sendMessage(loadFamillies);
