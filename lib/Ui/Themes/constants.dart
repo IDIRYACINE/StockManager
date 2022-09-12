@@ -224,6 +224,8 @@ abstract class Labels {
   static const addSeller = 'Add Seller';
 
   static const addModel = 'Add Model';
+
+  static const addedProduct = 'Added Product';
 }
 
 abstract class Measures {
@@ -290,4 +292,8 @@ abstract class Messages {
   static const connectionFailed = 'Connection Failed';
   static const faultyAuthentication = 'Username or password is incorrect';
   static const payementType = 'Select Payement Type';
+
+  static const String emptyField = 'Field cannot be empty';
+
+  static const String invalidNumber = 'Invalid Number';
 }

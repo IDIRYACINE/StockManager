@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/validators.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -37,17 +38,16 @@ class DespositController {
 
     PopupsUtility.displayGenericPopup(
         context,
-        SizedBox(
-          width: 1000,
-          height: 800,
-          child: DepositEditor(
-            record: Record.defaultInstance(
-              paymentType: PaymentTypes.deposit,
-            ),
-            onSearch: onSearch,
-            createCallback: _onAdd,
-            confirmLabel: Labels.add,
+        width: 1000,
+        height: 800,
+        DepositEditor(
+          record: Record.defaultInstance(
+            paymentType: PaymentTypes.deposit,
+            timeStamp: Record.depositTimeStampId
           ),
+          onSearch: onSearch,
+          createCallback: _onAdd,
+          confirmLabel: Labels.add,
         ));
   }
 
@@ -171,11 +171,28 @@ class DespositController {
   }
 
   void completePayment(BuildContext context, Record data) {
-    Record remainingRecord = data.copyWith(
+    PopupsUtility.displayGenericPopup(
+        context,
+        width: 100,
+        height: 100,
+        TextFieldDialog(
+          label: Labels.deposit,
+          validator: ValueValidator.validateNumber,
+          initialValue: data.remainingPayement.toString(),
+          onConfirm: (String? value) {
+            _onCompletePayment(data, value!);
+          },
+        ));
+  }
+
+  void _onCompletePayment(Record record, String newDeposit) {
+    double parsedDeposit = double.parse(newDeposit);
+
+    Record remainingRecord = record.copyWith(
       payementType: PaymentTypes.remaining.name,
       payementTypeIndex: PaymentTypes.remaining.index,
-      remainingPayement: -1 * data.remainingPayement,
-      deposit: data.remainingPayement,
+      remainingPayement: -1 * (record.remainingPayement - parsedDeposit),
+      deposit: parsedDeposit,
       date: DateTime.now(),
     );
 

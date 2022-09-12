@@ -48,17 +48,55 @@ class _DepositFormState extends State<DepositForm> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 SelectorDropDown<Seller>(
-                    onSelect: (seller){widget.depositMode.setSellerName(seller);
-                    sellerNotifier.value = seller; 
-                    },
-                    items: sellersDropdown,
-                    label: const Text(Labels.sellerName), 
-                    initialSelection: sellerNotifier,),
+                  onSelect: (seller) {
+                    widget.depositMode.setSellerName(seller);
+                    sellerNotifier.value = seller;
+                  },
+                  items: sellersDropdown,
+                  label: const Text(Labels.sellerName),
+                  initialSelection: sellerNotifier,
+                ),
                 const SizedBox(height: Measures.medium),
-                AttributeTextField(
-                  initialValue: widget.record.customer,
-                  onChanged: widget.depositMode.setCustomerName,
-                  label: Labels.customerName,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: AttributeTextField(
+                        initialValue: widget.record.customer,
+                        onChanged: widget.depositMode.setCustomerName,
+                        label: Labels.customerName,
+                      ),
+                    ),
+                    const SizedBox(width: Measures.small),
+                    Expanded(
+                      child: AttributeTextField(
+                        initialValue: widget.record.phoneNumber.toString(),
+                        label: Labels.phoneNumber,
+                        onChanged: widget.depositMode.setPhoneNumber,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: Measures.small),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: AttributeTextField(
+                        initialValue: widget.record.city,
+                        label: Labels.city,
+                        onChanged: widget.depositMode.setState,
+                      ),
+                    ),
+                    const SizedBox(width: Measures.small),
+                    Expanded(
+                      child: AttributeTextField(
+                        initialValue: widget.record.address,
+                        label: Labels.address,
+                        onChanged: widget.depositMode.setAddress,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
@@ -145,6 +183,11 @@ class _ProductFormState extends State<ProductForm> {
               readOnly: true,
             ),
             const SizedBox(height: Measures.medium),
+            AttributeTextField(
+              controller: widget.editorMode.remainingQuantity,
+              label: Labels.quantity,
+              readOnly: true,
+            ),
           ],
         ));
   }

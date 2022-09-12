@@ -78,6 +78,9 @@ abstract class DatabaseRepository {
       colorId: json[RecordFields.colorId.name] ?? Labels.error,
       sizeId: json[RecordFields.sizeId.name] ?? Labels.error, 
       payementTypeIndex: json[RecordFields.paymentTypeIndex.name] ?? 0,
+      phoneNumber: json[RecordFields.phoneNumber.name] ?? 0,
+      address: json[RecordFields.address.name] ?? '',
+      city: json[RecordFields.city.name] ?? '',
     );
 
     return record;
@@ -223,7 +226,11 @@ abstract class DatabaseRepository {
     json[RecordFields.date.name] = record.date;
     json[RecordFields.deposit.name] = record.deposit;
     json[RecordFields.remainingPayement.name] = record.remainingPayement;
-    
+
+    json[RecordFields.phoneNumber.name] = record.phoneNumber;
+    json[RecordFields.address.name] = record.address;
+    json[RecordFields.city.name] = record.city;
+
 
     return json;
   }

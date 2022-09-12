@@ -128,6 +128,12 @@ class _ProductFormState extends State<ProductForm> {
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
+        AttributeTextField(
+          controller: widget.productFormEditor.remainingQuantity,
+          label: Labels.quantity,
+          readOnly: true,
+        ),
+        const SizedBox(height: Measures.medium),
       ],
     );
   }

@@ -53,9 +53,9 @@ class SpreardedOrderEditor extends StatelessWidget {
     final OrderFormEditorMode<Callback<Order>> orderEditorMode =
         OrderFormEditorMode.createModeInstance(order);
 
-    late OrderProduct orderProduct;    
+    late OrderProduct orderProduct;
 
-    orderProductEditorMode.setUpdatedValuesMap(updatedValuesCache) ;   
+    orderProductEditorMode.setUpdatedValuesMap(updatedValuesCache);
 
     void updateProduct(List<Product> products) {
       if (products.isNotEmpty) {
@@ -67,6 +67,7 @@ class SpreardedOrderEditor extends StatelessWidget {
             p.sellingPrice.toString();
         productFormEditor.familyController.text = p.productFamily;
         productFormEditor.referenceController.text = p.reference;
+        productFormEditor.remainingQuantity.text = p.totalQuantity.toString();
 
         orderProduct = OrderProduct.defaultInstance();
         orderProduct.product = p.name;
@@ -148,7 +149,8 @@ class SpreardedOrderEditor extends StatelessWidget {
                     DefaultButton(
                       label: Labels.addProduct,
                       onPressed: () {
-                        orderProduct.timeStamp = Utility.getTimeStamp().toString();
+                        orderProduct.timeStamp =
+                            Utility.getTimeStamp().toString();
                         orderProductEditorMode.appendToOrder();
                       },
                     ),

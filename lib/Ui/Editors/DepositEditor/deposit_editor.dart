@@ -57,6 +57,7 @@ class DepositEditor extends StatelessWidget {
         depositMode.familyController.text = p.productFamily;
         depositMode.minSellingPriceController.text = p.sellingPrice.toString();
         depositMode.sellingPriceController.text = p.sellingPrice.toString();
+        depositMode.remainingQuantity.text = p.totalQuantity.toString();
 
         record.barcode = p.barcode;
         record.reference = p.reference;
@@ -102,10 +103,10 @@ class DepositEditor extends StatelessWidget {
                     Expanded(
                       child: DefaultDecorator(
                           child: DepositForm(
-                            depositMode: depositMode,
-                            record: record,
-                            product: product,
-                          )),
+                        depositMode: depositMode,
+                        record: record,
+                        product: product,
+                      )),
                     ),
                   ],
                 ),
@@ -129,8 +130,7 @@ class DepositEditor extends StatelessWidget {
                           } else {
                             depositMode.confirm(createCallback);
                           }
-                                                      Navigator.pop(context);
-
+                          Navigator.pop(context);
                         }
                       },
                     ),
@@ -162,17 +162,20 @@ class _SearchBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-            child: AttributeTextField(
-          label: Labels.reference,
-          initialValue: searchValue,
-          onChanged: setSearchValue,
-        )),
+          child: AttributeTextField(
+            label: Labels.reference,
+            initialValue: searchValue,
+            onChanged: setSearchValue,
+          ),
+        ),
         Flexible(
-            child: DefaultButton(
-                label: Labels.search,
-                onPressed: () {
-                  onSearch(searchValue);
-                })),
+          child: DefaultButton(
+            label: Labels.search,
+            onPressed: () {
+              onSearch(searchValue);
+            },
+          ),
+        ),
       ],
     );
   }

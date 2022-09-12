@@ -87,12 +87,15 @@ class Record {
     required this.reference,
     required this.colorId,
     required this.sizeId,
-    this.customer,
     required this.deposit,
     required this.remainingPayement,
     required this.quantity,
     required this.originalPrice,
     required this.sellingPrice,
+    this.customer,
+    this.address,
+    this.city,
+    this.phoneNumber,
   });
 
   DateTime date;
@@ -104,6 +107,9 @@ class Record {
   String colorId;
   String sizeId;
   int quantity;
+  int? phoneNumber;
+  String? city;
+  String? address;
   double originalPrice;
   double sellingPrice;
   double deposit;
@@ -119,11 +125,11 @@ class Record {
   static void generateSaleId() {
     saleTimeStampId = DateTime.now().millisecondsSinceEpoch;
   }
+
   static int depositTimeStampId = 0;
   static void generateDepositId() {
     depositTimeStampId = DateTime.now().millisecondsSinceEpoch;
   }
-
 
   // dart Record copyWith
   Record copyWith({
@@ -163,12 +169,15 @@ class Record {
       sellingPrice: sellingPrice ?? this.sellingPrice,
       remainingPayement: remainingPayement ?? this.remainingPayement,
       colorId: colorId ?? this.colorId,
-      sizeId: sizeId ?? this.sizeId, 
+      sizeId: sizeId ?? this.sizeId,
       payementTypeIndex: payementTypeIndex ?? this.payementTypeIndex,
     );
   }
 
-  static Record defaultInstance({required PaymentTypes paymentType,}) {
+  static Record defaultInstance({
+    required PaymentTypes paymentType,
+    required int timeStamp,
+  }) {
     return Record(
       payementType: paymentType.name,
       date: Utility.getDate(),
@@ -186,11 +195,10 @@ class Record {
       originalPrice: 0.0,
       sellingPrice: 0.0,
       colorId: '',
-      sizeId: '', 
+      sizeId: '',
       payementTypeIndex: paymentType.index,
     );
   }
-
 }
 
 class Seller {
@@ -305,7 +313,7 @@ class OrderProduct {
       buyingPrice: buyingPrice ?? this.buyingPrice,
       productColorId: productColorId ?? this.productColorId,
       productSizeId: productSizeId ?? this.productColorId,
-       timeStamp: timeStamp ?? this.timeStamp,
+      timeStamp: timeStamp ?? this.timeStamp,
     );
   }
 }
@@ -350,7 +358,7 @@ class Order {
 
   int timeStamp;
   String sellerName;
-  Map<String,OrderProduct> products;
+  Map<String, OrderProduct> products;
   int quantity;
   double deposit;
   String status;
@@ -384,18 +392,18 @@ class Order {
         remainingPayement: 0);
   }
 
-  Map<String,OrderProduct> _copyProducts() {
-    Map<String,OrderProduct> copyProducts = {};
+  Map<String, OrderProduct> _copyProducts() {
+    Map<String, OrderProduct> copyProducts = {};
 
     products.forEach((key, value) {
       copyProducts[key] = value.copyWith();
     });
-    
+
     return copyProducts;
   }
 
   Order copyWith({
-    Map<String,OrderProduct>? products,
+    Map<String, OrderProduct>? products,
     DateTime? date,
     String? status,
     int? quantity,

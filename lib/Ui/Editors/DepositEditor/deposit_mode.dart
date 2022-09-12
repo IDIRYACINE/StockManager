@@ -25,6 +25,9 @@ abstract class DepositEditorMode<T> {
   final TextEditingController remainingPaymenentController =
       TextEditingController(text: '');
 
+  final TextEditingController remainingQuantity =
+      TextEditingController(text: '');
+
   void setRemainingPayement(String? remainingPayement);
 
   void setSellingPrice(String? sellingPrice);
@@ -38,6 +41,12 @@ abstract class DepositEditorMode<T> {
   void setColor(String color, String colorId);
 
   void setSize(String size, String sizeId);
+
+  void setAddress(String? value);
+
+  void setState(String? value);
+
+  void setPhoneNumber(String? value);
 
   void confirm(T callback);
 
@@ -68,8 +77,7 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
     if (sellingPrice != null && sellingPrice != '') {
       record.sellingPrice = double.parse(sellingPrice);
       record.remainingPayement = record.sellingPrice - record.deposit;
-      remainingPaymenentController.text =
-          record.remainingPayement.toString();
+      remainingPaymenentController.text = record.remainingPayement.toString();
     }
   }
 
@@ -83,8 +91,7 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
     if (deposit != null && deposit != "") {
       record.deposit = double.parse(deposit);
       record.remainingPayement = record.sellingPrice - record.deposit;
-      remainingPaymenentController.text =
-          record.remainingPayement.toString();
+      remainingPaymenentController.text = record.remainingPayement.toString();
     }
   }
 
@@ -105,6 +112,23 @@ class _ModeCreate extends DepositEditorMode<Callback<Record>> {
   void setSize(String size, String sizeId) {
     record.productSize = size;
     record.sizeId = sizeId;
+  }
+
+  @override
+  void setAddress(String? value) {
+    record.address = value;
+  }
+
+  @override
+  void setPhoneNumber(String? value) {
+    if (value != null && value.isNotEmpty) {
+      record.phoneNumber = int.tryParse(value);
+    }
+  }
+
+  @override
+  void setState(String? value) {
+    record.city = value;
   }
 
   @override
@@ -177,6 +201,27 @@ class _ModeEdit extends DepositEditorMode<EditorCallback<AppJson, Record>> {
     record.sizeId = sizeId;
     updatedValues[RecordFields.productSize.name] = size;
     updatedValues[RecordFields.productSizeId.name] = sizeId;
+  }
+
+  @override
+  void setAddress(String? value) {
+    record.address = value;
+    updatedValues[RecordFields.address.name] = value;
+  }
+
+  @override
+  void setPhoneNumber(String? value) {
+    if (value != null && value.isNotEmpty) {
+      int parsedPhone = int.parse(value);
+      record.phoneNumber = parsedPhone;
+      updatedValues[RecordFields.phoneNumber.name] = parsedPhone;
+    }
+  }
+
+  @override
+  void setState(String? value) {
+    record.city = value;
+    updatedValues[RecordFields.city.name] = value;
   }
 
   @override

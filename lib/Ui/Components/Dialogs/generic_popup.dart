@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
@@ -9,11 +11,10 @@ abstract class PopupsUtility {
       {List<Widget>? actions, double? width, double? height}) {
     showDialog(
       context: context,
-      builder: (context) =>AlertDialog(
-          content: SizedBox(width: width, height: height, child: content),
-          actions: actions,
-        ),
-      
+      builder: (context) => AlertDialog(
+        content: SizedBox(width: width, height: height, child: content),
+        actions: actions,
+      ),
     );
   }
 
@@ -49,6 +50,14 @@ abstract class PopupsUtility {
     showDialog(
         context: context,
         builder: (context) => const AlertDialog(content: Splash()));
+  }
+
+  static void displayToast(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+      message,
+      style: Theme.of(context).textTheme.bodySmall!,
+    )));
   }
 }
 
@@ -109,6 +118,59 @@ class InformativeDialog extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class TextFieldDialog extends StatelessWidget {
+  const TextFieldDialog(
+      {Key? key,
+      this.initialValue,
+      required this.label,
+      required this.onConfirm,
+      this.validator})
+      : super(key: key);
+
+  final String? initialValue;
+  final String label;
+  final Callback<String?> onConfirm;
+  final TextFieldValidator? validator;
+
+  @override
+  Widget build(BuildContext context) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    String? fieldValue;
+
+    return Form(
+      key: formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextFormField(
+            initialValue: initialValue,
+            validator: validator,
+            onChanged: (value) => fieldValue = value,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DefaultButton(
+                  label: Labels.cancel,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+              DefaultButton(
+                  label: Labels.confirm,
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      onConfirm(fieldValue);
+                      Navigator.pop(context);
+                    }
+                  }),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

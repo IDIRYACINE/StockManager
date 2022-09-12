@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +9,10 @@ import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-
 class SearchActionsCard extends StatelessWidget {
   SearchActionsCard({Key? key}) : super(key: key);
 
   final List<Callback<SelectorBuilder>> queryGenerators = [];
-
 
   void onQuickSearch(BuildContext context, DespositController controller) {
     SelectorBuilder selector = SelectorBuilder();
@@ -36,16 +32,13 @@ class SearchActionsCard extends StatelessWidget {
     queryGenerators.add(queryGenerator);
   }
 
-  
   void onClear(BuildContext context, DespositController controller) {
     controller.clear(context);
-  } 
-
+  }
 
   void onAdd(BuildContext context, DespositController controller) {
     controller.add(context);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +46,7 @@ class SearchActionsCard extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .depositController;
 
-   final theme = Theme.of(context);
+    final theme = Theme.of(context);
 
     return Column(
       children: [
@@ -77,6 +70,16 @@ class SearchActionsCard extends StatelessWidget {
             ),
             ActionButton(
               onPressed: () {
+                onClear(context, controller);
+              },
+              label: Labels.refresh,
+              icon: Icons.refresh,
+            ),
+            const SizedBox(
+              width: Measures.medium,
+            ),
+            ActionButton(
+              onPressed: () {
                 onAdd(context, controller);
               },
               backgroundColor: theme.colorScheme.primaryContainer,
@@ -89,19 +92,18 @@ class SearchActionsCard extends StatelessWidget {
           height: Measures.medium,
         ),
         Row(
-
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SizedBox(
               width: Measures.quickSearchFieldWidth,
               child: SearchFieldText(
-                    label: Labels.invoiceId,
-                    isOptional: false,
-                    parser: (string) => int.parse(string),
-                    registerQueryGenerator: registerQuery,
-                    identifier: OrderFields.timeStamp.name),
+                  label: Labels.invoiceId,
+                  isOptional: false,
+                  parser: (string) => int.parse(string),
+                  registerQueryGenerator: registerQuery,
+                  identifier: OrderFields.timeStamp.name),
             ),
-           ActionButton(
+            ActionButton(
               onPressed: () {
                 onQuickSearch(context, controller);
               },

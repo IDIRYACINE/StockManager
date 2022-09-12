@@ -64,7 +64,7 @@ PopupsUtility.displayGenericPopup(
 
       ServicesStore.instance.sendMessage(message);
 
-      Navigator.pop(context);
+      PopupsUtility.displayToast(context,Labels.addedProduct);
     }
 
     void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
@@ -98,6 +98,7 @@ PopupsUtility.displayGenericPopup(
           SaleEditor(
               record: Record.defaultInstance(
                 paymentType: PaymentTypes.payement,
+                timeStamp: Record.saleTimeStampId,
               ),
               onSearch: onSearch,
               confirmLabel: Labels.add,
@@ -139,7 +140,7 @@ PopupsUtility.displayGenericPopup(
   }
 
   void printPurchases(BuildContext context) {
-    BillPurchase bill = BillPurchase(Record.depositTimeStampId.toString(),recordsLiveModel.purchaseRecords);
+    BillPurchase bill = BillPurchase(Record.saleTimeStampId.toString(),recordsLiveModel.purchaseRecords);
     bill.print(context);
   }
 

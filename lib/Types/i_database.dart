@@ -64,7 +64,9 @@ enum RecordFields {
   productSizeId,
   productColor,
   productColorId,
-
+  phoneNumber,
+  address,
+  city,
   paymentTypeIndex,
   seller,
   paymentType,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ProductFormEditor{
+class ProductFormEditor {
   final TextEditingController productNameController =
       TextEditingController(text: '');
 
@@ -15,4 +15,7 @@ class ProductFormEditor{
 
   final TextEditingController sellingPriceController =
       TextEditingController(text: '');
-} 
+
+  final TextEditingController remainingQuantity =
+      TextEditingController(text: '');
+}

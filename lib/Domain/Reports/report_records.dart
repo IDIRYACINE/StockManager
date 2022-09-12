@@ -11,7 +11,7 @@ class RecordsReport {
 
   RecordsReport(this.records);
 
-  List<String> _reportHeaders = [
+  final List<String> _reportHeaders = [
     Labels.type,
     'produit',
     'prix',

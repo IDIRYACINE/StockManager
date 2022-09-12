@@ -63,9 +63,6 @@ class _ModeCreate
   void setSellingPrice(String? price) {
     if (price != null && price != '') {
       double sellingPrice = double.parse(price);
-
-      order.totalPrice += sellingPrice - orderProduct.sellingPrice;
-      order.remainingPayement += order.totalPrice ;
       orderProduct.sellingPrice = sellingPrice;
 
     }
@@ -100,6 +97,8 @@ class _ModeCreate
   @override
   void appendToOrder() {
     
+    order.totalPrice += orderProduct.sellingPrice;
+    order.remainingPayement += orderProduct.sellingPrice;
     order.products[orderProduct.timeStamp] = orderProduct;
   }
 }
@@ -117,9 +116,10 @@ class _ModeEdit
   void setSellingPrice(String? price) {
     if (price != null && price != '') {
       double sellingPrice = double.parse(price);
+      double priceChange = sellingPrice - orderProduct.sellingPrice;
 
-      order.totalPrice += sellingPrice - orderProduct.sellingPrice;
-      order.remainingPayement += order.totalPrice ;
+      order.totalPrice += priceChange;
+      order.remainingPayement += priceChange ;
       orderProduct.sellingPrice = sellingPrice;
 
       updatedFields[OrderFields.remainingPayement.name] =
@@ -227,7 +227,7 @@ class _EditCustomerForm extends OrderFormEditorMode<Callback2<AppJson, Order>> {
       double parsedDeposit = double.parse(deposit);
 
       order.deposit = parsedDeposit;
-      order.remainingPayement += order.deposit - parsedDeposit;
+      order.remainingPayement += (parsedDeposit - order.deposit) ;
 
       updatedValuesCache[OrderFields.deposit.name] = parsedDeposit;
       updatedValuesCache[OrderFields.remainingPayement.name] =
@@ -304,7 +304,7 @@ class _CreateCustomerForm extends OrderFormEditorMode<Callback< Order>> {
     if (deposit != null && deposit != '') {
     double parsedDeposit = double.parse(deposit);
       order.deposit = parsedDeposit;
-      order.remainingPayement += order.deposit - parsedDeposit;
+      order.remainingPayement += parsedDeposit - order.deposit ;
     }
   }
 
@@ -333,8 +333,9 @@ class _CreateCustomerForm extends OrderFormEditorMode<Callback< Order>> {
   @override
   void setDeliveryCost(String? deliveryCost) {
     if (deliveryCost != null && deliveryCost != '') {
-      order.deliveryCost = double.parse(deliveryCost);
-          double.parse(deliveryCost);
+      double parsedDeliveryCost = double.parse(deliveryCost);
+      order.deliveryCost += (parsedDeliveryCost - order.deliveryCost);
+      
     }
   }
 

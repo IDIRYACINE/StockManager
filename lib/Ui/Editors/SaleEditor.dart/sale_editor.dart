@@ -59,6 +59,8 @@ class SaleEditor extends StatelessWidget {
             p.sellingPrice.toString();
         productFormEditor.familyController.text = p.productFamily;
         productFormEditor.referenceController.text = p.reference;
+        productFormEditor.remainingQuantity.text = p.totalQuantity.toString();
+
 
         record.product = p.name;
         record.reference = p.reference;
