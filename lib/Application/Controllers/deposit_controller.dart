@@ -13,15 +13,12 @@ import 'package:stock_manager/Ui/Editors/DepositEditor/deposit_editor.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class DespositController {
-
   DespositController(this.recordsLiveModel, this.stockLiveModel);
 
   final RecordsLiveDataModel recordsLiveModel;
   final StockLiveDataModel stockLiveModel;
 
   void add(BuildContext context) {
-   
-
     void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
       Map<ServicesData, dynamic> data = {
         ServicesData.databaseSelector:
@@ -37,41 +34,42 @@ class DespositController {
 
       ServicesStore.instance.sendMessage(message);
     }
-    
-    PopupsUtility.displayGenericPopup(
-      context ,
-      DepositEditor(
-              record: Record.defaultInstance(
-                paymentType: PaymentTypes.deposit,
-              ),
-              onSearch: onSearch,
-              createCallback: _onAdd,
-              confirmLabel: Labels.add,
-            ));
 
+    PopupsUtility.displayGenericPopup(
+        context,
+        SizedBox(
+          width: 1000,
+          height: 800,
+          child: DepositEditor(
+            record: Record.defaultInstance(
+              paymentType: PaymentTypes.deposit,
+            ),
+            onSearch: onSearch,
+            createCallback: _onAdd,
+            confirmLabel: Labels.add,
+          ),
+        ));
   }
 
-   void _onAdd(Record record) {
-      recordsLiveModel.addDepositRecord(record);
+  void _onAdd(Record record) {
+    recordsLiveModel.addDepositRecord(record);
 
-    stockLiveModel.reclaimStock(record.reference,
-        record.colorId, record.sizeId, -1);
-        
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: record,
-      };
+    stockLiveModel.reclaimStock(
+        record.reference, record.colorId, record.sizeId, -1);
 
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.insertPurchaseRecord,
-          service: AppServices.database);
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instance: record,
+    };
 
-      ServicesStore.instance.sendMessage(message);
-    }
+    ServiceMessage message = ServiceMessage(
+        data: data,
+        event: DatabaseEvent.insertPurchaseRecord,
+        service: AppServices.database);
+
+    ServicesStore.instance.sendMessage(message);
+  }
 
   void edit(BuildContext context, Record record, int index) {
-    
-
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -84,25 +82,25 @@ class DespositController {
   }
 
   void _onEdit(Map<String, dynamic> updatedField, Record record) {
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: record,
-        ServicesData.databaseSelector: updatedField,
-      };
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instance: record,
+      ServicesData.databaseSelector: updatedField,
+    };
 
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.updatePurchaseRecord,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
-      recordsLiveModel.updateDepositRecord(record);
-    }
+    ServiceMessage message = ServiceMessage(
+        data: data,
+        event: DatabaseEvent.updatePurchaseRecord,
+        service: AppServices.database);
+    ServicesStore.instance.sendMessage(message);
+    recordsLiveModel.updateDepositRecord(record);
+  }
 
   void remove(BuildContext context, Record record) {
     void onRemove() {
       recordsLiveModel.removeDepositRecord(record);
-      
-    stockLiveModel.reclaimStock(record.reference,
-        record.colorId, record.sizeId, 1);
+
+      stockLiveModel.reclaimStock(
+          record.reference, record.colorId, record.sizeId, 1);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(
@@ -140,7 +138,6 @@ class DespositController {
     );
   }
 
-
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
     PopupsUtility.showLoadingAlert(context);
 
@@ -163,9 +160,9 @@ class DespositController {
     ServicesStore.instance.sendMessage(message);
   }
 
-
   void printReport(BuildContext context) {
-    BillDeposit report = BillDeposit(recordsLiveModel.depositRecords,Record.depositTimeStampId.toString());
+    BillDeposit report = BillDeposit(
+        recordsLiveModel.depositRecords, Record.depositTimeStampId.toString());
     report.print(context);
   }
 
@@ -174,7 +171,6 @@ class DespositController {
   }
 
   void completePayment(BuildContext context, Record data) {
-    
     Record remainingRecord = data.copyWith(
       payementType: PaymentTypes.remaining.name,
       payementTypeIndex: PaymentTypes.remaining.index,
@@ -190,13 +186,11 @@ class DespositController {
     };
 
     ServiceMessage<List<Record>> message = ServiceMessage(
-        service: AppServices.database,
-        event: DatabaseEvent.insertRemainingRecord,
-        data: messageData,
-        );
+      service: AppServices.database,
+      event: DatabaseEvent.insertRemainingRecord,
+      data: messageData,
+    );
 
     ServicesStore.instance.sendMessage(message);
-
   }
-
 }

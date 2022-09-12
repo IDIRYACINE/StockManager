@@ -35,15 +35,18 @@ class OrdersController {
   void addSpreadedOrder(BuildContext context) {
     ordersLiveModel.selectedOrder = Order.defaultInstance();
 
-    showDialog(
-        context: context,
-        builder: (context) => Material(
-                child: SpreardedOrderEditor(
-              order: ordersLiveModel.selectedOrder,
-              createOrderCallback: _addOrder,
-              onSearch: _onSearchProduct,
-              confirmLabel: Labels.add,
-            )));
+    PopupsUtility.displayGenericPopup(
+      context,
+      SizedBox(
+          width: 1000,
+          height: 800,
+          child: SpreardedOrderEditor(
+            order: ordersLiveModel.selectedOrder,
+            createOrderCallback: _addOrder,
+            onSearch: _onSearchProduct,
+            confirmLabel: Labels.add,
+          )),
+    );
   }
 
   void _onSearchProduct(

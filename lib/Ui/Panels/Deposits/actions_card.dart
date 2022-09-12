@@ -7,8 +7,8 @@ import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/deposit_controller.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 
@@ -41,79 +41,74 @@ class SearchActionsCard extends StatelessWidget {
     controller.clear(context);
   } 
 
-  @override
-  Widget build(BuildContext context) {
-    final DespositController controller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .depositController;
 
-    return Card(
-      elevation: Measures.small,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Flexible(
-            child: SearchFieldText(
-                label: Labels.invoiceId,
-                isOptional: false,
-                registerQueryGenerator: registerQuery,
-                identifier: RecordFields.timeStamp.name),
-          ),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onQuickSearch(context, controller);
-            },
-            child: const Icon(Icons.search),
-          )),
-
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onClear(context, controller);
-            },
-            child: const Icon(Icons.clear),
-          )),
-          
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onPrint(context, controller);
-            },
-            child: const Icon(Icons.print),
-          )),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-
-class DepositFloatingActions extends StatelessWidget {
-  const DepositFloatingActions({Key? key}) : super(key: key);
-
-  void add(BuildContext context, DespositController controller) {
+  void onAdd(BuildContext context, DespositController controller) {
     controller.add(context);
   }
 
 
   @override
   Widget build(BuildContext context) {
-    final controller =
+    final DespositController controller =
         Provider.of<ControllersProvider>(context, listen: false)
             .depositController;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+   final theme = Theme.of(context);
+
+    return Column(
       children: [
-        Flexible(
-            child: ActionButton(
-          onPressed: (){add(context,controller);},
-          label: Labels.add, icon: Icons.add,
-        )),
-       
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              Labels.deposit,
+              style: theme.textTheme.displayMedium,
+            ),
+            const Spacer(),
+            ActionButton(
+              onPressed: () {
+                onPrint(context, controller);
+              },
+              label: Labels.print,
+              icon: Icons.print,
+            ),
+            const SizedBox(
+              width: Measures.medium,
+            ),
+            ActionButton(
+              onPressed: () {
+                onAdd(context, controller);
+              },
+              backgroundColor: theme.colorScheme.primaryContainer,
+              label: Labels.addDeposit,
+              icon: Icons.add,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: Measures.medium,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(
+              width: Measures.quickSearchFieldWidth,
+              height: Measures.quickSearchFieldHeight,
+              child: SearchFieldText(
+                    label: Labels.invoiceId,
+                    isOptional: false,
+                    registerQueryGenerator: registerQuery,
+                    identifier: OrderFields.timeStamp.name),
+            ),
+           ActionButton(
+              onPressed: () {
+                onQuickSearch(context, controller);
+              },
+              label: Labels.quickSearch,
+              icon: Icons.search,
+            ),
+          ],
+        )
       ],
     );
   }

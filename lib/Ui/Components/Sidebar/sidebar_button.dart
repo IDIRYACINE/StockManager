@@ -18,11 +18,12 @@ class SidebarButton extends StatefulWidget {
 
 class _SidebarButtonState extends State<SidebarButton> {
   late Color selectedBackground;
-  late Color selectedTextColor, unselectedTextColor;
+  late TextStyle selectedTextStyle, unselectedTextStyle , textStyle;
 
-  late Color backgroundColor, textColor;
+  late Color backgroundColor;
 
   late NavigationStore navigationStore;
+  late double fonstSize;
 
   bool isInitialized = false;
 
@@ -33,8 +34,9 @@ class _SidebarButtonState extends State<SidebarButton> {
     navigationStore = Provider.of<NavigationStore>(context);
 
     selectedBackground = Theme.of(context).hoverColor;
-    selectedTextColor = Colors.white;
-    unselectedTextColor = Colors.grey;
+    selectedTextStyle =
+        Theme.of(context).textTheme.button!.copyWith(color: Colors.white);
+    unselectedTextStyle = Theme.of(context).textTheme.button!.copyWith(color: Colors.grey);
 
     isInitialized = true;
   }
@@ -52,36 +54,30 @@ class _SidebarButtonState extends State<SidebarButton> {
       child: ValueListenableBuilder<int>(
           valueListenable: navigationStore.selectedIndex,
           builder: (context, value, child) {
-
             bool isSelected = value == widget.index;
-            backgroundColor = isSelected ?  Colors.white : unselectedTextColor;
-            textColor = isSelected ? selectedTextColor : unselectedTextColor;
+            backgroundColor = isSelected ? Colors.white : Colors.grey;
+
+            textStyle = isSelected ? selectedTextStyle : unselectedTextStyle;
 
             return MaterialButton(
                 onPressed: onClicked,
                 color: isSelected ? Colors.amber : null,
                 child: Padding(
-                  padding: const EdgeInsets.only(left : Measures.paddingLarge),
+                  padding: const EdgeInsets.only(left: Measures.paddingLarge),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Icon(navigationStore.getSelectedPanelIcon(widget.index)
-                      ,
-                      color: backgroundColor,
+                      Icon(
+                        navigationStore.getSelectedPanelIcon(widget.index),
+                        color: backgroundColor,
                       ),
-
                       const SizedBox(
                         width: Measures.paddingLarge,
                       ),
-                      
                       Text(
                         widget.title,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color:
-                             textColor,
-                        ),
+                        style:textStyle
                       ),
                     ],
                   ),

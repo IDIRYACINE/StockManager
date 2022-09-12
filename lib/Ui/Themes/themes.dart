@@ -47,9 +47,10 @@ abstract class AppThemes {
 
   static final ThemeData darkTheme2 = ThemeData(
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.black12,  
+      seedColor: Colors.grey   ,
+      primaryContainer: Colors.red,
       primary: Colors.amber,
-      surfaceTint: Colors.grey,
+      surfaceTint: Colors.black12,
       brightness: Brightness.dark,
     ),
     useMaterial3: true,

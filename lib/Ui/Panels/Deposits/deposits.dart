@@ -5,7 +5,7 @@ import 'deposits_table.dart';
 import 'actions_card.dart';
 
 class DepositsPanel extends StatelessWidget {
-  final int upperRowFlex = 1;
+  final int upperRowFlex = 2;
   final int lowerRowFlex = 8;
 
   const DepositsPanel({Key? key}) : super(key: key);
@@ -15,13 +15,12 @@ class DepositsPanel extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),
       child: Column(mainAxisSize: MainAxisSize.max, children: [
-        Expanded(flex: upperRowFlex, child: SearchActionsCard()),
-        const SizedBox(height: Measures.paddingLarge),
+        SearchActionsCard(),
+        const SizedBox(height: Measures.large),
         Expanded(
           flex: lowerRowFlex,
           child: const DepositsTable(),
         ),
-        Expanded(flex: upperRowFlex, child: const DepositFloatingActions()),
       ]),
     );
   }

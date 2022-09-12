@@ -5,7 +5,6 @@ import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:stock_manager/Application/Utility/Printer/printer.dart';
-import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
-import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -36,16 +33,19 @@ class SalesController {
 
       recordsLiveModel.updateSaleRecordAt(record, index);
     }
-
-    showDialog(
-        context: context,
-        builder: (context) => Material(
-                child: SaleEditor(
+PopupsUtility.displayGenericPopup(
+        context,
+        SizedBox(
+          width: 1000,
+          height: 800,
+          child:SaleEditor(
               record: record.copyWith(),
               editMode: true,
               confirmLabel: Labels.update,
               editCallback: onEdit,
-            )));
+            )
+        ));
+    
   }
 
   void add(BuildContext context) {
@@ -90,17 +90,21 @@ class SalesController {
       }
     }
 
-    showDialog(
-        context: context,
-        builder: (context) => Material(
-                child: SaleEditor(
+PopupsUtility.displayGenericPopup(
+        context,
+        SizedBox(
+          width: 1000,
+          height: 800,
+          child:SaleEditor(
               record: Record.defaultInstance(
                 paymentType: PaymentTypes.payement,
               ),
               onSearch: onSearch,
               confirmLabel: Labels.add,
               createCallback: _onConfirm,
-            )));
+            )
+        ));
+    
   }
 
   void clear(BuildContext context) {

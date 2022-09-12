@@ -120,9 +120,11 @@ class _ProductsDelegate implements IStockDelegate<Product> {
       Navigator.pop(context);
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => Material(
+    PopupsUtility.displayGenericPopup(
+      context,
+      SizedBox(
+        width: 1000,
+        height: 800,
         child: ProductEditor(
           createCallback: _onConfirm,
           confirmLabel: Labels.add,
@@ -134,9 +136,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
   @override
   void edit(BuildContext context, Product product, int index) {
-    
     void onEdit(Map<String, dynamic> updatedField, Product product) {
-     
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: product.reference,
         ServicesData.updatedValues: updatedField,
@@ -236,9 +236,9 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
         RegisterSearchQueryBuilder onDeselect) {
-
-          final familliesDropddown = stockLiveDataModel.loadedProductFamillies.
-          map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e)).toList();
+      final familliesDropddown = stockLiveDataModel.loadedProductFamillies
+          .map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e))
+          .toList();
 
       return [
         SearchFieldText<int>(
@@ -339,7 +339,6 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
   @override
   void edit(BuildContext context, ProductFamily family, int index) {
-
     void onEdit(Map<String, dynamic> updatedField, ProductFamily family) {
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: family,

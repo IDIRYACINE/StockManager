@@ -21,8 +21,33 @@ class TableRowText extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-      return Text(data,style: TextStyle(fontSize: fontSize,color: color,),textAlign: TextAlign.center,);
+      return Text(data,
+      style:Theme.of(context).textTheme.bodyLarge,textAlign: TextAlign.center,);
 
   }
 
+}
+
+class LogoTextButonLabel extends StatelessWidget{
+  const LogoTextButonLabel({Key? key,
+   required this.label,
+    required this.icon, this.textColor, 
+    }) : super(key: key);
+
+  final String label;
+  final IconData icon;
+  final Color? textColor;
+
+  @override
+  Widget build(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      Icon(icon),
+      const SizedBox(width: Measures.small,),
+      Text(label,style: Theme.of(context).textTheme.button!.copyWith(
+        color: textColor,
+      ),),
+    ],
+  );  }
 }

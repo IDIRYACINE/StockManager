@@ -214,6 +214,14 @@ abstract class Labels {
   static const remaining = 'Remaining';
 
   static String invoiceId = 'Invoice Id';
+
+  static const addOrder = 'Add Order';
+
+  static const quickSearch = 'Quick Search';
+
+  static const addDeposit = 'Add Deposit';
+
+  static const addSeller = 'Add Seller';
 }
 
 abstract class Measures {
@@ -268,6 +276,10 @@ abstract class Measures {
   static const invoiceLogoWidth = 100.0;
 
   static const invoiceLogoHeight = 100.0;
+
+  static double quickSearchFieldHeight = 30.0;
+
+  static double quickSearchFieldWidth = 325.0;
 }
 
 abstract class Messages {

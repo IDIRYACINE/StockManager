@@ -7,38 +7,9 @@ import 'package:stock_manager/Application/Controllers/stock_controller.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
+import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
-import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-
-class StockFloatingActions extends StatelessWidget {
-  const StockFloatingActions({Key? key}) : super(key: key);
-
-  void add(BuildContext context, StockController controller) {
-    controller.add(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = Provider.of<ControllersProvider>(context, listen: false)
-        .stockController;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Flexible(
-            child: ActionButton(
-          onPressed: () {
-            add(context, controller);
-          },
-          label: Labels.add,
-          icon: Icons.add,
-        )),
-      ],
-    );
-  }
-}
 
 class SearchActionsCard extends StatelessWidget {
   SearchActionsCard({Key? key}) : super(key: key);
@@ -51,6 +22,11 @@ class SearchActionsCard extends StatelessWidget {
 
   void onAdvancedSearch(BuildContext context, StockController controller) {
     controller.search(context);
+  }
+
+
+  void onAdd(BuildContext context, StockController controller) {
+    controller.add(context);
   }
 
   void onQuickSearch(BuildContext context, StockController controller) {
@@ -79,48 +55,54 @@ class SearchActionsCard extends StatelessWidget {
 
     final stockNotifier = ValueNotifier(StockTypes.products);
 
-    return Card(
-      elevation: Measures.small,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Flexible(
-              child: SelectorDropDown<StockTypes>(
-                initialSelection:stockNotifier ,
-            onSelect: controller.onSelectStockType,
-            label: const Text(Labels.stockTypes),
-            items: stockTypes,
-          )),
-          Flexible(
-            child: SearchFieldText(
-                label: Labels.reference,
-                isOptional: false,
-                registerQueryGenerator: registerQuery,
-                identifier: ProductFields.reference.name),
-          ),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onQuickSearch(context, controller);
-            },
-            child: const Icon(Icons.search),
-          )),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onRefresh(context, controller);
-            },
-            child: const Icon(Icons.refresh),
-          )),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onAdvancedSearch(context, controller);
-            },
-            child: const Icon(Icons.filter),
-          )),
-        ],
-      ),
+   final theme = Theme.of(context);
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              Labels.stock,
+              style: theme.textTheme.displayMedium,
+            ),
+            const Spacer(),
+            
+            ActionButton(
+              onPressed: () {
+                onAdd(context, controller);
+              },
+              backgroundColor: theme.colorScheme.primaryContainer,
+              label: Labels.add,
+              icon: Icons.add,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: Measures.medium,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(
+              width: Measures.quickSearchFieldWidth,
+              height: Measures.quickSearchFieldHeight,
+              child: SearchFieldText(
+                    label: Labels.reference,
+                    isOptional: false,
+                    registerQueryGenerator: registerQuery,
+                    identifier: OrderFields.reference.name),
+            ),
+           ActionButton(
+              onPressed: () {
+                onQuickSearch(context, controller);
+              },
+              label: Labels.quickSearch,
+              icon: Icons.search,
+            ),
+          ],
+        )
+      ],
     );
   }
 }

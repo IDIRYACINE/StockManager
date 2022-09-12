@@ -6,7 +6,7 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 class OrdersPanel extends StatelessWidget {
   const OrdersPanel({Key? key}) : super(key: key);
 
-  final int upperRowFlex = 1;
+  final int upperRowFlex = 2;
   final int lowerRowFlex = 8;
 
   @override
@@ -14,13 +14,13 @@ class OrdersPanel extends StatelessWidget {
     return Padding(
           padding:  const EdgeInsets.all(Measures.paddingLarge),
       child: Column(children: [
-        Expanded(flex: upperRowFlex, child: SearchActionsCard()),
-        const SizedBox(height: Measures.paddingLarge),
+
+         SearchActionsCard(),
+        const SizedBox(height: Measures.large),
         Expanded(
           flex: lowerRowFlex,
           child: const OrdersTableSpreaded(),
         ),
-        Expanded(flex: upperRowFlex, child: const OrdersFloatingActions()),
       ]),
     );
   }
@@ -46,8 +46,7 @@ class OrderProductsPanel extends StatelessWidget {
           flex: lowerRowFlex,
           child: const OrderProductsTable(),
         ),
-        Expanded(flex: upperRowFlex, child: 
-         OrderProductsFloatingActions(isEditing: isEditing,)),
+       
       ]),
     );
   }

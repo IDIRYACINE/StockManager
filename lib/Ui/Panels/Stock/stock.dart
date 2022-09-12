@@ -14,14 +14,13 @@ class StockPanel extends StatelessWidget {
     return Padding(
           padding:  const EdgeInsets.all(Measures.paddingLarge),
       child: Column(children: [
-        Expanded(flex: upperRowFlex, child:  SearchActionsCard()),
-                const SizedBox(height: Measures.paddingLarge),
+       SearchActionsCard(),
+                const SizedBox(height: Measures.large),
 
         Expanded(
           flex: lowerRowFlex,
           child: const StockTable(),
         ),
-        Expanded(flex: upperRowFlex, child: const StockFloatingActions()),
       ]),
     );
   }

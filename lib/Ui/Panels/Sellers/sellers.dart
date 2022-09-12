@@ -15,11 +15,12 @@ class SellersPanel extends StatelessWidget {
     return Padding(
           padding:  const EdgeInsets.all(Measures.paddingLarge),
       child: Column(children: [
+        const ActionsCard(),
+        const SizedBox(height: Measures.large),
         Expanded(
           flex: lowerRowFlex,
           child: const SellersTable(),
         ),
-        Expanded(flex: upperRowFlex, child: const SellersFloatingActions()),
       ]),
     );
   }

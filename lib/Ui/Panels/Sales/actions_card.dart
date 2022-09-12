@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/sales_controller.dart';
+import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class ActionsCard extends StatelessWidget {
   const ActionsCard({Key? key}) : super(key: key);
 
-  void add(BuildContext context, SalesController controller) {
+  void onAdd(BuildContext context, SalesController controller) {
     controller.add(context);
   }
 
-  void clear(BuildContext context, SalesController controller) {
+  void onClear(BuildContext context, SalesController controller) {
     controller.clear(context);
   }
 
-  void print(BuildContext context, SalesController controller) {
+  void onPrint(BuildContext context, SalesController controller) {
     controller.printPurchases(context);
   }
 
@@ -32,27 +33,30 @@ class ActionsCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Flexible(
-            child: ElevatedButton(
+            child: ActionButton(
               onPressed: () {
-                add(context, controller);
+                onAdd(context, controller);
               },
-              child: const Text(Labels.add),
+              label: Labels.add,
+              icon: Icons.add,
             ),
           ),
           Flexible(
-            child: ElevatedButton(
+            child: ActionButton(
               onPressed: () {
-                clear(context, controller);
+                onClear(context, controller);
               },
-              child: const Text(Labels.clear),
+              label: Labels.clear,
+              icon: Icons.clear,
             ),
           ),
           Flexible(
-            child: ElevatedButton(
+            child: ActionButton(
               onPressed: () {
-                print(context, controller);
+                onPrint(context, controller);
               },
-              child: const Text(Labels.print),
+              label: Labels.print,
+              icon: Icons.print,
             ),
           ),
         ],

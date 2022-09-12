@@ -350,6 +350,7 @@ class _SearchFieldDateState extends State<SearchFieldDate> {
     widget.registerQueryGenerator?.call(queryGenerator);
 
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.isOptional)
           Flexible(

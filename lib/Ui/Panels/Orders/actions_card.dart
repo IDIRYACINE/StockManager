@@ -2,102 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-
-class OrdersFloatingActions extends StatelessWidget {
-  const OrdersFloatingActions({Key? key}) : super(key: key);
-
-  void add(BuildContext context, OrdersController controller) {
-    controller.addSpreadedOrder(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = Provider.of<ControllersProvider>(context, listen: false)
-        .ordersController;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Flexible(
-            child: ActionButton(
-          onPressed: () {
-            add(context, controller);
-          },
-          label: Labels.add,
-          icon: Icons.add,
-        )),
-      ],
-    );
-  }
-}
-
-class OrderProductsFloatingActions extends StatelessWidget {
-  const OrderProductsFloatingActions({Key? key, required this.isEditing})
-      : super(key: key);
-
-  final bool isEditing;
-
-  void add(BuildContext context, OrderProductsController controller) {
-    controller.add(context);
-  }
-
-  void done(BuildContext context, OrdersController controller) {
-    controller.done();
-    Navigator.pop(context);
-  }
-
-  void editCustomer(BuildContext context, OrdersController controller) {
-    controller.editCustomer(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final orderProductscontroller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .orderProductsController;
-
-    final ordersController =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .ordersController;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Flexible(
-            child: ActionButton(
-          onPressed: () {
-            add(context, orderProductscontroller);
-          },
-          label: Labels.add,
-          icon: Icons.add,
-        )),
-        Flexible(
-            child: ActionButton(
-          onPressed: () {
-            editCustomer(context, ordersController);
-          },
-          label: Labels.customer,
-          icon: Icons.contacts,
-        )),
-        Flexible(
-            child: ActionButton(
-          onPressed: () {
-            done(context, ordersController);
-          },
-          label: Labels.cancel,
-          icon: Icons.done,
-        )),
-      ],
-    );
-  }
-}
 
 
 class SearchActionsCard extends StatelessWidget {
@@ -111,6 +21,10 @@ class SearchActionsCard extends StatelessWidget {
 
   void onAdvancedSearch(BuildContext context, OrdersController controller) {
     controller.search(context);
+  }
+
+  void onAdd(BuildContext context, OrdersController controller) {
+    controller.addSpreadedOrder(context);
   }
 
   void onQuickSearch(BuildContext context, OrdersController controller) {
@@ -137,50 +51,74 @@ class SearchActionsCard extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .ordersController;
 
-    return Card(
-      elevation: Measures.small,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Flexible(
-            child: SearchFieldText(
-                label: Labels.customerName,
-                isOptional: false,
-                registerQueryGenerator: registerQuery,
-                identifier: OrderFields.customerName.name),
-          ),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onQuickSearch(context, controller);
-            },
-            child: const Icon(Icons.search),
-          )),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onRefresh(context, controller);
-            },
-            child: const Icon(Icons.refresh),
-          )),
-          // Flexible(
-          //     child: ElevatedButton(
-          //   onPressed: () {
-          //     onAdvancedSearch(context, controller);
-          //   },
-          //   child: const Icon(Icons.filter),
-          // )),
-          Flexible(
-              child: ElevatedButton(
-            onPressed: () {
-              onPrint(context, controller);
-            },
-            child: const Icon(Icons.print),
-          )),
-        ],
-      ),
+    final theme = Theme.of(context);
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              Labels.orders,
+              style: theme.textTheme.displayMedium,
+            ),
+            const Spacer(),
+            ActionButton(
+              onPressed: () {
+                onPrint(context, controller);
+              },
+              label: Labels.print,
+              icon: Icons.print,
+            ),
+            const SizedBox(
+              width: Measures.medium,
+            ),
+            
+            ActionButton(
+              onPressed: () {
+                onRefresh(context, controller);
+              },
+              label: Labels.refresh,
+              icon: Icons.refresh,
+            ),
+            const SizedBox(
+              width: Measures.medium,
+            ),
+            ActionButton(
+              onPressed: () {
+                onAdd(context, controller);
+              },
+              backgroundColor: theme.colorScheme.primaryContainer,
+              label: Labels.addOrder,
+              icon: Icons.add,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: Measures.medium,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(
+              width: Measures.quickSearchFieldWidth,
+              height: Measures.quickSearchFieldHeight,
+              child: SearchFieldText(
+                    label: Labels.customerName,
+                    isOptional: false,
+                    registerQueryGenerator: registerQuery,
+                    identifier: OrderFields.customerName.name),
+            ),
+           ActionButton(
+              onPressed: () {
+                onQuickSearch(context, controller);
+              },
+              label: Labels.quickSearch,
+              icon: Icons.search,
+            ),
+          ],
+        )
+      ],
     );
   }
 }
-
-

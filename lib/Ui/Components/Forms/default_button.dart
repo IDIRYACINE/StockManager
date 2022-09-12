@@ -24,23 +24,3 @@ class _DefaultButtonState extends State<DefaultButton>{
 
 }
 
-class ActionButton extends StatefulWidget{
-  const ActionButton({Key? key, this.onPressed, required this.label, required this.icon}) : super(key: key);
-
-  final VoidCallback? onPressed;
-  final String label;
-  final IconData icon;
-
-  @override
-  State<StatefulWidget> createState() => _ActionButtonState();
-}
-
-class _ActionButtonState  extends State<ActionButton>{
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      backgroundColor: Colors.amber,
-      onPressed: widget.onPressed, child: Icon(widget.icon),);
-  }
-}
-

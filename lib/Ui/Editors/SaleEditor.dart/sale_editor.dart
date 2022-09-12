@@ -65,6 +65,7 @@ class SaleEditor extends StatelessWidget {
         record.barcode = p.barcode;
         record.originalPrice = p.buyingPrice;
         record.sellingPrice = p.sellingPrice;
+        record.deposit = p.sellingPrice;
 
         product.value = p;
       }
