@@ -89,14 +89,15 @@ class SearchActionsCard extends StatelessWidget {
           height: Measures.medium,
         ),
         Row(
+
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SizedBox(
               width: Measures.quickSearchFieldWidth,
-              height: Measures.quickSearchFieldHeight,
               child: SearchFieldText(
                     label: Labels.invoiceId,
                     isOptional: false,
+                    parser: (string) => int.parse(string),
                     registerQueryGenerator: registerQuery,
                     identifier: OrderFields.timeStamp.name),
             ),

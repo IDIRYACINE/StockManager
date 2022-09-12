@@ -13,10 +13,19 @@ class OrdersReport {
 
   OrdersReport(this.ordersMap);
 
+  final List<String> _reportHeaders = [
+    'client',
+    'telephone',
+    'wilaya',
+    'produit',
+    'prix',
+    'versement',
+    'shipping'
+  ];
+
   void printReport(BuildContext context) {
     AppPrinter appPrinter = AppPrinter();
     appPrinter.createNewDocument();
-
     int maxRowsPerPage = Measures.recordsMaxRowsPrint;
     int pageCount =
         Utility.calculatePageCount(ordersMap.length, maxRowsPerPage);
@@ -34,7 +43,7 @@ class OrdersReport {
       RecordsPage<OrderProductReportWrapper> recordPage = RecordsPage(
         title: Titles.dailyOrdersReport,
         paddings: Measures.extraSmall,
-        headers: Titles.ordersReportHeaders,
+        headers: _reportHeaders,
         headersTextSize: Measures.h5TextSize,
         rowsTextSize: Measures.h5TextSize,
         cellAdapter: Adapter.orderProductWrapperToReportRow,

@@ -122,14 +122,12 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
     PopupsUtility.displayGenericPopup(
       context,
-      SizedBox(
-        width: 1000,
-        height: 800,
-        child: ProductEditor(
-          createCallback: _onConfirm,
-          confirmLabel: Labels.add,
-          product: Product.defaultInstance(),
-        ),
+      width: 1000,
+      height: 800,
+      ProductEditor(
+        createCallback: _onConfirm,
+        confirmLabel: Labels.add,
+        product: Product.defaultInstance(),
       ),
     );
   }
@@ -152,17 +150,18 @@ class _ProductsDelegate implements IStockDelegate<Product> {
       Navigator.pop(context);
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => Material(
-        child: ProductEditor(
+    PopupsUtility.displayGenericPopup(
+      context,
+      width: 1000,
+      height: 800,
+     ProductEditor(
           product: product,
           editMode: true,
           editCallback: onEdit,
           confirmLabel: Labels.update,
         ),
-      ),
     );
+
   }
 
   @override

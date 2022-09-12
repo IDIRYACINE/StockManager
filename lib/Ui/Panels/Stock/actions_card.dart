@@ -67,7 +67,17 @@ class SearchActionsCard extends StatelessWidget {
               style: theme.textTheme.displayMedium,
             ),
             const Spacer(),
-            
+             
+            ActionButton(
+              onPressed: () {
+                onRefresh(context, controller);
+              },
+              label: Labels.refresh,
+              icon: Icons.refresh,
+            ),
+            const SizedBox(
+              width: Measures.small,
+            ),
             ActionButton(
               onPressed: () {
                 onAdd(context, controller);
@@ -86,7 +96,6 @@ class SearchActionsCard extends StatelessWidget {
           children: [
             SizedBox(
               width: Measures.quickSearchFieldWidth,
-              height: Measures.quickSearchFieldHeight,
               child: SearchFieldText(
                     label: Labels.reference,
                     isOptional: false,

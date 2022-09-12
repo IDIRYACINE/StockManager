@@ -102,7 +102,6 @@ class SearchActionsCard extends StatelessWidget {
           children: [
             SizedBox(
               width: Measures.quickSearchFieldWidth,
-              height: Measures.quickSearchFieldHeight,
               child: SearchFieldText(
                     label: Labels.customerName,
                     isOptional: false,

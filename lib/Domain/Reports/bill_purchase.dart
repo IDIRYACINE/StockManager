@@ -10,10 +10,16 @@ import 'package:stock_manager/Ui/Themes/resources.dart';
 
 class BillPurchase {
 
-  final String id;
-  final List<Record> records;
   BillPurchase(this.id, this.records);
 
+  final String id;
+  final List<Record> records;
+  final List<String> _billHeaders = [
+    'produit',
+    'quantity',
+    'prix',
+    'totale',
+  ];
 
   void print(BuildContext context) {
 
@@ -25,7 +31,7 @@ class BillPurchase {
 
     InvoicePage<Record> invoicePage = InvoicePage(
         paddings: Measures.paddingNormal,
-        headers: Titles.pruchaseInvoiceHeaders,
+        headers: _billHeaders,
         invoicesTextSize: Measures.h3TextSize,
         titleTextSize: Measures.h3TextSize,
         cellAdapter: Adapter.recordToInvoiceRowData,

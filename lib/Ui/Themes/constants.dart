@@ -222,6 +222,8 @@ abstract class Labels {
   static const addDeposit = 'Add Deposit';
 
   static const addSeller = 'Add Seller';
+
+  static const addModel = 'Add Model';
 }
 
 abstract class Measures {
@@ -237,8 +239,8 @@ abstract class Measures {
   static const buttonWidthLarge = 300;
   static const buttonHeightSmall = 40;
 
-  static const cardWidthsmall = 200;
-  static const cardWidthMedium = 300;
+  static const cardWidthsmall = 200.0;
+  static const cardWidthMedium = 300.0;
   static const cardWidthLarge = 500.0;
 
   static const paddingLarge = 20.0;

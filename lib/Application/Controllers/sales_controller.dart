@@ -92,10 +92,10 @@ PopupsUtility.displayGenericPopup(
 
 PopupsUtility.displayGenericPopup(
         context,
-        SizedBox(
-          width: 1000,
+         width: 1000,
           height: 800,
-          child:SaleEditor(
+        
+          SaleEditor(
               record: Record.defaultInstance(
                 paymentType: PaymentTypes.payement,
               ),
@@ -103,7 +103,7 @@ PopupsUtility.displayGenericPopup(
               confirmLabel: Labels.add,
               createCallback: _onConfirm,
             )
-        ));
+        );
     
   }
 

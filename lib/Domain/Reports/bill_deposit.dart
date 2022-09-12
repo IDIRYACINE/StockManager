@@ -7,10 +7,18 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/resources.dart';
 
 class BillDeposit {
-  final List<Record> deposits;
-  final String id;
 
   BillDeposit(this.deposits, this.id);
+
+
+  final List<Record> deposits;
+  final String id;
+  final List<String> _depositHeaders = [
+    'produit',
+    'prix',
+    'versement',
+    'reste',
+  ];
 
   static final headers = [
     Labels.productName,
@@ -32,23 +40,23 @@ class BillDeposit {
 
     InvoicePage<Record> invoicePage = InvoicePage(
         paddings: Measures.paddingNormal,
-        headers: Titles.depositsTableColumns,
+        headers: _depositHeaders,
         invoicesTextSize: Measures.h3TextSize,
         titleTextSize: Measures.h3TextSize,
         cellAdapter: _recordToInvoiceRowData,
         data: deposits,
         footerData: Titles.invoiceFooterHeaders,
         invoiceAttributes: [
-          InvoiceItem(Labels.customerName,
+          InvoiceItem('client',
               deposits.first.customer ?? ''),
               InvoiceItem(Labels.invoiceId,
               id),
          
         ],
         invoicePayementAttributes: [
-          InvoiceItem(Labels.total, totals.total.toString(),pdf.Font.timesBold()),
-          InvoiceItem(Labels.totalDeposit, totals.totalPaid.toString(),pdf.Font.timesBold()),
-          InvoiceItem(Labels.remainingPayement, totals.remainingPayement.toString(),pdf.Font.timesBold()),
+          InvoiceItem('totale', totals.total.toString(),pdf.Font.timesBold()),
+          InvoiceItem('totale versement', totals.totalPaid.toString(),pdf.Font.timesBold()),
+          InvoiceItem('totale reste', totals.remainingPayement.toString(),pdf.Font.timesBold()),
 
           
         ],

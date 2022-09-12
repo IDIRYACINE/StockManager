@@ -11,6 +11,14 @@ class RecordsReport {
 
   RecordsReport(this.records);
 
+  List<String> _reportHeaders = [
+    Labels.type,
+    'produit',
+    'prix',
+    'versement',
+    'rest',
+  ];
+
   void printRecords(BuildContext context) {
     AppPrinter appPrinter = AppPrinter();
     appPrinter.createNewDocument();
@@ -29,15 +37,16 @@ class RecordsReport {
 
       RecordsPage<Record> recordPage = RecordsPage(
           paddings: Measures.paddingNormal,
-          headers: Titles.recordReportHeaders,
+          headers: _reportHeaders,
           headersTextSize: Measures.h5TextSize,
           rowsTextSize: Measures.h5TextSize,
           cellAdapter: _recordToReportRow,
           data: records,
           invoicePayementAttributes: [
-            InvoiceItem(Labels.profit, totals.totalProfit.toString(),pdf.Font.timesBold()),
+            InvoiceItem(Labels.profit, totals.totalProfit.toString(),
+                pdf.Font.timesBold()),
             InvoiceItem(Labels.remainingPayement,
-                totals.totalRemainingPayement.toString(),pdf.Font.timesBold()),
+                totals.totalRemainingPayement.toString(), pdf.Font.timesBold()),
           ],
           endIndex: endIndex,
           startIndex: currentIndex,
@@ -73,8 +82,7 @@ class RecordsReport {
     return _TotalsWrapper(totalProfit, totalRemainingPayement);
   }
 
-
-   List<String> _recordToReportRow(Record record) {
+  List<String> _recordToReportRow(Record record) {
     List<String> rawData = [
       record.payementType,
       record.product,

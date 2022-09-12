@@ -85,7 +85,6 @@ class SearchActionsCard extends StatelessWidget {
           children: [
             SizedBox(
               width: Measures.quickSearchFieldWidth,
-              height: Measures.quickSearchFieldHeight,
               child: SearchFieldDate(
                   startLabel: Labels.startDate,
                   endLabel: Labels.endDate,
@@ -94,7 +93,7 @@ class SearchActionsCard extends StatelessWidget {
                   identifier: RecordFields.date.name),
             ),
             const SizedBox(
-              height: Measures.medium,
+              width: Measures.medium,
             ),
             ActionButton(
               onPressed: () {

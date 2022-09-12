@@ -19,18 +19,19 @@ class _PriceCardState extends State<PriceCard> {
 
     return Card(
       elevation: Measures.small,
+      color: Colors.amber,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
             'Total Price',
-            style: TextStyle(fontSize: Measures.h1TextSize),
+            style: TextStyle(fontSize: Measures.h1TextSize,color: Colors.white),
           ),
           ValueListenableBuilder<double>(
               valueListenable: records.totalPrice,
               builder: (context, totalPrice, child) {
                 return Text(totalPrice.toString(),
-                    style: const TextStyle(fontSize: Measures.h1TextSize,color: Colors.amber));
+                    style: const TextStyle(fontSize: Measures.h1TextSize,color: Colors.white));
               }),
         ],
       ),

@@ -265,7 +265,6 @@ class DatabaseDAO {
     SelectorBuilder selector = SelectorBuilder();
     selector.map = search;
     MongoDbDataStream data = await _database.searchPurchaseRecord(selector);
-
     await await data.forEach((element) {
       records.add(DatabaseRepository.recordFromJson(json: element));
     });

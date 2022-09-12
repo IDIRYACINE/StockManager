@@ -174,7 +174,7 @@ class DespositController {
     Record remainingRecord = data.copyWith(
       payementType: PaymentTypes.remaining.name,
       payementTypeIndex: PaymentTypes.remaining.index,
-      remainingPayement: 0,
+      remainingPayement: -1 * data.remainingPayement,
       deposit: data.remainingPayement,
       date: DateTime.now(),
     );

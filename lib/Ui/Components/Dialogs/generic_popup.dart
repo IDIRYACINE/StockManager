@@ -5,18 +5,16 @@ import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 abstract class PopupsUtility {
-  static void displayGenericPopup(
-    BuildContext context, Widget content,{List<Widget>? actions , double? width,double?  height}) {
+  static void displayGenericPopup(BuildContext context, Widget content,
+      {List<Widget>? actions, double? width, double? height}) {
     showDialog(
-        context: context,
-        builder: (context) => SizedBox(
-          width: width,
-          height: height,
-          child: AlertDialog(
-                content: content,
-                actions: actions,
-              ),
-        ));
+      context: context,
+      builder: (context) =>AlertDialog(
+          content: SizedBox(width: width, height: height, child: content),
+          actions: actions,
+        ),
+      
+    );
   }
 
   static Future<T?> dispalyContextMenu<T>(

@@ -58,9 +58,9 @@ abstract class AppThemes {
 
   static final ThemeData lightTheme2 = ThemeData(
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.grey,  
+      seedColor: Colors.white,  
       primary: Colors.amber,
-      surfaceTint: Colors.white,
+      surfaceTint: Colors.grey,
       brightness: Brightness.light,
     ),
     useMaterial3: true,

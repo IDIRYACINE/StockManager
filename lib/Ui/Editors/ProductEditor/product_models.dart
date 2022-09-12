@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/ProductEditor/product_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
@@ -58,7 +59,7 @@ class _ProductModelsState extends State<ProductModels> {
               Flexible(
                   child: ElevatedButton(
                 onPressed: add,
-                child: const Text(Labels.add),
+                child: const Text(Labels.addModel),
               )),
             ],
           ),
@@ -117,11 +118,8 @@ class ProductModelRow extends StatefulWidget {
 }
 
 class _ProductModelRowState extends State<ProductModelRow> {
-  late List<String> sizesIds = [];
-
   @override
   void initState() {
-    sizesIds = widget.model.sizes.keys.toList();
     super.initState();
   }
 
@@ -135,6 +133,22 @@ class _ProductModelRowState extends State<ProductModelRow> {
 
   void onDeleteModelSize(String sizeIndex) {
     widget.onDeleteSize(widget.id, sizeIndex);
+  }
+
+  void onEdit() {
+    PopupsUtility.displayGenericPopup(
+      context,
+      width: 400,
+      height: 400,
+      ProductModelEditor(
+        model: widget.model,
+        onDeleteSize: onDeleteModelSize,
+        onQuantityChanged: onModelQuantityChanged,
+        onSizeChanged: onModelSizeChanged,
+        modelId: widget.id,
+        onAddSize: widget.onAddSize,
+      ),
+    );
   }
 
   @override
@@ -156,46 +170,26 @@ class _ProductModelRowState extends State<ProductModelRow> {
               },
             )),
             Flexible(
-              child: DefaultButton(
-                label: Labels.remove,
+              child: IconButton(
+                icon: const Icon(Icons.edit),
                 onPressed: () {
                   setState(() {
-                    
-                  widget.onDeleteModel(widget.id);
-                  sizesIds = widget.model.sizes.keys.toList();
+                    onEdit();
+                  });
+                },
+              ),),
+               Flexible(
+              child: IconButton(
+                icon: const  Icon(Icons.delete),
+                onPressed: () {
+                  setState(() {
+                    widget.onDeleteModel(widget.id);
                   });
                 },
               ),
             ),
-            Flexible(
-              child: DefaultButton(
-                label: Labels.addSize,
-                onPressed: () {
-                  setState(() {
-                    widget.onAddSize(widget.id);
-                    sizesIds = widget.model.sizes.keys.toList();
-                  });
-                },
-              ),
-            )
           ],
         ),
-        for (int i = 0; i < widget.model.sizes.length; i++)
-          Container(
-            margin: const EdgeInsets.only(top: Measures.small),
-            child: _SizeQuantityRow(
-              onQuantityChanged: onModelQuantityChanged,
-              onSizeChanged: onModelSizeChanged,
-              sizeId: sizesIds[i],
-              model: widget.model,
-              onDeleteSize: (index) {
-                setState(() {
-                  onDeleteModelSize(index);
-                  sizesIds = widget.model.sizes.keys.toList();
-                });
-              },
-            ),
-          ),
       ],
     );
   }
@@ -220,7 +214,7 @@ class _SizeQuantityRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Flexible(
             child: AttributeTextField(
@@ -232,6 +226,9 @@ class _SizeQuantityRow extends StatelessWidget {
             }
           },
         )),
+        const SizedBox(
+          width: Measures.small,
+        ),
         Flexible(
           child: AttributeTextField(
             initialValue: model.sizes[sizeId]!.quantity.toString(),
@@ -243,6 +240,9 @@ class _SizeQuantityRow extends StatelessWidget {
             },
           ),
         ),
+        const SizedBox(
+          width: Measures.small,
+        ),
         Flexible(
             child: DefaultButton(
           label: Labels.remove,
@@ -250,6 +250,94 @@ class _SizeQuantityRow extends StatelessWidget {
             onDeleteSize(sizeId);
           },
         ))
+      ],
+    );
+  }
+}
+
+class ProductModelEditor extends StatefulWidget {
+  const ProductModelEditor({
+    Key? key,
+    required this.model,
+    required this.onQuantityChanged,
+    required this.onSizeChanged,
+    required this.onDeleteSize,
+    required this.onAddSize,
+    required this.modelId,
+  }) : super(key: key);
+
+  final ProductModel model;
+
+  final Callback2<String, String> onQuantityChanged;
+  final Callback2<String, String> onSizeChanged;
+  final Callback<String> onDeleteSize;
+  final Callback<String> onAddSize;
+  final String modelId;
+
+  @override
+  State<StatefulWidget> createState() => _ProductModelEditorState();
+}
+
+class _ProductModelEditorState extends State<ProductModelEditor> {
+  late List<String> sizesIds = [];
+
+  @override
+  void initState() {
+    sizesIds = widget.model.sizes.keys.toList();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              Labels.sizes,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall!
+                  .copyWith(color: Colors.grey),
+            ),
+            Flexible(
+              child: DefaultButton(
+                label: Labels.addSize,
+                onPressed: () {
+                  setState(() {
+                    widget.onAddSize(widget.modelId);
+                    sizesIds = widget.model.sizes.keys.toList();
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: Measures.medium,
+        ),
+        Expanded(
+          child: ListView.builder(
+              itemCount: sizesIds.length,
+              itemBuilder: (context, index) => Container(
+                margin: const EdgeInsets.only(top: Measures.small),
+                child: _SizeQuantityRow(
+                  onQuantityChanged: widget.onQuantityChanged,
+                  onSizeChanged: widget.onSizeChanged,
+                  sizeId: sizesIds[index],
+                  model: widget.model,
+                  onDeleteSize: (index) {
+                    setState(() {
+                      widget.onDeleteSize(index);
+                      sizesIds = widget.model.sizes.keys.toList();
+                    });
+                  },
+                ),
+              ),
+            ),
+        ),
+        
       ],
     );
   }
