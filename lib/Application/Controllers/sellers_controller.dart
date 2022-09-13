@@ -53,15 +53,13 @@ class SellersController {
       sellersLiveModel.update(seller, index);
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => Material(
-        child: SellersEditor(
-          seller: seller.copyWith(),
-          editMode: true,
-          editCallback: onEdit,
-          confirmLabel: Labels.update,
-        ),
+    PopupsUtility.displayGenericPopup(
+      context,
+      SellersEditor(
+        seller: seller.copyWith(),
+        editMode: true,
+        editCallback: onEdit,
+        confirmLabel: Labels.update,
       ),
     );
   }

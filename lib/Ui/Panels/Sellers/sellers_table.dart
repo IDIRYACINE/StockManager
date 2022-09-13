@@ -13,23 +13,24 @@ class SellersTable extends StatelessWidget {
   const SellersTable({Key? key}) : super(key: key);
 
   List<String> sellerToCellsAdapter(Seller seller) {
-    return [seller.name,seller.phone.toString()];
+    return [seller.name, seller.phone.toString()];
   }
 
-
-  void handleContextMenu(SelectableRowDetaills rowDetaills , SellersController controller){
-    switch(rowDetaills.operation){
-      
+  void handleContextMenu(
+      SelectableRowDetaills rowDetaills, SellersController controller) {
+    switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data);
         break;
       case ContextMenuOperation.edit:
-        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        controller.edit(
+            rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
         break;
 
-        default : 
+      default:
         break;
-    }}
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,39 +41,41 @@ class SellersTable extends StatelessWidget {
     SellersLiveDataModel sellers =
         Provider.of<LiveModelProvider>(context).sellersLiveModel;
 
-
     return SizedBox(
-      width: double.infinity,
-      child: Card(
-        elevation: Measures.small,
-        child:Column(
-      children: [
-        Flexible(
-            child: SelectableRow(
-                                    
-
-                dataCellHelper: (index) => Titles.sellersTableColumns, index: -1, dataModel: 0,)),
-        Expanded(
-          child: ValueListenableBuilder<bool>(
-            valueListenable: sellers.refreshSellers,
-            builder: (context,value,child) {
-              return ListView.builder(
-                  itemCount: sellers.sellersCount,
-                  itemBuilder: (context, index) {
-                    return SelectableRow<Seller>(
-                      dataCellHelper: sellerToCellsAdapter,
-                     onClick: (detaills) => handleContextMenu(detaills,controller),
-                     contextMenuItems: const [ContextMenuOperation.edit,ContextMenuOperation.remove],
-                      index: index, 
-                      dataModel: sellers.seller(index),
-                    );
-                  });
-            }
-          ),
-        ),
-      ],
-    )));
+        width: double.infinity,
+        child: Card(
+            elevation: Measures.small,
+            child: Column(
+              children: [
+                Flexible(
+                    child: SelectableRow(
+                  textColor: Colors.grey,
+                  dataCellHelper: (index) => Titles.sellersTableColumns,
+                  index: -1,
+                  dataModel: 0,
+                )),
+                Expanded(
+                  child: ValueListenableBuilder<bool>(
+                      valueListenable: sellers.refreshSellers,
+                      builder: (context, value, child) {
+                        return ListView.builder(
+                            itemCount: sellers.sellersCount,
+                            itemBuilder: (context, index) {
+                              return SelectableRow<Seller>(
+                                dataCellHelper: sellerToCellsAdapter,
+                                onClick: (detaills) =>
+                                    handleContextMenu(detaills, controller),
+                                contextMenuItems: const [
+                                  ContextMenuOperation.edit,
+                                  ContextMenuOperation.remove
+                                ],
+                                index: index,
+                                dataModel: sellers.seller(index),
+                              );
+                            });
+                      }),
+                ),
+              ],
+            )));
   }
 }
-
-

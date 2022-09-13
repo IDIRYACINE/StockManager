@@ -61,7 +61,7 @@ class _SidebarButtonState extends State<SidebarButton> {
 
             return MaterialButton(
                 onPressed: onClicked,
-                color: isSelected ? Colors.amber : null,
+                color: isSelected ? Theme.of(context).colorScheme.primaryContainer : null,
                 child: Padding(
                   padding: const EdgeInsets.only(left: Measures.paddingLarge),
                   child: Row(

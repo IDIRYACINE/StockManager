@@ -48,8 +48,8 @@ abstract class AppThemes {
   static final ThemeData darkTheme2 = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.grey   ,
-      primaryContainer: Colors.red,
-      primary: Colors.amber,
+      primaryContainer: Color(0xFFD4AF37),
+      primary: Color(0xFFD4AF37),
       surfaceTint: Colors.black12,
       brightness: Brightness.dark,
     ),
@@ -69,4 +69,6 @@ abstract class AppThemes {
   static final testTheme = ColorScheme.fromSeed(
     seedColor: AppColors.darkBackground2,
   );
+
+  final goldColor = Color(0xFFD4AF37);
 }

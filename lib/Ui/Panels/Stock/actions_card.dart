@@ -9,6 +9,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
+import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SearchActionsCard extends StatelessWidget {
@@ -23,7 +24,6 @@ class SearchActionsCard extends StatelessWidget {
   void onAdvancedSearch(BuildContext context, StockController controller) {
     controller.search(context);
   }
-
 
   void onAdd(BuildContext context, StockController controller) {
     controller.add(context);
@@ -55,7 +55,7 @@ class SearchActionsCard extends StatelessWidget {
 
     final stockNotifier = ValueNotifier(StockTypes.products);
 
-   final theme = Theme.of(context);
+    final theme = Theme.of(context);
 
     return Column(
       children: [
@@ -67,7 +67,21 @@ class SearchActionsCard extends StatelessWidget {
               style: theme.textTheme.displayMedium,
             ),
             const Spacer(),
-             
+            SizedBox(
+              width: 200,
+              child: SelectorDropDown<StockTypes>(
+                initialSelection: stockNotifier,
+                onSelect: (type) {
+                  controller.onSelectStockType(type);
+                  stockNotifier.value = type;
+                },
+                label: const Text(Labels.stockTypes),
+                items: stockTypes,
+              ),
+            ),
+            const SizedBox(
+              width: Measures.small,
+            ),
             ActionButton(
               onPressed: () {
                 onRefresh(context, controller);
@@ -85,6 +99,7 @@ class SearchActionsCard extends StatelessWidget {
               backgroundColor: theme.colorScheme.primaryContainer,
               label: Labels.add,
               icon: Icons.add,
+              iconColor: Colors.white,
             ),
           ],
         ),
@@ -97,12 +112,12 @@ class SearchActionsCard extends StatelessWidget {
             SizedBox(
               width: Measures.quickSearchFieldWidth,
               child: SearchFieldText(
-                    label: Labels.reference,
-                    isOptional: false,
-                    registerQueryGenerator: registerQuery,
-                    identifier: OrderFields.reference.name),
+                  label: Labels.reference,
+                  isOptional: false,
+                  registerQueryGenerator: registerQuery,
+                  identifier: OrderFields.reference.name),
             ),
-           ActionButton(
+            ActionButton(
               onPressed: () {
                 onQuickSearch(context, controller);
               },

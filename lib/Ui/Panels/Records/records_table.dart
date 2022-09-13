@@ -41,6 +41,8 @@ class _RecordsTableState extends State<RecordsTable> {
                 Flexible(
                     child: SelectableRow(
                   dataCellHelper: (v) => Titles.recordsTableColumns,
+                                    textColor: Colors.grey,
+
                   index: -1,
                   dataModel: 0,
                 )),

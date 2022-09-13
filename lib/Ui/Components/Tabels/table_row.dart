@@ -13,6 +13,7 @@ class SelectableRow<T> extends StatefulWidget {
       required this.index,
       required this.dataModel,
       this.contextMenuItems,
+      this.textColor,
       this.onClick})
       : assert(
          ( onClick != null && contextMenuItems != null )||
@@ -23,6 +24,8 @@ class SelectableRow<T> extends StatefulWidget {
   final RowCellAdapter<T> dataCellHelper;
 
   final double paddings;
+
+  final Color? textColor;
 
   final int index;
 
@@ -84,6 +87,7 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
                     padding: EdgeInsets.all(widget.paddings),
                     child: TableRowText(
                       data: data[i],
+                      color: widget.textColor,
                     ),
                   ))
               ],

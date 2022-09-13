@@ -228,7 +228,7 @@ class Seller {
 
   static Seller defaultInstance() {
     return Seller(
-      sellerCode: 0,
+      sellerCode: Utility.getTimeStamp(),
       name: '',
       phone: 0,
       imageUrl: '',

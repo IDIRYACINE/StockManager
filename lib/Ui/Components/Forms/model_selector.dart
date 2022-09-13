@@ -24,8 +24,7 @@ class _ModelSelectorState extends State<ModelSelector> {
   ValueNotifier<String?> selectedColorIndex = ValueNotifier(null);
   ValueNotifier<String?> selectedSizeIndex = ValueNotifier(null);
 
-  List<DropdownMenuItem<String>>? sizes ;
-
+  List<DropdownMenuItem<String>>? sizes;
 
   void onColorSelected(String colorIndex) {
     ProductModel model = widget.productModels[colorIndex]!;
@@ -34,12 +33,12 @@ class _ModelSelectorState extends State<ModelSelector> {
     selectedSizeIndex.value = model.sizes.keys.first;
     String size = model.sizes[selectedSizeIndex.value]!.size;
     widget.colorSelectorCallback(color, colorIndex);
-    widget.sizeSelectorCallback(size,selectedSizeIndex.value!);
+    widget.sizeSelectorCallback(size, selectedSizeIndex.value!);
   }
 
   void onSizeSelected(String index) {
- 
-    String size = widget.productModels[selectedColorIndex.value]!.sizes[index]!.size;
+    String size =
+        widget.productModels[selectedColorIndex.value]!.sizes[index]!.size;
     selectedSizeIndex.value = index;
     widget.sizeSelectorCallback(size, index);
   }
@@ -55,7 +54,6 @@ class _ModelSelectorState extends State<ModelSelector> {
           .add(DropdownAdapters.stringDropDownMenuItemAdapter(value.size, key));
     });
 
-
     return dropdowns;
   }
 
@@ -68,10 +66,9 @@ class _ModelSelectorState extends State<ModelSelector> {
       dropdowns.add(
           DropdownAdapters.stringDropDownMenuItemAdapter(value.color, key));
     });
-    
+
     return dropdowns;
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -126,7 +126,7 @@ class DatabaseDAO {
   Future<void> updateSeller(
       {required Seller seller, required AppJson updatedValues}) async {
     SelectorBuilder selector = SelectorBuilder();
-    selector.eq(SellerFields.phone.name, seller.phone);
+    selector.eq(SellerFields.code.name, seller.sellerCode);
     ModifierBuilder modifier = ModifierBuilder();
     modifier.map = updatedValues;
     _database.updateSeller(selector, modifier);
@@ -134,7 +134,7 @@ class DatabaseDAO {
 
   Future<void> deleteSeller({required Seller seller}) async {
     SelectorBuilder selector =
-        SelectorBuilder().eq(SellerFields.name.name, seller.name);
+        SelectorBuilder().eq(SellerFields.code.name, seller.sellerCode);
     _database.removeSeller(selector);
   }
 

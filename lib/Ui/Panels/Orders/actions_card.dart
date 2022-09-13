@@ -9,7 +9,6 @@ import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-
 class SearchActionsCard extends StatelessWidget {
   SearchActionsCard({Key? key}) : super(key: key);
 
@@ -73,7 +72,6 @@ class SearchActionsCard extends StatelessWidget {
             const SizedBox(
               width: Measures.medium,
             ),
-            
             ActionButton(
               onPressed: () {
                 onRefresh(context, controller);
@@ -91,6 +89,7 @@ class SearchActionsCard extends StatelessWidget {
               backgroundColor: theme.colorScheme.primaryContainer,
               label: Labels.addOrder,
               icon: Icons.add,
+              iconColor: Colors.white,
             ),
           ],
         ),
@@ -102,13 +101,17 @@ class SearchActionsCard extends StatelessWidget {
           children: [
             SizedBox(
               width: Measures.quickSearchFieldWidth,
-              child: SearchFieldText(
-                    label: Labels.customerName,
-                    isOptional: false,
-                    registerQueryGenerator: registerQuery,
-                    identifier: OrderFields.customerName.name),
+              child: SearchFieldDate(
+                  startLabel: Labels.startDate,
+                  endLabel: Labels.endDate,
+                  isOptional: false,
+                  registerQueryGenerator: registerQuery,
+                  identifier: RecordFields.date.name),
             ),
-           ActionButton(
+            const SizedBox(
+              width: Measures.medium,
+            ),
+            ActionButton(
               onPressed: () {
                 onQuickSearch(context, controller);
               },

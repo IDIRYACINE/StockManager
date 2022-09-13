@@ -50,7 +50,7 @@ class RecordsReport {
           ],
           endIndex: endIndex,
           startIndex: currentIndex,
-          title: Labels.dailySalesReport);
+          title: 'Rapport quotidien des ventes');
 
       appPrinter.addPage(recordPage.build());
 

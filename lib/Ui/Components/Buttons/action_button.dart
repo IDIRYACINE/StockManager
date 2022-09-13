@@ -7,13 +7,14 @@ class ActionButton extends StatelessWidget {
     this.onPressed,
     required this.label,
     required this.icon, this.backgroundColor,
-    this.minWidth = 150,
+    this.minWidth = 150, this.iconColor,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
   final String label;
   final IconData icon;
   final Color? backgroundColor;
+  final Color? iconColor;
   final double minWidth;
 
   @override
@@ -30,7 +31,7 @@ class ActionButton extends StatelessWidget {
           borderRadius: BorderRadius.zero
         ),
       ),
-      child: LogoTextButonLabel(label: label,icon: icon)),
+      child: LogoTextButonLabel(label: label,icon: icon,iconColor : iconColor,)),
     );
   }
 }

@@ -61,6 +61,7 @@ class _DepositsTableState extends State<DepositsTable> {
                 Flexible(
                     child: SelectableRow(
                   dataCellHelper: (v) => Titles.depositsTableColumns,
+                  textColor: Colors.grey,
                   index: -1,
                   dataModel: 0,
                 )),

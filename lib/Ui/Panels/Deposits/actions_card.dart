@@ -85,6 +85,7 @@ class SearchActionsCard extends StatelessWidget {
               backgroundColor: theme.colorScheme.primaryContainer,
               label: Labels.addDeposit,
               icon: Icons.add,
+              iconColor: Colors.white,
             ),
           ],
         ),

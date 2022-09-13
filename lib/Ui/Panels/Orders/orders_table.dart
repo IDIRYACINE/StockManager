@@ -166,9 +166,10 @@ class OrdersTableSpreaded extends StatelessWidget {
   List<String> ordersToCellsAdapter(SpreadedOrdersWrapper wrapper) {
     bool isLast = (wrapper.index == wrapper.order.products.length - 1);
 
-    double displayedDeposit = !isLast? 0 : wrapper.order.deposit;
-    double displayedRemainingPayment =  !isLast? 0 : wrapper.order.remainingPayement;
-    double displayedDeliveryCost =  !isLast? 0 : wrapper.order.deliveryCost;
+    double displayedDeposit = !isLast ? 0 : wrapper.order.deposit;
+    double displayedRemainingPayment =
+        !isLast ? 0 : wrapper.order.remainingPayement;
+    double displayedDeliveryCost = !isLast ? 0 : wrapper.order.deliveryCost;
 
     return [
       Utility.formatDateTimeToDisplay(wrapper.order.date),
@@ -183,8 +184,8 @@ class OrdersTableSpreaded extends StatelessWidget {
 
   void handleContextMenu(
       SelectableRowDetaills<SpreadedOrdersWrapper> rowDetaills,
-       OrderProductsController controller,
-       OrdersController ordersController) {
+      OrderProductsController controller,
+      OrdersController ordersController) {
     switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data.product);
@@ -199,28 +200,25 @@ class OrdersTableSpreaded extends StatelessWidget {
     }
   }
 
-  List<Widget> buildRows(
-      OrdersLiveDataModel liveModel, 
-      OrderProductsController controller, 
-      OrdersController ordersController) {
-
+  List<Widget> buildRows(OrdersLiveDataModel liveModel,
+      OrderProductsController controller, OrdersController ordersController) {
     List<Widget> rows = [];
 
     liveModel.orders.forEach((orderKey, order) {
       int productIndex = 0;
       order.products.forEach((productKey, product) {
-
-        SpreadedOrdersWrapper wrapper = SpreadedOrdersWrapper(order, product,productIndex);
+        SpreadedOrdersWrapper wrapper =
+            SpreadedOrdersWrapper(order, product, productIndex);
 
         final row = Flexible(
             child: SelectableRow<SpreadedOrdersWrapper>(
           dataCellHelper: ordersToCellsAdapter,
-          onClick: (detaills) => handleContextMenu(detaills, controller,ordersController),
+          onClick: (detaills) =>
+              handleContextMenu(detaills, controller, ordersController),
           contextMenuItems: const [
             ContextMenuOperation.remove,
-           
           ],
-          index: productIndex, 
+          index: productIndex,
           dataModel: wrapper,
         ));
 
@@ -238,7 +236,7 @@ class OrdersTableSpreaded extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .orderProductsController;
 
- OrdersController ordersController =
+    OrdersController ordersController =
         Provider.of<ControllersProvider>(context, listen: false)
             .ordersController;
 
@@ -250,20 +248,20 @@ class OrdersTableSpreaded extends StatelessWidget {
         child: Card(
             elevation: Measures.small,
             child: ValueListenableBuilder<bool>(
-              valueListenable: orders.refreshOrders,
-              builder: (context,value,child) {
-                return Column(
-                  children: [
-                    Flexible(
-                        child: SelectableRow(
-                      dataCellHelper: (index) => Titles.ordersTableColumns,
-                      index: -1,
-                      dataModel: 0,
-                    )),
-                    ...buildRows(orders, productsController,ordersController)
-                  ],
-                );
-              }
-            )));
+                valueListenable: orders.refreshOrders,
+                builder: (context, value, child) {
+                  return Column(
+                    children: [
+                      Flexible(
+                          child: SelectableRow(
+                        dataCellHelper: (index) => Titles.ordersTableColumns,
+                        index: -1,
+                        textColor: Colors.grey,
+                        dataModel: 0,
+                      )),
+                      ...buildRows(orders, productsController, ordersController)
+                    ],
+                  );
+                })));
   }
 }

@@ -40,7 +40,7 @@ class OrdersReport {
       _TotalsWrapper totals = _calculateOrderReportTotals(orderProducts);
 
       RecordsPage<OrderProductReportWrapper> recordPage = RecordsPage(
-        title: Titles.dailyOrdersReport,
+        title: 'Rapport quotidien des livraisons',
         paddings: Measures.extraSmall,
         headers: _reportHeaders,
         headersTextSize: Measures.h5TextSize,

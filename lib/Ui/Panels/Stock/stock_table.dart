@@ -48,19 +48,22 @@ class _ProductsTable extends StatelessWidget {
     ];
   }
 
-  void handleContextMenu(SelectableRowDetaills rowDetaills , StockController controller){
-    switch(rowDetaills.operation){
-      
+  void handleContextMenu(
+      SelectableRowDetaills rowDetaills, StockController controller) {
+    switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data);
         break;
       case ContextMenuOperation.edit:
-        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        controller.edit(
+            rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
         break;
 
-        default : 
+      default:
         break;
-    }}
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     StockController controller =
@@ -76,6 +79,7 @@ class _ProductsTable extends StatelessWidget {
             child: SelectableRow(
           dataCellHelper: (value) => Titles.stockProductTableColumns,
           index: -1,
+          textColor: Colors.grey,
           dataModel: 0,
         )),
         Expanded(
@@ -88,8 +92,12 @@ class _ProductsTable extends StatelessWidget {
                       return SelectableRow<Product>(
                         dataCellHelper: (product) =>
                             productToCellsAdapter(product),
-                     onClick : (detaills) => handleContextMenu(detaills,controller),
-                     contextMenuItems: const [ContextMenuOperation.edit,ContextMenuOperation.remove,],
+                        onClick: (detaills) =>
+                            handleContextMenu(detaills, controller),
+                        contextMenuItems: const [
+                          ContextMenuOperation.edit,
+                          ContextMenuOperation.remove,
+                        ],
                         index: index,
                         dataModel: stock.productAt(index),
                       );
@@ -108,19 +116,21 @@ class _FamilliesTable extends StatelessWidget {
     return [family.name, family.reference];
   }
 
-  void handleContextMenu(SelectableRowDetaills rowDetaills , StockController controller){
-    switch(rowDetaills.operation){
-      
+  void handleContextMenu(
+      SelectableRowDetaills rowDetaills, StockController controller) {
+    switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data);
         break;
       case ContextMenuOperation.edit:
-        controller.edit(rowDetaills.context, rowDetaills.data,rowDetaills.rowIndex);
+        controller.edit(
+            rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
         break;
 
-        default : 
+      default:
         break;
-    }}
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +146,7 @@ class _FamilliesTable extends StatelessWidget {
         Flexible(
             child: SelectableRow(
           dataCellHelper: (value) => Titles.stockFamilliesTableColumns,
+          textColor: Colors.grey,
           index: -1,
           dataModel: 0,
         )),
@@ -149,9 +160,14 @@ class _FamilliesTable extends StatelessWidget {
                       return SelectableRow<ProductFamily>(
                         dataCellHelper: (family) =>
                             familyToCellsAdapter(family),
-                     onClick: (detaills) => handleContextMenu( detaills,controller),
+                        onClick: (detaills) =>
+                            handleContextMenu(detaills, controller),
                         index: index,
                         dataModel: stock.productFamilyAt(index),
+                        contextMenuItems: const [
+                          ContextMenuOperation.edit,
+                          ContextMenuOperation.remove,
+                        ],
                       );
                     });
               }),

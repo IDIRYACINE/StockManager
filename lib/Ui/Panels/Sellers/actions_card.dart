@@ -5,7 +5,6 @@ import 'package:stock_manager/Application/Controllers/sellers_controller.dart';
 import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-
 class ActionsCard extends StatelessWidget {
   const ActionsCard({Key? key}) : super(key: key);
 
@@ -49,6 +48,7 @@ class ActionsCard extends StatelessWidget {
           backgroundColor: theme.colorScheme.primaryContainer,
           label: Labels.addSeller,
           icon: Icons.add,
+          iconColor: Colors.white,
         ),
       ],
     );
