@@ -46,17 +46,18 @@ class RecordsPage<T> {
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              children: [
-              pw.Text(title, style: pw.TextStyle(fontSize: titleTextSize)),
-              pw.Text(Utility.formatDateTimeToDisplay(DateTime.now()) , style: const pw.TextStyle(fontSize: Measures.medium)),
-            ]),
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(title, style: pw.TextStyle(fontSize: titleTextSize)),
+                  pw.Text(Utility.formatDateTimeToDisplay(DateTime.now()),
+                      style: const pw.TextStyle(fontSize: Measures.medium)),
+                ]),
             pw.SizedBox(height: Measures.medium),
             pw.Expanded(
               child: pw.Padding(
                 padding: pw.EdgeInsets.all(paddings),
                 child: pw.Column(children: [
-                  _InvoiceTable(
+                  _ReportTable(
                       startIndex: startIndex,
                       endIndex: endIndex,
                       cellAdapter: cellAdapter,
@@ -98,7 +99,7 @@ class InvoicePage<T> {
   final List<String> headers;
   final RowCellAdapter<T> cellAdapter;
   final List<T> data;
-  final List<String> footerData;
+  final List<FooterItem> footerData;
   final pw.Widget title;
   final double titleTextSize;
   final double headersTextSize;
@@ -189,15 +190,15 @@ class _InvoicePayement extends pw.StatelessWidget {
         mainAxisAlignment: pw.MainAxisAlignment.end,
         children: [
           pw.Expanded(
-            child:pw.Padding (
-              padding : const pw.EdgeInsets.only(left:Measures.small),
-              child:pw.Text(
-              item.label,
-              style: pw.TextStyle(
-                fontSize: invoiceTextSize,
-                font: item.font,
-              ),)
-            ),
+            child: pw.Padding(
+                padding: const pw.EdgeInsets.only(left: Measures.small),
+                child: pw.Text(
+                  item.label,
+                  style: pw.TextStyle(
+                    fontSize: invoiceTextSize,
+                    font: item.font,
+                  ),
+                )),
           ),
           pw.Expanded(
             child: pw.Text(
@@ -223,6 +224,14 @@ class _InvoicePayement extends pw.StatelessWidget {
   }
 }
 
+class FooterItem {
+  final String iconAsset;
+  final String value;
+  final pw.Font? font;
+
+  FooterItem(this.iconAsset, this.value, [this.font]);
+}
+
 class InvoiceItem {
   final String label;
   final String value;
@@ -233,10 +242,10 @@ class InvoiceItem {
 
 class InvoiceFooter extends pw.StatelessWidget {
   InvoiceFooter(this.data,
-      {this.footerTextSize = Measures.h3TextSize,
+      {this.footerTextSize = Measures.h5TextSize,
       this.footerColor = pdf.PdfColors.red900});
 
-  final List<String> data;
+  final List<FooterItem> data;
   final double footerTextSize;
   final pdf.PdfColor footerColor;
 
@@ -247,8 +256,17 @@ class InvoiceFooter extends pw.StatelessWidget {
     );
 
     List<pw.Widget> widgets = [];
-    for (String item in data) {
-      widgets.add(pw.Text(item, style: footerTextStyle));
+    for (FooterItem item in data) {
+      final logo = pw.MemoryImage(
+        File(item.iconAsset).readAsBytesSync(),
+      );
+
+      pw.Widget footerWidget = pw.Row(children: [
+        pw.Image(logo, fit: pw.BoxFit.fill),
+        pw.Text(item.value, style: footerTextStyle),
+      ]);
+
+      widgets.add(footerWidget);
     }
     return widgets;
   }
@@ -356,6 +374,88 @@ class _InvoiceTable<T> extends pw.StatelessWidget {
   }
 }
 
+class _ReportTable<T> extends pw.StatelessWidget {
+  _ReportTable({
+    required this.headers,
+    required this.cellAdapter,
+    required this.data,
+    this.startIndex = 0,
+    required this.endIndex,
+    this.headerColor = pdf.PdfColors.yellow900,
+    this.rowBorderColor = pdf.PdfColors.grey,
+    required this.headerTextSize,
+    required this.rowsTextSize,
+    this.rowCellPadding = Measures.small,
+    this.rowBorderWidth = .5,
+  });
+
+  final List<String> headers;
+  final RowCellAdapter<T> cellAdapter;
+  final List<T> data;
+  final int startIndex;
+  final int endIndex;
+  final double headerTextSize;
+  final double rowsTextSize;
+  final pdf.PdfColor headerColor;
+  final pdf.PdfColor rowBorderColor;
+  final double rowCellPadding;
+  final double rowBorderWidth;
+
+  @override
+  pw.Widget build(pw.Context context) {
+    final pw.BoxDecoration rowDecoration = pw.BoxDecoration(
+      border: pw.TableBorder.all(
+        color: rowBorderColor,
+        width: rowBorderWidth,
+      ),
+    );
+
+    final pw.EdgeInsets cellPadding = pw.EdgeInsets.all(rowCellPadding);
+
+    final pw.TextStyle headerStyle = pw.TextStyle(
+      color: pdf.PdfColors.black,
+      fontSize: headerTextSize,
+      fontWeight: pw.FontWeight.bold,
+    );
+
+    final pw.TextStyle rowStyle = pw.TextStyle(
+      color: pdf.PdfColors.black,
+      fontSize: rowsTextSize,
+    );
+
+    pw.TableRow buildHeader() {
+      return pw.TableRow(
+        decoration: rowDecoration,
+        children: headers
+            .map((header) => pw.Padding(
+                padding: cellPadding,
+                child: pw.Text(header, style: headerStyle)))
+            .toList(),
+      );
+    }
+
+    pw.TableRow buildRow(int index) {
+      List<String> rowData = cellAdapter(data[index]);
+      List<pw.Widget> rowWidgets = [];
+
+      for (int i = 0; i < rowData.length; i++) {
+        rowWidgets.add(pw.Padding(
+            padding: cellPadding, child: pw.Text(rowData[i], style: rowStyle)));
+      }
+
+      return pw.TableRow(
+        decoration: rowDecoration,
+        children: rowWidgets,
+      );
+    }
+
+    return pw.Table(children: [
+      buildHeader(),
+      for (int i = startIndex; i < endIndex; i++) buildRow(i)
+    ]);
+  }
+}
+
 class PrintableLogo extends pw.StatelessWidget {
   PrintableLogo(this.logoUri, {this.width, this.height});
 
@@ -369,6 +469,7 @@ class PrintableLogo extends pw.StatelessWidget {
       File(logoUri).readAsBytesSync(),
     );
 
-    return pw.Image(logo, width: width, height: height, fit: pw.BoxFit.fitWidth);
+    return pw.Image(logo,
+        width: width, height: height, fit: pw.BoxFit.fitWidth);
   }
 }

@@ -106,8 +106,8 @@ class OrderProductsController {
       Order order = ordersLiveModel.selectedOrder;
       final ModifierBuilder modifierBuilder = ModifierBuilder()
       .set(OrderFields.remainingPayement.name, order.remainingPayement)
-      .set(OrderFields.totalPrice.name, order.totalPrice)
-      ;
+      .set(OrderFields.totalPrice.name, order.totalPrice);
+      
       _updateOrder(modifierBuilder.map);
 
       if(order.products.isEmpty){

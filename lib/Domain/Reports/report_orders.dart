@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
-import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
@@ -46,15 +45,14 @@ class OrdersReport {
         headers: _reportHeaders,
         headersTextSize: Measures.h5TextSize,
         rowsTextSize: Measures.h5TextSize,
-        cellAdapter: Adapter.orderProductWrapperToReportRow,
+        cellAdapter: _orderProductWrapperToReportRow,
         data: orderProducts,
         invoicePayementAttributes: [
+          InvoiceItem("Frais de port", totals.shippingTotal.toString(),
+              pdf.Font.timesBold()),
           InvoiceItem(Labels.profit, totals.totalProfit.toString(),
               pdf.Font.timesBold()),
-          InvoiceItem(Labels.deliveryCost, totals.shippingTotal.toString(),
-              pdf.Font.timesBold()),
-          InvoiceItem(Labels.remainingPayement,
-              totals.totalRemainingPayement.toString()),
+          InvoiceItem('Reste', totals.totalRemainingPayement.toString()),
         ],
         endIndex: orderProducts.length,
         startIndex: 0,
@@ -70,9 +68,28 @@ class OrdersReport {
         .then((value) => appPrinter.displayPreview(context));
   }
 
+
+   List<String> _orderProductWrapperToReportRow(
+      OrderProductReportWrapper product) {
+
+    List<String> rawData = [
+      product.order.customerName,
+      product.order.phoneNumber.toString(),
+      product.order.city,
+      product.orderProduct.product,
+      product.orderProduct.sellingPrice.toString(),
+      product.isLast ? product.order.deposit.toString() : "0",
+      product.isLast ? product.order.deliveryCost.toString() : "0",
+
+    ];
+
+    return rawData;
+  }
+
   static _TotalsWrapper _calculateOrderReportTotals(
       List<OrderProductReportWrapper> orders) {
     int lastExaminedId = orders[0].order.timeStamp;
+
     double totalProfit = orders[0].order.deposit;
     double totalRemainingPayement = orders[0].order.remainingPayement;
     double shippingTotal = orders[0].order.deliveryCost;
@@ -86,6 +103,8 @@ class OrdersReport {
         lastExaminedId = order.timeStamp;
       }
     }
+
+    totalProfit -= shippingTotal;
 
     return _TotalsWrapper(totalRemainingPayement, totalProfit, shippingTotal);
   }

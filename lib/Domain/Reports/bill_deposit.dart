@@ -10,7 +10,6 @@ class BillDeposit {
 
   BillDeposit(this.deposits, this.id);
 
-
   final List<Record> deposits;
   final String id;
   final List<String> _depositHeaders = [
@@ -45,7 +44,11 @@ class BillDeposit {
         titleTextSize: Measures.h3TextSize,
         cellAdapter: _recordToInvoiceRowData,
         data: deposits,
-        footerData: Titles.invoiceFooterHeaders,
+        footerData: [
+          FooterItem(AppRessources.facebookLogo, AppRessources.facebookLink),
+          FooterItem(AppRessources.instgramLogo, AppRessources.instegramLink),
+          FooterItem(AppRessources.whatesappLogo, AppRessources.viberPhone),
+        ],
         invoiceAttributes: [
           InvoiceItem('client',
               deposits.first.customer ?? ''),

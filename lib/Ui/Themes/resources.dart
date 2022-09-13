@@ -27,4 +27,12 @@ abstract class AppRessources {
   static const addImage = 'assets/images/add_image.png';
   static const whiteLogo = 'assets/images/white_logo.png';
   static const blackLogo = 'assets/images/black_logo.png';
+  static const facebookLogo = 'assets/images/facebook_logo.png';
+  static const instgramLogo = 'assets/images/instgram_logo.png';
+  static const whatesappLogo = 'assets/images/whatsapp_logo.png';
+
+  static const facebookLink = 'Marwa Boutique';
+  static const instegramLink = 'marwaboutique34';
+  static const viberPhone = '+213559275041';
+
 }

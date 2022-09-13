@@ -12,7 +12,7 @@ class NavigationStore with ChangeNotifier {
 
   final List<Widget> _panels = [];
   final List<IconData> _panelIcons = [
-    Icons.shopping_cart ,
+  Icons.shopping_cart ,
    Icons.house,
    Icons.monetization_on,
    Icons.online_prediction_rounded,

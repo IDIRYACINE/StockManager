@@ -34,8 +34,7 @@ abstract class OrderProductEditorMode<T> {
 
   void confirm(T callback);
 
-  static OrderProductEditorMode<Callback< OrderProduct>>
-      createModeInstance(
+  static OrderProductEditorMode<Callback<OrderProduct>> createModeInstance(
     OrderProduct orderProduct,
     Order order,
   ) {
@@ -48,8 +47,7 @@ abstract class OrderProductEditorMode<T> {
   }
 }
 
-class _ModeCreate
-    extends OrderProductEditorMode<Callback<OrderProduct>> {
+class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
   OrderProduct orderProduct;
   final Order order;
 
@@ -58,13 +56,11 @@ class _ModeCreate
     this.order,
   );
 
-
   @override
   void setSellingPrice(String? price) {
     if (price != null && price != '') {
       double sellingPrice = double.parse(price);
       orderProduct.sellingPrice = sellingPrice;
-
     }
   }
 
@@ -81,7 +77,7 @@ class _ModeCreate
   }
 
   @override
-  void confirm(Callback< OrderProduct> callback) {
+  void confirm(Callback<OrderProduct> callback) {
     callback(orderProduct);
   }
 
@@ -91,12 +87,10 @@ class _ModeCreate
   }
 
   @override
-  void setUpdatedValuesMap(AppJson json) {
-  }
+  void setUpdatedValuesMap(AppJson json) {}
 
   @override
   void appendToOrder() {
-    
     order.totalPrice += orderProduct.sellingPrice;
     order.remainingPayement += orderProduct.sellingPrice;
     order.products[orderProduct.timeStamp] = orderProduct;
@@ -119,7 +113,7 @@ class _ModeEdit
       double priceChange = sellingPrice - orderProduct.sellingPrice;
 
       order.totalPrice += priceChange;
-      order.remainingPayement += priceChange ;
+      order.remainingPayement += priceChange;
       orderProduct.sellingPrice = sellingPrice;
 
       updatedFields[OrderFields.remainingPayement.name] =
@@ -191,11 +185,11 @@ abstract class OrderFormEditorMode<T> {
 
   void confirm(T callback);
 
-  static OrderFormEditorMode<Callback2<AppJson, Order>> editModeInstance(Order order, AppJson updatedValuesCache) {
+  static OrderFormEditorMode<Callback2<AppJson, Order>> editModeInstance(
+      Order order, AppJson updatedValuesCache) {
     return _EditCustomerForm(order, updatedValuesCache);
   }
 
-  
   static OrderFormEditorMode<Callback<Order>> createModeInstance(Order order) {
     return _CreateCustomerForm(order);
   }
@@ -225,9 +219,10 @@ class _EditCustomerForm extends OrderFormEditorMode<Callback2<AppJson, Order>> {
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != '') {
       double parsedDeposit = double.parse(deposit);
+      double priceChange = parsedDeposit - order.deposit;
+      order.remainingPayement += priceChange ;
 
       order.deposit = parsedDeposit;
-      order.remainingPayement += (parsedDeposit - order.deposit) ;
 
       updatedValuesCache[OrderFields.deposit.name] = parsedDeposit;
       updatedValuesCache[OrderFields.remainingPayement.name] =
@@ -263,9 +258,16 @@ class _EditCustomerForm extends OrderFormEditorMode<Callback2<AppJson, Order>> {
   @override
   void setDeliveryCost(String? deliveryCost) {
     if (deliveryCost != null && deliveryCost != '') {
-      order.deliveryCost = double.parse(deliveryCost);
-      updatedValuesCache[OrderFields.deliveryCost.name] =
-          double.parse(deliveryCost);
+      double parsedDeliveryCost = double.parse(deliveryCost);
+
+      double priceChange = parsedDeliveryCost - order.deposit;
+
+      order.remainingPayement -= priceChange;
+
+      order.deliveryCost = parsedDeliveryCost;
+      updatedValuesCache[OrderFields.deliveryCost.name] = parsedDeliveryCost;
+      updatedValuesCache[OrderFields.remainingPayement.name] =
+          order.remainingPayement;
     }
   }
 
@@ -281,8 +283,7 @@ class _EditCustomerForm extends OrderFormEditorMode<Callback2<AppJson, Order>> {
   }
 }
 
-
-class _CreateCustomerForm extends OrderFormEditorMode<Callback< Order>> {
+class _CreateCustomerForm extends OrderFormEditorMode<Callback<Order>> {
   _CreateCustomerForm(this.order);
 
   final Order order;
@@ -302,9 +303,12 @@ class _CreateCustomerForm extends OrderFormEditorMode<Callback< Order>> {
   @override
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != '') {
-    double parsedDeposit = double.parse(deposit);
+      double parsedDeposit = double.parse(deposit);
+      double priceChange = parsedDeposit - order.deposit;
+      
+      order.remainingPayement -= priceChange;
+
       order.deposit = parsedDeposit;
-      order.remainingPayement += parsedDeposit - order.deposit ;
     }
   }
 
@@ -334,13 +338,16 @@ class _CreateCustomerForm extends OrderFormEditorMode<Callback< Order>> {
   void setDeliveryCost(String? deliveryCost) {
     if (deliveryCost != null && deliveryCost != '') {
       double parsedDeliveryCost = double.parse(deliveryCost);
-      order.deliveryCost += (parsedDeliveryCost - order.deliveryCost);
-      
+      double priceChange = parsedDeliveryCost - order.deliveryCost;
+
+      order.deliveryCost = parsedDeliveryCost;
+      order.remainingPayement += priceChange;
+
     }
   }
 
   @override
-  void confirm(Callback< Order> callback) {
-    callback( order);
+  void confirm(Callback<Order> callback) {
+    callback(order);
   }
 }

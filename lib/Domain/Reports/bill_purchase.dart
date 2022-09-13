@@ -12,6 +12,7 @@ class BillPurchase {
 
   BillPurchase(this.id, this.records);
 
+
   final String id;
   final List<Record> records;
   final List<String> _billHeaders = [
@@ -36,7 +37,11 @@ class BillPurchase {
         titleTextSize: Measures.h3TextSize,
         cellAdapter: Adapter.recordToInvoiceRowData,
         data: records,
-        footerData: Titles.invoiceFooterHeaders,
+        footerData:[
+          FooterItem(AppRessources.facebookLogo, AppRessources.facebookLink),
+          FooterItem(AppRessources.instgramLogo, AppRessources.instegramLink),
+          FooterItem(AppRessources.whatesappLogo, AppRessources.viberPhone),
+        ],
         invoiceAttributes: [
           InvoiceItem(Labels.customerName,
               records.first.customer ?? ''),

@@ -212,7 +212,7 @@ class OrdersTableSpreaded extends StatelessWidget {
 
         SpreadedOrdersWrapper wrapper = SpreadedOrdersWrapper(order, product,productIndex);
 
-        final row = Expanded(
+        final row = Flexible(
             child: SelectableRow<SpreadedOrdersWrapper>(
           dataCellHelper: ordersToCellsAdapter,
           onClick: (detaills) => handleContextMenu(detaills, controller,ordersController),

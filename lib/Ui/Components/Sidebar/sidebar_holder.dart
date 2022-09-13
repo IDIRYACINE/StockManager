@@ -1,12 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-class SidebarHolder extends StatelessWidget{
+class SidebarHolder extends StatelessWidget {
   final int sidebarButtonsFlex = 4;
   final int sidebarButtonsSpacingFlex = 1;
 
@@ -19,25 +17,39 @@ class SidebarHolder extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.only(top:Measures.medium),
-            child: Logo(width: 200,height: 150,),
+            padding: EdgeInsets.only(top: Measures.medium),
+            child: Logo(
+              width: 200,
+              height: 150,
+            ),
           ),
           Spacer(flex: sidebarButtonsSpacingFlex),
-          const Flexible(child: SidebarButton(title: Labels.sales,index:NavigationStore.salesIndex)),
+          const Flexible(
+              child: SidebarButton(
+                  title: Labels.stock, index: NavigationStore.stockIndex)),
           const SizedBox(height: Measures.medium),
-           const Flexible(child: SidebarButton(title: Labels.stock,index:NavigationStore.stockIndex)),
+          const Flexible(
+              child: SidebarButton(
+                  title: Labels.records, index: NavigationStore.recordsIndex)),
           const SizedBox(height: Measures.medium),
-           const Flexible(child: SidebarButton(title: Labels.orders,index:NavigationStore.ordersIndex)),
+          const Flexible(
+              child: SidebarButton(
+                  title: Labels.sales, index: NavigationStore.salesIndex)),
           const SizedBox(height: Measures.medium),
-           const Flexible(child: SidebarButton(title: Labels.records,index:NavigationStore.recordsIndex)),
+          const Flexible(
+              child: SidebarButton(
+                  title: Labels.deposit, index: NavigationStore.depositsIndex)),
           const SizedBox(height: Measures.medium),
-           const Flexible(child: SidebarButton(title: Labels.deposit,index:NavigationStore.depositsIndex)),
+          const Flexible(
+              child: SidebarButton(
+                  title: Labels.orders, index: NavigationStore.ordersIndex)),
           const SizedBox(height: Measures.medium),
-           const Flexible(child: SidebarButton(title: Labels.sellers,index:NavigationStore.sellersIndex)),
+          const Flexible(
+              child: SidebarButton(
+                  title: Labels.sellers, index: NavigationStore.sellersIndex)),
           const SizedBox(height: Measures.medium),
         ],
       ),
     );
   }
-
 }

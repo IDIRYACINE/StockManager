@@ -13,10 +13,10 @@ class RecordsReport {
 
   final List<String> _reportHeaders = [
     Labels.type,
-    'produit',
-    'prix',
-    'versement',
-    'rest',
+    'Produit',
+    'Prix',
+    'Versement',
+    'Rest',
   ];
 
   void printRecords(BuildContext context) {
@@ -45,7 +45,7 @@ class RecordsReport {
           invoicePayementAttributes: [
             InvoiceItem(Labels.profit, totals.totalProfit.toString(),
                 pdf.Font.timesBold()),
-            InvoiceItem(Labels.remainingPayement,
+            InvoiceItem('Reste',
                 totals.totalRemainingPayement.toString(), pdf.Font.timesBold()),
           ],
           endIndex: endIndex,
