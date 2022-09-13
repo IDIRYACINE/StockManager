@@ -6,6 +6,7 @@ import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class LoginPanel extends StatelessWidget {
   const LoginPanel({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class LoginPanel extends StatelessWidget {
                 const SizedBox(height: Measures.large),
                  Flexible(
                    child: AttributeTextField(
-                    initialValue: loginController.username, label: Labels.username,
+                    initialValue: loginController.username, label: Translations.of(context).username,
                      onChanged: (value){loginController.username=value!;},),
                  ),
                  
@@ -38,10 +39,10 @@ class LoginPanel extends StatelessWidget {
                  Flexible(child: AttributeTextField(
                                       obscureText:true,
 
-                  initialValue: loginController.password, label: Labels.password,onChanged: (value) {loginController.password=value!;},)),
+                  initialValue: loginController.password, label: Translations.of(context).password,onChanged: (value) {loginController.password=value!;},)),
                 const SizedBox(height: Measures.medium),
                 DefaultButton(
-                  label: Labels.login,
+                  label: Translations.of(context).login,
                   onPressed: () {
                     loginController.login(context);
                   },

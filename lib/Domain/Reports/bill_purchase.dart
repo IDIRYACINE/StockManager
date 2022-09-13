@@ -6,18 +6,24 @@ import 'package:stock_manager/Application/Utility/adapters_data.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/resources.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class BillPurchase {
   BillPurchase(this.id, this.records);
 
   final String id;
   final List<Record> records;
+
   final List<String> _billHeaders = [
     'produit',
     'quantity',
     'prix',
     'totale',
   ];
+
+  void setUpTranslations(BuildContext context){
+    
+  }
 
   void print(BuildContext context) {
     double totals = 0;
@@ -51,7 +57,7 @@ class BillPurchase {
         InvoiceItem('', '${now.day}/${now.month}/${now.year}'),
       ],
       invoicePayementAttributes: [
-        InvoiceItem(Labels.total, totals.toString(), pdf.Font.timesBold()),
+        InvoiceItem(Translations.of(context).total, totals.toString(), pdf.Font.timesBold()),
       ],
       title: PrintableLogo(AppRessources.whiteLogo, width: 150, height: 100),
       subtitle: "Facture d'achat",

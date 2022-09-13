@@ -5,6 +5,7 @@ import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/resources.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class BillDeposit {
 
@@ -19,12 +20,16 @@ class BillDeposit {
     'reste',
   ];
 
-  static final headers = [
-    Labels.productName,
-    Labels.sellingPrice,
-    Labels.deposit,
-    Labels.remainingPayement,
-  ];
+  static  List<String >headers = [];
+
+  void setup(BuildContext context){
+    headers = [
+       Translations.of(context).productName,
+    Translations.of(context).sellingPrice,
+    Translations.of(context).deposit,
+    Translations.of(context).remainingPayement,
+    ];
+  }
 
   void print(BuildContext context) {
 

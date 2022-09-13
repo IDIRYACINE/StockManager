@@ -3,12 +3,13 @@ import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class SidebarHolder extends StatelessWidget {
   final int sidebarButtonsFlex = 4;
   final int sidebarButtonsSpacingFlex = 1;
 
-  const SidebarHolder({Key? key}) : super(key: key);
+   SidebarHolder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class SidebarHolder extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Padding(
+           const Padding(
             padding: EdgeInsets.only(top: Measures.medium),
             child: Logo(
               width: 200,
@@ -24,30 +25,30 @@ class SidebarHolder extends StatelessWidget {
             ),
           ),
           Spacer(flex: sidebarButtonsSpacingFlex),
-          const Flexible(
+           Flexible(
               child: SidebarButton(
-                  title: Labels.stock, index: NavigationStore.stockIndex)),
-          const SizedBox(height: Measures.medium),
-          const Flexible(
+                  title: Translations.of(context).stock, index: NavigationStore.stockIndex)),
+           const SizedBox(height: Measures.medium),
+           Flexible(
               child: SidebarButton(
-                  title: Labels.records, index: NavigationStore.recordsIndex)),
-          const SizedBox(height: Measures.medium),
-          const Flexible(
+                  title: Translations.of(context).records, index: NavigationStore.recordsIndex)),
+           const SizedBox(height: Measures.medium),
+           Flexible(
               child: SidebarButton(
-                  title: Labels.sales, index: NavigationStore.salesIndex)),
-          const SizedBox(height: Measures.medium),
-          const Flexible(
+                  title: Translations.of(context).sales, index: NavigationStore.salesIndex)),
+           const SizedBox(height: Measures.medium),
+           Flexible(
               child: SidebarButton(
-                  title: Labels.deposit, index: NavigationStore.depositsIndex)),
-          const SizedBox(height: Measures.medium),
-          const Flexible(
+                  title: Translations.of(context).deposit, index: NavigationStore.depositsIndex)),
+           const SizedBox(height: Measures.medium),
+           Flexible(
               child: SidebarButton(
-                  title: Labels.orders, index: NavigationStore.ordersIndex)),
-          const SizedBox(height: Measures.medium),
-          const Flexible(
+                  title: Translations.of(context).orders, index: NavigationStore.ordersIndex)),
+           const SizedBox(height: Measures.medium),
+           Flexible(
               child: SidebarButton(
-                  title: Labels.sellers, index: NavigationStore.sellersIndex)),
-          const SizedBox(height: Measures.medium),
+                  title: Translations.of(context).sellers, index: NavigationStore.sellersIndex)),
+           const SizedBox(height: Measures.medium),
         ],
       ),
     );

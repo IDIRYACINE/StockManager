@@ -15,7 +15,7 @@ import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_customer.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_spreaded.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class OrdersController {
   OrdersController(this.ordersLiveModel, this.stockLiveModel);
@@ -44,7 +44,7 @@ class OrdersController {
             order: ordersLiveModel.selectedOrder,
             createOrderCallback: _addOrder,
             onSearch: _onSearchProduct,
-            confirmLabel: Labels.add,
+            confirmLabel: Translations.of(context).add,
           )),
     );
   }
@@ -110,7 +110,7 @@ class OrdersController {
       context: context,
       builder: (context) => Material(
         child: OrderCustomerEditor(
-          confirmLabel: Labels.save,
+          confirmLabel: Translations.of(context).save,
           order: ordersLiveModel.selectedOrder,
           editCallback: onEdit,
         ),
@@ -164,7 +164,7 @@ class OrdersController {
               onConfirm: () {
                 onRemove(order, index);
               },
-              message: Messages.deleteElement,
+              message: Translations.of(context).messageDeleteElement,
             )));
   }
 
@@ -236,20 +236,20 @@ class OrdersController {
         RegisterSearchQueryBuilder onDeselect) {
       return [
         SearchFieldText(
-          label: Labels.customer,
+          label: Translations.of(context).customer,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.customerName.name,
         ),
         SearchFieldText(
-          label: Labels.status,
+          label: Translations.of(context).status,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.status.name,
         ),
         SearchFieldDate(
-          startLabel: Labels.startDate,
-          endLabel: Labels.endDate,
+          startLabel: Translations.of(context).startDate,
+          endLabel: Translations.of(context).endDate,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.date.name,

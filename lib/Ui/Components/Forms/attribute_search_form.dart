@@ -8,6 +8,7 @@ import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Generics/date_picker.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 abstract class SearchField {
   Map<String, dynamic>? getQuery();
@@ -134,7 +135,7 @@ class _SearchFieldTextState extends State<SearchFieldText> {
         if (searchTypes != null)
           Expanded(
               child: SelectorDropDown(
-                  label: const Text(Labels.searchType),
+                  label:  Text(Translations.of(context).searchType),
                   items: searchTypes,
                   initialSelection: searchType,
                   onSelect: onSelectSearchType)),
@@ -395,13 +396,13 @@ class SearchBar extends StatelessWidget {
       children: [
         Expanded(
             child: AttributeTextField(
-          label: Labels.reference,
+          label: Translations.of(context).reference,
           initialValue: searchValue,
           onChanged: setSearchValue,
         )),
         Flexible(
             child: DefaultButton(
-                label: Labels.search,
+                label: Translations.of(context).search,
                 onPressed: () {
                   onSearch(searchValue);
                 })),

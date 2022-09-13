@@ -9,6 +9,8 @@ import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
 import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 void main() async {
   ServicesStore.getInstance();
@@ -26,10 +28,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: Labels.shopName,
+      title: Translations.of(context).appName,
       theme: AppThemes.lightTheme2,
       themeMode: ThemeMode.dark,
       darkTheme: AppThemes.darkTheme2,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), 
+        Locale('fr', ''), 
+        Locale('ar', ''), 
+      ],
       home: const MyHomePage(),
     );
   }
@@ -53,6 +65,8 @@ class App extends StatefulWidget {
   final int sidebarFLex = 1;
   final int panelFLex = 5;
 
+  static late BuildContext appContext;
+
   const App({Key? key}) : super(key: key);
 
   @override
@@ -73,6 +87,7 @@ class _AppState extends State<App> {
     navigationStore = Provider.of<NavigationStore>(context, listen: false);
     selectedPanel = navigationStore.selectedIndex;
     isInitialized = true;
+    App.appContext = context;
   }
 
   @override
@@ -86,8 +101,8 @@ class _AppState extends State<App> {
         children: [
           Expanded(
             flex: widget.sidebarFLex,
-            child: const Padding(
-              padding: EdgeInsets.all(Measures.small),
+            child:  Padding(
+              padding: const EdgeInsets.all(Measures.small),
               child: SidebarHolder(),
             ),
           ),

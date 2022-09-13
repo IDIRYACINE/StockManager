@@ -1,16 +1,15 @@
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
 
 abstract class DatabaseRepository {
   // x from json
 
   static ProductFamily productFamilyFromJson({required AppJson<dynamic> json}) {
     return ProductFamily(
-      name: json[ProductFamilyFields.name.name] ?? Labels.error,
-      reference: json[ProductFamilyFields.reference.name] ?? Labels.error,
-      imageUrl: json[ProductFamilyFields.imageUrl.name] ?? Labels.error,
+      name: json[ProductFamilyFields.name.name] ?? 'error',
+      reference: json[ProductFamilyFields.reference.name] ?? 'error',
+      imageUrl: json[ProductFamilyFields.imageUrl.name] ?? 'error',
     );
   }
 
@@ -26,7 +25,7 @@ abstract class DatabaseRepository {
     }
 
     return ProductModel(
-      color: json[ProductModelFields.color.name] ?? Labels.error,
+      color: json[ProductModelFields.color.name] ?? 'error',
       id: index,
       sizes: sizes,
     );
@@ -43,40 +42,40 @@ abstract class DatabaseRepository {
     }
 
     return Product(
-      barcode: json[ProductFields.barcode.name] ?? Labels.error,
-      name: json[ProductFields.name.name] ?? Labels.error,
-      productFamily: json[ProductFields.family.name] ?? Labels.error,
-      imageUrl: json[ProductFields.imageUrl.name] ?? Labels.error,
-      buyingPrice: json[ProductFields.buyingPrice.name] ?? Labels.error,
-      reference: json[ProductFields.reference.name] ?? Labels.error,
-      sellingPrice: json[ProductFields.sellingPrice.name] ?? Labels.error,
+      barcode: json[ProductFields.barcode.name] ?? 'error',
+      name: json[ProductFields.name.name] ?? 'error',
+      productFamily: json[ProductFields.family.name] ?? 'error',
+      imageUrl: json[ProductFields.imageUrl.name] ?? 'error',
+      buyingPrice: json[ProductFields.buyingPrice.name] ?? 'error',
+      reference: json[ProductFields.reference.name] ?? 'error',
+      sellingPrice: json[ProductFields.sellingPrice.name] ?? 'error',
       models: models,
-      totalQuantity: json[ProductFields.quantity.name] ?? Labels.error,
-      familyReference: json[ProductFields.familyReference.name] ?? Labels.error,
+      totalQuantity: json[ProductFields.quantity.name] ?? 'error',
+      familyReference: json[ProductFields.familyReference.name] ?? 'error',
     );
   }
 
   static Record recordFromJson({required AppJson<dynamic> json}) {
-    String payementType = json[RecordFields.paymentType.name] ?? Labels.error;
+    String payementType = json[RecordFields.paymentType.name] ?? 'error';
 
     Record record = Record(
       payementType: payementType,
-      sellerName: json[RecordFields.seller.name] ?? Labels.error,
-      timeStamp: json[RecordFields.timeStamp.name] ?? Labels.error,
-      product: json[RecordFields.product.name] ?? Labels.error,
-      productColor: json[RecordFields.productColor.name] ?? Labels.error,
-      productSize: json[RecordFields.productSize.name] ?? Labels.error,
-      barcode: json[RecordFields.barcode.name] ?? Labels.error,
-      reference: json[RecordFields.reference.name] ?? Labels.error,
-      customer: json[RecordFields.customer.name] ?? Labels.error,
+      sellerName: json[RecordFields.seller.name] ?? 'error',
+      timeStamp: json[RecordFields.timeStamp.name] ?? 'error',
+      product: json[RecordFields.product.name] ?? 'error',
+      productColor: json[RecordFields.productColor.name] ?? 'error',
+      productSize: json[RecordFields.productSize.name] ?? 'error',
+      barcode: json[RecordFields.barcode.name] ?? 'error',
+      reference: json[RecordFields.reference.name] ?? 'error',
+      customer: json[RecordFields.customer.name] ?? 'error',
       quantity: json[RecordFields.quantity.name] ?? 0,
       originalPrice: json[RecordFields.buyingPrice.name] ?? 0.0,
       sellingPrice: json[RecordFields.sellingPrice.name] ?? 0.0,
       date: json[RecordFields.date.name] ?? DateTime(1990),
       deposit: json[RecordFields.deposit.name] ?? 0.0,
       remainingPayement: json[RecordFields.remainingPayement.name] ?? 0.0,
-      colorId: json[RecordFields.colorId.name] ?? Labels.error,
-      sizeId: json[RecordFields.sizeId.name] ?? Labels.error, 
+      colorId: json[RecordFields.colorId.name] ?? 'error',
+      sizeId: json[RecordFields.sizeId.name] ?? 'error', 
       payementTypeIndex: json[RecordFields.paymentTypeIndex.name] ?? 0,
       phoneNumber: json[RecordFields.phoneNumber.name] ?? 0,
       address: json[RecordFields.address.name] ?? '',
@@ -88,8 +87,8 @@ abstract class DatabaseRepository {
 
   static Seller sellerFromJson({required AppJson<dynamic> json}) {
     return Seller(
-      name: json[SellerFields.name.name] ?? Labels.error,
-      imageUrl: json[SellerFields.imageUrl.name] ?? Labels.error,
+      name: json[SellerFields.name.name] ?? 'error',
+      imageUrl: json[SellerFields.imageUrl.name] ?? 'error',
       phone: json[SellerFields.phone.name] ?? 0,
       sellerCode: json[SellerFields.code.name] ?? 0,
     );
@@ -98,14 +97,14 @@ abstract class DatabaseRepository {
   static OrderProduct orderProductFromJson(
       {required AppJson<dynamic> json, required String key}) {
     return OrderProduct(
-      reference: json[OrderProductFields.reference.name] ?? Labels.error,
+      reference: json[OrderProductFields.reference.name] ?? 'error',
       sellingPrice: json[OrderProductFields.sellingPrice.name] ?? 0,
-      product: json[OrderProductFields.name.name] ?? Labels.error,
-      productColor: json[OrderProductFields.color.name] ?? Labels.error,
-      productSize: json[OrderProductFields.size.name] ?? Labels.error,
+      product: json[OrderProductFields.name.name] ?? 'error',
+      productColor: json[OrderProductFields.color.name] ?? 'error',
+      productSize: json[OrderProductFields.size.name] ?? 'error',
       buyingPrice: json[OrderProductFields.buyingPrice.name] ?? 0,
-      productColorId: json[OrderProductFields.sizeId.name] ?? Labels.error,
-      productSizeId: json[OrderProductFields.colorId.name] ?? Labels.error,
+      productColorId: json[OrderProductFields.sizeId.name] ?? 'error',
+      productSizeId: json[OrderProductFields.colorId.name] ?? 'error',
       
       timeStamp: key,
     );
@@ -127,19 +126,19 @@ abstract class DatabaseRepository {
 
     return Order(
       products: products,
-      address: json[OrderFields.address.name] ?? Labels.error,
-      city: json[OrderFields.city.name] ?? Labels.error,
-      date: json[OrderFields.date.name] ?? Labels.error,
+      address: json[OrderFields.address.name] ?? 'error',
+      city: json[OrderFields.city.name] ?? 'error',
+      date: json[OrderFields.date.name] ?? 'error',
       deliverToHome: json[OrderFields.deliverToHome.name] ?? false,
       deposit: json[OrderFields.deposit.name] ?? 0,
-      status: json[OrderFields.status.name] ?? Labels.error,
+      status: json[OrderFields.status.name] ?? 'error',
       totalPrice: json[OrderFields.totalPrice.name] ?? 0,
-      customerName: json[OrderFields.customerName.name] ?? Labels.error,
+      customerName: json[OrderFields.customerName.name] ?? 'error',
       deliveryCost: json[OrderFields.deliveryCost.name] ?? 0,
       phoneNumber: json[OrderFields.phone.name] ?? 0,
       postalCode: json[OrderFields.postalCode.name] ?? 0,
       quantity: json[OrderFields.quantity.name] ?? 0,
-      sellerName: json[OrderFields.seller.name] ?? Labels.error,
+      sellerName: json[OrderFields.seller.name] ?? 'error',
       timeStamp: json[OrderFields.timeStamp.name] ?? 0,
       remainingPayement: json[OrderFields.remainingPayement.name] ?? 0,
     );

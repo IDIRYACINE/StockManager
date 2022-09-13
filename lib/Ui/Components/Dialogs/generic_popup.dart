@@ -5,6 +5,7 @@ import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 abstract class PopupsUtility {
   static void displayGenericPopup(BuildContext context, Widget content,
@@ -80,13 +81,13 @@ class ConfirmDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DefaultButton(
-              label: Labels.cancel,
+              label: Translations.of(context).cancel,
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             DefaultButton(
-              label: Labels.confirm,
+              label: Translations.of(context).confirm,
               onPressed: () {
                 onConfirm();
                 Navigator.pop(context);
@@ -112,7 +113,7 @@ class InformativeDialog extends StatelessWidget {
         Text(message),
         const SizedBox(height: Measures.medium),
         DefaultButton(
-          label: Labels.confirm,
+          label: Translations.of(context).confirm,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -155,12 +156,12 @@ class TextFieldDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               DefaultButton(
-                  label: Labels.cancel,
+                  label: Translations.of(context).cancel,
                   onPressed: () {
                     Navigator.pop(context);
                   }),
               DefaultButton(
-                  label: Labels.confirm,
+                  label: Translations.of(context).confirm,
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       onConfirm(fieldValue);

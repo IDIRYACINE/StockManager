@@ -4,6 +4,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class ModelSelector extends StatefulWidget {
   const ModelSelector(
@@ -81,7 +82,7 @@ class _ModelSelectorState extends State<ModelSelector> {
                 onSelect: onColorSelected,
                 initialSelection: selectedColorIndex,
                 items: colors,
-                label: const Text(Labels.colors))),
+                label:  Text(Translations.of(context).colors))),
         const SizedBox(
           width: Measures.small,
         ),
@@ -90,7 +91,7 @@ class _ModelSelectorState extends State<ModelSelector> {
           onSelect: onSizeSelected,
           initialSelection: selectedSizeIndex,
           itemBuilder: sizesDropdowns,
-          label: const Text(Labels.sizes),
+          label:  Text(Translations.of(context).sizes),
         )),
       ],
     );

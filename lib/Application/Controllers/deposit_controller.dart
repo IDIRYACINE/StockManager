@@ -11,7 +11,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/DepositEditor/deposit_editor.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class DespositController {
   DespositController(this.recordsLiveModel, this.stockLiveModel);
@@ -47,7 +47,7 @@ class DespositController {
           ),
           onSearch: onSearch,
           createCallback: _onAdd,
-          confirmLabel: Labels.add,
+          confirmLabel: Translations.of(context).add,
         ));
   }
 
@@ -77,7 +77,7 @@ class DespositController {
               record: record.copyWith(),
               editMode: true,
               editCallback: _onEdit,
-              confirmLabel: Labels.update,
+              confirmLabel: Translations.of(context).update,
             )));
   }
 
@@ -115,7 +115,7 @@ class DespositController {
         builder: (context) => AlertDialog(
                 content: ConfirmDialog(
               onConfirm: onRemove,
-              message: Messages.deleteElement,
+              message: Translations.of(context).messageDeleteElement
             )));
   }
 
@@ -176,7 +176,7 @@ class DespositController {
         width: 100,
         height: 100,
         TextFieldDialog(
-          label: Labels.deposit,
+          label: Translations.of(context).deposit,
           validator: ValueValidator.validateNumber,
           initialValue: data.remainingPayement.toString(),
           onConfirm: (String? value) {

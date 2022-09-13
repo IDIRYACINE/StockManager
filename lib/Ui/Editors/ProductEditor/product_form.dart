@@ -7,6 +7,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 import 'product_mode.dart';
 
@@ -53,37 +54,37 @@ class ProductForm extends StatelessWidget {
             initialSelection:familyNotifier
                 ,
             items: familliesDropdown,
-            label: const Text(Labels.selectProductFamily),
+            label:  Text(Translations.of(context).selectProductFamily),
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.name,
-            label: Labels.name,
+            label: Translations.of(context).name,
             onChanged: productEditorMode.setName,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.reference,
-            label: Labels.reference,
+            label: Translations.of(context).reference,
             onChanged: productEditorMode.setReference,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.barcode.toString(),
             onChanged: productEditorMode.setBarcode,
-            label: Labels.barcode,
+            label: Translations.of(context).barcode,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.buyingPrice.toString(),
             onChanged: productEditorMode.setBuyingPrice,
-            label: Labels.buyingPrice,
+            label: Translations.of(context).buyingPrice,
           )),
           Expanded(
               child: AttributeTextField(
             initialValue: product.sellingPrice.toString(),
             onChanged: productEditorMode.setSellingPrice,
-            label: Labels.sellingPrice,
+            label: Translations.of(context).sellingPrice,
           )),
         ],
       ),

@@ -8,7 +8,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class AppPrinter {
 
@@ -56,7 +56,7 @@ class AppPrinter {
      ),
       actions: [
          Center(child: DefaultButton(
-          label: Labels.cancel,
+          label: Translations.of(context).cancel,
           onPressed: () {
             Navigator.pop(context);
           }, 

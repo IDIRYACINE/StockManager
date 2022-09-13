@@ -1,92 +1,92 @@
 abstract class Titles {
   static const List<String> sidebarTitles = [
-    Labels.sales,
-    Labels.orders,
-    Labels.stock,
-    Labels.records,
-    Labels.settings,
-    Labels.logout
+    // Translations.of(context).sales,
+    // Translations.of(context).orders,
+    // Translations.of(context).stock,
+    // Translations.of(context).records,
+    // Translations.of(context).settings,
+    // Translations.of(context).logout
   ];
 
   static const List<String> salesTableColumns = [
-    Labels.barcode,
-    Labels.productName,
-    Labels.reference,
-    Labels.sellerName,
-    Labels.buyingPrice,
-    Labels.sellingPrice
+    // Translations.of(context).barcode,
+    // Translations.of(context).productName,
+    // Translations.of(context).reference,
+    // Translations.of(context).sellerName,
+    // Translations.of(context).buyingPrice,
+    // Translations.of(context).sellingPrice
   ];
 
   // Stock Table
   static const List<String> stockProductTableColumns = [
-    Labels.barcode,
-    Labels.productName,
-    Labels.reference,
-    Labels.productFamily,
-    Labels.buyingPrice,
-    Labels.quantity,
+    // Translations.of(context).barcode,
+    // Translations.of(context).productName,
+    // Translations.of(context).reference,
+    // Translations.of(context).productFamily,
+    // Translations.of(context).buyingPrice,
+    // Translations.of(context).quantity,
   ];
 
   static const List<String> stockFamilliesTableColumns = [
-    Labels.productFamily,
-    Labels.reference,
+    // Translations.of(context).productFamily,
+    // Translations.of(context).reference,
   ];
 
   static const List<String> sellersTableColumns = [
-    Labels.sellerName,
-    Labels.phoneNumber,
+    // Translations.of(context).sellerName,
+    // Translations.of(context).phoneNumber,
   ];
 
   // Orders Table
   static const List<String> ordersTableColumns = [
-    Labels.date,
-    Labels.sellerName,
-    Labels.customer,
-    Labels.productName,
-    Labels.deposit,
-    Labels.remainingPayement,
-    Labels.deliveryCost
+    // Translations.of(context).date,
+    // Translations.of(context).sellerName,
+    // Translations.of(context).customer,
+    // Translations.of(context).productName,
+    // Translations.of(context).deposit,
+    // Translations.of(context).remainingPayement,
+    // Translations.of(context).deliveryCost
   ];
 
   static const List<String> orderProductsTableColumns = [
-    Labels.productName,
-    Labels.reference,
-    Labels.color,
-    Labels.size,
-    Labels.sellingPrice
+    // Translations.of(context).productName,
+    // Translations.of(context).reference,
+    // Translations.of(context).color,
+    // Translations.of(context).size,
+    // Translations.of(context).sellingPrice
   ];
 
   // Records Table
   static const List<String> recordsTableColumns = [
-    Labels.date,
-    Labels.type,
-    Labels.productName,
-    Labels.sellerName,
-    Labels.sellingPrice,
-    Labels.deposit,
-    Labels.remaining,
+    // Translations.of(context).date,
+    // Translations.of(context).type,
+    // Translations.of(context).productName,
+    // Translations.of(context).sellerName,
+    // Translations.of(context).sellingPrice,
+    // Translations.of(context).deposit,
+    // Translations.of(context).remaining,
   ];
 
   static const List<String> productModelsHeaders = [
-    Labels.color,
-    Labels.size,
-    Labels.quantity
+    // Translations.of(context).color,
+    // Translations.of(context).size,
+    // Translations.of(context).quantity
   ];
 
   static const List<String> depositsTableColumns = [
-    Labels.productName,
-    Labels.customer,
-    Labels.sellerName,
-    Labels.sellingPrice,
-    Labels.deposit,
-    Labels.remainingPayement,
+    // Translations.of(context).productName,
+    // Translations.of(context).customer,
+    // Translations.of(context).sellerName,
+    // Translations.of(context).sellingPrice,
+    // Translations.of(context).deposit,
+    // Translations.of(context).remainingPayement,
   ];
 
   static const List<String> pruchaseInvoiceHeaders = [
-    Labels.productName,
-    Labels.quantity,
-    Labels.price,
-    Labels.total,
+    // Translations.of(context).productName,
+    // Translations.of(context).quantity,
+    // Translations.of(context).price,
+    // Translations.of(context).total,
   ];
 
   static const List<String> invoiceFooterHeaders = [
@@ -96,137 +96,26 @@ abstract class Titles {
   ];
 
   static const List<String> recordReportHeaders = [
-    Labels.type,
-    Labels.productName,
-    Labels.sellingPrice,
-    Labels.deposit,
-    Labels.remainingPayement,
+    // Translations.of(context).type,
+    // Translations.of(context).productName,
+    // Translations.of(context).sellingPrice,
+    // Translations.of(context).deposit,
+    // Translations.of(context).remainingPayement,
   ];
 
   static const ordersReportHeaders = [
-    Labels.customer,
-    Labels.phoneNumber,
-    Labels.city,
-    Labels.productName,
-    Labels.sellingPrice,
-    Labels.deposit,
-    Labels.deliveryCost
+    // Translations.of(context).customer,
+    // Translations.of(context).phoneNumber,
+    // Translations.of(context).city,
+    // Translations.of(context).productName,
+    // Translations.of(context).sellingPrice,
+    // Translations.of(context).deposit,
+    // Translations.of(context).deliveryCost
   ];
 
   static const dailyOrdersReport = 'Daily Orders Report';
 }
 
-abstract class Labels {
-  static const sellers = 'Sellers';
-  static const date = 'Date';
-  static const sellerName = 'Seller';
-  static const quantity = 'Quantity';
-  static const status = 'Status';
-  static const name = 'Name';
-  static const customerName = 'Customer Name';
-  static const phoneNumber = 'Phone Number';
-  static const address = 'Address';
-  static const city = 'City';
-  static const postalCode = 'Postal Code';
-  static const imageUrl = 'Image Url';
-  static const productSize = 'Product Size';
-  static const productColor = 'Product Color';
-  static const buyingPrice = 'Original Price';
-  static const sellingPrice = 'Selling Price';
-  static const reference = 'Reference';
-  static const barcode = 'Barcode';
-  static const minSellingPrice = 'Min Selling Price';
-  static const totalQuantity = 'Total Quantity';
-  static const remainigQuantity = 'Remainig Quantity';
-  static const models = 'Models';
-  static const categoryId = 'Category Id';
-  static const add = 'Add';
-  static const edit = 'Edit';
-  static const remove = 'Remove';
-  static const clear = 'Clear';
-  static const refresh = 'Refresh';
-  static const search = 'Search';
-  static const filter = 'Filter';
-  static const details = 'Full Details';
-  static const confirm = 'Confirm';
-  static const cancel = 'Cancel';
-  static const save = 'Save';
-  static const colors = 'Colors';
-  static const sizes = 'Sizes';
-  static const color = 'Color';
-  static const size = 'Size';
-  static const entityNumber = 'N';
-  static const selectProductFamily = 'Select Product Family';
-  static const productName = 'Product';
-  static const price = "Price";
-  static const lowSellPrice = "Lowest Price";
-  static const priceHelp = "Help";
-  static const deposit = "Deposit";
-  static const remainingPayement = "Remaining Payement";
-  static const total = "Total";
-  static const payedDelivery = "PDelivery";
-  static const customer = 'Customer';
-  static const id = "Id";
-  static const productFamily = 'Family';
-  static const payementType = 'Payement Type';
-  static const stockTypes = 'Select Stock';
-  static const searchType = 'Search Type';
-  static const startDate = 'Start Date';
-  static const endDate = 'End Date';
-  static const update = 'Update';
-  static const deliveryCost = 'Delivery Cost';
-  static const error = 'Error';
-
-  // Sidebar Titles
-  static const stock = 'Stock';
-  static const sales = 'Sales';
-  static const records = 'Records';
-  static const settings = 'Settings';
-  static const orders = 'Orders';
-  static const logout = 'Logout';
-
-  // Others
-  static const appName = 'Flutter Demo';
-  static const login = 'Login';
-  static const username = 'Username';
-  static const password = 'Password';
-  static const loading = 'Loading';
-  static const print = 'Print';
-  static String netProfit = 'Net Profit';
-  static String profit = 'Profit';
-  static const payed = 'Payed';
-  static const totalDeposit = 'Total Deposit';
-  static const topSellers = 'Sellers';
-  static const topProducts = 'Top Products';
-
-  static const addSize = 'Add Size';
-
-  static const shopName = 'Marwa Boutique';
-
-  static const dailySalesReport = 'Daily Sales Report';
-
-  static const done = 'Done';
-
-  static const addProduct = 'Add Product';
-  
-  static const type = 'Type';
-  
-  static const remaining = 'Remaining';
-
-  static String invoiceId = 'Invoice Id';
-
-  static const addOrder = 'Add Order';
-
-  static const quickSearch = 'Quick Search';
-
-  static const addDeposit = 'Add Deposit';
-
-  static const addSeller = 'Add Seller';
-
-  static const addModel = 'Add Model';
-
-  static const addedProduct = 'Added Product';
-}
 
 abstract class Measures {
   static const double smallBorder = 1;
@@ -286,14 +175,3 @@ abstract class Measures {
   static double quickSearchFieldWidth = 325.0;
 }
 
-abstract class Messages {
-  static const deleteElement = 'Delete element ?';
-  static const clearAll = 'Clear all ?';
-  static const connectionFailed = 'Connection Failed';
-  static const faultyAuthentication = 'Username or password is incorrect';
-  static const payementType = 'Select Payement Type';
-
-  static const String emptyField = 'Field cannot be empty';
-
-  static const String invalidNumber = 'Invalid Number';
-}

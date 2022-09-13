@@ -4,6 +4,7 @@ import 'package:stock_manager/Ui/Editors/SellersEditor.dart/seller_mode.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class SellerForm extends StatelessWidget {
   const SellerForm(
@@ -33,14 +34,14 @@ class SellerForm extends StatelessWidget {
               child: AttributeTextField(
             initialValue: seller.name,
             onChanged: sellerEditorMode.setName,
-            label: Labels.sellerName,
+            label: Translations.of(context).sellerName,
           )),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: AttributeTextField(
             initialValue: seller.phone.toString(),
             onChanged: sellerEditorMode.setPhone,
-            label: Labels.phoneNumber,
+            label: Translations.of(context).phoneNumber,
           )),
         ],
       ),

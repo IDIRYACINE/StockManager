@@ -13,7 +13,7 @@ import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class RecordsController {
   RecordsController(this.recordsLiveModel);
@@ -77,14 +77,14 @@ class RecordsController {
 
       return [
         SearchFieldDate(
-          startLabel: Labels.startDate,
-          endLabel: Labels.endDate,
+          startLabel: Translations.of(context).startDate,
+          endLabel: Translations.of(context).endDate,
           identifier: RecordFields.date.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
         ),
         SearchFieldDropDown(
-            label: Messages.payementType,
+            label: Translations.of(context).payementType,
             identifier: RecordFields.paymentType.name,
             onSelected: onSelect,
             onDeselected: onDeselect,

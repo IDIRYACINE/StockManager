@@ -8,6 +8,7 @@ import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'product_form.dart';
 import 'product_models.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class ProductEditor extends StatelessWidget {
   const ProductEditor(
@@ -90,7 +91,7 @@ class ProductEditor extends StatelessWidget {
                     children: [
                       Flexible(
                         child: DefaultButton(
-                            label: Labels.cancel,
+                            label: Translations.of(context).cancel,
                             onPressed: () {
                               Navigator.pop(context);
                             }),

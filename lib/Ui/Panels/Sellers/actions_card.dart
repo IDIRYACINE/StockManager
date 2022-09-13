@@ -4,6 +4,7 @@ import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/sellers_controller.dart';
 import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class ActionsCard extends StatelessWidget {
   const ActionsCard({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class ActionsCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          Labels.sellers,
+          Translations.of(context).sellers,
           style: theme.textTheme.displayMedium,
         ),
         const Spacer(),
@@ -35,7 +36,7 @@ class ActionsCard extends StatelessWidget {
           onPressed: () {
             onRefresh(context, controller);
           },
-          label: Labels.refresh,
+          label: Translations.of(context).refresh,
           icon: Icons.refresh,
         ),
         const SizedBox(
@@ -46,7 +47,7 @@ class ActionsCard extends StatelessWidget {
             onAdd(context, controller);
           },
           backgroundColor: theme.colorScheme.primaryContainer,
-          label: Labels.addSeller,
+          label: Translations.of(context).addSeller,
           icon: Icons.add,
           iconColor: Colors.white,
         ),

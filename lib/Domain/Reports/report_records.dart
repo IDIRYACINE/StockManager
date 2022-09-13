@@ -5,6 +5,7 @@ import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class RecordsReport {
   final List<Record> records;
@@ -12,7 +13,7 @@ class RecordsReport {
   RecordsReport(this.records);
 
   final List<String> _reportHeaders = [
-    Labels.type,
+    'Type',
     'Produit',
     'Prix',
     'Versement',
@@ -43,7 +44,7 @@ class RecordsReport {
           cellAdapter: _recordToReportRow,
           data: records,
           invoicePayementAttributes: [
-            InvoiceItem(Labels.profit, totals.totalProfit.toString(),
+            InvoiceItem(Translations.of(context).profit, totals.totalProfit.toString(),
                 pdf.Font.timesBold()),
             InvoiceItem('Reste',
                 totals.totalRemainingPayement.toString(), pdf.Font.timesBold()),

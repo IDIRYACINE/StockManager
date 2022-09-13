@@ -9,6 +9,7 @@ import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 import 'sale_mode.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class SaleEditor extends StatelessWidget {
   const SaleEditor(
@@ -128,7 +129,7 @@ class SaleEditor extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DefaultButton(
-                        label: Labels.cancel,
+                        label: Translations.of(context).cancel,
                         onPressed: () {
                           Navigator.pop(context);
                         }),

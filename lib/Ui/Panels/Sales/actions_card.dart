@@ -4,6 +4,7 @@ import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/sales_controller.dart';
 import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class ActionsCard extends StatelessWidget {
   const ActionsCard({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class ActionsCard extends StatelessWidget {
               onPressed: () {
                 onAdd(context, controller);
               },
-              label: Labels.add,
+              label: Translations.of(context).add,
               icon: Icons.add,
             ),
           ),
@@ -46,7 +47,7 @@ class ActionsCard extends StatelessWidget {
               onPressed: () {
                 onClear(context, controller);
               },
-              label: Labels.clear,
+              label: Translations.of(context).clear,
               icon: Icons.clear,
             ),
           ),
@@ -55,7 +56,7 @@ class ActionsCard extends StatelessWidget {
               onPressed: () {
                 onPrint(context, controller);
               },
-              label: Labels.print,
+              label: Translations.of(context).print,
               icon: Icons.print,
             ),
           ),

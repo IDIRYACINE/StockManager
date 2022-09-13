@@ -10,7 +10,7 @@ import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 import 'package:stock_manager/main.dart';
 
 class LoginController {
@@ -29,9 +29,9 @@ class LoginController {
     } else {
       showDialog(
           context: context,
-          builder: (context) => const AlertDialog(
+          builder: (context) =>  AlertDialog(
                 content:
-                    InformativeDialog(message: Messages.faultyAuthentication),
+                    InformativeDialog(message: Translations.of(context).messageFaultyAuthentication),
               ));
     }
   }

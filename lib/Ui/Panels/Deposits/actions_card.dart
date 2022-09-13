@@ -8,6 +8,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Components/Buttons/action_button.dart';
 import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class SearchActionsCard extends StatelessWidget {
   SearchActionsCard({Key? key}) : super(key: key);
@@ -54,7 +55,7 @@ class SearchActionsCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              Labels.deposit,
+              Translations.of(context).deposit,
               style: theme.textTheme.displayMedium,
             ),
             const Spacer(),
@@ -62,7 +63,7 @@ class SearchActionsCard extends StatelessWidget {
               onPressed: () {
                 onPrint(context, controller);
               },
-              label: Labels.print,
+              label: Translations.of(context).print,
               icon: Icons.print,
             ),
             const SizedBox(
@@ -72,7 +73,7 @@ class SearchActionsCard extends StatelessWidget {
               onPressed: () {
                 onClear(context, controller);
               },
-              label: Labels.refresh,
+              label: Translations.of(context).refresh,
               icon: Icons.refresh,
             ),
             const SizedBox(
@@ -83,7 +84,7 @@ class SearchActionsCard extends StatelessWidget {
                 onAdd(context, controller);
               },
               backgroundColor: theme.colorScheme.primaryContainer,
-              label: Labels.addDeposit,
+              label: Translations.of(context).addDeposit,
               icon: Icons.add,
               iconColor: Colors.white,
             ),
@@ -98,7 +99,7 @@ class SearchActionsCard extends StatelessWidget {
             SizedBox(
               width: Measures.quickSearchFieldWidth,
               child: SearchFieldText(
-                  label: Labels.invoiceId,
+                  label: Translations.of(context).invoiceId,
                   isOptional: false,
                   parser: (string) => int.parse(string),
                   registerQueryGenerator: registerQuery,
@@ -108,7 +109,7 @@ class SearchActionsCard extends StatelessWidget {
               onPressed: () {
                 onQuickSearch(context, controller);
               },
-              label: Labels.quickSearch,
+              label: Translations.of(context).quickSearch,
               icon: Icons.search,
             ),
           ],
