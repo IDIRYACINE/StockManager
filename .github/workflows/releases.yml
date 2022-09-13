@@ -11,7 +11,8 @@ jobs:
        with:
          channel: 'beta'
      - run: flutter config --enable-windows-desktop
-     - run: flutter build --release windows
+     - run: flutter build windows
+     - run: flutter run --release -d windows
      - uses: ncipollo/release-action@v1
        with:
           artifacts: "build/windows/runner/Release/*"
