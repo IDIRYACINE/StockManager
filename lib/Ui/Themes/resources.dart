@@ -35,4 +35,8 @@ abstract class AppRessources {
   static const instegramLink = 'marwaboutique34';
   static const viberPhone = '+213559275041';
 
+  static const githubIcon = 'assets/images/github_icon.png';
+  static const facebookIcon = 'assets/images/facebook_icon.png';
+  static const phoneIcon = 'assets/images/phone_icon.png';
+
 }

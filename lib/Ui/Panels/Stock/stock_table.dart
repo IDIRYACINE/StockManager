@@ -7,7 +7,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class StockTable extends StatelessWidget {
   const StockTable({Key? key}) : super(key: key);
@@ -74,12 +74,18 @@ class _ProductsTable extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false).stockLiveModel;
 
     List<String> stockProductTableColumns = [
-      Translations.of(context).barcode,
-      Translations.of(context).productName,
-      Translations.of(context).reference,
-      Translations.of(context).productFamily,
-      Translations.of(context).buyingPrice,
-      Translations.of(context).quantity,
+      Translations.of(context)!.
+barcode,
+      Translations.of(context)!.
+productName,
+      Translations.of(context)!.
+reference,
+      Translations.of(context)!.
+productFamily,
+      Translations.of(context)!.
+buyingPrice,
+      Translations.of(context)!.
+quantity,
     ];
 
     return Column(
@@ -151,8 +157,10 @@ class _FamilliesTable extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false).stockLiveModel;
 
     List<String> stockFamilliesTableColumns = [
-      Translations.of(context).productFamily,
-      Translations.of(context).reference,
+      Translations.of(context)!.
+productFamily,
+      Translations.of(context)!.
+reference,
     ];
 
     return Column(

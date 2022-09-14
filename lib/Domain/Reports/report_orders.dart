@@ -6,7 +6,7 @@ import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersReport {
   final Map<int, Order> ordersMap;
@@ -51,7 +51,8 @@ class OrdersReport {
         invoicePayementAttributes: [
           InvoiceItem("Frais de port", totals.shippingTotal.toString(),
               pdf.Font.timesBold()),
-          InvoiceItem(Translations.of(context).profit, totals.totalProfit.toString(),
+          InvoiceItem(Translations.of(context)!.
+profit, totals.totalProfit.toString(),
               pdf.Font.timesBold()),
           InvoiceItem('Reste', totals.totalRemainingPayement.toString()),
         ],

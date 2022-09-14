@@ -7,7 +7,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Records/records_table.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class RecordsPanel extends StatelessWidget {
   const RecordsPanel({Key? key}) : super(key: key);
@@ -43,7 +43,8 @@ class RecordsPanel extends StatelessWidget {
         SearchActionsCard(
           onPrint: () => onPrint(context, controller),
           onRefresh: () => onRefresh(context, controller),
-          title: Translations.of(context).records,
+          title: Translations.of(context)!.
+records,
         ),
         const SizedBox(height: Measures.large),
         QuickSearchDate(

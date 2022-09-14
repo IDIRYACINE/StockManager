@@ -15,7 +15,7 @@ import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_customer.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_spreaded.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersController {
   OrdersController(this.ordersLiveModel, this.stockLiveModel);
@@ -44,7 +44,8 @@ class OrdersController {
             order: ordersLiveModel.selectedOrder,
             createOrderCallback: _addOrder,
             onSearch: _onSearchProduct,
-            confirmLabel: Translations.of(context).add,
+            confirmLabel: Translations.of(context)!.
+add,
           )),
     );
   }
@@ -110,7 +111,8 @@ class OrdersController {
       context: context,
       builder: (context) => Material(
         child: OrderCustomerEditor(
-          confirmLabel: Translations.of(context).save,
+          confirmLabel: Translations.of(context)!.
+save,
           order: ordersLiveModel.selectedOrder,
           editCallback: onEdit,
         ),
@@ -164,7 +166,8 @@ class OrdersController {
               onConfirm: () {
                 onRemove(order, index);
               },
-              message: Translations.of(context).messageDeleteElement,
+              message: Translations.of(context)!.
+messageDeleteElement,
             )));
   }
 
@@ -236,20 +239,24 @@ class OrdersController {
         RegisterSearchQueryBuilder onDeselect) {
       return [
         SearchFieldText(
-          label: Translations.of(context).customer,
+          label: Translations.of(context)!.
+customer,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.customerName.name,
         ),
         SearchFieldText(
-          label: Translations.of(context).status,
+          label: Translations.of(context)!.
+status,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.status.name,
         ),
         SearchFieldDate(
-          startLabel: Translations.of(context).startDate,
-          endLabel: Translations.of(context).endDate,
+          startLabel: Translations.of(context)!.
+startDate,
+          endLabel: Translations.of(context)!.
+endDate,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.date.name,

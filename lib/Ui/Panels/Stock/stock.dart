@@ -9,7 +9,7 @@ import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock_table.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class StockPanel extends StatelessWidget {
   const StockPanel({Key? key}) : super(key: key);
@@ -49,11 +49,10 @@ class StockPanel extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),
       child: Column(children: [
-        
         SearchActionsCard(
           onAdd: () => onAdd(context, controller),
           onRefresh: () => onRefresh(context, controller),
-          title: Translations.of(context).stock,
+          title: Translations.of(context)!.stock,
         ),
         const SizedBox(height: Measures.large),
         QuickSearchField<String>(
@@ -69,16 +68,3 @@ class StockPanel extends StatelessWidget {
     );
   }
 }
-
-//  SizedBox(
-//               width: 200,
-//               child: SelectorDropDown<StockTypes>(
-//                 initialSelection: stockNotifier,
-//                 onSelect: (type) {
-//                   controller.onSelectStockType(type);
-//                   stockNotifier.value = type;
-//                 },
-//                 label:  Text(Translations.of(context).stockTypes),
-//                 items: stockTypes,
-//               ),
-//             ),

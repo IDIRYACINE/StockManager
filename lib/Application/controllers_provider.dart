@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Controllers/settings_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
@@ -45,7 +46,7 @@ class ControllersProvider {
     orderProductsController = OrderProductsController(
         stockLiveModel, ordersLiveModel);
 
-    settingsController = SettingsController(settingsLiveModel);
+    settingsController = SettingsController(Provider.of<SettingsLiveDataModel>(context,listen: false));
 
   }
 
@@ -66,5 +67,4 @@ class ControllersProvider {
   final SellersLiveDataModel sellersLiveModel = SellersLiveDataModel();
   final OrdersLiveDataModel ordersLiveModel= OrdersLiveDataModel();
   final StatsLiveDataModel statsLiveModel = StatsLiveDataModel();
-  final SettingsLiveDataModel settingsLiveModel = SettingsLiveDataModel();
 }

@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class Splash extends StatelessWidget{
 
@@ -13,7 +13,8 @@ class Splash extends StatelessWidget{
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(Translations.of(context).loading),
+        Text(Translations.of(context)!.
+loading),
         const LinearProgressIndicator(),
       ],
     );

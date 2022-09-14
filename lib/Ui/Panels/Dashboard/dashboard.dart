@@ -5,7 +5,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stats.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/Ui/Panels/Dashboard/stats.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class DashboardPanel extends StatelessWidget {
   const DashboardPanel({Key? key}) : super(key: key);
@@ -48,7 +48,8 @@ class DashboardPanel extends StatelessWidget {
             const Flexible(child: ProfitCard()),
             Flexible(
                 child: TopList(
-              title: Translations.of(context).topSellers,
+              title: Translations.of(context)!.
+topSellers,
               builder: (context, index) => TopListItem(
                 index: index,
                 title: getSellerName(controllersProvider.sellersLiveModel, index),
@@ -70,7 +71,8 @@ class DashboardPanel extends StatelessWidget {
             )),
              Flexible(
                 child: TopBarChart(
-              chartTitle: Translations.of(context).topProducts,
+              chartTitle: Translations.of(context)!.
+topProducts,
               chartData: const [],
             )),
           ],

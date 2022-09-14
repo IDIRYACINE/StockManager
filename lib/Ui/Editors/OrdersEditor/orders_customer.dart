@@ -5,7 +5,7 @@ import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Application/Systems/editor_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'editor_forms.dart';
 
@@ -61,7 +61,8 @@ class OrderCustomerEditor extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DefaultButton(
-                        label: Translations.of(context).cancel,
+                        label: Translations.of(context)!.
+cancel,
                         onPressed: () {
                           Navigator.pop(context);
                         }),

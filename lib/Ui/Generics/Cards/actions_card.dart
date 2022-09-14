@@ -4,7 +4,7 @@ import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Generics/action_button.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SearchActionsCard extends StatelessWidget {
   const SearchActionsCard({Key? key, this.onPrint, this.onAdd, this.onRefresh, required this.title})
@@ -32,7 +32,8 @@ class SearchActionsCard extends StatelessWidget {
             if (onPrint != null)
               ActionButton(
                 onPressed: onPrint,
-                label: Translations.of(context).print,
+                label: Translations.of(context)!.
+print,
                 icon: Icons.print,
               ),
             const SizedBox(
@@ -41,7 +42,8 @@ class SearchActionsCard extends StatelessWidget {
             if (onRefresh != null)
               ActionButton(
                 onPressed: onRefresh,
-                label: Translations.of(context).refresh,
+                label: Translations.of(context)!.
+refresh,
                 icon: Icons.refresh,
               ),
             if (onAdd != null)
@@ -52,7 +54,8 @@ class SearchActionsCard extends StatelessWidget {
                 child: ActionButton(
                   onPressed: onAdd,
                   backgroundColor: theme.colorScheme.primaryContainer,
-                  label: Translations.of(context).add,
+                  label: Translations.of(context)!.
+add,
                   icon: Icons.add,
                   iconColor: Colors.white,
                 ),
@@ -99,7 +102,8 @@ class QuickSearchField<T> extends StatelessWidget {
         SizedBox(
           width: Measures.quickSearchFieldWidth,
           child: SearchFieldText<T>(
-              label: Translations.of(context).invoiceId,
+              label: Translations.of(context)!.
+invoiceId,
               isOptional: false,
               parser: parser,
               registerQueryGenerator: registerQuery,
@@ -109,7 +113,8 @@ class QuickSearchField<T> extends StatelessWidget {
           onPressed: () {
             onSearch();
           },
-          label: Translations.of(context).quickSearch,
+          label: Translations.of(context)!.
+quickSearch,
           icon: Icons.search,
         ),
       ],
@@ -150,8 +155,10 @@ class QuickSearchDate extends StatelessWidget {
         SizedBox(
           width: Measures.quickSearchFieldWidth,
           child: SearchFieldDate(
-              startLabel: Translations.of(context).startDate,
-              endLabel: Translations.of(context).endDate,
+              startLabel: Translations.of(context)!.
+startDate,
+              endLabel: Translations.of(context)!.
+endDate,
               isOptional: false,
               registerQueryGenerator: registerQuery,
               identifier: valueIdentifier),
@@ -163,7 +170,8 @@ class QuickSearchDate extends StatelessWidget {
           onPressed: () {
             onSearch();
           },
-          label: Translations.of(context).quickSearch,
+          label: Translations.of(context)!.
+quickSearch,
           icon: Icons.search,
         ),
       ],

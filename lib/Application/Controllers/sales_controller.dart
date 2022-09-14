@@ -10,7 +10,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_editor.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SalesController {
   SalesController(this.recordsLiveModel, this.stockLiveModel);
@@ -41,7 +41,8 @@ PopupsUtility.displayGenericPopup(
           child:SaleEditor(
               record: record.copyWith(),
               editMode: true,
-              confirmLabel: Translations.of(context).update,
+              confirmLabel: Translations.of(context)!.
+update,
               editCallback: onEdit,
             )
         ));
@@ -64,7 +65,8 @@ PopupsUtility.displayGenericPopup(
 
       ServicesStore.instance.sendMessage(message);
 
-      PopupsUtility.displayToast(context,Translations.of(context).addedProduct);
+      PopupsUtility.displayToast(context,Translations.of(context)!.
+addedProduct);
     }
 
     void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
@@ -101,7 +103,8 @@ PopupsUtility.displayGenericPopup(
                 timeStamp: Record.saleTimeStampId,
               ),
               onSearch: onSearch,
-              confirmLabel: Translations.of(context).add,
+              confirmLabel: Translations.of(context)!.
+add,
               createCallback: _onConfirm,
             )
         );
@@ -116,7 +119,8 @@ PopupsUtility.displayGenericPopup(
                 onConfirm: () {
                   recordsLiveModel.clearSaleRecord();
                 },
-                message: Translations.of(context).messageClearAll)));
+                message: Translations.of(context)!.
+messageClearAll)));
   }
 
   void remove(BuildContext context, Record record) {
@@ -136,7 +140,8 @@ PopupsUtility.displayGenericPopup(
         context: context,
         builder: (context) => AlertDialog(
             content: ConfirmDialog(
-                onConfirm: onRemove, message: Translations.of(context).messageDeleteElement)));
+                onConfirm: onRemove, message: Translations.of(context)!.
+messageDeleteElement)));
   }
 
   void printPurchases(BuildContext context) {

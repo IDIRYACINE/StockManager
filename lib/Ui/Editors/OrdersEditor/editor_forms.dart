@@ -11,7 +11,7 @@ import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrderProductForm extends StatelessWidget {
   const OrderProductForm(
@@ -37,7 +37,8 @@ class OrderProductForm extends StatelessWidget {
         AttributeTextField(
           controller: orderProductEditorMode.sellingPriceController,
           onChanged: orderProductEditorMode.setSellingPrice,
-          label: Translations.of(context).sellingPrice,
+          label: Translations.of(context)!.
+sellingPrice,
         ),
         const SizedBox(height: Measures.small),
         ValueListenableBuilder<Product>(
@@ -85,7 +86,8 @@ class SpreadedOrderProductForm extends StatelessWidget {
           AttributeTextField(
             controller: orderProductEditorMode.sellingPriceController,
             onChanged: orderProductEditorMode.setSellingPrice,
-            label: Translations.of(context).sellingPrice,
+            label: Translations.of(context)!.
+sellingPrice,
           ),
           const SizedBox(height: Measures.small),
           ValueListenableBuilder<Product>(
@@ -134,19 +136,22 @@ class OrderForm extends StatelessWidget {
             sellerNotifier.value = seller;
           },
           items: sellersDropdown,
-          label:  Text(Translations.of(context).sellerName),
+          label:  Text(Translations.of(context)!.
+sellerName),
           initialSelection: sellerNotifier,
         ),
         AttributeTextField(
           initialValue: order.customerName,
-          label: Translations.of(context).customerName,
+          label: Translations.of(context)!.
+customerName,
           onChanged: orderFormEditorMode.setClient,
         ),
         const SizedBox(height: Measures.small),
 
          AttributeTextField(
           initialValue: order.phoneNumber.toString(),
-          label: Translations.of(context).phoneNumber,
+          label: Translations.of(context)!.
+phoneNumber,
           onChanged: orderFormEditorMode.setPhoneNumber,
         ),
         const SizedBox(height: Measures.small),
@@ -156,7 +161,8 @@ class OrderForm extends StatelessWidget {
             Expanded(
               child: AttributeTextField(
                 initialValue: order.city,
-                label: Translations.of(context).city,
+                label: Translations.of(context)!.
+city,
                 onChanged: orderFormEditorMode.setState,
               ),
             ),
@@ -164,7 +170,8 @@ class OrderForm extends StatelessWidget {
             Expanded(
               child: AttributeTextField(
                 initialValue: order.address,
-                label: Translations.of(context).address,
+                label: Translations.of(context)!.
+address,
                 onChanged: orderFormEditorMode.setAddress,
               ),
             ),
@@ -177,7 +184,8 @@ class OrderForm extends StatelessWidget {
             Expanded(
               child: AttributeTextField(
                 initialValue: order.deposit.toString(),
-                label: Translations.of(context).deposit,
+                label: Translations.of(context)!.
+deposit,
                 onChanged: orderFormEditorMode.setDeposit,
               ),
             ),
@@ -185,7 +193,8 @@ class OrderForm extends StatelessWidget {
             Expanded(
               child: AttributeTextField(
                 initialValue: order.deliveryCost.toString(),
-                label: Translations.of(context).deliveryCost,
+                label: Translations.of(context)!.
+deliveryCost,
                 onChanged: orderFormEditorMode.setDeliveryCost,
               ),
             ),

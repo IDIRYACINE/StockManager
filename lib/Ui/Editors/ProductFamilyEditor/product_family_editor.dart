@@ -5,7 +5,7 @@ import 'package:stock_manager/Application/Systems/prodcut_family_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class FamilyEditor extends StatelessWidget {
   const FamilyEditor(
@@ -44,7 +44,8 @@ class FamilyEditor extends StatelessWidget {
                 child: AttributeTextField(
               onChanged: modeDelegate.setName,
               initialValue: family.name,
-              label: Translations.of(context).name,
+              label: Translations.of(context)!.
+name,
             )),
             const SizedBox(
               height: Measures.medium,
@@ -53,7 +54,8 @@ class FamilyEditor extends StatelessWidget {
                 child: AttributeTextField(
               initialValue: family.reference,
               onChanged: modeDelegate.setReference,
-              label: Translations.of(context).reference,
+              label: Translations.of(context)!.
+reference,
             )),
             const SizedBox(
               height: Measures.medium,
@@ -62,7 +64,8 @@ class FamilyEditor extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DefaultButton(
-                    label: Translations.of(context).cancel,
+                    label: Translations.of(context)!.
+cancel,
                     onPressed: () {
                       Navigator.pop(context);
                     }),

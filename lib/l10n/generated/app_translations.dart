@@ -6,9 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'translations_ar.dart';
-import 'translations_en.dart';
-import 'translations_fr.dart';
+import 'app_translations_ar.dart';
+import 'app_translations_en.dart';
+import 'app_translations_fr.dart';
 
 /// Callers can lookup localized strings with an instance of Translations returned
 /// by `Translations.of(context)`.
@@ -18,7 +18,7 @@ import 'translations_fr.dart';
 /// supportedLocales list. For example:
 ///
 /// ```
-/// import 'generated/translations.dart';
+/// import 'generated/app_translations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: Translations.localizationsDelegates,
@@ -66,8 +66,8 @@ abstract class Translations {
 
   final String localeName;
 
-  static Translations of(BuildContext context) {
-    return Localizations.of<Translations>(context, Translations)!;
+  static Translations? of(BuildContext context) {
+    return Localizations.of<Translations>(context, Translations);
   }
 
   static const LocalizationsDelegate<Translations> delegate = _TranslationsDelegate();
@@ -588,6 +588,12 @@ abstract class Translations {
   /// **'Type'**
   String get type;
 
+  /// No description provided for @displayLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Language'**
+  String get displayLanguage;
+
   /// No description provided for @remaining.
   ///
   /// In en, this message translates to:
@@ -636,6 +642,42 @@ abstract class Translations {
   /// **'Added Product'**
   String get addedProduct;
 
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersion;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @general.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// No description provided for @descriptionDisplayLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the display language of the app'**
+  String get descriptionDisplayLanguage;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @developerContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer Contact'**
+  String get developerContact;
+
   /// No description provided for @messageDeleteElement.
   ///
   /// In en, this message translates to:
@@ -671,6 +713,18 @@ abstract class Translations {
   /// In en, this message translates to:
   /// **'Invalid Number'**
   String get messageInvalidNumber;
+
+  /// No description provided for @descriptionManageSellers.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage autherised sellers'**
+  String get descriptionManageSellers;
+
+  /// No description provided for @descriptionDeveloperContact.
+  ///
+  /// In en, this message translates to:
+  /// **'The developer contact informations '**
+  String get descriptionDeveloperContact;
 }
 
 class _TranslationsDelegate extends LocalizationsDelegate<Translations> {

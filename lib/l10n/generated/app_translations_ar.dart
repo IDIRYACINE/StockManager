@@ -1,7 +1,7 @@
 
 
 
-import 'translations.dart';
+import 'app_translations.dart';
 
 /// The translations for Arabic (`ar`).
 class TranslationsAr extends Translations {
@@ -254,6 +254,9 @@ class TranslationsAr extends Translations {
   String get type => 'النوع';
 
   @override
+  String get displayLanguage => 'عرض اللغة';
+
+  @override
   String get remaining => 'المتبقي';
 
   @override
@@ -278,6 +281,24 @@ class TranslationsAr extends Translations {
   String get addedProduct => 'تمت إضافة المنتج';
 
   @override
+  String get appVersion => 'نسخة التطبيق';
+
+  @override
+  String get about => 'حول';
+
+  @override
+  String get general => 'عام';
+
+  @override
+  String get descriptionDisplayLanguage => 'عرض اللغة';
+
+  @override
+  String get selectLanguage => 'اختر اللغة';
+
+  @override
+  String get developerContact => 'تواصل مع المطور';
+
+  @override
   String get messageDeleteElement => 'هل تريد حذف العنصر؟';
 
   @override
@@ -294,4 +315,10 @@ class TranslationsAr extends Translations {
 
   @override
   String get messageInvalidNumber => 'رقم غير صالح';
+
+  @override
+  String get descriptionManageSellers => 'إدارة البائعين';
+
+  @override
+  String get descriptionDeveloperContact => 'تواصل مع المطور للحصول على المساعدة';
 }

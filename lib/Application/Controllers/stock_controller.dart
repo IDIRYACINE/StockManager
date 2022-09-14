@@ -15,7 +15,7 @@ import 'package:stock_manager/Ui/Editors/ProductEditor/product_editor.dart';
 import 'package:stock_manager/Ui/Editors/ProductFamilyEditor/product_family_editor.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class StockController {
   StockController(StockLiveDataModel stockLiveDataModel) {
@@ -126,7 +126,8 @@ class _ProductsDelegate implements IStockDelegate<Product> {
       height: 800,
       ProductEditor(
         createCallback: _onConfirm,
-        confirmLabel: Translations.of(context).add,
+        confirmLabel: Translations.of(context)!.
+add,
         product: Product.defaultInstance(),
       ),
     );
@@ -158,7 +159,8 @@ class _ProductsDelegate implements IStockDelegate<Product> {
           product: product,
           editMode: true,
           editCallback: onEdit,
-          confirmLabel: Translations.of(context).update,
+          confirmLabel: Translations.of(context)!.
+update,
         ),
     );
 
@@ -204,7 +206,8 @@ class _ProductsDelegate implements IStockDelegate<Product> {
         builder: (context) => AlertDialog(
               content: ConfirmDialog(
                 onConfirm: onRemove,
-                message: Translations.of(context).messageDeleteElement,
+                message: Translations.of(context)!.
+messageDeleteElement,
               ),
             ));
   }
@@ -241,7 +244,8 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
       return [
         SearchFieldText<int>(
-          label: Translations.of(context).barcode,
+          label: Translations.of(context)!.
+barcode,
           identifier: ProductFields.barcode.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
@@ -249,14 +253,16 @@ class _ProductsDelegate implements IStockDelegate<Product> {
           allowedSearchTypes: const [SearchType.equals],
         ),
         SearchFieldText<String>(
-          label: Translations.of(context).reference,
+          label: Translations.of(context)!.
+reference,
           identifier: ProductFields.reference.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
           allowedSearchTypes: const [SearchType.equals],
         ),
         SearchFieldDropDown(
-            label: Translations.of(context).selectProductFamily,
+            label: Translations.of(context)!.
+selectProductFamily,
             identifier: ProductFields.family.name,
             onSelected: onSelect,
             onDeselected: onDeselect,
@@ -332,7 +338,8 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
                 content: FamilyEditor(
               family: ProductFamily(name: "", reference: ""),
               createCallback: _onConfirm,
-              confirmLabel: Translations.of(context).add,
+              confirmLabel: Translations.of(context)!.
+add,
             )));
   }
 
@@ -360,7 +367,8 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
               family: family.copyWith(),
               editMode: true,
               editCallback: onEdit,
-              confirmLabel: Translations.of(context).update,
+              confirmLabel: Translations.of(context)!.
+update,
             )));
   }
 
@@ -406,7 +414,8 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
         builder: (context) => AlertDialog(
                 content: ConfirmDialog(
               onConfirm: onRemove,
-              message: Translations.of(context).messageDeleteElement,
+              message: Translations.of(context)!.
+messageDeleteElement,
             )));
   }
 
@@ -449,12 +458,14 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
       RegisterSearchQueryBuilder onDeselect , BuildContext context) {
     return [
       SearchFieldText(
-          label: Translations.of(context).name,
+          label: Translations.of(context)!.
+name,
           identifier: ProductFamilyFields.name.name,
           onSelected: onSelect,
           onDeselected: onDeselect),
       SearchFieldText(
-          label: Translations.of(context).reference,
+          label: Translations.of(context)!.
+reference,
           identifier: ProductFamilyFields.reference.name,
           onSelected: onSelect,
           onDeselected: onDeselect),

@@ -6,7 +6,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class RecordsTable extends StatefulWidget {
   const RecordsTable({Key? key}) : super(key: key);
@@ -34,13 +34,20 @@ class _RecordsTableState extends State<RecordsTable> {
         Provider.of<ControllersProvider>(context, listen: false).recordsLiveModel;
 
     List<String> recordsTableColumns = [
-      Translations.of(context).date,
-      Translations.of(context).type,
-      Translations.of(context).productName,
-      Translations.of(context).sellerName,
-      Translations.of(context).sellingPrice,
-      Translations.of(context).deposit,
-      Translations.of(context).remaining,
+      Translations.of(context)!.
+date,
+      Translations.of(context)!.
+type,
+      Translations.of(context)!.
+productName,
+      Translations.of(context)!.
+sellerName,
+      Translations.of(context)!.
+sellingPrice,
+      Translations.of(context)!.
+deposit,
+      Translations.of(context)!.
+remaining,
     ];
 
     return SizedBox(

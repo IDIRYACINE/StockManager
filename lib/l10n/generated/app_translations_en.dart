@@ -1,7 +1,7 @@
 
 
 
-import 'translations.dart';
+import 'app_translations.dart';
 
 /// The translations for English (`en`).
 class TranslationsEn extends Translations {
@@ -254,6 +254,9 @@ class TranslationsEn extends Translations {
   String get type => 'Type';
 
   @override
+  String get displayLanguage => 'Display Language';
+
+  @override
   String get remaining => 'Remaining';
 
   @override
@@ -278,6 +281,24 @@ class TranslationsEn extends Translations {
   String get addedProduct => 'Added Product';
 
   @override
+  String get appVersion => 'App Version';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get descriptionDisplayLanguage => 'Change the display language of the app';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
+  String get developerContact => 'Developer Contact';
+
+  @override
   String get messageDeleteElement => 'Delete element ?';
 
   @override
@@ -294,4 +315,10 @@ class TranslationsEn extends Translations {
 
   @override
   String get messageInvalidNumber => 'Invalid Number';
+
+  @override
+  String get descriptionManageSellers => 'Manage autherised sellers';
+
+  @override
+  String get descriptionDeveloperContact => 'The developer contact informations ';
 }

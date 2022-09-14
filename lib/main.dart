@@ -9,7 +9,7 @@ import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
 import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 void main() async {
   ServicesStore.getInstance();
@@ -31,18 +31,20 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    final settingsLiveModel = Provider.of<SettingsLiveDataModel>(context);
+    return Consumer<SettingsLiveDataModel>(
+        builder: (context, liveModel, child) {
 
-    return MaterialApp(
-      title: Constants.appName,
-      theme: AppThemes.lightTheme2,
-      themeMode: ThemeMode.dark,
-      darkTheme: AppThemes.darkTheme2,
-      locale: settingsLiveModel.displayLanguage,
-      localizationsDelegates:Translations.localizationsDelegates,
-      supportedLocales: Translations.supportedLocales,
-      home: const MyHomePage(),
-    );
+      return MaterialApp(
+        title: Constants.appName,
+        theme: AppThemes.lightTheme2,
+        themeMode: ThemeMode.dark,
+        darkTheme: AppThemes.darkTheme2,
+        locale: liveModel.displayLanguage,
+        localizationsDelegates: Translations.localizationsDelegates,
+        supportedLocales: Translations.supportedLocales,
+        home: const MyHomePage(),
+      );
+    });
   }
 }
 

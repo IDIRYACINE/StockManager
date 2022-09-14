@@ -4,7 +4,7 @@ import 'package:stock_manager/Application/Controllers/sellers_controller.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'sellers_table.dart';
 
@@ -33,7 +33,7 @@ class SellersPanel extends StatelessWidget {
         SearchActionsCard(
           onAdd: () => onAdd(context, controller),
           onRefresh: () => onRefresh(context, controller),
-          title: Translations.of(context).sellers,
+          title: Translations.of(context)!.sellers,
         ),
         const SizedBox(height: Measures.large),
         Expanded(

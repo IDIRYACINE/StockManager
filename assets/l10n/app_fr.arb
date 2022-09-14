@@ -81,6 +81,7 @@
   "shopName": "Marwa Boutique",
   "dailySalesReport": "Rapport quotidien des ventes",
   "type": "Type",
+  "displayLanguage" : "Language d'affichage",
   "remaining": "Restant",
   "invoiceId": "Facture Id",
   "addOrder": "Ajouter Livraison",
@@ -90,10 +91,18 @@
   "addModel": "Ajouter Modèle",
   "addedProduct": "Produit est ajouter",
   "payementType": "Type de paiement",
+  "appVersion" : "Version de l'application",
+  "about" : "À propos",
+  "descriptionDisplayLanguage" : "Changer la langue d'affichage",
+  "selectLanguage" : "Sélectionnez la langue",
+  "general" : "Général",
   "messageDeleteElement": "Supprimer l'élément ?",
   "messageClearAll": "Tout effacer ?",
   "messageConnectionFailed": "Échec de la connexion",
   "messageFaultyAuthentication": "Le nom d'utilisateur ou le mot de passe est incorrect",
   "messageEmptyField": "Le champ ne peut pas être vide",
-  "messageInvalidNumber": "Numéro invalide"
+  "messageInvalidNumber": "Numéro invalide",
+  "descriptionManageSellers" : "Gérer les vendeurs",
+  "developerContact" : "Contactez le développeur",
+  "descriptionDeveloperContact" : "Contactez le développeur pour toute question ou suggestion"
 }

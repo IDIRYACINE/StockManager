@@ -7,7 +7,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SellersTable extends StatelessWidget {
   const SellersTable({Key? key}) : super(key: key);
@@ -42,8 +42,10 @@ class SellersTable extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false).sellersLiveModel;
 
     List<String> sellersTableColumns = [
-      Translations.of(context).sellerName,
-      Translations.of(context).phoneNumber,
+      Translations.of(context)!.
+sellerName,
+      Translations.of(context)!.
+phoneNumber,
     ];
 
     return SizedBox(

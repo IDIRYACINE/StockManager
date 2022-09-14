@@ -9,7 +9,7 @@ import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 import 'package:stock_manager/main.dart';
 
 class LoginController {
@@ -31,7 +31,8 @@ class LoginController {
           builder: (context) => AlertDialog(
                 content: InformativeDialog(
                     message:
-                        Translations.of(context).messageFaultyAuthentication),
+                        Translations.of(context)!.
+messageFaultyAuthentication),
               ));
     }
   }

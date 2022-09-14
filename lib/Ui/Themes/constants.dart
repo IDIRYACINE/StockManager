@@ -4,6 +4,10 @@ abstract class Constants {
   static Locale localeEnglish = const Locale('en','');
   static Locale localeArabic = const Locale('ar','');
   static Locale localeFrench = const Locale('fr','');
+
+  static List<String> supportedLanguages = ['English', 'French', 'Arabic'];
+  static List<Locale> supportedLocales = [localeEnglish, localeFrench, localeArabic];
+
   static const appName = 'Marwa boutique'; 
 }
 
@@ -65,4 +69,6 @@ abstract class Measures {
   static double quickSearchFieldWidth = 325.0;
 
   static double settingsCardsWidth = 400;
+
+  static double containerWidthMeduim = 400;
 }

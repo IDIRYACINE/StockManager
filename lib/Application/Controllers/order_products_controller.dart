@@ -11,7 +11,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/order_products.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrderProductsController {
   OrderProductsController(this.stockLiveModel, this.ordersLiveModel);
@@ -34,7 +34,8 @@ class OrderProductsController {
         child: OrderProductEditor(
           createCallback: _onConfirm,
           editMode: false,
-          confirmLabel: Translations.of(context).add,
+          confirmLabel: Translations.of(context)!.
+add,
           onSearch: _onSearch,
           orderProduct: OrderProduct.defaultInstance(),
           order: ordersLiveModel.selectedOrder,
@@ -122,7 +123,8 @@ class OrderProductsController {
         builder: (context) => AlertDialog(
                 content: ConfirmDialog(
               onConfirm: onRemove,
-              message: Translations.of(context).messageDeleteElement,
+              message: Translations.of(context)!.
+messageDeleteElement,
             )));
   }
 

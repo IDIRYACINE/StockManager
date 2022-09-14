@@ -82,6 +82,7 @@
   "shopName": "Marwa Boutique",
   "dailySalesReport": "Daily Sales Report",
   "type": "Type",
+  "displayLanguage" : "Display Language",
   "remaining": "Remaining",
   "invoiceId": "Invoice Id",
   "addOrder": "Add Order",
@@ -90,10 +91,18 @@
   "addSeller": "Add Seller",
   "addModel": "Add Model",
   "addedProduct": "Added Product",
+  "appVersion" : "App Version",
+  "about" : "About",
+  "general" : "General",
+  "descriptionDisplayLanguage" : "Change the display language of the app",
+  "selectLanguage" : "Select Language",
+  "developerContact" : "Developer Contact",
   "messageDeleteElement": "Delete element ?",
   "messageClearAll": "Clear all ?",
   "messageConnectionFailed": "Connection Failed",
   "messageFaultyAuthentication": "Username or password is incorrect",
   "messageEmptyField": "Field cannot be empty",
-  "messageInvalidNumber": "Invalid Number"
+  "messageInvalidNumber": "Invalid Number",
+  "descriptionManageSellers" : "Manage autherised sellers",
+  "descriptionDeveloperContact" : "The developer contact informations "
 }

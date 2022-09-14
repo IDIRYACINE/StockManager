@@ -12,7 +12,7 @@ import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Generics/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SaleForm extends StatelessWidget {
   const SaleForm(
@@ -49,18 +49,21 @@ class SaleForm extends StatelessWidget {
             sellerNotifier.value = seller;
           },
           items: sellersDropdown,
-          label:  Text(Translations.of(context).sellerName),
+          label:  Text(Translations.of(context)!.
+sellerName),
           initialSelection: sellerNotifier,
         ),
         AttributeTextField(
           initialValue: record.customer,
-          label: Translations.of(context).customerName,
+          label: Translations.of(context)!.
+customerName,
           onChanged: saleEditorMode.setCustomer,
         ),
         AttributeTextField(
           controller: sellingPriceController,
           onChanged: saleEditorMode.setSellingPrice,
-          label: Translations.of(context).sellingPrice,
+          label: Translations.of(context)!.
+sellingPrice,
         ),
         const SizedBox(height: Measures.small),
         ValueListenableBuilder<Product>(
@@ -107,31 +110,36 @@ class _ProductFormState extends State<ProductForm> {
         const SizedBox(height: Measures.medium),
         AttributeTextField(
           controller: widget.productFormEditor.productNameController,
-          label: Translations.of(context).name,
+          label: Translations.of(context)!.
+name,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
           controller: widget.productFormEditor.referenceController,
-          label: Translations.of(context).reference,
+          label: Translations.of(context)!.
+reference,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
           controller: widget.productFormEditor.familyController,
-          label: Translations.of(context).productFamily,
+          label: Translations.of(context)!.
+productFamily,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
           controller: widget.productFormEditor.minSellingPriceController,
-          label: Translations.of(context).sellingPrice,
+          label: Translations.of(context)!.
+sellingPrice,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
           controller: widget.productFormEditor.remainingQuantity,
-          label: Translations.of(context).quantity,
+          label: Translations.of(context)!.
+quantity,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),

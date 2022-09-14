@@ -7,7 +7,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders_table.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersPanel extends StatelessWidget {
   const OrdersPanel({Key? key}) : super(key: key);
@@ -48,7 +48,8 @@ class OrdersPanel extends StatelessWidget {
           onPrint: () => onPrint(context, controller),
           onAdd: () => onAdd(context, controller),
           onRefresh: () => onRefresh(context, controller),
-          title: Translations.of(context).orders,
+          title: Translations.of(context)!.
+orders,
         ),
         const SizedBox(height: Measures.large),
         QuickSearchDate(

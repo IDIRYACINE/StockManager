@@ -5,7 +5,7 @@ import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/SellersEditor.dart/sellers_editor.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SellersController {
   SellersController(this.sellersLiveModel);
@@ -32,7 +32,8 @@ class SellersController {
         context,
         SellersEditor(
           createCallback: _onConfirm,
-          confirmLabel: Translations.of(context).add,
+          confirmLabel: Translations.of(context)!.
+add,
           seller: Seller.defaultInstance(),
         ));
   }
@@ -59,7 +60,8 @@ class SellersController {
         seller: seller.copyWith(),
         editMode: true,
         editCallback: onEdit,
-        confirmLabel: Translations.of(context).update,
+        confirmLabel: Translations.of(context)!.
+update,
       ),
     );
   }
@@ -97,7 +99,8 @@ class SellersController {
         builder: (context) => AlertDialog(
                 content: ConfirmDialog(
               onConfirm: onRemove,
-              message: Translations.of(context).messageDeleteElement,
+              message: Translations.of(context)!.
+messageDeleteElement,
             )));
   }
 

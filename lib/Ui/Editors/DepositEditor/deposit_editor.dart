@@ -5,7 +5,7 @@ import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'deposit_form.dart';
 import '../../../Application/Systems/deposit_mode.dart';
@@ -118,7 +118,7 @@ class DepositEditor extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DefaultButton(
-                        label: Translations.of(context).cancel,
+                        label: Translations.of(context)!.cancel,
                         onPressed: () {
                           Navigator.pop(context);
                         }),
@@ -164,14 +164,14 @@ class _SearchBar extends StatelessWidget {
       children: [
         Expanded(
           child: AttributeTextField(
-            label: Translations.of(context).reference,
+            label: Translations.of(context)!.reference,
             initialValue: searchValue,
             onChanged: setSearchValue,
           ),
         ),
         Flexible(
           child: DefaultButton(
-            label: Translations.of(context).search,
+            label: Translations.of(context)!.search,
             onPressed: () {
               onSearch(searchValue);
             },

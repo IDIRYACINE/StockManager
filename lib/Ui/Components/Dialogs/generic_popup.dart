@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 abstract class PopupsUtility {
   static void displayGenericPopup(BuildContext context, Widget content,
@@ -81,13 +80,13 @@ class ConfirmDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DefaultButton(
-              label: Translations.of(context).cancel,
+              label: Translations.of(context)!.cancel,
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             DefaultButton(
-              label: Translations.of(context).confirm,
+              label: Translations.of(context)!.confirm,
               onPressed: () {
                 onConfirm();
                 Navigator.pop(context);
@@ -113,7 +112,7 @@ class InformativeDialog extends StatelessWidget {
         Text(message),
         const SizedBox(height: Measures.medium),
         DefaultButton(
-          label: Translations.of(context).confirm,
+          label: Translations.of(context)!.confirm,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -156,12 +155,12 @@ class TextFieldDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               DefaultButton(
-                  label: Translations.of(context).cancel,
+                  label: Translations.of(context)!.cancel,
                   onPressed: () {
                     Navigator.pop(context);
                   }),
               DefaultButton(
-                  label: Translations.of(context).confirm,
+                  label: Translations.of(context)!.confirm,
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       onConfirm(fieldValue);

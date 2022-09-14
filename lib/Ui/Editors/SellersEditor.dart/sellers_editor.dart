@@ -5,7 +5,7 @@ import 'package:stock_manager/Ui/Editors/SellersEditor.dart/seller_form.dart';
 import 'package:stock_manager/Application/Systems/seller_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SellersEditor extends StatelessWidget {
   const SellersEditor({
@@ -52,12 +52,14 @@ class SellersEditor extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DefaultButton(
-                    label: Translations.of(context).cancel,
+                    label: Translations.of(context)!.
+cancel,
                     onPressed: () {
                       Navigator.pop(context);
                     }),
                 DefaultButton(
-                  label: Translations.of(context).save,
+                  label: Translations.of(context)!.
+save,
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       if (editMode) {

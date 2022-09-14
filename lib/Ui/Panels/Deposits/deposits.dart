@@ -6,7 +6,7 @@ import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'deposits_table.dart';
 
@@ -45,7 +45,8 @@ class DepositsPanel extends StatelessWidget {
           onPrint: () => onPrint(context, controller),
           onAdd: () => onAdd(context, controller),
           onRefresh: () => onClear(context, controller),
-          title: Translations.of(context).deposit,
+          title: Translations.of(context)!.
+deposit,
         ),
         const SizedBox(height: Measures.large),
         QuickSearchField<int>(

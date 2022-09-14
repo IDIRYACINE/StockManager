@@ -1,7 +1,7 @@
 
 
 
-import 'translations.dart';
+import 'app_translations.dart';
 
 /// The translations for French (`fr`).
 class TranslationsFr extends Translations {
@@ -254,6 +254,9 @@ class TranslationsFr extends Translations {
   String get type => 'Type';
 
   @override
+  String get displayLanguage => 'Language d\'affichage';
+
+  @override
   String get remaining => 'Restant';
 
   @override
@@ -278,6 +281,24 @@ class TranslationsFr extends Translations {
   String get addedProduct => 'Produit est ajouter';
 
   @override
+  String get appVersion => 'Version de l\'application';
+
+  @override
+  String get about => 'À propos';
+
+  @override
+  String get general => 'Général';
+
+  @override
+  String get descriptionDisplayLanguage => 'Changer la langue d\'affichage';
+
+  @override
+  String get selectLanguage => 'Sélectionnez la langue';
+
+  @override
+  String get developerContact => 'Contactez le développeur';
+
+  @override
   String get messageDeleteElement => 'Supprimer l\'élément ?';
 
   @override
@@ -294,4 +315,10 @@ class TranslationsFr extends Translations {
 
   @override
   String get messageInvalidNumber => 'Numéro invalide';
+
+  @override
+  String get descriptionManageSellers => 'Gérer les vendeurs';
+
+  @override
+  String get descriptionDeveloperContact => 'Contactez le développeur pour toute question ou suggestion';
 }

@@ -6,7 +6,7 @@ import 'package:stock_manager/Application/Systems/product_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/translations.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class ProductModels extends StatefulWidget {
   const ProductModels(
@@ -60,7 +60,8 @@ class _ProductModelsState extends State<ProductModels> {
               Flexible(
                   child: ElevatedButton(
                 onPressed: add,
-                child:  Text(Translations.of(context).addModel),
+                child:  Text(Translations.of(context)!.
+addModel),
               )),
             ],
           ),
@@ -163,7 +164,8 @@ class _ProductModelRowState extends State<ProductModelRow> {
             Flexible(
                 child: AttributeTextField(
               initialValue: widget.model.color,
-              label: Translations.of(context).color,
+              label: Translations.of(context)!.
+color,
               onChanged: (value) {
                 if (value != null) {
                   widget.onColorChanged(value, widget.id);
@@ -220,7 +222,8 @@ class _SizeQuantityRow extends StatelessWidget {
         Flexible(
             child: AttributeTextField(
           initialValue: model.sizes[sizeId]!.size,
-          label: Translations.of(context).size,
+          label: Translations.of(context)!.
+size,
           onChanged: (value) {
             if (value != null) {
               onSizeChanged(value, sizeId);
@@ -233,7 +236,8 @@ class _SizeQuantityRow extends StatelessWidget {
         Flexible(
           child: AttributeTextField(
             initialValue: model.sizes[sizeId]!.quantity.toString(),
-            label: Translations.of(context).quantity,
+            label: Translations.of(context)!.
+quantity,
             onChanged: (value) {
               if (value != null) {
                 onQuantityChanged(value, sizeId);
@@ -246,7 +250,8 @@ class _SizeQuantityRow extends StatelessWidget {
         ),
         Flexible(
             child: DefaultButton(
-          label: Translations.of(context).remove,
+          label: Translations.of(context)!.
+remove,
           onPressed: () {
             onDeleteSize(sizeId);
           },
@@ -296,7 +301,8 @@ class _ProductModelEditorState extends State<ProductModelEditor> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              Translations.of(context).sizes,
+              Translations.of(context)!.
+sizes,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -304,7 +310,8 @@ class _ProductModelEditorState extends State<ProductModelEditor> {
             ),
             Flexible(
               child: DefaultButton(
-                label: Translations.of(context).addSize,
+                label: Translations.of(context)!.
+addSize,
                 onPressed: () {
                   setState(() {
                     widget.onAddSize(widget.modelId);
