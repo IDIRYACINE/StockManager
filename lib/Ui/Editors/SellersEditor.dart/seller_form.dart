@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Ui/Editors/SellersEditor.dart/seller_mode.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
-import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
+import 'package:stock_manager/Application/Systems/seller_mode.dart';
+import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
+import 'package:stock_manager/Ui/Generics/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
-import 'package:stock_manager/Ui/Components/Sidebar/sidebar_button.dart';
+import 'package:stock_manager/Ui/Generics/Sidebar/sidebar_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
@@ -47,7 +47,7 @@ class SidebarHolder extends StatelessWidget {
            const SizedBox(height: Measures.medium),
            Flexible(
               child: SidebarButton(
-                  title: Translations.of(context).sellers, index: NavigationStore.sellersIndex)),
+                  title: Translations.of(context).settings, index: NavigationStore.settingsIndex)),
            const SizedBox(height: Measures.medium),
         ],
       ),

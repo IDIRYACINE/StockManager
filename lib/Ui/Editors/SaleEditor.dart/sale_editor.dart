@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_editors.dart';
-import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
+import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
+import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
+import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-import 'sale_mode.dart';
+import '../../../Application/Systems/sale_mode.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
 class SaleEditor extends StatelessWidget {

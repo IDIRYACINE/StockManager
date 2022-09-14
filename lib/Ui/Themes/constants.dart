@@ -1,3 +1,11 @@
+import 'package:flutter/material.dart';
+
+abstract class Constants {
+  static Locale localeEnglish = const Locale('en','');
+  static Locale localeArabic = const Locale('ar','');
+  static Locale localeFrench = const Locale('fr','');
+  static const appName = 'Marwa boutique'; 
+}
 
 abstract class Measures {
   static const double smallBorder = 1;
@@ -55,5 +63,6 @@ abstract class Measures {
   static double quickSearchFieldHeight = 30.0;
 
   static double quickSearchFieldWidth = 325.0;
-}
 
+  static double settingsCardsWidth = 400;
+}

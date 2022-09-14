@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/deposit_controller.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
-import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
+import 'package:stock_manager/Ui/Generics/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
@@ -51,7 +50,7 @@ class _DepositsTableState extends State<DepositsTable> {
             .depositController;
 
     RecordsLiveDataModel records =
-        Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false).recordsLiveModel;
 
     List<String> depositsTableColumns = [
       Translations.of(context).productName,

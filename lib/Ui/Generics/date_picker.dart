@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
+import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 
 class DatePicker extends StatefulWidget {
 

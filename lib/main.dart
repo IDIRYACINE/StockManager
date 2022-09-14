@@ -2,14 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/settings.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
 import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
 void main() async {
@@ -17,31 +16,31 @@ void main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => NavigationStore()),
-    ChangeNotifierProvider(create: (context) => ControllersProvider()),
-    Provider(create: (context) => LiveModelProvider()),
+    ChangeNotifierProvider(create: (context) => SettingsLiveDataModel()),
+    Provider(create: (context) => ControllersProvider()),
   ], child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
+    final settingsLiveModel = Provider.of<SettingsLiveDataModel>(context);
+
     return MaterialApp(
-      title: Translations.of(context).appName,
+      title: Constants.appName,
       theme: AppThemes.lightTheme2,
       themeMode: ThemeMode.dark,
       darkTheme: AppThemes.darkTheme2,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''), 
-        Locale('fr', ''), 
-        Locale('ar', ''), 
-      ],
+      locale: settingsLiveModel.displayLanguage,
+      localizationsDelegates:Translations.localizationsDelegates,
+      supportedLocales: Translations.supportedLocales,
       home: const MyHomePage(),
     );
   }
@@ -101,8 +100,8 @@ class _AppState extends State<App> {
         children: [
           Expanded(
             flex: widget.sidebarFLex,
-            child:  const Padding(
-              padding:  EdgeInsets.all(Measures.small),
+            child: const Padding(
+              padding: EdgeInsets.all(Measures.small),
               child: SidebarHolder(),
             ),
           ),

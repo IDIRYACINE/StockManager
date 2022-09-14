@@ -3,7 +3,6 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Stores/navigation_store.dart';
@@ -29,9 +28,10 @@ class LoginController {
     } else {
       showDialog(
           context: context,
-          builder: (context) =>  AlertDialog(
-                content:
-                    InformativeDialog(message: Translations.of(context).messageFaultyAuthentication),
+          builder: (context) => AlertDialog(
+                content: InformativeDialog(
+                    message:
+                        Translations.of(context).messageFaultyAuthentication),
               ));
     }
   }
@@ -41,7 +41,7 @@ class LoginController {
       Provider.of<ControllersProvider>(context, listen: false).init(context);
       Provider.of<NavigationStore>(context, listen: false).init();
 
-      _loadData(Provider.of<LiveModelProvider>(context, listen: false));
+      _loadData(Provider.of<ControllersProvider>(context, listen: false));
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const App()));
@@ -67,13 +67,13 @@ class LoginController {
     return message;
   }
 
-  void _loadData(LiveModelProvider liveModelProvider) {
+  void _loadData(ControllersProvider controllersProvider) {
     ServiceMessage loadSellers = ServiceMessage(
         service: AppServices.database,
         event: DatabaseEvent.loadSellers,
         hasCallback: true,
         callback: (sellers) {
-          liveModelProvider.sellersLiveModel.setAll(sellers);
+          controllersProvider.sellersLiveModel.setAll(sellers);
         },
         data: {});
 
@@ -81,7 +81,7 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (products) {
-          liveModelProvider.stockLiveModel.setAllProducts(products);
+          controllersProvider.stockLiveModel.setAllProducts(products);
         },
         event: DatabaseEvent.loadProducts,
         data: {});
@@ -90,7 +90,7 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (famillies) {
-          liveModelProvider.stockLiveModel.setAllFamillies(famillies);
+          controllersProvider.stockLiveModel.setAllFamillies(famillies);
         },
         event: DatabaseEvent.loadProductFamillies,
         data: {});
@@ -99,19 +99,19 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (records) {
-          liveModelProvider.recordsLiveModel.setAllRecords(records);
+          controllersProvider.recordsLiveModel.setAllRecords(records);
         },
         event: DatabaseEvent.loadPurchaseRecords,
         data: {});
 
     SelectorBuilder selector = SelectorBuilder();
     Utility.searchByTodayDate(selector);
-    
+
     ServiceMessage loadOrders = ServiceMessage(
         service: AppServices.database,
         hasCallback: true,
         callback: (orders) {
-          liveModelProvider.ordersLiveModel.setAllOrders(orders);
+          controllersProvider.ordersLiveModel.setAllOrders(orders);
         },
         event: DatabaseEvent.loadOrders,
         data: {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Ui/Editors/ProductFamilyEditor/prodcut_family_mode.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
+import 'package:stock_manager/Application/Systems/prodcut_family_mode.dart';
+import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
+import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stats.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
@@ -37,8 +37,8 @@ class DashboardPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LiveModelProvider liveModelProvider =
-        Provider.of<LiveModelProvider>(context, listen: false);
+    ControllersProvider controllersProvider =
+        Provider.of<ControllersProvider>(context, listen: false);
 
     return Row(
       children: [
@@ -51,7 +51,7 @@ class DashboardPanel extends StatelessWidget {
               title: Translations.of(context).topSellers,
               builder: (context, index) => TopListItem(
                 index: index,
-                title: getSellerName(liveModelProvider.sellersLiveModel, index),
+                title: getSellerName(controllersProvider.sellersLiveModel, index),
               ),
               itemsCount: topSellersCount,
             ))
@@ -64,7 +64,7 @@ class DashboardPanel extends StatelessWidget {
                 child: TopList(
               builder: (context, index) => TopListItem(
                 index: index,
-                title: getStateName(liveModelProvider.statsLiveModel, index),
+                title: getStateName(controllersProvider.statsLiveModel, index),
               ),
               itemsCount: topStatesCounts,
             )),

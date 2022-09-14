@@ -4,14 +4,14 @@ import 'package:stock_manager/Application/Utility/utility_wrappers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_editors.dart';
-import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
+import 'package:stock_manager/Ui/Generics/default_decorator.dart';
+import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
+import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/editor_forms.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
-import 'editor_mode.dart';
+import '../../../Application/Systems/editor_mode.dart';
 
 class SpreardedOrderEditor extends StatelessWidget {
   const SpreardedOrderEditor(

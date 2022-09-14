@@ -7,7 +7,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
+import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
 class AppPrinter {

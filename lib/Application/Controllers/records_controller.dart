@@ -11,7 +11,7 @@ import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/i_infrastructre.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_search_form.dart';
+import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 

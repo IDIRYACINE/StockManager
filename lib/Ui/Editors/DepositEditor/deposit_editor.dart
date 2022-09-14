@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Ui/Components/Decorators/default_decorator.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
-import 'package:stock_manager/Ui/Components/Forms/default_button.dart';
+import 'package:stock_manager/Ui/Generics/default_decorator.dart';
+import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
+import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
 import 'deposit_form.dart';
-import 'deposit_mode.dart';
+import '../../../Application/Systems/deposit_mode.dart';
 
 class DepositEditor extends StatelessWidget {
   const DepositEditor({

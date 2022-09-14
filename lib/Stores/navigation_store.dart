@@ -4,7 +4,7 @@ import 'package:stock_manager/Ui/Panels/Deposits/deposits.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/Ui/Panels/Records/records.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
-import 'package:stock_manager/Ui/Panels/Sellers/sellers.dart';
+import 'package:stock_manager/Ui/Panels/Settings/settings_panel.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 
 class NavigationStore with ChangeNotifier {
@@ -17,7 +17,7 @@ class NavigationStore with ChangeNotifier {
    Icons.monetization_on,
    Icons.online_prediction_rounded,
    Icons.receipt_long,
-   Icons.group,
+   Icons.settings
 
    ];
 
@@ -27,7 +27,7 @@ class NavigationStore with ChangeNotifier {
       depositsIndex = 2,
       ordersIndex = 3,
       recordsIndex = 4,
-      sellersIndex = 5;
+      settingsIndex = 5;
 
   void init() {
     _panels.add(const SalesPanel());
@@ -35,7 +35,7 @@ class NavigationStore with ChangeNotifier {
     _panels.add(const DepositsPanel());
     _panels.add(const OrdersPanel());
     _panels.add(const RecordsPanel());
-    _panels.add(const SellersPanel());
+    _panels.add(const SettingsPanel());
   }
 
   ValueListenable<int> get selectedIndex => _selectedPanelIndex;

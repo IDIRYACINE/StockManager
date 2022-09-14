@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Ui/Components/Forms/attribute_textfield.dart';
-import 'package:stock_manager/Ui/Components/Forms/selector_dropdown.dart';
+import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
+import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
-import 'product_mode.dart';
+import '../../../Application/Systems/product_mode.dart';
 
 class ProductForm extends StatelessWidget {
   const ProductForm(
@@ -27,7 +27,7 @@ class ProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StockLiveDataModel stockLiveModel =
-        Provider.of<LiveModelProvider>(context, listen: false).stockLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false).stockLiveModel;
 
 
     final familliesDropdown = stockLiveModel.loadedProductFamillies

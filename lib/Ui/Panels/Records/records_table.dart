@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
+import 'package:stock_manager/Ui/Generics/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/translations.dart';
 
@@ -31,7 +31,7 @@ class _RecordsTableState extends State<RecordsTable> {
   @override
   Widget build(BuildContext context) {
     RecordsLiveDataModel records =
-        Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false).recordsLiveModel;
 
     List<String> recordsTableColumns = [
       Translations.of(context).date,

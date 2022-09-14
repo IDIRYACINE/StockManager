@@ -23,6 +23,8 @@ typedef VoidDoubleValueCallback<T,R> = void Function(T value,R secondValue);
 
 typedef ValueCallback<R> = R Function();
 
+typedef ResultCallback<T,R> = R Function(T value);
+
 typedef OnSearchAttributeSelected = void Function(Callback<SelectorBuilder>  queryCallback);
 
 typedef RegisterSearchQueryBuilder = void Function (Callback<SelectorBuilder>  queryCallback);

@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/widgets.dart';
-import 'package:stock_manager/Ui/Components/Images/browse_image.dart';
+import 'package:stock_manager/Ui/Generics/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/resources.dart';
 
 class Logo extends StatelessWidget{

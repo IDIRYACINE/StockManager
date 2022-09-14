@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/live_models_provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -15,7 +15,7 @@ class _PriceCardState extends State<PriceCard> {
   @override
   Widget build(BuildContext context) {
     RecordsLiveDataModel records =
-        Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false).recordsLiveModel;
 
     return Card(
       elevation: Measures.small,
