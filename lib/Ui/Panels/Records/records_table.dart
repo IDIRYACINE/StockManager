@@ -6,6 +6,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class RecordsTable extends StatefulWidget {
   const RecordsTable({Key? key}) : super(key: key);
@@ -32,6 +33,16 @@ class _RecordsTableState extends State<RecordsTable> {
     RecordsLiveDataModel records =
         Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
 
+    List<String> recordsTableColumns = [
+      Translations.of(context).date,
+      Translations.of(context).type,
+      Translations.of(context).productName,
+      Translations.of(context).sellerName,
+      Translations.of(context).sellingPrice,
+      Translations.of(context).deposit,
+      Translations.of(context).remaining,
+    ];
+
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -40,9 +51,8 @@ class _RecordsTableState extends State<RecordsTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  dataCellHelper: (v) => Titles.recordsTableColumns,
-                                    textColor: Colors.grey,
-
+                  dataCellHelper: (v) => recordsTableColumns,
+                  textColor: Colors.grey,
                   index: -1,
                   dataModel: 0,
                 )),
@@ -56,7 +66,6 @@ class _RecordsTableState extends State<RecordsTable> {
                               return SelectableRow<Record>(
                                 dataCellHelper: (record) =>
                                     recordToCellsAdapter(record),
-                               
                                 index: index,
                                 dataModel: records.record(index),
                               );

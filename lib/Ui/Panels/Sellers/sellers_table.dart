@@ -8,6 +8,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class SellersTable extends StatelessWidget {
   const SellersTable({Key? key}) : super(key: key);
@@ -39,7 +40,12 @@ class SellersTable extends StatelessWidget {
             .sellersController;
 
     SellersLiveDataModel sellers =
-        Provider.of<LiveModelProvider>(context).sellersLiveModel;
+        Provider.of<LiveModelProvider>(context, listen: false).sellersLiveModel;
+
+    List<String> sellersTableColumns = [
+      Translations.of(context).sellerName,
+      Translations.of(context).phoneNumber,
+    ];
 
     return SizedBox(
         width: double.infinity,
@@ -50,7 +56,7 @@ class SellersTable extends StatelessWidget {
                 Flexible(
                     child: SelectableRow(
                   textColor: Colors.grey,
-                  dataCellHelper: (index) => Titles.sellersTableColumns,
+                  dataCellHelper: (index) => sellersTableColumns,
                   index: -1,
                   dataModel: 0,
                 )),

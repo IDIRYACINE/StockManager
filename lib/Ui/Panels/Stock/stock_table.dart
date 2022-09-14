@@ -8,6 +8,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class StockTable extends StatelessWidget {
   const StockTable({Key? key}) : super(key: key);
@@ -73,11 +74,20 @@ class _ProductsTable extends StatelessWidget {
     StockLiveDataModel stock =
         Provider.of<LiveModelProvider>(context, listen: false).stockLiveModel;
 
+    List<String> stockProductTableColumns = [
+      Translations.of(context).barcode,
+      Translations.of(context).productName,
+      Translations.of(context).reference,
+      Translations.of(context).productFamily,
+      Translations.of(context).buyingPrice,
+      Translations.of(context).quantity,
+    ];
+
     return Column(
       children: [
         Flexible(
             child: SelectableRow(
-          dataCellHelper: (value) => Titles.stockProductTableColumns,
+          dataCellHelper: (value) => stockProductTableColumns,
           index: -1,
           textColor: Colors.grey,
           dataModel: 0,
@@ -141,11 +151,16 @@ class _FamilliesTable extends StatelessWidget {
     StockLiveDataModel stock =
         Provider.of<LiveModelProvider>(context, listen: false).stockLiveModel;
 
+    List<String> stockFamilliesTableColumns = [
+      Translations.of(context).productFamily,
+      Translations.of(context).reference,
+    ];
+
     return Column(
       children: [
         Flexible(
             child: SelectableRow(
-          dataCellHelper: (value) => Titles.stockFamilliesTableColumns,
+          dataCellHelper: (value) => stockFamilliesTableColumns,
           textColor: Colors.grey,
           index: -1,
           dataModel: 0,

@@ -8,6 +8,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class SalesTable extends StatefulWidget {
   const SalesTable({Key? key}) : super(key: key);
@@ -49,6 +50,15 @@ class _SalesTableState extends State<SalesTable> {
     RecordsLiveDataModel records =
         Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
 
+    List<String> salesTableColumns = [
+      Translations.of(context).barcode,
+      Translations.of(context).productName,
+      Translations.of(context).reference,
+      Translations.of(context).sellerName,
+      Translations.of(context).buyingPrice,
+      Translations.of(context).sellingPrice
+    ];
+
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -57,7 +67,7 @@ class _SalesTableState extends State<SalesTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  dataCellHelper: (v) => Titles.salesTableColumns,
+                  dataCellHelper: (v) => salesTableColumns,
                   textColor: Colors.grey,
                   index: -1,
                   dataModel: 0,

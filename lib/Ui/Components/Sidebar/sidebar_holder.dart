@@ -9,7 +9,7 @@ class SidebarHolder extends StatelessWidget {
   final int sidebarButtonsFlex = 4;
   final int sidebarButtonsSpacingFlex = 1;
 
-   SidebarHolder({Key? key}) : super(key: key);
+   const SidebarHolder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

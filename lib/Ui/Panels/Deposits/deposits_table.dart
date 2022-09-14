@@ -8,6 +8,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class DepositsTable extends StatefulWidget {
   const DepositsTable({Key? key}) : super(key: key);
@@ -52,6 +53,15 @@ class _DepositsTableState extends State<DepositsTable> {
     RecordsLiveDataModel records =
         Provider.of<LiveModelProvider>(context, listen: false).recordsLiveModel;
 
+    List<String> depositsTableColumns = [
+      Translations.of(context).productName,
+      Translations.of(context).customer,
+      Translations.of(context).sellerName,
+      Translations.of(context).sellingPrice,
+      Translations.of(context).deposit,
+      Translations.of(context).remainingPayement,
+    ];
+    
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -60,7 +70,7 @@ class _DepositsTableState extends State<DepositsTable> {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  dataCellHelper: (v) => Titles.depositsTableColumns,
+                  dataCellHelper: (v) => depositsTableColumns,
                   textColor: Colors.grey,
                   index: -1,
                   dataModel: 0,

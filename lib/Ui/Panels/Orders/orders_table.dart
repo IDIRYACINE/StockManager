@@ -11,6 +11,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Tabels/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/translations.dart';
 
 class OrdersTable extends StatelessWidget {
   const OrdersTable({Key? key}) : super(key: key);
@@ -52,6 +53,16 @@ class OrdersTable extends StatelessWidget {
     OrdersLiveDataModel orders =
         Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
 
+    List<String> ordersTableColumns = [
+      Translations.of(context).date,
+      Translations.of(context).sellerName,
+      Translations.of(context).customer,
+      Translations.of(context).productName,
+      Translations.of(context).deposit,
+      Translations.of(context).remainingPayement,
+      Translations.of(context).deliveryCost
+    ];
+
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -60,7 +71,7 @@ class OrdersTable extends StatelessWidget {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  dataCellHelper: (index) => Titles.ordersTableColumns,
+                  dataCellHelper: (index) => ordersTableColumns,
                   index: -1,
                   dataModel: 0,
                 )),
@@ -120,6 +131,14 @@ class OrderProductsTable extends StatelessWidget {
     OrdersLiveDataModel orders =
         Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
 
+    List<String> orderProductsTableColumns = [
+      Translations.of(context).productName,
+      Translations.of(context).reference,
+      Translations.of(context).color,
+      Translations.of(context).size,
+      Translations.of(context).sellingPrice
+    ];
+
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -128,7 +147,7 @@ class OrderProductsTable extends StatelessWidget {
               children: [
                 Flexible(
                     child: SelectableRow(
-                  dataCellHelper: (index) => Titles.orderProductsTableColumns,
+                  dataCellHelper: (index) => orderProductsTableColumns,
                   index: -1,
                   dataModel: 0,
                 )),
@@ -243,6 +262,16 @@ class OrdersTableSpreaded extends StatelessWidget {
     OrdersLiveDataModel orders =
         Provider.of<LiveModelProvider>(context, listen: false).ordersLiveModel;
 
+    List<String> ordersTableColumns = [
+      Translations.of(context).date,
+      Translations.of(context).sellerName,
+      Translations.of(context).customer,
+      Translations.of(context).productName,
+      Translations.of(context).deposit,
+      Translations.of(context).remainingPayement,
+      Translations.of(context).deliveryCost
+    ];
+
     return SizedBox(
         width: double.infinity,
         child: Card(
@@ -254,7 +283,7 @@ class OrdersTableSpreaded extends StatelessWidget {
                     children: [
                       Flexible(
                           child: SelectableRow(
-                        dataCellHelper: (index) => Titles.ordersTableColumns,
+                        dataCellHelper: (index) => ordersTableColumns,
                         index: -1,
                         textColor: Colors.grey,
                         dataModel: 0,

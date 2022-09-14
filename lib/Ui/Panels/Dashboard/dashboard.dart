@@ -71,7 +71,7 @@ class DashboardPanel extends StatelessWidget {
              Flexible(
                 child: TopBarChart(
               chartTitle: Translations.of(context).topProducts,
-              chartData: [],
+              chartData: const [],
             )),
           ],
         )),

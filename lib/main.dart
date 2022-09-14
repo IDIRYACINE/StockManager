@@ -101,8 +101,8 @@ class _AppState extends State<App> {
         children: [
           Expanded(
             flex: widget.sidebarFLex,
-            child:  Padding(
-              padding: const EdgeInsets.all(Measures.small),
+            child:  const Padding(
+              padding:  EdgeInsets.all(Measures.small),
               child: SidebarHolder(),
             ),
           ),
