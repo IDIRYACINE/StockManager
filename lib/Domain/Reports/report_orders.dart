@@ -25,8 +25,11 @@ class OrdersReport {
 
   void printReport(BuildContext context) {
     AppPrinter appPrinter = AppPrinter();
+
     appPrinter.createNewDocument();
+
     int maxRowsPerPage = Measures.recordsMaxRowsPrint;
+
     int pageCount =
         Utility.calculatePageCount(ordersMap.length, maxRowsPerPage);
 
@@ -51,9 +54,8 @@ class OrdersReport {
         invoicePayementAttributes: [
           InvoiceItem("Frais de port", totals.shippingTotal.toString(),
               pdf.Font.timesBold()),
-          InvoiceItem(Translations.of(context)!.
-profit, totals.totalProfit.toString(),
-              pdf.Font.timesBold()),
+          InvoiceItem(Translations.of(context)!.profit,
+              totals.totalProfit.toString(), pdf.Font.timesBold()),
           InvoiceItem('Reste', totals.totalRemainingPayement.toString()),
         ],
         endIndex: orderProducts.length,
@@ -70,10 +72,8 @@ profit, totals.totalProfit.toString(),
         .then((value) => appPrinter.displayPreview(context));
   }
 
-
-   List<String> _orderProductWrapperToReportRow(
+  List<String> _orderProductWrapperToReportRow(
       OrderProductReportWrapper product) {
-
     List<String> rawData = [
       product.order.customerName,
       product.order.phoneNumber.toString(),
@@ -82,7 +82,6 @@ profit, totals.totalProfit.toString(),
       product.orderProduct.sellingPrice.toString(),
       product.isLast ? product.order.deposit.toString() : "0",
       product.isLast ? product.order.deliveryCost.toString() : "0",
-
     ];
 
     return rawData;
@@ -132,7 +131,7 @@ profit, totals.totalProfit.toString(),
 
       while ((currentRowCount < maxRowsPerPage) &&
           (productIndex < order.products.length)) {
-        OrderProduct product = order.products[keys[productIndex]]!;
+        RecordProduct product = order.products[keys[productIndex]]!;
         isLast = productIndex == order.products.length - 1;
         tempProducts.add(OrderProductReportWrapper(order, product, isLast));
 

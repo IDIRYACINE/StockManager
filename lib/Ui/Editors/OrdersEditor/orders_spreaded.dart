@@ -11,7 +11,7 @@ import 'package:stock_manager/Ui/Editors/OrdersEditor/editor_forms.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-import '../../../Application/Systems/editor_mode.dart';
+import '../../../Application/Systems/order_mode.dart';
 
 class SpreardedOrderEditor extends StatelessWidget {
   const SpreardedOrderEditor(
@@ -45,7 +45,7 @@ class SpreardedOrderEditor extends StatelessWidget {
 
     final OrderProductEditorMode orderProductEditorMode =
         OrderProductEditorMode.createModeInstance(
-            OrderProduct.defaultInstance(), order);
+            RecordProduct.defaultInstance(), order);
 
     final ProductFormEditor productFormEditor = ProductFormEditor();
 
@@ -54,7 +54,7 @@ class SpreardedOrderEditor extends StatelessWidget {
     final OrderFormEditorMode<Callback<Order>> orderEditorMode =
         OrderFormEditorMode.createModeInstance(order);
 
-    late OrderProduct orderProduct;
+    late RecordProduct orderProduct;
 
     orderProductEditorMode.setUpdatedValuesMap(updatedValuesCache);
 
@@ -70,11 +70,10 @@ class SpreardedOrderEditor extends StatelessWidget {
         productFormEditor.referenceController.text = p.reference;
         productFormEditor.remainingQuantity.text = p.totalQuantity.toString();
 
-        orderProduct = OrderProduct.defaultInstance();
+        orderProduct = RecordProduct.defaultInstance();
         orderProduct.product = p.name;
         orderProduct.reference = p.reference;
         orderProduct.sellingPrice = p.sellingPrice;
-        orderProduct.buyingPrice = p.buyingPrice;
 
         orderProductEditorMode.setOrderProduct(orderProduct);
         product.value = p;
@@ -135,14 +134,12 @@ class SpreardedOrderEditor extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DefaultButton(
-                        label: Translations.of(context)!.
-cancel,
+                        label: Translations.of(context)!.cancel,
                         onPressed: () {
                           Navigator.pop(context);
                         }),
                     DefaultButton(
-                        label: Translations.of(context)!.
-done,
+                        label: Translations.of(context)!.done,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             orderEditorMode.confirm(createOrderCallback!);
@@ -150,8 +147,7 @@ done,
                           }
                         }),
                     DefaultButton(
-                      label: Translations.of(context)!.
-add,
+                      label: Translations.of(context)!.add,
                       onPressed: () {
                         orderProduct.timeStamp =
                             Utility.getTimeStamp().toString();

@@ -18,8 +18,8 @@ class DatabaseDAO {
       await _updateStockQuantity(
           reference: product.reference,
           quantity: -1,
-          colorId: product.productColorId,
-          sizeId: product.productColorId);
+          colorId: product.colorId,
+          sizeId: product.colorId);
     });
 
     _database.insertOrder(DatabaseRepository.orderToJson(order: order));
@@ -84,11 +84,11 @@ class DatabaseDAO {
   }
 
   Future<void> insertRecord({required Record record}) async {
-    await _updateStockQuantity(
-        reference: record.reference,
+    record.products.forEach((key, product) async => await _updateStockQuantity(
+        reference: product.reference,
         quantity: -1,
-        colorId: record.colorId,
-        sizeId: record.sizeId);
+        colorId: product.colorId,
+        sizeId: product.sizeId));
 
     _database
         .insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
@@ -110,11 +110,11 @@ class DatabaseDAO {
     SelectorBuilder selector =
         SelectorBuilder().eq(RecordFields.timeStamp.name, record.timeStamp);
 
-    await _updateStockQuantity(
-        reference: record.reference,
+    record.products.forEach((key, product) async => await _updateStockQuantity(
+        reference: product.reference,
         quantity: 1,
-        colorId: record.colorId,
-        sizeId: record.sizeId);
+        colorId: product.colorId,
+        sizeId: product.sizeId));
 
     _database.removePurchaseRecord(selector);
   }
@@ -158,8 +158,8 @@ class DatabaseDAO {
       await _updateStockQuantity(
           reference: product.reference,
           quantity: 1,
-          colorId: product.productColorId,
-          sizeId: product.productSizeId);
+          colorId: product.colorId,
+          sizeId: product.sizeId);
     });
 
     _database.removeOrder(selector);
@@ -306,7 +306,7 @@ class DatabaseDAO {
   }
 
   Future<void> addOrderProduct(
-      {required OrderProduct orderProduct,
+      {required RecordProduct orderProduct,
       required AppJson<dynamic> selector}) async {
     SelectorBuilder selectorBuilder = SelectorBuilder();
     selectorBuilder.map = selector;
@@ -318,15 +318,15 @@ class DatabaseDAO {
     _updateStockQuantity(
         reference: orderProduct.reference,
         quantity: -1,
-        colorId: orderProduct.productColorId,
-        sizeId: orderProduct.productSizeId);
+        colorId: orderProduct.colorId,
+        sizeId: orderProduct.sizeId);
 
     _database.updateOrder(selectorBuilder, updatedValues);
   }
 
   Future<void> deleteOrderProduct(
       {required AppJson<dynamic> selector,
-      required OrderProduct orderProduct}) async {
+      required RecordProduct orderProduct}) async {
     SelectorBuilder selectorBuilder = SelectorBuilder();
     selectorBuilder.map = selector;
 
@@ -336,8 +336,8 @@ class DatabaseDAO {
     _updateStockQuantity(
         reference: orderProduct.reference,
         quantity: 1,
-        colorId: orderProduct.productColorId,
-        sizeId: orderProduct.productSizeId);
+        colorId: orderProduct.colorId,
+        sizeId: orderProduct.sizeId);
 
     _database.updateOrder(selectorBuilder, updatedValues);
   }

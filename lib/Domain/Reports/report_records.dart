@@ -44,11 +44,10 @@ class RecordsReport {
           cellAdapter: _recordToReportRow,
           data: records,
           invoicePayementAttributes: [
-            InvoiceItem(Translations.of(context)!.
-profit, totals.totalProfit.toString(),
+            InvoiceItem(Translations.of(context)!.profit,
+                totals.totalProfit.toString(), pdf.Font.timesBold()),
+            InvoiceItem('Reste', totals.totalRemainingPayement.toString(),
                 pdf.Font.timesBold()),
-            InvoiceItem('Reste',
-                totals.totalRemainingPayement.toString(), pdf.Font.timesBold()),
           ],
           endIndex: endIndex,
           startIndex: currentIndex,
@@ -77,7 +76,7 @@ profit, totals.totalProfit.toString(),
 
     for (int i = startIndex; i < length; i++) {
       Record record = records[i];
-      totalProfit += record.deposit;
+      totalProfit += record.totalDeposit;
       totalRemainingPayement += record.remainingPayement;
     }
 
@@ -86,11 +85,11 @@ profit, totals.totalProfit.toString(),
 
   List<String> _recordToReportRow(Record record) {
     List<String> rawData = [
-      record.payementType,
-      record.product,
-      record.sellingPrice.toString(),
-      record.deposit.toString(),
-      record.remainingPayement.toString(),
+      // record.payementType,
+      // record.product,
+      // record.sellingPrice.toString(),
+      // record.deposit.toString(),
+      // record.remainingPayement.toString(), TODO
     ];
 
     return rawData;

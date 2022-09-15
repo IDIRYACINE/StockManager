@@ -7,7 +7,6 @@ import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/settings.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stats.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
-
 import 'Controllers/deposit_controller.dart';
 import 'Controllers/login_controller.dart';
 import 'Controllers/records_controller.dart';
@@ -24,12 +23,9 @@ class ControllersProvider {
   }
 
   void init(BuildContext context) {
-   
-
     recordsController = RecordsController(recordsLiveModel);
 
-    salesController = SalesController(
-        recordsLiveModel, stockLiveModel);
+    salesController = SalesController(recordsLiveModel, stockLiveModel);
 
     sellersController = SellersController(sellersLiveModel);
 
@@ -37,17 +33,14 @@ class ControllersProvider {
 
     stockController = StockController(stockLiveModel);
 
-    depositController = DespositController(
-        recordsLiveModel, stockLiveModel);
+    depositController = DespositController(recordsLiveModel, stockLiveModel);
+    ordersController = OrdersController(ordersLiveModel, stockLiveModel);
 
-    ordersController = OrdersController(
-        ordersLiveModel, stockLiveModel);
+    orderProductsController =
+        OrderProductsController(stockLiveModel, ordersLiveModel);
 
-    orderProductsController = OrderProductsController(
-        stockLiveModel, ordersLiveModel);
-
-    settingsController = SettingsController(Provider.of<SettingsLiveDataModel>(context,listen: false));
-
+    settingsController = SettingsController(
+        Provider.of<SettingsLiveDataModel>(context, listen: false));
   }
 
   late LoginController loginController;
@@ -61,10 +54,9 @@ class ControllersProvider {
   late OrderProductsController orderProductsController;
   late SettingsController settingsController;
 
-
   final StockLiveDataModel stockLiveModel = StockLiveDataModel();
   final RecordsLiveDataModel recordsLiveModel = RecordsLiveDataModel();
   final SellersLiveDataModel sellersLiveModel = SellersLiveDataModel();
-  final OrdersLiveDataModel ordersLiveModel= OrdersLiveDataModel();
+  final OrdersLiveDataModel ordersLiveModel = OrdersLiveDataModel();
   final StatsLiveDataModel statsLiveModel = StatsLiveDataModel();
 }

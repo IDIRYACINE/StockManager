@@ -38,7 +38,7 @@ class SalesPanel extends StatelessWidget {
         flex: lowerRowFlex,
         child: const Padding(
           padding:  EdgeInsets.all(Measures.paddingLarge),
-          child:  SalesTable(),
+          child:  SalesSpreadedTable(),
         ),
       )
     ]);

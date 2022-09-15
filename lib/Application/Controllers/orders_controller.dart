@@ -23,15 +23,6 @@ class OrdersController {
   final OrdersLiveDataModel ordersLiveModel;
   final StockLiveDataModel stockLiveModel;
 
-  void add(BuildContext context) {
-    ordersLiveModel.selectedOrder = Order.defaultInstance();
-    // _addOrder();
-
-    showDialog(
-        context: context,
-        builder: (context) => const Material(child: OrderProductsPanel()));
-  }
-
   void addSpreadedOrder(BuildContext context) {
     ordersLiveModel.selectedOrder = Order.defaultInstance();
 
@@ -44,8 +35,7 @@ class OrdersController {
             order: ordersLiveModel.selectedOrder,
             createOrderCallback: _addOrder,
             onSearch: _onSearchProduct,
-            confirmLabel: Translations.of(context)!.
-add,
+            confirmLabel: Translations.of(context)!.add,
           )),
     );
   }
@@ -71,8 +61,7 @@ add,
     ordersLiveModel.addOrder(order);
 
     order.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(
-          key, value.productColorId, value.productSizeId, -1);
+      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> data = {
@@ -111,8 +100,7 @@ add,
       context: context,
       builder: (context) => Material(
         child: OrderCustomerEditor(
-          confirmLabel: Translations.of(context)!.
-save,
+          confirmLabel: Translations.of(context)!.save,
           order: ordersLiveModel.selectedOrder,
           editCallback: onEdit,
         ),
@@ -160,15 +148,16 @@ save,
 
   void remove(BuildContext context, Order order, int index) {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: ConfirmDialog(
-              onConfirm: () {
-                onRemove(order, index);
-              },
-              message: Translations.of(context)!.
-messageDeleteElement,
-            )));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+          onConfirm: () {
+            onRemove(order, index);
+          },
+          message: Translations.of(context)!.messageDeleteElement,
+        ),
+      ),
+    );
   }
 
   void onRemove(Order order, int index) {
@@ -177,8 +166,7 @@ messageDeleteElement,
     ordersLiveModel.addOrder(order);
 
     order.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(
-          key, value.productColorId, value.productSizeId, 1);
+      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
     });
 
     Map<ServicesData, dynamic> data = {ServicesData.instance: order};
@@ -239,24 +227,20 @@ messageDeleteElement,
         RegisterSearchQueryBuilder onDeselect) {
       return [
         SearchFieldText(
-          label: Translations.of(context)!.
-customer,
+          label: Translations.of(context)!.customer,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.customerName.name,
         ),
         SearchFieldText(
-          label: Translations.of(context)!.
-status,
+          label: Translations.of(context)!.status,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.status.name,
         ),
         SearchFieldDate(
-          startLabel: Translations.of(context)!.
-startDate,
-          endLabel: Translations.of(context)!.
-endDate,
+          startLabel: Translations.of(context)!.startDate,
+          endLabel: Translations.of(context)!.endDate,
           onSelected: onSelect,
           onDeselected: onDeselect,
           identifier: OrderFields.date.name,

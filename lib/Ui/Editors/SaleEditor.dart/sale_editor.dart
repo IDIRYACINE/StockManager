@@ -40,14 +40,20 @@ class SaleEditor extends StatelessWidget {
   final String confirmLabel;
 
   @override
+
   Widget build(BuildContext context) {
+    RecordProduct recordProduct = RecordProduct.defaultInstance();
+
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
     final dynamic saleEditorMode = editMode
         ? SaleEditorMode.editModeInstance(record)
         : SaleEditorMode.createModeInstance(record);
+
     final ProductFormEditor productFormEditor = ProductFormEditor();
 
     void updateProduct(List<Product> products) {
@@ -62,13 +68,14 @@ class SaleEditor extends StatelessWidget {
         productFormEditor.referenceController.text = p.reference;
         productFormEditor.remainingQuantity.text = p.totalQuantity.toString();
 
+        
+        recordProduct.product = p.name;
+        recordProduct.reference = p.reference;
+        recordProduct.sellingPrice = p.sellingPrice;
+        recordProduct.deposit = p.sellingPrice;
 
-        record.product = p.name;
-        record.reference = p.reference;
-        record.barcode = p.barcode;
-        record.originalPrice = p.buyingPrice;
-        record.sellingPrice = p.sellingPrice;
-        record.deposit = p.sellingPrice;
+        record.totalDeposit += p.sellingPrice;
+        record.totalPrice = p.sellingPrice;
 
         product.value = p;
       }

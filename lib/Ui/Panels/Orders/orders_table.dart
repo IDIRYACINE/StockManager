@@ -50,23 +50,17 @@ class OrdersTable extends StatelessWidget {
             .ordersController;
 
     OrdersLiveDataModel orders =
-        Provider.of<ControllersProvider>(context, listen: false).ordersLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false)
+            .ordersLiveModel;
 
     List<String> ordersTableColumns = [
-      Translations.of(context)!.
-date,
-      Translations.of(context)!.
-sellerName,
-      Translations.of(context)!.
-customer,
-      Translations.of(context)!.
-productName,
-      Translations.of(context)!.
-deposit,
-      Translations.of(context)!.
-remainingPayement,
-      Translations.of(context)!.
-deliveryCost
+      Translations.of(context)!.date,
+      Translations.of(context)!.sellerName,
+      Translations.of(context)!.customer,
+      Translations.of(context)!.productName,
+      Translations.of(context)!.deposit,
+      Translations.of(context)!.remainingPayement,
+      Translations.of(context)!.deliveryCost
     ];
 
     return SizedBox(
@@ -106,12 +100,12 @@ deliveryCost
 class OrderProductsTable extends StatelessWidget {
   const OrderProductsTable({Key? key}) : super(key: key);
 
-  List<String> orderProductsToCellAdapter(OrderProduct orderProduct) {
+  List<String> orderProductsToCellAdapter(RecordProduct orderProduct) {
     return [
       orderProduct.product,
       orderProduct.reference,
-      orderProduct.productColor,
-      orderProduct.productSize,
+      orderProduct.color,
+      orderProduct.size,
       orderProduct.sellingPrice.toString(),
     ];
   }
@@ -135,19 +129,15 @@ class OrderProductsTable extends StatelessWidget {
             .orderProductsController;
 
     OrdersLiveDataModel orders =
-        Provider.of<ControllersProvider>(context, listen: false).ordersLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false)
+            .ordersLiveModel;
 
     List<String> orderProductsTableColumns = [
-      Translations.of(context)!.
-productName,
-      Translations.of(context)!.
-reference,
-      Translations.of(context)!.
-color,
-      Translations.of(context)!.
-size,
-      Translations.of(context)!.
-sellingPrice
+      Translations.of(context)!.productName,
+      Translations.of(context)!.reference,
+      Translations.of(context)!.color,
+      Translations.of(context)!.size,
+      Translations.of(context)!.sellingPrice
     ];
 
     return SizedBox(
@@ -172,7 +162,7 @@ sellingPrice
                         return ListView.builder(
                             itemCount: keys.length,
                             itemBuilder: (context, index) {
-                              return SelectableRow<OrderProduct>(
+                              return SelectableRow<RecordProduct>(
                                 dataCellHelper: orderProductsToCellAdapter,
                                 onClick: (detaills) =>
                                     handleContextMenu(detaills, controller),
@@ -271,44 +261,40 @@ class OrdersTableSpreaded extends StatelessWidget {
             .ordersController;
 
     OrdersLiveDataModel orders =
-        Provider.of<ControllersProvider>(context, listen: false).ordersLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false)
+            .ordersLiveModel;
 
     List<String> ordersTableColumns = [
-      Translations.of(context)!.
-date,
-      Translations.of(context)!.
-sellerName,
-      Translations.of(context)!.
-customer,
-      Translations.of(context)!.
-productName,
-      Translations.of(context)!.
-deposit,
-      Translations.of(context)!.
-remainingPayement,
-      Translations.of(context)!.
-deliveryCost
+      Translations.of(context)!.date,
+      Translations.of(context)!.sellerName,
+      Translations.of(context)!.customer,
+      Translations.of(context)!.productName,
+      Translations.of(context)!.deposit,
+      Translations.of(context)!.remainingPayement,
+      Translations.of(context)!.deliveryCost
     ];
 
     return SizedBox(
-        width: double.infinity,
-        child: Card(
-            elevation: Measures.small,
-            child: ValueListenableBuilder<bool>(
-                valueListenable: orders.refreshOrders,
-                builder: (context, value, child) {
-                  return Column(
-                    children: [
-                      Flexible(
-                          child: SelectableRow(
-                        dataCellHelper: (index) => ordersTableColumns,
-                        index: -1,
-                        textColor: Colors.grey,
-                        dataModel: 0,
-                      )),
-                      ...buildRows(orders, productsController, ordersController)
-                    ],
-                  );
-                })));
+      width: double.infinity,
+      child: Card(
+        elevation: Measures.small,
+        child: ValueListenableBuilder<bool>(
+            valueListenable: orders.refreshOrders,
+            builder: (context, value, child) {
+              return Column(
+                children: [
+                  Flexible(
+                      child: SelectableRow(
+                    dataCellHelper: (index) => ordersTableColumns,
+                    index: -1,
+                    textColor: Colors.grey,
+                    dataModel: 0,
+                  )),
+                  ...buildRows(orders, productsController, ordersController)
+                ],
+              );
+            }),
+      ),
+    );
   }
 }

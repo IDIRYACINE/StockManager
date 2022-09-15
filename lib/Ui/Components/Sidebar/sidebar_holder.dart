@@ -9,7 +9,7 @@ class SidebarHolder extends StatelessWidget {
   final int sidebarButtonsFlex = 4;
   final int sidebarButtonsSpacingFlex = 1;
 
-   const SidebarHolder({Key? key}) : super(key: key);
+  const SidebarHolder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SidebarHolder extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-           const Padding(
+          const Padding(
             padding: EdgeInsets.only(top: Measures.medium),
             child: Logo(
               width: 200,
@@ -25,36 +25,31 @@ class SidebarHolder extends StatelessWidget {
             ),
           ),
           Spacer(flex: sidebarButtonsSpacingFlex),
-           Flexible(
+          Flexible(
               child: SidebarButton(
-                  title: Translations.of(context)!.
-stock, index: NavigationStore.stockIndex)),
-           const SizedBox(height: Measures.medium),
-           Flexible(
+                  title: Translations.of(context)!.stock,
+                  index: NavigationStore.stockIndex)),
+          const SizedBox(height: Measures.medium),
+          Flexible(
               child: SidebarButton(
-                  title: Translations.of(context)!.
-records, index: NavigationStore.recordsIndex)),
-           const SizedBox(height: Measures.medium),
-           Flexible(
+                  title: Translations.of(context)!.records,
+                  index: NavigationStore.recordsIndex)),
+          const SizedBox(height: Measures.medium),
+          Flexible(
               child: SidebarButton(
-                  title: Translations.of(context)!.
-sales, index: NavigationStore.salesIndex)),
-           const SizedBox(height: Measures.medium),
-           Flexible(
+                  title: Translations.of(context)!.sales,
+                  index: NavigationStore.salesIndex)),
+          const SizedBox(height: Measures.medium),
+          Flexible(
               child: SidebarButton(
-                  title: Translations.of(context)!.
-deposit, index: NavigationStore.depositsIndex)),
-           const SizedBox(height: Measures.medium),
-           Flexible(
+                  title: Translations.of(context)!.orders,
+                  index: NavigationStore.ordersIndex)),
+          const SizedBox(height: Measures.medium),
+          Flexible(
               child: SidebarButton(
-                  title: Translations.of(context)!.
-orders, index: NavigationStore.ordersIndex)),
-           const SizedBox(height: Measures.medium),
-           Flexible(
-              child: SidebarButton(
-                  title: Translations.of(context)!.
-settings, index: NavigationStore.settingsIndex)),
-           const SizedBox(height: Measures.medium),
+                  title: Translations.of(context)!.settings,
+                  index: NavigationStore.settingsIndex)),
+          const SizedBox(height: Measures.medium),
         ],
       ),
     );

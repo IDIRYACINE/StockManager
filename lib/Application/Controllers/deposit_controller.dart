@@ -5,7 +5,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Domain/Reports/bill_deposit.dart';
+import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -19,8 +19,22 @@ class DespositController {
   final RecordsLiveDataModel recordsLiveModel;
   final StockLiveDataModel stockLiveModel;
 
-  void add(BuildContext context) {
-    void onSearch(String searchValue, OnEditorSearchResulCallback callback) {
+  void addDeposit(BuildContext context) {
+    PopupsUtility.displayGenericPopup(
+        context,
+        width: 1000,
+        height: 800,
+        DepositEditor(
+          record: Record.defaultInstance(
+              paymentType: PaymentTypes.deposit,
+              timeStamp: Record.depositTimeStamp),
+          onSearch: _onSearchProduct,
+          createCallback: _onAddDeposit,
+          confirmLabel: Translations.of(context)!.add,
+        ));
+  }
+
+  void _onSearchProduct(String searchValue, OnEditorSearchResulCallback callback) {
       Map<ServicesData, dynamic> data = {
         ServicesData.databaseSelector:
             SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
@@ -36,27 +50,12 @@ class DespositController {
       ServicesStore.instance.sendMessage(message);
     }
 
-    PopupsUtility.displayGenericPopup(
-        context,
-        width: 1000,
-        height: 800,
-        DepositEditor(
-          record: Record.defaultInstance(
-            paymentType: PaymentTypes.deposit,
-            timeStamp: Record.depositTimeStampId
-          ),
-          onSearch: onSearch,
-          createCallback: _onAdd,
-          confirmLabel: Translations.of(context)!.
-add,
-        ));
-  }
-
-  void _onAdd(Record record) {
+  void _onAddDeposit(Record record) {
     recordsLiveModel.addDepositRecord(record);
 
-    stockLiveModel.reclaimStock(
-        record.reference, record.colorId, record.sizeId, -1);
+    record.products.forEach((key, value) {
+      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
+    });
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: record,
@@ -78,9 +77,8 @@ add,
               record: record.copyWith(),
               editMode: true,
               editCallback: _onEdit,
-              confirmLabel: Translations.of(context)!.
-update,
-            )));
+              confirmLabel: Translations.of(context)!.update,
+            ),),);
   }
 
   void _onEdit(Map<String, dynamic> updatedField, Record record) {
@@ -101,8 +99,9 @@ update,
     void onRemove() {
       recordsLiveModel.removeDepositRecord(record);
 
-      stockLiveModel.reclaimStock(
-          record.reference, record.colorId, record.sizeId, 1);
+    record.products.forEach((key, value) {
+      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
+    });
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(
@@ -115,23 +114,11 @@ update,
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-                content: ConfirmDialog(
-              onConfirm: onRemove,
-              message: Translations.of(context)!.
-messageDeleteElement
-            )));
+            content: ConfirmDialog(
+                onConfirm: onRemove,
+                message: Translations.of(context)!.messageDeleteElement)));
   }
 
-  List<String> recordToRowData(Record record) {
-    return [
-      record.date.toString(),
-      record.product,
-      record.sellerName,
-      record.deposit.toString(),
-      record.remainingPayement.toString(),
-      record.sellingPrice.toString(),
-    ];
-  }
 
   DropdownMenuItem<PaymentTypes> paymentTypesDropdownAdapter(
       PaymentTypes type) {
@@ -164,8 +151,8 @@ messageDeleteElement
   }
 
   void printReport(BuildContext context) {
-    BillDeposit report = BillDeposit(
-        recordsLiveModel.depositRecords, Record.depositTimeStampId.toString());
+    BillPurchase report = BillPurchase(
+        recordsLiveModel.activeDepositRecord, Record.depositTimeStamp.toString());
     report.print(context);
   }
 
@@ -179,8 +166,7 @@ messageDeleteElement
         width: 100,
         height: 100,
         TextFieldDialog(
-          label: Translations.of(context)!.
-deposit,
+          label: Translations.of(context)!.deposit,
           validator: ValueValidator.validateNumber,
           initialValue: data.remainingPayement.toString(),
           onConfirm: (String? value) {
@@ -190,28 +176,28 @@ deposit,
   }
 
   void _onCompletePayment(Record record, String newDeposit) {
-    double parsedDeposit = double.parse(newDeposit);
+    // double parsedDeposit = double.parse(newDeposit);
 
-    Record remainingRecord = record.copyWith(
-      payementType: PaymentTypes.remaining.name,
-      payementTypeIndex: PaymentTypes.remaining.index,
-      remainingPayement: -1 * (record.remainingPayement - parsedDeposit),
-      deposit: parsedDeposit,
-      date: DateTime.now(),
-    );
+    // Record remainingRecord = record.copyWith(
+    //   payementType: PaymentTypes.remaining.name,
+    //   payementTypeIndex: PaymentTypes.remaining.index,
+    //   remainingPayement: -1 * (record.remainingPayement - parsedDeposit),
+    //   deposit: parsedDeposit,
+    //   date: DateTime.now(),
+    // );
 
-    recordsLiveModel.addRecord(remainingRecord);
+    // recordsLiveModel.addRecord(remainingRecord);
 
-    Map<ServicesData, dynamic> messageData = {
-      ServicesData.instance: remainingRecord,
-    };
+    // Map<ServicesData, dynamic> messageData = {
+    //   ServicesData.instance: remainingRecord,
+    // };
 
-    ServiceMessage<List<Record>> message = ServiceMessage(
-      service: AppServices.database,
-      event: DatabaseEvent.insertRemainingRecord,
-      data: messageData,
-    );
+    // ServiceMessage<List<Record>> message = ServiceMessage(
+    //   service: AppServices.database,
+    //   event: DatabaseEvent.insertRemainingRecord,
+    //   data: messageData,
+    // );
 
-    ServicesStore.instance.sendMessage(message);
+    // ServicesStore.instance.sendMessage(message);
   }
 }

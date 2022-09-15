@@ -10,7 +10,7 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'editor_forms.dart';
-import '../../../Application/Systems/editor_mode.dart';
+import '../../../Application/Systems/order_mode.dart';
 
 class OrderProductEditor extends StatelessWidget {
   const OrderProductEditor(
@@ -30,13 +30,13 @@ class OrderProductEditor extends StatelessWidget {
         super(key: key);
 
   final bool editMode;
-  final OrderProduct orderProduct;
+  final RecordProduct orderProduct;
   final Order order;
   final int searchBarFlex = 2;
   final int bodyFlex = 5;
   final int actionsFlex = 1;
-  final Callback2<AppJson,OrderProduct>? editCallback;
-  final Callback<OrderProduct>? createCallback;
+  final Callback2<AppJson,RecordProduct>? editCallback;
+  final Callback<RecordProduct>? createCallback;
   final String confirmLabel;
   final EditorSearchCallback? onSearch;
 
@@ -49,7 +49,7 @@ class OrderProductEditor extends StatelessWidget {
 
 
 
-    final OrderProductEditorMode<Callback<OrderProduct>>
+    final OrderProductEditorMode<Callback<RecordProduct>>
         orderProductEditorMode =
         OrderProductEditorMode.createModeInstance(orderProduct, order);
 
@@ -73,7 +73,6 @@ class OrderProductEditor extends StatelessWidget {
         orderProduct.product = p.name;
         orderProduct.reference = p.reference;
         orderProduct.sellingPrice = p.sellingPrice;
-        orderProduct.buyingPrice = p.buyingPrice;
 
         orderProductEditorMode.setSellingPrice(p.sellingPrice.toString());
 

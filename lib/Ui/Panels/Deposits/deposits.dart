@@ -30,7 +30,7 @@ class DepositsPanel extends StatelessWidget {
   }
 
   void onAdd(BuildContext context, DespositController controller) {
-    controller.add(context);
+    controller.addDeposit(context);
   }
 
   @override
@@ -57,7 +57,7 @@ deposit,
         const SizedBox(height: Measures.large),
         Expanded(
           flex: lowerRowFlex,
-          child: const DepositsTable(),
+          child: const DepositsSpreadedTable(),
         ),
       ]),
     );

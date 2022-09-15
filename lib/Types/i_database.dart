@@ -79,7 +79,9 @@ enum RecordFields {
   barcode,
   remainingPayement,
   reference,
-  quantity
+  quantity,
+  totalPrice,
+  totalDeposit,
 }
 
 enum OrderFields {
@@ -113,7 +115,7 @@ enum SellerFields { code, name, phone, imageUrl }
 
 enum ProductFamilyFields { name, reference, imageUrl }
 
-enum OrderProductFields {
+enum RecordProductFields {
   reference,
   sellingPrice,
   name,
@@ -123,4 +125,6 @@ enum OrderProductFields {
   sizeId,
   colorId,
   timeStamp,
+  deposit,
+  remainingPayement
 }

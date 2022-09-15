@@ -28,27 +28,27 @@ abstract class OrderProductEditorMode<T> {
 
   void setUpdatedValuesMap(AppJson<dynamic> json);
 
-  void setOrderProduct(OrderProduct orderProduct);
+  void setOrderProduct(RecordProduct orderProduct);
 
   void appendToOrder();
 
   void confirm(T callback);
 
-  static OrderProductEditorMode<Callback<OrderProduct>> createModeInstance(
-    OrderProduct orderProduct,
+  static OrderProductEditorMode<Callback<RecordProduct>> createModeInstance(
+    RecordProduct orderProduct,
     Order order,
   ) {
     return _ModeCreate(orderProduct, order);
   }
 
-  static OrderProductEditorMode<EditorCallback<AppJson, OrderProduct>>
-      editModeInstance(OrderProduct orderProduct, Order order) {
+  static OrderProductEditorMode<EditorCallback<AppJson, RecordProduct>>
+      editModeInstance(RecordProduct orderProduct, Order order) {
     return _ModeEdit(orderProduct, order);
   }
 }
 
-class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
-  OrderProduct orderProduct;
+class _ModeCreate extends OrderProductEditorMode<Callback<RecordProduct>> {
+  RecordProduct orderProduct;
   final Order order;
 
   _ModeCreate(
@@ -66,23 +66,23 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
 
   @override
   void setColor(String color, String colorId) {
-    orderProduct.productColor = color;
-    orderProduct.productColorId = colorId;
+    orderProduct.color = color;
+    orderProduct.colorId = colorId;
   }
 
   @override
   void setSize(String size, String sizeId) {
-    orderProduct.productSize = size;
-    orderProduct.productSizeId = sizeId;
+    orderProduct.size = size;
+    orderProduct.sizeId = sizeId;
   }
 
   @override
-  void confirm(Callback<OrderProduct> callback) {
+  void confirm(Callback<RecordProduct> callback) {
     callback(orderProduct);
   }
 
   @override
-  void setOrderProduct(OrderProduct product) {
+  void setOrderProduct(RecordProduct product) {
     orderProduct = product;
   }
 
@@ -98,8 +98,8 @@ class _ModeCreate extends OrderProductEditorMode<Callback<OrderProduct>> {
 }
 
 class _ModeEdit
-    extends OrderProductEditorMode<EditorCallback<AppJson, OrderProduct>> {
-  OrderProduct orderProduct;
+    extends OrderProductEditorMode<EditorCallback<AppJson, RecordProduct>> {
+  RecordProduct orderProduct;
   final Order order;
 
   _ModeEdit(this.orderProduct, this.order);
@@ -125,29 +125,29 @@ class _ModeEdit
 
   @override
   void setColor(String color, String colorId) {
-    orderProduct.productColor = color;
-    orderProduct.productColorId = colorId;
+    orderProduct.color = color;
+    orderProduct.colorId = colorId;
     updatedFields[OrderFields.productColor.name] = color;
     updatedFields[OrderFields.productColorId.name] = colorId;
   }
 
   @override
   void setSize(String size, String sizeId) {
-    orderProduct.productSize = size;
-    orderProduct.productSizeId = sizeId;
+    orderProduct.size = size;
+    orderProduct.sizeId = sizeId;
 
     updatedFields[OrderFields.productSize.name] = size;
     updatedFields[OrderFields.productSizeId.name] = sizeId;
   }
 
   @override
-  void setOrderProduct(OrderProduct product) {
+  void setOrderProduct(RecordProduct product) {
     orderProduct = product;
     updatedFields.clear();
   }
 
   @override
-  void confirm(EditorCallback<AppJson, OrderProduct> callback) {
+  void confirm(EditorCallback<AppJson, RecordProduct> callback) {
     final ModifierBuilder modifierBuilder = ModifierBuilder();
 
     updatedFields.forEach((key, value) {

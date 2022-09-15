@@ -22,7 +22,7 @@ class OrderProductsController {
   bool isEditing = false;
 
   void add(BuildContext context) {
-    void _onConfirm(OrderProduct orderProduct) {
+    void _onConfirm(RecordProduct orderProduct) {
       _onAdd(orderProduct);
 
       Navigator.pop(context);
@@ -34,21 +34,20 @@ class OrderProductsController {
         child: OrderProductEditor(
           createCallback: _onConfirm,
           editMode: false,
-          confirmLabel: Translations.of(context)!.
-add,
+          confirmLabel: Translations.of(context)!.add,
           onSearch: _onSearch,
-          orderProduct: OrderProduct.defaultInstance(),
+          orderProduct: RecordProduct.defaultInstance(),
           order: ordersLiveModel.selectedOrder,
         ),
       ),
     );
   }
 
-  void _onAdd(OrderProduct orderProduct) {
+  void _onAdd(RecordProduct orderProduct) {
     ordersLiveModel.addOrderProduct(orderProduct);
 
-    stockLiveModel.reclaimStock(orderProduct.reference,
-        orderProduct.productColorId, orderProduct.productSizeId, -1);
+    stockLiveModel.reclaimStock(
+        orderProduct.reference, orderProduct.colorId, orderProduct.sizeId, -1);
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: orderProduct,
@@ -68,11 +67,10 @@ add,
 
   void _updateOrder(AppJson values) {
     Order order = ordersLiveModel.selectedOrder;
-    
+
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: order,
-      ServicesData.updatedValues : values,
-     
+      ServicesData.updatedValues: values,
     };
 
     ServiceMessage message = ServiceMessage<List<Product>>(
@@ -99,22 +97,23 @@ add,
     ServicesStore.instance.sendMessage(message);
   }
 
-
-  void remove(BuildContext context, OrderProduct orderProduct) {
+  void remove(BuildContext context, RecordProduct orderProduct) {
     void onRemove() {
       _onRemove(orderProduct);
-      
+
       Order order = ordersLiveModel.selectedOrder;
       final ModifierBuilder modifierBuilder = ModifierBuilder()
-      .set(OrderFields.remainingPayement.name, order.remainingPayement)
-      .set(OrderFields.totalPrice.name, order.totalPrice);
-      
+          .set(OrderFields.remainingPayement.name, order.remainingPayement)
+          .set(OrderFields.totalPrice.name, order.totalPrice);
+
       _updateOrder(modifierBuilder.map);
 
-      if(order.products.isEmpty){
-        int index =ordersLiveModel.selectedOrderIndex;
+      if (order.products.isEmpty) {
+        int index = ordersLiveModel.selectedOrderIndex;
         ordersLiveModel.removeOrder(order, index);
-        Provider.of<ControllersProvider>(context,listen: false).ordersController.onRemove(order,index);
+        Provider.of<ControllersProvider>(context, listen: false)
+            .ordersController
+            .onRemove(order, index);
       }
     }
 
@@ -123,8 +122,7 @@ add,
         builder: (context) => AlertDialog(
                 content: ConfirmDialog(
               onConfirm: onRemove,
-              message: Translations.of(context)!.
-messageDeleteElement,
+              message: Translations.of(context)!.messageDeleteElement,
             )));
   }
 
@@ -132,11 +130,11 @@ messageDeleteElement,
     Navigator.pop(context);
   }
 
-  void _onRemove(OrderProduct orderProduct) {
+  void _onRemove(RecordProduct orderProduct) {
     ordersLiveModel.removeOrderProduct(orderProduct);
 
-    stockLiveModel.reclaimStock(orderProduct.reference,
-        orderProduct.productColorId, orderProduct.productSizeId, 1);
+    stockLiveModel.reclaimStock(
+        orderProduct.reference, orderProduct.colorId, orderProduct.sizeId, 1);
 
     Map<ServicesData, dynamic> data = {
       ServicesData.instance: orderProduct,

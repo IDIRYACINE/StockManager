@@ -73,134 +73,6 @@ class Product {
   }
 }
 
-class Record {
-  Record({
-    required this.payementType,
-    required this.payementTypeIndex,
-    required this.timeStamp,
-    required this.date,
-    required this.sellerName,
-    required this.product,
-    required this.productColor,
-    required this.productSize,
-    required this.barcode,
-    required this.reference,
-    required this.colorId,
-    required this.sizeId,
-    required this.deposit,
-    required this.remainingPayement,
-    required this.quantity,
-    required this.originalPrice,
-    required this.sellingPrice,
-    this.customer,
-    this.address,
-    this.city,
-    this.phoneNumber,
-  });
-
-  DateTime date;
-  int timeStamp;
-  String sellerName;
-  String product;
-  String productSize;
-  String productColor;
-  String colorId;
-  String sizeId;
-  int quantity;
-  int? phoneNumber;
-  String? city;
-  String? address;
-  double originalPrice;
-  double sellingPrice;
-  double deposit;
-  double remainingPayement;
-  String? customer;
-  String payementType;
-  int payementTypeIndex;
-  int barcode;
-  String reference;
-
-  // we use this as an identifier to query transactions of the same payment
-  static int saleTimeStampId = 0;
-  static void generateSaleId() {
-    saleTimeStampId = DateTime.now().millisecondsSinceEpoch;
-  }
-
-  static int depositTimeStampId = 0;
-  static void generateDepositId() {
-    depositTimeStampId = DateTime.now().millisecondsSinceEpoch;
-  }
-
-  // dart Record copyWith
-  Record copyWith({
-    String? payementType,
-    int? payementTypeIndex,
-    int? timeStamp,
-    String? sellerName,
-    String? product,
-    String? productColor,
-    DateTime? date,
-    String? productSize,
-    int? barcode,
-    String? reference,
-    String? customer,
-    double? deposit,
-    double? remainingPayement,
-    int? quantity,
-    double? originalPrice,
-    double? sellingPrice,
-    String? colorId,
-    String? sizeId,
-  }) {
-    return Record(
-      date: date ?? this.date,
-      payementType: payementType ?? this.payementType,
-      timeStamp: timeStamp ?? this.timeStamp,
-      originalPrice: originalPrice ?? this.originalPrice,
-      quantity: quantity ?? this.quantity,
-      sellerName: sellerName ?? this.sellerName,
-      deposit: deposit ?? this.deposit,
-      reference: reference ?? this.reference,
-      customer: customer ?? this.customer,
-      barcode: barcode ?? this.barcode,
-      product: product ?? this.product,
-      productColor: productColor ?? this.productColor,
-      productSize: productSize ?? this.productSize,
-      sellingPrice: sellingPrice ?? this.sellingPrice,
-      remainingPayement: remainingPayement ?? this.remainingPayement,
-      colorId: colorId ?? this.colorId,
-      sizeId: sizeId ?? this.sizeId,
-      payementTypeIndex: payementTypeIndex ?? this.payementTypeIndex,
-    );
-  }
-
-  static Record defaultInstance({
-    required PaymentTypes paymentType,
-    required int timeStamp,
-  }) {
-    return Record(
-      payementType: paymentType.name,
-      date: Utility.getDate(),
-      timeStamp: Record.saleTimeStampId,
-      sellerName: '',
-      product: '',
-      productColor: '',
-      productSize: '',
-      barcode: 0,
-      reference: '',
-      customer: '',
-      deposit: 0.0,
-      remainingPayement: 0.0,
-      quantity: 1,
-      originalPrice: 0.0,
-      sellingPrice: 0.0,
-      colorId: '',
-      sizeId: '',
-      payementTypeIndex: paymentType.index,
-    );
-  }
-}
-
 class Seller {
   int sellerCode;
   String name;
@@ -256,64 +128,69 @@ class ProductFamily {
   }
 }
 
-class OrderProduct {
-  OrderProduct({
+class RecordProduct {
+  RecordProduct({
     required this.product,
-    required this.productColor,
-    required this.productSize,
+    required this.color,
+    required this.size,
     required this.reference,
     required this.sellingPrice,
-    required this.buyingPrice,
-    required this.productSizeId,
-    required this.productColorId,
+    required this.deposit,
+    required this.sizeId,
+    required this.colorId,
     required this.timeStamp,
+    required this.remainingPayement,
   });
 
   String reference;
-  double buyingPrice;
+  double deposit;
   String product;
-  String productSize;
-  String productColor;
-  String productSizeId;
-  String productColorId;
+  String size;
+  String color;
+  String sizeId;
+  double remainingPayement;
+  String colorId;
   double sellingPrice;
   String timeStamp;
 
-  static OrderProduct defaultInstance() {
-    return OrderProduct(
+  static RecordProduct defaultInstance() {
+    return RecordProduct(
       product: '',
-      productColor: '',
-      productSize: '',
+      color: '',
+      size: '',
       reference: '',
       sellingPrice: 0,
-      buyingPrice: 0,
-      productColorId: '',
-      productSizeId: '',
+      deposit: 0,
+      colorId: '',
+      sizeId: '',
       timeStamp: Utility.getTimeStamp().toString(),
+      remainingPayement: 0,
     );
   }
 
-  OrderProduct copyWith({
+  RecordProduct copyWith({
     String? product,
     String? productColor,
     String? productSize,
     String? reference,
     double? sellingPrice,
-    double? buyingPrice,
+    double? deposit,
+    double? remainingPayement,
     String? productSizeId,
     String? productColorId,
     String? timeStamp,
   }) {
-    return OrderProduct(
+    return RecordProduct(
       product: product ?? this.product,
-      productColor: productColor ?? this.productColor,
-      productSize: productSize ?? this.productSize,
+      color: productColor ?? color,
+      size: productSize ?? size,
       reference: reference ?? this.reference,
       sellingPrice: sellingPrice ?? this.sellingPrice,
-      buyingPrice: buyingPrice ?? this.buyingPrice,
-      productColorId: productColorId ?? this.productColorId,
-      productSizeId: productSizeId ?? this.productColorId,
+      deposit: deposit ?? this.deposit,
+      colorId: productColorId ?? colorId,
+      sizeId: productSizeId ?? sizeId,
       timeStamp: timeStamp ?? this.timeStamp,
+      remainingPayement: remainingPayement ?? this.remainingPayement,
     );
   }
 }
@@ -358,7 +235,7 @@ class Order {
 
   int timeStamp;
   String sellerName;
-  Map<String, OrderProduct> products;
+  Map<String, RecordProduct> products;
   int quantity;
   double deposit;
   String status;
@@ -392,8 +269,8 @@ class Order {
         remainingPayement: 0);
   }
 
-  Map<String, OrderProduct> _copyProducts() {
-    Map<String, OrderProduct> copyProducts = {};
+  Map<String, RecordProduct> _copyProducts() {
+    Map<String, RecordProduct> copyProducts = {};
 
     products.forEach((key, value) {
       copyProducts[key] = value.copyWith();
@@ -403,7 +280,7 @@ class Order {
   }
 
   Order copyWith({
-    Map<String, OrderProduct>? products,
+    Map<String, RecordProduct>? products,
     DateTime? date,
     String? status,
     int? quantity,
@@ -437,6 +314,102 @@ class Order {
       timeStamp: timeStamp ?? this.timeStamp,
       date: date ?? this.date,
       remainingPayement: remainingPayement ?? this.remainingPayement,
+    );
+  }
+}
+
+class Record {
+  Record(
+      {required this.payementType,
+      required this.payementTypeIndex,
+      required this.timeStamp,
+      required this.date,
+      required this.remainingPayement,
+      required this.totalQuantity,
+      required this.totalPrice,
+      required this.products,
+      required this.sellerName,
+      required this.totalDeposit,
+      required this.customer,
+      this.city,
+      this.address,
+      this.phoneNumber});
+
+  DateTime date;
+  int timeStamp;
+  int totalQuantity;
+  String sellerName;
+  double totalPrice;
+  double remainingPayement;
+  double totalDeposit;
+  String payementType;
+  String customer;
+  int? phoneNumber;
+  String? city;
+  String? address;
+  int payementTypeIndex;
+  Map<String, RecordProduct> products;
+
+  // we use this as an identifier to query transactions of the same payment
+  static int purchaseTimeStamp = 0;
+  static void generatePurchaseId() {
+    purchaseTimeStamp = DateTime.now().millisecondsSinceEpoch;
+  }
+
+   static int depositTimeStamp = 0;
+  static void generateDepositId() {
+    depositTimeStamp = DateTime.now().millisecondsSinceEpoch;
+  }
+
+  // dart Record copyWith
+  Record copyWith(
+      {String? payementType,
+      int? payementTypeIndex,
+      int? timeStamp,
+      DateTime? date,
+      double? remainingPayement,
+      int? totalQuantity,
+      double? totalPrice,
+      String? sellerName,
+      Map<String, RecordProduct>? products,
+      String? customer,
+      double? totalDeposit,
+      int? phoneNumber,
+      String? city,
+      String? address}) {
+    return Record(
+        date: date ?? this.date,
+        payementType: payementType ?? this.payementType,
+        timeStamp: timeStamp ?? this.timeStamp,
+        totalQuantity: totalQuantity ?? this.totalQuantity,
+        remainingPayement: remainingPayement ?? this.remainingPayement,
+        payementTypeIndex: payementTypeIndex ?? this.payementTypeIndex,
+        totalPrice: totalPrice ?? this.totalPrice,
+        products: products ?? this.products,
+        sellerName: sellerName ?? this.sellerName,
+        totalDeposit: totalDeposit ?? this.totalDeposit,
+        customer: customer ?? this.customer,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        city: city ?? this.city,
+        address: address ?? this.address);
+  }
+
+  static Record defaultInstance({
+    required PaymentTypes paymentType,
+    required int timeStamp,
+  }) {
+    return Record(
+      payementType: paymentType.name,
+      date: Utility.getDate(),
+      timeStamp: Record.purchaseTimeStamp,
+      remainingPayement: 0.0,
+      totalQuantity: 0,
+      payementTypeIndex: paymentType.index,
+      totalPrice: 0.0,
+      products: {},
+      sellerName: '',
+      totalDeposit: 0.0,
+      customer: '',
     );
   }
 }

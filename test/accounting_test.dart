@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Application/Systems/editor_mode.dart';
+import 'package:stock_manager/Application/Systems/order_mode.dart';
 
 void main() {
 
@@ -18,19 +18,18 @@ void main() {
     return product;
   }
 
-  OrderProduct mockOrderProduct(Product product){
-    OrderProduct orderProduct = OrderProduct.defaultInstance();
+  RecordProduct mockOrderProduct(Product product){
+    RecordProduct orderProduct = RecordProduct.defaultInstance();
     orderProduct.reference = product.reference;
-    orderProduct.productColorId = product.models.keys.first;
-    orderProduct.productSizeId = product.models.values.first.sizes.keys.first;
-    orderProduct.buyingPrice = product.buyingPrice;
+    orderProduct.colorId = product.models.keys.first;
+    orderProduct.sizeId = product.models.values.first.sizes.keys.first;
     orderProduct.sellingPrice = product.sellingPrice;
     return orderProduct;
   }
 
   test("order calculations", () async {
     Product product = mockProduct();
-    OrderProduct orderProduct = mockOrderProduct(product);
+    RecordProduct orderProduct = mockOrderProduct(product);
     Order order = Order.defaultInstance();
 
     OrderProductEditorMode productEditor = OrderProductEditorMode.createModeInstance(orderProduct, order);

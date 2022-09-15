@@ -61,9 +61,9 @@ class OrdersLiveDataModel {
     _toggleRefresh(_refreshOrders);
   }
 
-  OrderProduct orderProduct(String id) => selectedOrder.products[id]!;
+  RecordProduct orderProduct(String id) => selectedOrder.products[id]!;
 
-  void removeOrderProduct(OrderProduct orderProduct) {
+  void removeOrderProduct(RecordProduct orderProduct) {
     selectedOrder.products.remove(orderProduct.timeStamp);
     selectedOrder.totalPrice -= orderProduct.sellingPrice;
     selectedOrder.remainingPayement -= orderProduct.sellingPrice;
@@ -71,7 +71,7 @@ class OrdersLiveDataModel {
     _toggleRefresh(_refreshOrderProducts);
   }
 
-  void addOrderProduct(OrderProduct orderProduct) {
+  void addOrderProduct(RecordProduct orderProduct) {
     selectedOrder.products[orderProduct.timeStamp] = orderProduct;
     selectedOrder.totalPrice += orderProduct.sellingPrice;
     selectedOrder.remainingPayement += orderProduct.sellingPrice;
@@ -80,7 +80,7 @@ class OrdersLiveDataModel {
     _toggleRefresh(_refreshOrders);
   }
 
-  void updateOrderProduct(OrderProduct orderProduct) {
+  void updateOrderProduct(RecordProduct orderProduct) {
     selectedOrder.products[orderProduct.timeStamp] = orderProduct;
     _toggleRefresh(_refreshOrderProducts);
   }

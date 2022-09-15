@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Systems/sale_mode.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
@@ -8,7 +9,6 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'deposit_form.dart';
-import '../../../Application/Systems/deposit_mode.dart';
 
 class DepositEditor extends StatelessWidget {
   const DepositEditor({
@@ -41,13 +41,15 @@ class DepositEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    
+    RecordProduct recordProduct = RecordProduct.defaultInstance();
 
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
     final dynamic depositMode = editMode
-        ? DepositEditorMode.editModeInstance(record)
-        : DepositEditorMode.createModeInstance(record);
+        ? SaleEditorMode.editModeInstance(record)
+        : SaleEditorMode.createModeInstance(record);
 
     void updateProduct(List<Product> products) {
       if (products.isNotEmpty) {
@@ -60,12 +62,13 @@ class DepositEditor extends StatelessWidget {
         depositMode.sellingPriceController.text = p.sellingPrice.toString();
         depositMode.remainingQuantity.text = p.totalQuantity.toString();
 
-        record.barcode = p.barcode;
-        record.reference = p.reference;
-        record.sellingPrice = p.sellingPrice;
-        record.product = p.name;
-        record.remainingPayement = p.sellingPrice - record.deposit;
-        record.originalPrice = p.buyingPrice;
+        recordProduct.product = p.name;
+        recordProduct.reference = p.reference;
+        recordProduct.sellingPrice = p.sellingPrice;
+        recordProduct.deposit = p.sellingPrice;
+
+        record.totalDeposit += p.sellingPrice;
+        record.totalPrice = p.sellingPrice;
 
         product.value = p;
       }

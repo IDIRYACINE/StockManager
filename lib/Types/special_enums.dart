@@ -48,6 +48,7 @@ enum DatabaseEvent{
   deleteProduct,
   deletePurchaseRecord,
   deleteSeller,
+  deletePurchaseRecordProduct,
   connect,
   disconnect,
   loadOrders,

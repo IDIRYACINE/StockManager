@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
-import 'package:stock_manager/Application/Systems/editor_mode.dart';
+import 'package:stock_manager/Application/Systems/order_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';

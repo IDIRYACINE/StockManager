@@ -119,8 +119,7 @@ messageFaultyAuthentication),
           ServicesData.databaseSelector: selector.map,
         });
 
-    Record.generateDepositId();
-    Record.generateSaleId();
+    Record.generatePurchaseId();
     ServicesStore.instance.sendMessage(loadSellers);
     ServicesStore.instance.sendMessage(loadProducts);
     ServicesStore.instance.sendMessage(loadFamillies);

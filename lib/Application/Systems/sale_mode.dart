@@ -1,9 +1,33 @@
+import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
 abstract class SaleEditorMode<T> {
+  final TextEditingController nameController = TextEditingController(text: '');
+
+  final TextEditingController referenceController =
+      TextEditingController(text: '');
+
+  final TextEditingController familyController =
+      TextEditingController(text: '');
+
+  final TextEditingController minSellingPriceController =
+      TextEditingController(text: '');
+
+  final TextEditingController sellingPriceController =
+      TextEditingController(text: '');
+
+  final TextEditingController depositController =
+      TextEditingController(text: '');
+
+  final TextEditingController remainingPaymenentController =
+      TextEditingController(text: '');
+
+  final TextEditingController remainingQuantity =
+      TextEditingController(text: '');
+
   void setSeller(Seller seller);
 
   void setSellingPrice(String? price);
@@ -13,6 +37,16 @@ abstract class SaleEditorMode<T> {
   void setColor(String color, String colorId);
 
   void setSize(String size, String sizeId);
+
+  void setDeposit(String? deposit);
+
+  void setRemainingPayement(String? remainingPayement);
+
+  void setAddress(String? value);
+
+  void setCity(String? value);
+
+  void setPhoneNumber(String? value);
 
   void confirm(T callback);
 
@@ -28,6 +62,7 @@ abstract class SaleEditorMode<T> {
 
 class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   final Record record;
+  late RecordProduct orderProduct;
 
   _ModeCreate(this.record);
 
@@ -40,8 +75,10 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   void setSellingPrice(String? price) {
     if (price != null) {
       double parsedPrice = double.parse(price);
-      record.sellingPrice = parsedPrice;
-      record.deposit = parsedPrice;
+      double priceChange = parsedPrice - orderProduct.sellingPrice;
+
+      orderProduct.sellingPrice = parsedPrice;
+      record.totalPrice += priceChange;
     }
   }
 
@@ -54,15 +91,57 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
 
   @override
   void setColor(String color, String colorId) {
-    record.productColor = color;
-    record.colorId = colorId;
+    orderProduct.color = color;
+    orderProduct.colorId = colorId;
   }
 
   @override
   void setSize(String size, String sizeId) {
-    record.productSize = size;
-    record.sizeId = sizeId;
+    orderProduct.size = size;
+    orderProduct.sizeId = sizeId;
   }
+
+
+  @override
+  void setRemainingPayement(String? remainingPayement) {
+    if (remainingPayement != null) {
+      record.remainingPayement = double.tryParse(remainingPayement) ?? 0;
+    }
+  }
+
+  @override
+  void setDeposit(String? deposit) {
+    if (deposit != null && deposit != "") {
+      double parsedDeposit = double.parse(deposit);
+      double depositChange = parsedDeposit - orderProduct.deposit;
+
+
+      orderProduct.deposit = parsedDeposit;
+      record.remainingPayement += orderProduct.sellingPrice - orderProduct.deposit;
+      record.totalDeposit += depositChange;
+      remainingPaymenentController.text = record.remainingPayement.toString();
+    }
+  }
+
+
+
+  @override
+  void setAddress(String? value) {
+    record.address = value;
+  }
+
+  @override
+  void setPhoneNumber(String? value) {
+    if (value != null && value.isNotEmpty) {
+      record.phoneNumber = int.tryParse(value);
+    }
+  }
+
+  @override
+  void setCity(String? value) {
+    record.city = value;
+  }
+
 
   @override
   void confirm(Callback<Record> callback) {
@@ -72,6 +151,7 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
 
 class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   final Record record;
+  late RecordProduct orderProduct;
 
   _ModeEdit(this.record);
 
@@ -87,11 +167,13 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   void setSellingPrice(String? price) {
     if (price != null) {
       double parsedPrice = double.parse(price);
-      record.sellingPrice = parsedPrice;
-      record.deposit = parsedPrice;
-      updatedFields[RecordFields.sellingPrice] = parsedPrice;
-            updatedFields[RecordFields.deposit] = parsedPrice;
+      double priceChange = parsedPrice - orderProduct.sellingPrice;
 
+      orderProduct.sellingPrice = parsedPrice;
+      record.totalPrice += priceChange;
+
+      updatedFields[RecordFields.sellingPrice] = parsedPrice; 
+      updatedFields[RecordFields.deposit] = parsedPrice;
     }
   }
 
@@ -105,18 +187,64 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
 
   @override
   void setColor(String color, String colorId) {
-    record.productColor = color;
-    record.colorId = colorId;
+    orderProduct.color  = color;
+    orderProduct.colorId = colorId;
     updatedFields[RecordFields.productColor] = color;
     updatedFields[RecordFields.productColorId] = colorId;
   }
 
   @override
   void setSize(String size, String sizeId) {
-    record.productSize = size;
-    record.sizeId = sizeId;
+    orderProduct.size = size;
+    orderProduct.sizeId = sizeId;
     updatedFields[RecordFields.productSize] = size;
     updatedFields[RecordFields.productSizeId] = sizeId;
+  }
+
+  @override
+  void setRemainingPayement(String? remainingPayement) {
+    if (remainingPayement != null) {
+      record.remainingPayement = double.tryParse(remainingPayement) ?? 0;
+    }
+  }
+
+  @override
+  void setDeposit(String? deposit) {
+    if (deposit != null && deposit != '') {
+       double parsedDeposit = double.parse(deposit);
+      double depositChange = parsedDeposit - orderProduct.deposit;
+
+
+      orderProduct.deposit = parsedDeposit;
+      record.remainingPayement += orderProduct.sellingPrice - orderProduct.deposit;
+      record.totalDeposit += depositChange;
+      remainingPaymenentController.text = record.remainingPayement.toString();
+
+      updatedFields[RecordFields.deposit] = parsedDeposit;
+      updatedFields[RecordFields.remainingPayement] = record.remainingPayement;
+    }
+  }
+
+
+  @override
+  void setAddress(String? value) {
+    record.address = value;
+    updatedFields[RecordFields.address] = value;
+  }
+
+  @override
+  void setPhoneNumber(String? value) {
+    if (value != null && value.isNotEmpty) {
+      int parsedPhone = int.parse(value);
+      record.phoneNumber = parsedPhone;
+      updatedFields[RecordFields.phoneNumber] = parsedPhone;
+    }
+  }
+
+  @override
+  void setCity(String? value) {
+    record.city = value;
+    updatedFields[RecordFields.city] = value;
   }
 
   @override

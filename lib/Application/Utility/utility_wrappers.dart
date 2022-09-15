@@ -4,6 +4,6 @@ class SpreadedOrdersWrapper {
   SpreadedOrdersWrapper(this.order, this.product, this.index);
 
   final Order order;
-  final OrderProduct product;
+  final RecordProduct product;
   final int index;
 }

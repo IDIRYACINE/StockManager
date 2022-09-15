@@ -54,7 +54,7 @@ records,
         const SizedBox(height: Measures.large),
         Expanded(
           flex: lowerRowFlex,
-          child: const RecordsTable(),
+          child: const RecordsSpreadedTable(),
         ),
       ]),
     );

@@ -7,9 +7,9 @@ abstract class DatabaseRepository {
 
   static ProductFamily productFamilyFromJson({required AppJson<dynamic> json}) {
     return ProductFamily(
-      name: json[ProductFamilyFields.name.name] ?? 'error',
-      reference: json[ProductFamilyFields.reference.name] ?? 'error',
-      imageUrl: json[ProductFamilyFields.imageUrl.name] ?? 'error',
+      name: json[ProductFamilyFields.name.name] ?? 'not set',
+      reference: json[ProductFamilyFields.reference.name] ?? 'not set',
+      imageUrl: json[ProductFamilyFields.imageUrl.name] ?? 'not set',
     );
   }
 
@@ -25,7 +25,7 @@ abstract class DatabaseRepository {
     }
 
     return ProductModel(
-      color: json[ProductModelFields.color.name] ?? 'error',
+      color: json[ProductModelFields.color.name] ?? 'not set',
       id: index,
       sizes: sizes,
     );
@@ -42,44 +42,46 @@ abstract class DatabaseRepository {
     }
 
     return Product(
-      barcode: json[ProductFields.barcode.name] ?? 'error',
-      name: json[ProductFields.name.name] ?? 'error',
-      productFamily: json[ProductFields.family.name] ?? 'error',
-      imageUrl: json[ProductFields.imageUrl.name] ?? 'error',
-      buyingPrice: json[ProductFields.buyingPrice.name] ?? 'error',
-      reference: json[ProductFields.reference.name] ?? 'error',
-      sellingPrice: json[ProductFields.sellingPrice.name] ?? 'error',
+      barcode: json[ProductFields.barcode.name] ?? 'not set',
+      name: json[ProductFields.name.name] ?? 'not set',
+      productFamily: json[ProductFields.family.name] ?? 'not set',
+      imageUrl: json[ProductFields.imageUrl.name] ?? 'not set',
+      buyingPrice: json[ProductFields.buyingPrice.name] ?? 'not set',
+      reference: json[ProductFields.reference.name] ?? 'not set',
+      sellingPrice: json[ProductFields.sellingPrice.name] ?? 'not set',
       models: models,
-      totalQuantity: json[ProductFields.quantity.name] ?? 'error',
-      familyReference: json[ProductFields.familyReference.name] ?? 'error',
+      totalQuantity: json[ProductFields.quantity.name] ?? 'not set',
+      familyReference: json[ProductFields.familyReference.name] ?? 'not set',
     );
   }
 
   static Record recordFromJson({required AppJson<dynamic> json}) {
-    String payementType = json[RecordFields.paymentType.name] ?? 'error';
+    String payementType = json[RecordFields.paymentType.name] ?? 'not set';
+
+    AppJson<dynamic>? rawProducts = json[OrderFields.products.name];
+    AppJson<RecordProduct> products = {};
+
+    RecordProduct product;
+
+    if (rawProducts != null) {
+      rawProducts.forEach((key, element) {
+        product = orderProductFromJson(json: element, key: key);
+        products[key] = product;
+      });
+    }
 
     Record record = Record(
       payementType: payementType,
-      sellerName: json[RecordFields.seller.name] ?? 'error',
-      timeStamp: json[RecordFields.timeStamp.name] ?? 'error',
-      product: json[RecordFields.product.name] ?? 'error',
-      productColor: json[RecordFields.productColor.name] ?? 'error',
-      productSize: json[RecordFields.productSize.name] ?? 'error',
-      barcode: json[RecordFields.barcode.name] ?? 'error',
-      reference: json[RecordFields.reference.name] ?? 'error',
-      customer: json[RecordFields.customer.name] ?? 'error',
-      quantity: json[RecordFields.quantity.name] ?? 0,
-      originalPrice: json[RecordFields.buyingPrice.name] ?? 0.0,
-      sellingPrice: json[RecordFields.sellingPrice.name] ?? 0.0,
+      timeStamp: json[RecordFields.timeStamp.name] ?? 0,
+      totalQuantity: json[RecordFields.quantity.name] ?? 0,
       date: json[RecordFields.date.name] ?? DateTime(1990),
-      deposit: json[RecordFields.deposit.name] ?? 0.0,
       remainingPayement: json[RecordFields.remainingPayement.name] ?? 0.0,
-      colorId: json[RecordFields.colorId.name] ?? 'error',
-      sizeId: json[RecordFields.sizeId.name] ?? 'error', 
       payementTypeIndex: json[RecordFields.paymentTypeIndex.name] ?? 0,
-      phoneNumber: json[RecordFields.phoneNumber.name] ?? 0,
-      address: json[RecordFields.address.name] ?? '',
-      city: json[RecordFields.city.name] ?? '',
+      products: products,
+      totalPrice: json[RecordFields.totalPrice.name] ?? 0.0,
+      sellerName: json[RecordFields.seller.name] ?? 'not set', 
+      totalDeposit: json[RecordFields.totalDeposit.name] ?? 0.0,
+      customer: json[RecordFields.customer.name] ?? 'not set',
     );
 
     return record;
@@ -87,35 +89,35 @@ abstract class DatabaseRepository {
 
   static Seller sellerFromJson({required AppJson<dynamic> json}) {
     return Seller(
-      name: json[SellerFields.name.name] ?? 'error',
-      imageUrl: json[SellerFields.imageUrl.name] ?? 'error',
+      name: json[SellerFields.name.name] ?? 'not set',
+      imageUrl: json[SellerFields.imageUrl.name] ?? 'not set',
       phone: json[SellerFields.phone.name] ?? 0,
       sellerCode: json[SellerFields.code.name] ?? 0,
     );
   }
 
-  static OrderProduct orderProductFromJson(
+  static RecordProduct orderProductFromJson(
       {required AppJson<dynamic> json, required String key}) {
-    return OrderProduct(
-      reference: json[OrderProductFields.reference.name] ?? 'error',
-      sellingPrice: json[OrderProductFields.sellingPrice.name] ?? 0,
-      product: json[OrderProductFields.name.name] ?? 'error',
-      productColor: json[OrderProductFields.color.name] ?? 'error',
-      productSize: json[OrderProductFields.size.name] ?? 'error',
-      buyingPrice: json[OrderProductFields.buyingPrice.name] ?? 0,
-      productColorId: json[OrderProductFields.sizeId.name] ?? 'error',
-      productSizeId: json[OrderProductFields.colorId.name] ?? 'error',
-      
-      timeStamp: key,
+    return RecordProduct(
+      reference: json[RecordProductFields.reference.name] ?? 'not set',
+      sellingPrice: json[RecordProductFields.sellingPrice.name] ?? 0,
+      product: json[RecordProductFields.name.name] ?? 'not set',
+      color: json[RecordProductFields.color.name] ?? 'not set',
+      size: json[RecordProductFields.size.name] ?? 'not set',
+      colorId: json[RecordProductFields.sizeId.name] ?? 'not set',
+      sizeId: json[RecordProductFields.colorId.name] ?? 'not set',
+      timeStamp: key, 
+      deposit:json[RecordProductFields.deposit.name] ?? 'not set',
+      remainingPayement:json[RecordProductFields.remainingPayement.name] ?? 0,
     );
   }
 
   static Order orderFromJson({required AppJson<dynamic> json}) {
-    AppJson<OrderProduct> products = {};
+    AppJson<RecordProduct> products = {};
 
     AppJson<dynamic>? rawProducts = json[OrderFields.products.name];
 
-    OrderProduct product;
+    RecordProduct product;
 
     if (rawProducts != null) {
       rawProducts.forEach((key, element) {
@@ -126,19 +128,19 @@ abstract class DatabaseRepository {
 
     return Order(
       products: products,
-      address: json[OrderFields.address.name] ?? 'error',
-      city: json[OrderFields.city.name] ?? 'error',
-      date: json[OrderFields.date.name] ?? 'error',
+      address: json[OrderFields.address.name] ?? 'not set',
+      city: json[OrderFields.city.name] ?? 'not set',
+      date: json[OrderFields.date.name] ?? 'not set',
       deliverToHome: json[OrderFields.deliverToHome.name] ?? false,
       deposit: json[OrderFields.deposit.name] ?? 0,
-      status: json[OrderFields.status.name] ?? 'error',
+      status: json[OrderFields.status.name] ?? 'not set',
       totalPrice: json[OrderFields.totalPrice.name] ?? 0,
-      customerName: json[OrderFields.customerName.name] ?? 'error',
+      customerName: json[OrderFields.customerName.name] ?? 'not set',
       deliveryCost: json[OrderFields.deliveryCost.name] ?? 0,
       phoneNumber: json[OrderFields.phone.name] ?? 0,
       postalCode: json[OrderFields.postalCode.name] ?? 0,
       quantity: json[OrderFields.quantity.name] ?? 0,
-      sellerName: json[OrderFields.seller.name] ?? 'error',
+      sellerName: json[OrderFields.seller.name] ?? 'not set',
       timeStamp: json[OrderFields.timeStamp.name] ?? 0,
       remainingPayement: json[OrderFields.remainingPayement.name] ?? 0,
     );
@@ -210,26 +212,14 @@ abstract class DatabaseRepository {
     AppJson<dynamic> json = {};
     json[RecordFields.paymentType.name] = record.payementType;
     json[RecordFields.timeStamp.name] = record.timeStamp;
-    json[RecordFields.seller.name] = record.sellerName;
-    json[RecordFields.product.name] = record.product;
-    json[RecordFields.productColor.name] = record.productColor;
-    json[RecordFields.productSize.name] = record.productSize;
-    json[RecordFields.productColorId.name] = record.colorId;
-    json[RecordFields.productSizeId.name] = record.sizeId;
-    json[RecordFields.barcode.name] = record.barcode;
-    json[RecordFields.reference.name] = record.reference;
-    json[RecordFields.customer.name] = record.customer;
-    json[RecordFields.quantity.name] = record.quantity;
-    json[RecordFields.buyingPrice.name] = record.originalPrice;
-    json[RecordFields.sellingPrice.name] = record.sellingPrice;
     json[RecordFields.date.name] = record.date;
-    json[RecordFields.deposit.name] = record.deposit;
     json[RecordFields.remainingPayement.name] = record.remainingPayement;
 
-    json[RecordFields.phoneNumber.name] = record.phoneNumber;
-    json[RecordFields.address.name] = record.address;
-    json[RecordFields.city.name] = record.city;
+    AppJson<dynamic> products = {};
 
+    record.products.forEach((key, product) {
+      products[key] = orderProductToJson(product: product);
+    });
 
     return json;
   }
@@ -264,17 +254,17 @@ abstract class DatabaseRepository {
     return json;
   }
 
-  static AppJson<dynamic> orderProductToJson({required OrderProduct product}) {
+  static AppJson<dynamic> orderProductToJson({required RecordProduct product}) {
     AppJson json = {};
 
     json[ProductFields.name.name] = product.product;
     json[ProductFields.reference.name] = product.reference;
     json[ProductFields.sellingPrice.name] = product.sellingPrice;
-    json[ProductModelFields.color.name] = product.productColor;
-    json[ProductModelFields.size.name] = product.productSize;
+    json[ProductModelFields.color.name] = product.color;
+    json[ProductModelFields.size.name] = product.size;
 
-    json[ProductModelFields.colorId.name] = product.productColorId;
-    json[ProductModelFields.sizeId.name] = product.productSizeId;
+    json[ProductModelFields.colorId.name] = product.colorId;
+    json[ProductModelFields.sizeId.name] = product.sizeId;
 
     return json;
   }
