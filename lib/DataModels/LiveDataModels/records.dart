@@ -74,7 +74,7 @@ class RecordsLiveDataModel {
 
   void addActiveSaleRecord() {
     _loadedRecords.add(activePurchaseRecord);
-    _purchaseDelegate.addSaleRecord(activePurchaseRecord);
+    _purchaseDelegate.addActiveSaleRecord();
   }
 
   void clearSaleRecord() {
@@ -118,6 +118,7 @@ class RecordsLiveDataModel {
   void clearDeposits() {
     _depositDelegate.clearDeposits();
   }
+
 }
 
 class _PurchaseDelegate {
@@ -156,7 +157,7 @@ class _PurchaseDelegate {
   }
 
   void addActiveSaleRecord() {
-    _totalPrice.value += _activePurchaseRecord.totalPrice;
+    _totalPrice.value = _activePurchaseRecord.totalPrice;
     _purchaseRecords.add(_activePurchaseRecord);
     notifyChange(_salesRefresh);
     
@@ -180,7 +181,13 @@ class _PurchaseDelegate {
   Record saleRecord(int index) {
     return _purchaseRecords[index];
   }
+  
+  void addSaleProduct(RecordProduct recordProduct) {
+    _activePurchaseRecord.products[recordProduct.timeStamp] = recordProduct;
+    notifyChange(_salesRefresh);
+  }
 }
+
 
 
 class _DepositDelegate {

@@ -31,8 +31,7 @@ class LoginController {
           builder: (context) => AlertDialog(
                 content: InformativeDialog(
                     message:
-                        Translations.of(context)!.
-messageFaultyAuthentication),
+                        Translations.of(context)!.messageFaultyAuthentication),
               ));
     }
   }
@@ -120,6 +119,8 @@ messageFaultyAuthentication),
         });
 
     Record.generatePurchaseId();
+    Record.generateDepositId();
+
     ServicesStore.instance.sendMessage(loadSellers);
     ServicesStore.instance.sendMessage(loadProducts);
     ServicesStore.instance.sendMessage(loadFamillies);

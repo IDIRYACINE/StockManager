@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/Utility/validators.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
@@ -21,37 +22,38 @@ class DespositController {
 
   void addDeposit(BuildContext context) {
     PopupsUtility.displayGenericPopup(
-        context,
-        width: 1000,
-        height: 800,
-        DepositEditor(
-          record: Record.defaultInstance(
-              paymentType: PaymentTypes.deposit,
-              timeStamp: Record.depositTimeStamp),
-          onSearch: _onSearchProduct,
-          createCallback: _onAddDeposit,
-          confirmLabel: Translations.of(context)!.add,
-        ));
+      context,
+      width: 1000,
+      height: 800,
+      DepositEditor(
+        record: recordsLiveModel.activeDepositRecord,
+        onSearch: _onSearchProduct,
+        addDepositCallback: _onAddDeposit,
+        addDepositProductCallback: (record) => _onAddDepositProduct(context),
+        confirmLabel: Translations.of(context)!.add,
+      ),
+    );
   }
 
-  void _onSearchProduct(String searchValue, OnEditorSearchResulCallback callback) {
-      Map<ServicesData, dynamic> data = {
-        ServicesData.databaseSelector:
-            SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
-      };
+  void _onSearchProduct(
+      String searchValue, OnEditorSearchResulCallback callback) {
+    Map<ServicesData, dynamic> data = {
+      ServicesData.databaseSelector:
+          SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
+    };
 
-      ServiceMessage message = ServiceMessage<List<Product>>(
-          callback: callback,
-          hasCallback: true,
-          data: data,
-          event: DatabaseEvent.searchProduct,
-          service: AppServices.database);
+    ServiceMessage message = ServiceMessage<List<Product>>(
+        callback: callback,
+        hasCallback: true,
+        data: data,
+        event: DatabaseEvent.searchProduct,
+        service: AppServices.database);
 
-      ServicesStore.instance.sendMessage(message);
-    }
+    ServicesStore.instance.sendMessage(message);
+  }
 
   void _onAddDeposit(Record record) {
-    recordsLiveModel.addDepositRecord(record);
+    recordsLiveModel.addActiveDepositRecord();
 
     record.products.forEach((key, value) {
       stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
@@ -69,16 +71,40 @@ class DespositController {
     ServicesStore.instance.sendMessage(message);
   }
 
+  void addDepositProduct(BuildContext context) {
+    PopupsUtility.displayGenericPopup(
+      context,
+      width: 1000,
+      height: 800,
+      DepositEditor(
+        record: Record.defaultInstance(
+            paymentType: PaymentTypes.deposit,
+            timeStamp: Record.depositTimeStamp),
+        onSearch: _onSearchProduct,
+        addDepositCallback: _onAddDeposit,
+        addDepositProductCallback: (record) => _onAddDepositProduct(context),
+        confirmLabel: Translations.of(context)!.add,
+      ),
+    );
+  }
+
+  void _onAddDepositProduct(BuildContext context) {
+    Utility.displayToastMessage(
+        context, Translations.of(context)!.addedProduct);
+  }
+
   void edit(BuildContext context, Record record, int index) {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: DepositEditor(
-              record: record.copyWith(),
-              editMode: true,
-              editCallback: _onEdit,
-              confirmLabel: Translations.of(context)!.update,
-            ),),);
+      context: context,
+      builder: (context) => AlertDialog(
+        content: DepositEditor(
+          record: record.copyWith(),
+          editMode: true,
+          editCallback: _onEdit,
+          confirmLabel: Translations.of(context)!.update,
+        ),
+      ),
+    );
   }
 
   void _onEdit(Map<String, dynamic> updatedField, Record record) {
@@ -99,9 +125,9 @@ class DespositController {
     void onRemove() {
       recordsLiveModel.removeDepositRecord(record);
 
-    record.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
-    });
+      record.products.forEach((key, value) {
+        stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
+      });
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: record};
       ServiceMessage message = ServiceMessage(
@@ -112,13 +138,14 @@ class DespositController {
     }
 
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-            content: ConfirmDialog(
-                onConfirm: onRemove,
-                message: Translations.of(context)!.messageDeleteElement)));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+            onConfirm: onRemove,
+            message: Translations.of(context)!.messageDeleteElement),
+      ),
+    );
   }
-
 
   DropdownMenuItem<PaymentTypes> paymentTypesDropdownAdapter(
       PaymentTypes type) {
@@ -151,8 +178,8 @@ class DespositController {
   }
 
   void printReport(BuildContext context) {
-    BillPurchase report = BillPurchase(
-        recordsLiveModel.activeDepositRecord, Record.depositTimeStamp.toString());
+    BillPurchase report = BillPurchase(recordsLiveModel.activeDepositRecord
+        );
     report.print(context);
   }
 
@@ -162,17 +189,18 @@ class DespositController {
 
   void completePayment(BuildContext context, Record data) {
     PopupsUtility.displayGenericPopup(
-        context,
-        width: 100,
-        height: 100,
-        TextFieldDialog(
-          label: Translations.of(context)!.deposit,
-          validator: ValueValidator.validateNumber,
-          initialValue: data.remainingPayement.toString(),
-          onConfirm: (String? value) {
-            _onCompletePayment(data, value!);
-          },
-        ));
+      context,
+      width: 100,
+      height: 100,
+      TextFieldDialog(
+        label: Translations.of(context)!.deposit,
+        validator: ValueValidator.validateNumber,
+        initialValue: data.remainingPayement.toString(),
+        onConfirm: (String? value) {
+          _onCompletePayment(data, value!);
+        },
+      ),
+    );
   }
 
   void _onCompletePayment(Record record, String newDeposit) {

@@ -84,6 +84,7 @@ class DatabaseDAO {
   }
 
   Future<void> insertRecord({required Record record}) async {
+    
     record.products.forEach((key, product) async => await _updateStockQuantity(
         reference: product.reference,
         quantity: -1,
@@ -342,8 +343,26 @@ class DatabaseDAO {
     _database.updateOrder(selectorBuilder, updatedValues);
   }
 
+
+  deletePurchaseRecordProduct({required RecordProduct product, required AppJson selector}) {
+     SelectorBuilder selectorBuilder = SelectorBuilder();
+    selectorBuilder.map = selector;
+
+    ModifierBuilder updatedValues = ModifierBuilder()
+        .unset('${RecordFields.products.name}.${product.timeStamp}');
+
+    _updateStockQuantity(
+        reference: product.reference,
+        quantity: 1,
+        colorId: product.colorId,
+        sizeId: product.sizeId);
+
+    _database.updatePurchaseRecord(selectorBuilder, updatedValues);
+  }
+
   Future<void> insertRemainingRecord({required Record record}) async {
     _database
         .insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
   }
+
 }

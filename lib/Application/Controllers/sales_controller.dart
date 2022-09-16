@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -20,7 +21,6 @@ class SalesController {
   StockLiveDataModel stockLiveModel;
 
   void editSale(BuildContext context, Record record, int index) {
-
     PopupsUtility.displayGenericPopup(
       context,
       SizedBox(
@@ -37,18 +37,17 @@ class SalesController {
   }
 
   void _onEdit(Map<String, dynamic> updatedField, Record record) {
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: record,
-        ServicesData.databaseSelector: updatedField,
-      };
+    Map<ServicesData, dynamic> data = {
+      ServicesData.instance: record,
+      ServicesData.databaseSelector: updatedField,
+    };
 
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.updatePurchaseRecord,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
-
-    }
+    ServiceMessage message = ServiceMessage(
+        data: data,
+        event: DatabaseEvent.updatePurchaseRecord,
+        service: AppServices.database);
+    ServicesStore.instance.sendMessage(message);
+  }
 
   void addSale(BuildContext context) {
     PopupsUtility.displayGenericPopup(
@@ -56,22 +55,20 @@ class SalesController {
       width: 1000,
       height: 800,
       SaleEditor(
-        record: Record.defaultInstance(
-          paymentType: PaymentTypes.payement,
-          timeStamp: Record.purchaseTimeStamp,
-        ),
+        record: recordsLiveModel.activePurchaseRecord,
         onSearch: _onSearchProduct,
         confirmLabel: Translations.of(context)!.add,
-        createCallback: _onAddSale,
+        addSaleCallback: _onAddSale,
       ),
     );
   }
 
   void _onAddSale(Record record) {
-    recordsLiveModel.addSaleRecord(record);
+    recordsLiveModel.addActiveSaleRecord();
 
-    record.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
+    record.products.forEach((key, product) {
+      stockLiveModel.reclaimStock(
+          product.reference, product.colorId, product.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> data = {
@@ -163,6 +160,28 @@ class SalesController {
     );
   }
 
+  void addSaleProduct(
+    BuildContext context,
+  ) {
+    PopupsUtility.displayGenericPopup(
+      context,
+      width: 1000,
+      height: 800,
+      SaleEditor(
+        record: recordsLiveModel.activePurchaseRecord,
+        onSearch: _onSearchProduct,
+        confirmLabel: Translations.of(context)!.add,
+        addSaleCallback: _onAddSale,
+        addSaleProductCallback: (record) => _onAddSaleProduct(record, context),
+      ),
+    );
+  }
+
+  void _onAddSaleProduct(RecordProduct recordProduct, BuildContext context) {
+    Utility.displayToastMessage(
+        context, Translations.of(context)!.addedProduct);
+  }
+
   void onRemoveSaleProduct(Record record, RecordProduct recordProduct) {
     record.products.remove(recordProduct.timeStamp);
 
@@ -185,8 +204,7 @@ class SalesController {
   }
 
   void printPurchases(BuildContext context) {
-    BillPurchase bill = BillPurchase(
-        recordsLiveModel.activePurchaseRecord, Record.purchaseTimeStamp.toString());
+    BillPurchase bill = BillPurchase(recordsLiveModel.activePurchaseRecord);
     bill.print(context);
   }
 }

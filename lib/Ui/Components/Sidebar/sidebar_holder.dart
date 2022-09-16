@@ -42,6 +42,11 @@ class SidebarHolder extends StatelessWidget {
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
+                  title: Translations.of(context)!.deposit,
+                  index: NavigationStore.depositsIndex)),
+          const SizedBox(height: Measures.medium),
+          Flexible(
+              child: SidebarButton(
                   title: Translations.of(context)!.orders,
                   index: NavigationStore.ordersIndex)),
           const SizedBox(height: Measures.medium),

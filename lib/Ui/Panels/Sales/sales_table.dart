@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/sales_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
@@ -30,6 +29,8 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
         dataCellHelper: (wrapper) =>
             recordProductWrapperCellAdapter(record, product),
         index: int.parse(timestampKey),
+        contextMenuItems: const [ContextMenuOperation.remove],
+        onClick: (detaills) => handleContextMenu(detaills,controller),
         dataModel: wrapper,
       );
 
@@ -40,23 +41,21 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
   }
 
   List<String> recordProductWrapperCellAdapter(
-      Record record, RecordProduct product) {
+      Record record, RecordProduct product) {   
     return [
-      Utility.formatDateTimeToDisplay(record.date),
-      record.payementType,
       product.product,
+      product.reference,
       record.sellerName,
       product.sellingPrice.toString(),
       product.deposit.toString(),
-      product.remainingPayement.toString(),
     ];
   }
 
   void handleContextMenu(
-      SelectableRowDetaills rowDetaills, SalesController controller) {
+      SelectableRowDetaills<RecordProductWrapper> rowDetaills, SalesController controller) {
     switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
-        controller.removeSale(rowDetaills.context, rowDetaills.data);
+        controller.removeSaleProduct(rowDetaills.context, rowDetaills.data);
         break;
 
       default:
@@ -75,12 +74,11 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
             .recordsLiveModel;
 
     List<String> salesTableColumns = [
-      Translations.of(context)!.barcode,
       Translations.of(context)!.productName,
       Translations.of(context)!.reference,
       Translations.of(context)!.sellerName,
-      Translations.of(context)!.buyingPrice,
-      Translations.of(context)!.sellingPrice
+      Translations.of(context)!.sellingPrice,
+      Translations.of(context)!.deposit
     ];
 
     return SizedBox(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/deposit_controller.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
@@ -40,11 +39,10 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
   }
 
   List<String> recordProductWrapperCellAdapter(
-      Record record, RecordProduct product) {
+      Record record, RecordProduct product) { 
     return [
-      Utility.formatDateTimeToDisplay(record.date),
-      record.payementType,
       product.product,
+      record.customer,
       record.sellerName,
       product.sellingPrice.toString(),
       product.deposit.toString(),
@@ -105,10 +103,10 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
                   valueListenable: records.depositRefresh,
                   builder: (context, value, child) {
                     return ListView.builder(
-                        itemCount: records.purchasesCount,
+                        itemCount: records.depositsCounts,
                         itemBuilder: (context, index) {
                           return buildRecordGroup(
-                              records.purchaseRecord(index), controller);
+                              records.depositRecord(index), controller);
                         });
                   }),
             ),

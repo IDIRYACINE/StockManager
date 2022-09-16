@@ -8,10 +8,9 @@ import 'package:stock_manager/Ui/Themes/resources.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class BillPurchase {
-  BillPurchase(this.deposit, this.id);
+  BillPurchase(this.deposit);
 
   final Record deposit;
-  final String id;
 
   final List<String> _depositHeaders = [
     'produit',
@@ -57,7 +56,7 @@ class BillPurchase {
       ],
       rightInvoiceItems: [
         InvoiceItem('Facture id', '', pdf.Font.courierBold()),
-        InvoiceItem('', id),
+        InvoiceItem('', deposit.timeStamp.toString()),
         InvoiceItem('Date facture', '', pdf.Font.courierBold()),
         InvoiceItem('', '${now.day}/${now.month}/${now.year}'),
       ],

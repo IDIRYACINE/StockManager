@@ -63,6 +63,7 @@ class StockLiveDataModel {
   ValueListenable<bool> get refreshProducts => _productRegister.refreshProducts;
   int get productsCount => _productRegister.productsCount;
   Product productAt(int index) => _productRegister.productAt(index);
+
 }
 
 class _ProducFamilyRegister {

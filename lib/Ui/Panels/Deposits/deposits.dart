@@ -41,12 +41,11 @@ class DepositsPanel extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),
       child: Column(mainAxisSize: MainAxisSize.max, children: [
-        SearchActionsCard(
+        ActionsCard(
           onPrint: () => onPrint(context, controller),
           onAdd: () => onAdd(context, controller),
           onRefresh: () => onClear(context, controller),
-          title: Translations.of(context)!.
-deposit,
+          title: Translations.of(context)!.deposit,
         ),
         const SizedBox(height: Measures.large),
         QuickSearchField<int>(

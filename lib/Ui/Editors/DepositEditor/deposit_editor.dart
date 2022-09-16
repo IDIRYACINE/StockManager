@@ -15,13 +15,14 @@ class DepositEditor extends StatelessWidget {
     Key? key,
     this.editMode = false,
     required this.record,
-    this.createCallback,
     required this.confirmLabel,
     this.onSearch,
     this.editCallback,
+    this.addDepositCallback,
+    this.addDepositProductCallback,
   })  : assert(
           (editMode && editCallback != null) ||
-              (!editMode && createCallback != null),
+              (!editMode && addDepositCallback != null),
           'editMode and its callback must be set together',
         ),
         assert(!editMode && onSearch != null,
@@ -33,7 +34,9 @@ class DepositEditor extends StatelessWidget {
   final int searchBarFlex = 2;
   final int bodyFlex = 5;
   final int actionsFlex = 1;
-  final Callback<Record>? createCallback;
+  final Callback<Record>? addDepositCallback;
+  final Callback<RecordProduct>? addDepositProductCallback;
+
   final EditorCallback<AppJson, Record>? editCallback;
   final String confirmLabel;
   final EditorSearchCallback? onSearch;
@@ -41,13 +44,13 @@ class DepositEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    
+
     RecordProduct recordProduct = RecordProduct.defaultInstance();
 
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
-    final dynamic depositMode = editMode
+    final SaleEditorMode depositMode = editMode
         ? SaleEditorMode.editModeInstance(record)
         : SaleEditorMode.createModeInstance(record);
 
@@ -61,14 +64,16 @@ class DepositEditor extends StatelessWidget {
         depositMode.minSellingPriceController.text = p.sellingPrice.toString();
         depositMode.sellingPriceController.text = p.sellingPrice.toString();
         depositMode.remainingQuantity.text = p.totalQuantity.toString();
+        depositMode.depositController.text = '0';
+        depositMode.setRemainingPayement(p.sellingPrice.toString());
+
+        depositMode.setRecordProduct(recordProduct);
 
         recordProduct.product = p.name;
         recordProduct.reference = p.reference;
         recordProduct.sellingPrice = p.sellingPrice;
-        recordProduct.deposit = p.sellingPrice;
-
-        record.totalDeposit += p.sellingPrice;
-        record.totalPrice = p.sellingPrice;
+        recordProduct.deposit = 0;
+        recordProduct.remainingPayement = p.sellingPrice;
 
         product.value = p;
       }
@@ -126,16 +131,23 @@ class DepositEditor extends StatelessWidget {
                           Navigator.pop(context);
                         }),
                     DefaultButton(
-                      label: confirmLabel,
+                      label: Translations.of(context)!.done,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           if (editMode) {
                             depositMode.confirm(editCallback);
                           } else {
-                            depositMode.confirm(createCallback);
+                            depositMode.confirm(addDepositCallback);
                           }
                           Navigator.pop(context);
                         }
+                      },
+                    ),
+                    DefaultButton(
+                      label: confirmLabel,
+                      onPressed: () {
+                        depositMode.appendRecordProduct();
+                        addDepositProductCallback?.call(recordProduct);
                       },
                     ),
                   ],

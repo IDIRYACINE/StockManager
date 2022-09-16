@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
@@ -48,6 +49,10 @@ abstract class SaleEditorMode<T> {
 
   void setPhoneNumber(String? value);
 
+  void setRecordProduct(RecordProduct recordProduct);
+
+  void appendRecordProduct();
+
   void confirm(T callback);
 
   static SaleEditorMode<Callback<Record>> createModeInstance(Record record) {
@@ -62,7 +67,7 @@ abstract class SaleEditorMode<T> {
 
 class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   final Record record;
-  late RecordProduct orderProduct;
+  late RecordProduct recordProduct;
 
   _ModeCreate(this.record);
 
@@ -75,10 +80,11 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   void setSellingPrice(String? price) {
     if (price != null) {
       double parsedPrice = double.parse(price);
-      double priceChange = parsedPrice - orderProduct.sellingPrice;
+      double priceChange = parsedPrice - recordProduct.sellingPrice;
 
-      orderProduct.sellingPrice = parsedPrice;
-      record.totalPrice += priceChange;
+      recordProduct.sellingPrice = parsedPrice;
+      recordProduct.remainingPayement += priceChange;
+
     }
   }
 
@@ -91,21 +97,21 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
 
   @override
   void setColor(String color, String colorId) {
-    orderProduct.color = color;
-    orderProduct.colorId = colorId;
+    recordProduct.color = color;
+    recordProduct.colorId = colorId;
   }
 
   @override
   void setSize(String size, String sizeId) {
-    orderProduct.size = size;
-    orderProduct.sizeId = sizeId;
+    recordProduct.size = size;
+    recordProduct.sizeId = sizeId;
   }
-
 
   @override
   void setRemainingPayement(String? remainingPayement) {
     if (remainingPayement != null) {
-      record.remainingPayement = double.tryParse(remainingPayement) ?? 0;
+      recordProduct.remainingPayement = double.tryParse(remainingPayement) ?? 0;
+      remainingPaymenentController.text = remainingPayement;
     }
   }
 
@@ -113,17 +119,14 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != "") {
       double parsedDeposit = double.parse(deposit);
-      double depositChange = parsedDeposit - orderProduct.deposit;
+      double depositChange = parsedDeposit - recordProduct.deposit;
 
+      recordProduct.deposit = parsedDeposit;
+      recordProduct.remainingPayement -= depositChange;
 
-      orderProduct.deposit = parsedDeposit;
-      record.remainingPayement += orderProduct.sellingPrice - orderProduct.deposit;
-      record.totalDeposit += depositChange;
-      remainingPaymenentController.text = record.remainingPayement.toString();
+      remainingPaymenentController.text = recordProduct.remainingPayement.toString();
     }
   }
-
-
 
   @override
   void setAddress(String? value) {
@@ -142,6 +145,21 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
     record.city = value;
   }
 
+  @override
+  void setRecordProduct(RecordProduct recordProduct) {
+    this.recordProduct = recordProduct;
+  }
+
+  @override
+  void appendRecordProduct() {
+    int timeStamp = Utility.getTimeStamp();
+    record.timeStamp = timeStamp;
+    record.totalDeposit += recordProduct.deposit;
+    record.totalPrice += recordProduct.sellingPrice;
+    record.remainingPayement += recordProduct.remainingPayement;
+    record.products[timeStamp.toString()] = recordProduct;
+
+  }
 
   @override
   void confirm(Callback<Record> callback) {
@@ -151,7 +169,7 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
 
 class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   final Record record;
-  late RecordProduct orderProduct;
+  late RecordProduct recordProduct;
 
   _ModeEdit(this.record);
 
@@ -167,13 +185,12 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   void setSellingPrice(String? price) {
     if (price != null) {
       double parsedPrice = double.parse(price);
-      double priceChange = parsedPrice - orderProduct.sellingPrice;
+      double priceChange = parsedPrice - recordProduct.sellingPrice;
 
-      orderProduct.sellingPrice = parsedPrice;
+      recordProduct.sellingPrice = parsedPrice;
       record.totalPrice += priceChange;
 
-      updatedFields[RecordFields.sellingPrice] = parsedPrice; 
-      updatedFields[RecordFields.deposit] = parsedPrice;
+      updatedFields[RecordFields.totalPrice] = record.totalPrice;
     }
   }
 
@@ -187,18 +204,16 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
 
   @override
   void setColor(String color, String colorId) {
-    orderProduct.color  = color;
-    orderProduct.colorId = colorId;
-    updatedFields[RecordFields.productColor] = color;
-    updatedFields[RecordFields.productColorId] = colorId;
+    recordProduct.color = color;
+    recordProduct.colorId = colorId;
+    updatedFields[RecordFields.products] = record.products;
   }
 
   @override
   void setSize(String size, String sizeId) {
-    orderProduct.size = size;
-    orderProduct.sizeId = sizeId;
-    updatedFields[RecordFields.productSize] = size;
-    updatedFields[RecordFields.productSizeId] = sizeId;
+    recordProduct.size = size;
+    recordProduct.sizeId = sizeId;
+    updatedFields[RecordFields.products] = record.products;
   }
 
   @override
@@ -211,20 +226,19 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   @override
   void setDeposit(String? deposit) {
     if (deposit != null && deposit != '') {
-       double parsedDeposit = double.parse(deposit);
-      double depositChange = parsedDeposit - orderProduct.deposit;
+      double parsedDeposit = double.parse(deposit);
+      double depositChange = parsedDeposit - recordProduct.deposit;
 
-
-      orderProduct.deposit = parsedDeposit;
-      record.remainingPayement += orderProduct.sellingPrice - orderProduct.deposit;
+      recordProduct.deposit = parsedDeposit;
+      record.remainingPayement +=
+          recordProduct.sellingPrice - recordProduct.deposit;
       record.totalDeposit += depositChange;
       remainingPaymenentController.text = record.remainingPayement.toString();
 
-      updatedFields[RecordFields.deposit] = parsedDeposit;
+      updatedFields[RecordFields.totalDeposit] = record.totalDeposit;
       updatedFields[RecordFields.remainingPayement] = record.remainingPayement;
     }
   }
-
 
   @override
   void setAddress(String? value) {
@@ -245,6 +259,21 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   void setCity(String? value) {
     record.city = value;
     updatedFields[RecordFields.city] = value;
+  }
+
+  @override
+  void setRecordProduct(RecordProduct recordProduct) {
+    this.recordProduct = recordProduct;
+  }
+
+  @override
+  void appendRecordProduct() {
+    int timeStamp = Utility.getTimeStamp();
+    record.timeStamp = timeStamp;
+    recordProduct.deposit = recordProduct.sellingPrice;
+    record.totalDeposit += recordProduct.deposit;
+    record.totalPrice += recordProduct.sellingPrice;
+    record.products[timeStamp.toString()] = recordProduct;
   }
 
   @override

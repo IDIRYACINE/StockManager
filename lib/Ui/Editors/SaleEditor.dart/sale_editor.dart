@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Systems/sale_mode.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_editors.dart';
@@ -8,7 +9,6 @@ import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
-import '../../../Application/Systems/sale_mode.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SaleEditor extends StatelessWidget {
@@ -17,12 +17,13 @@ class SaleEditor extends StatelessWidget {
       required this.record,
       this.editMode = false,
       required this.confirmLabel,
-      this.createCallback,
+      this.addSaleCallback,
       this.editCallback,
-      this.onSearch})
+      this.onSearch,
+      this.addSaleProductCallback})
       : assert(
           (editMode && editCallback != null) ||
-              (!editMode && createCallback != null),
+              (!editMode && addSaleCallback != null),
           'editMode and its callback must be set together',
         ),
         super(key: key);
@@ -32,7 +33,9 @@ class SaleEditor extends StatelessWidget {
   final int bodyFlex = 5;
   final int actionsFlex = 1;
 
-  final Callback<Record>? createCallback;
+  final Callback<Record>? addSaleCallback;
+  final Callback<RecordProduct>? addSaleProductCallback;
+
   final EditorCallback<AppJson, Record>? editCallback;
 
   final bool editMode;
@@ -40,17 +43,15 @@ class SaleEditor extends StatelessWidget {
   final String confirmLabel;
 
   @override
-
   Widget build(BuildContext context) {
     RecordProduct recordProduct = RecordProduct.defaultInstance();
-
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     final ValueNotifier<Product> product =
         ValueNotifier(Product.defaultInstance());
 
-    final dynamic saleEditorMode = editMode
+    final SaleEditorMode saleEditorMode = editMode
         ? SaleEditorMode.editModeInstance(record)
         : SaleEditorMode.createModeInstance(record);
 
@@ -68,14 +69,12 @@ class SaleEditor extends StatelessWidget {
         productFormEditor.referenceController.text = p.reference;
         productFormEditor.remainingQuantity.text = p.totalQuantity.toString();
 
-        
+        saleEditorMode.setRecordProduct(recordProduct);
+
         recordProduct.product = p.name;
         recordProduct.reference = p.reference;
         recordProduct.sellingPrice = p.sellingPrice;
         recordProduct.deposit = p.sellingPrice;
-
-        record.totalDeposit += p.sellingPrice;
-        record.totalPrice = p.sellingPrice;
 
         product.value = p;
       }
@@ -86,78 +85,86 @@ class SaleEditor extends StatelessWidget {
     }
 
     return Padding(
-        padding: const EdgeInsets.all(Measures.paddingLarge),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              if (!editMode)
-                Flexible(
-                  flex: searchBarFlex,
-                  child: DefaultDecorator(
-                    child: SearchBar(onSearch: _onSearch),
-                  ),
-                ),
-              Expanded(
-                flex: bodyFlex,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: DefaultDecorator(
-                            child: SingleChildScrollView(
-                      child: ProductForm(
-                        product: product,
-                        productFormEditor: productFormEditor,
-                      ),
-                    ))),
-                    const SizedBox(width: Measures.small),
-                    Expanded(
-                      child: DefaultDecorator(
-                          child: Padding(
-                        padding: const EdgeInsets.all(Measures.small),
-                        child: SaleForm(
-                          product: product,
-                          record: record,
-                          saleEditorMode: saleEditorMode,
-                          sellingPriceController:
-                              productFormEditor.sellingPriceController,
-                        ),
-                      )),
-                    ),
-                  ],
+      padding: const EdgeInsets.all(Measures.paddingLarge),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (!editMode)
+              Flexible(
+                flex: searchBarFlex,
+                child: DefaultDecorator(
+                  child: SearchBar(onSearch: _onSearch),
                 ),
               ),
-              Flexible(
-                flex: actionsFlex,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DefaultButton(
-                        label: Translations.of(context)!.
-cancel,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    DefaultButton(
-                      label: confirmLabel,
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          if (editMode) {
-                            saleEditorMode.confirm(editCallback);
-                          } else {
-                            saleEditorMode.confirm(createCallback);
-                          }
-                        }
-                      },
+            Expanded(
+              flex: bodyFlex,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: DefaultDecorator(
+                          child: SingleChildScrollView(
+                    child: ProductForm(
+                      product: product,
+                      productFormEditor: productFormEditor,
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ));
+                  ))),
+                  const SizedBox(width: Measures.small),
+                  Expanded(
+                    child: DefaultDecorator(
+                        child: Padding(
+                      padding: const EdgeInsets.all(Measures.small),
+                      child: SaleForm(
+                        product: product,
+                        record: record,
+                        saleEditorMode: saleEditorMode,
+                        sellingPriceController:
+                            productFormEditor.sellingPriceController,
+                      ),
+                    )),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: actionsFlex,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DefaultButton(
+                      label: Translations.of(context)!.cancel,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                  DefaultButton(
+                    label: Translations.of(context)!.done,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        if (editMode) {
+                          saleEditorMode.confirm(editCallback);
+                        } else {
+                          saleEditorMode.confirm(addSaleCallback);
+                        }
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                  DefaultButton(
+                    label: confirmLabel,
+                    onPressed: () {
+                      saleEditorMode.appendRecordProduct();
+                      addSaleProductCallback?.call(recordProduct);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

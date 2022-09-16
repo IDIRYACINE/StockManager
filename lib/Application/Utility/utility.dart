@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
@@ -32,6 +34,19 @@ abstract class Utility {
     selector.gt(RecordFields.date.name, start);
   }
 
+  static void displayToastMessage(
+    BuildContext context,
+    String message,
+  ) {
+    FToast toast = FToast();
+    toast.init(context);
+
+    toast.showToast(
+      child: Text(message),
+      gravity: ToastGravity.CENTER,
+      toastDuration: const Duration(seconds: 2),
+    );
+  }
 
   static int calculatePageCount(int itemsLength, int maxRowsPerPage) {
     int expectedPageCount = (itemsLength / maxRowsPerPage).floor();

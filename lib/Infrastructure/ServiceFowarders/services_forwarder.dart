@@ -88,6 +88,9 @@ class ServicesForwarder {
     _callbacks[DatabaseEvent.deletePurchaseRecord] =
         _databaseForwarder.deletePurchaseRecord;
 
+    _callbacks[DatabaseEvent.deletePurchaseRecordProduct] =
+        _databaseForwarder.deletePurchaseRecordProduct;
+
     _callbacks[DatabaseEvent.insertSeller] = _databaseForwarder.addSeller;
     _callbacks[DatabaseEvent.loadSellers] = _databaseForwarder.loadSellers;
     _callbacks[DatabaseEvent.updateSeller] = _databaseForwarder.updateSeller;

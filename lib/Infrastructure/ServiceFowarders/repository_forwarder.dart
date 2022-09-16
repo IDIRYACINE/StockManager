@@ -253,6 +253,23 @@ class DatabaseFrowarder {
     return response;
   }
 
+
+  Future<ServiceResponse> deletePurchaseRecordProduct(
+      ServiceMessageData message) async {
+    await _databaseDao.deletePurchaseRecordProduct(
+      product: message.data[ServicesData.instance],
+      selector : message.data[ServicesData.databaseSelector],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
   Future<ServiceResponse> addSeller(ServiceMessageData message) async {
     await _databaseDao.insertSeller(
       seller: message.data[ServicesData.instance],

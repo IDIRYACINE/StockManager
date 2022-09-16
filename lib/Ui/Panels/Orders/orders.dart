@@ -44,7 +44,7 @@ class OrdersPanel extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),
       child: Column(children: [
-        SearchActionsCard(
+        ActionsCard(
           onPrint: () => onPrint(context, controller),
           onAdd: () => onAdd(context, controller),
           onRefresh: () => onRefresh(context, controller),

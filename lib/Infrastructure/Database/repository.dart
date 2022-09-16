@@ -79,7 +79,7 @@ abstract class DatabaseRepository {
       payementTypeIndex: json[RecordFields.paymentTypeIndex.name] ?? 0,
       products: products,
       totalPrice: json[RecordFields.totalPrice.name] ?? 0.0,
-      sellerName: json[RecordFields.seller.name] ?? 'not set', 
+      sellerName: json[RecordFields.seller.name] ?? 'not set',
       totalDeposit: json[RecordFields.totalDeposit.name] ?? 0.0,
       customer: json[RecordFields.customer.name] ?? 'not set',
     );
@@ -106,9 +106,9 @@ abstract class DatabaseRepository {
       size: json[RecordProductFields.size.name] ?? 'not set',
       colorId: json[RecordProductFields.sizeId.name] ?? 'not set',
       sizeId: json[RecordProductFields.colorId.name] ?? 'not set',
-      timeStamp: key, 
-      deposit:json[RecordProductFields.deposit.name] ?? 'not set',
-      remainingPayement:json[RecordProductFields.remainingPayement.name] ?? 0,
+      timeStamp: key,
+      deposit: json[RecordProductFields.deposit.name] ?? 0,
+      remainingPayement: json[RecordProductFields.remainingPayement.name] ?? 0,
     );
   }
 
@@ -210,16 +210,25 @@ abstract class DatabaseRepository {
 
   static AppJson<dynamic> recordToJson({required Record record}) {
     AppJson<dynamic> json = {};
-    json[RecordFields.paymentType.name] = record.payementType;
-    json[RecordFields.timeStamp.name] = record.timeStamp;
-    json[RecordFields.date.name] = record.date;
-    json[RecordFields.remainingPayement.name] = record.remainingPayement;
 
     AppJson<dynamic> products = {};
 
     record.products.forEach((key, product) {
       products[key] = orderProductToJson(product: product);
     });
+
+    json[RecordFields.paymentType.name] = record.payementType;
+    json[RecordFields.timeStamp.name] = record.timeStamp;
+    json[RecordFields.date.name] = record.date;
+    json[RecordFields.remainingPayement.name] = record.remainingPayement;
+    json[RecordFields.totalDeposit.name] = record.totalDeposit;
+    json[RecordFields.totalPrice.name] = record.totalPrice;
+    json[RecordFields.customer.name] = record.customer;
+    json[RecordFields.seller.name] = record.sellerName;
+    json[RecordFields.phoneNumber.name] = record.phoneNumber;
+    json[RecordFields.city.name] = record.city;
+    json[RecordFields.address.name] = record.address;
+    json[RecordFields.products.name] = products;
 
     return json;
   }
