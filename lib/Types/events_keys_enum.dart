@@ -5,6 +5,7 @@ enum EventTypes{
   services,
   exceptions,
   inventory,
+  record,
 }
 
 enum SubEventType{
@@ -54,7 +55,6 @@ enum DepositEvents{
 }
 
 enum OrderEvents{
-
   addOrder,
   updateOrder,
   removeOrder,
@@ -64,6 +64,31 @@ enum OrderEvents{
   searchOrders,
   printOrdersReport,
   printOrderBill,
+}
+
+enum StockProductEvents{
+  addStockProduct,
+  updateStockProduct,
+  removeStockProduct,
+  searchStockProducts,
+  loadStockProducts,
+  refreshStockProducts,
+}
+
+enum StockCategoryEvents{
+  addStockCategory,
+  updateStockCategory,
+  removeStockCategory,
+  searchStockCategories,
+  loadStockCategories,
+  refreshStockCategories,
+}
+
+enum RecordEvents {
+  addRecord,
+  removeRecord,
+  searchRecords,
+  refreshRecords,
 }
 
 enum EOperationStatus{

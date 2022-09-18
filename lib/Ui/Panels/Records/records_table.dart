@@ -21,7 +21,7 @@ class _RecordsSpreadedTableState extends State<RecordsSpreadedTable> {
     List<Widget> children = [];
 
     record.products.forEach((timestampKey, product) {
-      RecordProductWrapper wrapper = RecordProductWrapper(product, record);
+      RecordProductWrapper wrapper = RecordProductWrapper(record,product, false);
 
       SelectableRow<RecordProductWrapper> row =
           SelectableRow<RecordProductWrapper>(

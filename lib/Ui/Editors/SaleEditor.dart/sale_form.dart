@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Types/i_editors.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Application/Systems/sale_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';

@@ -28,7 +28,7 @@ class SettingsController {
     PopupsUtility.displayGenericPopup(
       context,
       const SellersPanel(),
-      width: 1000,
+      width: Measures.containerWidthLarge,
     );
   }
 
@@ -36,8 +36,8 @@ class SettingsController {
     PopupsUtility.displayGenericPopup(
       context,
       const DeveloperContacts(),
-      width: 500,
-      height: Measures.containerWidthMeduim,
+      width: Measures.containerWidthMeduim,
+      height: Measures.containerHeightMeduim,
     );
   }
 }

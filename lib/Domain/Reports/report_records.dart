@@ -4,6 +4,7 @@ import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
@@ -29,20 +30,26 @@ class RecordsReport {
     int currentIndex = 0;
     int currentPage = 0;
 
+    PrimitiveWrapper<int> recordIndex = PrimitiveWrapper(0);
+
+
     while (currentPage < pageCount) {
       int endIndex = currentIndex + maxRowsPerPage;
       endIndex = endIndex > records.length ? records.length : endIndex;
 
+        List<RecordProductWrapper> pageProducts =
+          _selectPageProducts(records, recordIndex, maxRowsPerPage);
+
       _TotalsWrapper totals =
           _calculateReportTotals(records, currentIndex, endIndex);
 
-      RecordsPage<Record> recordPage = RecordsPage(
+      RecordsPage<RecordProductWrapper> recordPage = RecordsPage(
           paddings: Measures.paddingNormal,
           headers: _reportHeaders,
           headersTextSize: Measures.h5TextSize,
           rowsTextSize: Measures.h5TextSize,
           cellAdapter: _recordToReportRow,
-          data: records,
+          data: pageProducts,
           invoicePayementAttributes: [
             InvoiceItem(Translations.of(context)!.profit,
                 totals.totalProfit.toString(), pdf.Font.timesBold()),
@@ -83,16 +90,57 @@ class RecordsReport {
     return _TotalsWrapper(totalProfit, totalRemainingPayement);
   }
 
-  List<String> _recordToReportRow(Record record) {
+  List<String> _recordToReportRow(RecordProductWrapper wrapper) {
     List<String> rawData = [
-      // record.payementType,
-      // record.product,
-      // record.sellingPrice.toString(),
-      // record.deposit.toString(),
-      // record.remainingPayement.toString(), TODO
+      wrapper.record.payementType,
+      wrapper.recordProduct.product,
+      wrapper.recordProduct.sellingPrice.toString(),
+      wrapper.recordProduct.deposit.toString(),
+      wrapper.recordProduct.remainingPayement.toString(), 
     ];
 
     return rawData;
+  }
+
+  
+
+  List<RecordProductWrapper> _selectPageProducts(List<Record> records,
+      PrimitiveWrapper<int> recordIndex, int maxRowsPerPage) {
+    if (recordIndex.value >= records.length) {
+      return [];
+    }
+
+    List<RecordProductWrapper> products = [];
+    int currentRowCount = 0;
+
+    while ((currentRowCount < maxRowsPerPage) &&
+        (recordIndex.value < records.length)) {
+      Record record = records[recordIndex.value];
+
+      List<String> keys = record.products.keys.toList();
+      int productIndex = 0;
+      List<RecordProductWrapper> tempProducts = [];
+      bool isLast = false;
+
+      while ((currentRowCount < maxRowsPerPage) &&
+          (productIndex < record.products.length)) {
+        RecordProduct product = record.products[keys[productIndex]]!;
+        isLast = productIndex == record.products.length - 1;
+        tempProducts.add(RecordProductWrapper(record, product, isLast));
+
+        currentRowCount++;
+        productIndex++;
+      }
+
+      if (isLast) {
+        products.addAll(tempProducts);
+        recordIndex.value++;
+      } else {
+        return products;
+      }
+    }
+
+    return products;
   }
 }
 

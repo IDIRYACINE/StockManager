@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Types/i_editors.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Application/Systems/order_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
@@ -37,8 +37,7 @@ class OrderProductForm extends StatelessWidget {
         AttributeTextField(
           controller: orderProductEditorMode.sellingPriceController,
           onChanged: orderProductEditorMode.setSellingPrice,
-          label: Translations.of(context)!.
-sellingPrice,
+          label: Translations.of(context)!.sellingPrice,
         ),
         const SizedBox(height: Measures.small),
         ValueListenableBuilder<Product>(
@@ -86,8 +85,7 @@ class SpreadedOrderProductForm extends StatelessWidget {
           AttributeTextField(
             controller: orderProductEditorMode.sellingPriceController,
             onChanged: orderProductEditorMode.setSellingPrice,
-            label: Translations.of(context)!.
-sellingPrice,
+            label: Translations.of(context)!.sellingPrice,
           ),
           const SizedBox(height: Measures.small),
           ValueListenableBuilder<Product>(
@@ -113,12 +111,11 @@ class OrderForm extends StatelessWidget {
   final Order order;
   final OrderFormEditorMode orderFormEditorMode;
 
-
-
   @override
   Widget build(BuildContext context) {
     final sellersLiveModel =
-        Provider.of<ControllersProvider>(context, listen: false).sellersLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false)
+            .sellersLiveModel;
 
     final sellersDropdown = sellersLiveModel.loadedSellers
         .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
@@ -131,27 +128,23 @@ class OrderForm extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         SelectorDropDown<Seller>(
-          onSelect: (seller){
+          onSelect: (seller) {
             orderFormEditorMode.setSeller(seller);
             sellerNotifier.value = seller;
           },
           items: sellersDropdown,
-          label:  Text(Translations.of(context)!.
-sellerName),
+          label: Text(Translations.of(context)!.sellerName),
           initialSelection: sellerNotifier,
         ),
         AttributeTextField(
           initialValue: order.customerName,
-          label: Translations.of(context)!.
-customerName,
+          label: Translations.of(context)!.customerName,
           onChanged: orderFormEditorMode.setClient,
         ),
         const SizedBox(height: Measures.small),
-
-         AttributeTextField(
+        AttributeTextField(
           initialValue: order.phoneNumber.toString(),
-          label: Translations.of(context)!.
-phoneNumber,
+          label: Translations.of(context)!.phoneNumber,
           onChanged: orderFormEditorMode.setPhoneNumber,
         ),
         const SizedBox(height: Measures.small),
@@ -161,8 +154,7 @@ phoneNumber,
             Expanded(
               child: AttributeTextField(
                 initialValue: order.city,
-                label: Translations.of(context)!.
-city,
+                label: Translations.of(context)!.city,
                 onChanged: orderFormEditorMode.setState,
               ),
             ),
@@ -170,8 +162,7 @@ city,
             Expanded(
               child: AttributeTextField(
                 initialValue: order.address,
-                label: Translations.of(context)!.
-address,
+                label: Translations.of(context)!.address,
                 onChanged: orderFormEditorMode.setAddress,
               ),
             ),
@@ -184,8 +175,7 @@ address,
             Expanded(
               child: AttributeTextField(
                 initialValue: order.deposit.toString(),
-                label: Translations.of(context)!.
-deposit,
+                label: Translations.of(context)!.deposit,
                 onChanged: orderFormEditorMode.setDeposit,
               ),
             ),
@@ -193,8 +183,7 @@ deposit,
             Expanded(
               child: AttributeTextField(
                 initialValue: order.deliveryCost.toString(),
-                label: Translations.of(context)!.
-deliveryCost,
+                label: Translations.of(context)!.deliveryCost,
                 onChanged: orderFormEditorMode.setDeliveryCost,
               ),
             ),

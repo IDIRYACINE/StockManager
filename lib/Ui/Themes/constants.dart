@@ -70,5 +70,13 @@ abstract class Measures {
 
   static double settingsCardsWidth = 400;
 
-  static double containerWidthMeduim = 400;
+  static double containerHeightSmall = 200;
+  static double containerHeightMeduim = 400;
+  static double containerHeightLarge = 800;
+  static double containerWidthSmall = 250;
+  static double containerWidthMeduim = 500;
+  static double containerWidthLarge = 1000;
+
+
+
 }

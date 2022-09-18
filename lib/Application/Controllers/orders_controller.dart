@@ -10,12 +10,14 @@ import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/i_event_emitters.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_customer.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_spreaded.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersController {
@@ -30,15 +32,16 @@ class OrdersController {
     PopupsUtility.displayGenericPopup(
       context,
       SizedBox(
-          width: 1000,
-          height: 800,
-          child: SpreardedOrderEditor(
-            order: ordersLiveModel.selectedOrder,
-            createOrderCallback: (order) => OrderEmiter.emitOrderEvent(
-                OrderEvents.addOrder,  order),
-            onSearch: _onSearchProduct,
-            confirmLabel: Translations.of(context)!.add,
-          )),
+        width: Measures.containerWidthLarge,
+        height: Measures.containerHeightLarge,
+        child: SpreardedOrderEditor(
+          order: ordersLiveModel.selectedOrder,
+          createOrderCallback: (order) =>
+              OrderEmiter.emitOrderEvent(OrderEvents.addOrder, data: order),
+          onSearch: _onSearchProduct,
+          confirmLabel: Translations.of(context)!.add,
+        ),
+      ),
     );
   }
 
@@ -59,10 +62,9 @@ class OrdersController {
     ServicesStore.instance.sendMessage(message);
   }
 
-
   void editCustomer(BuildContext context) {
     void onEdit(AppJson json, order) {
-      OrderEmiter.emitOrderEvent(OrderEvents.updateOrder,json);
+      OrderEmiter.emitOrderEvent(OrderEvents.updateOrder, data: json);
       Navigator.pop(context);
     }
 
@@ -104,7 +106,8 @@ class OrdersController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () {
-            OrderEmiter.emitOrderEvent(OrderEvents.removeOrder, order);
+            OrderEmiter.emitOrderEvent(OrderEvents.removeOrder,
+                data: RemoveRequestWrapper<Order>(order, index));
           },
           message: Translations.of(context)!.messageDeleteElement,
         ),
@@ -112,9 +115,8 @@ class OrdersController {
     );
   }
 
-
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    OrderEmiter.emitOrderEvent(OrderEvents.searchOrders, query);
+    OrderEmiter.emitOrderEvent(OrderEvents.searchOrders, data: query);
   }
 
   void search(BuildContext context) {
@@ -192,5 +194,4 @@ class OrdersController {
     OrdersReport report = OrdersReport(ordersLiveModel.orders);
     report.printReport(context);
   }
-
 }

@@ -14,6 +14,7 @@ import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_editor.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SalesController {
@@ -65,7 +66,7 @@ class SalesController {
         content: ConfirmDialog(
             onConfirm: () {
               PurchaseEmitter.emitPurchaseEvent(
-                  PurchaseEvents.removePurchase, record);
+                  PurchaseEvents.removePurchase, data :record);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -79,7 +80,7 @@ class SalesController {
         content: ConfirmDialog(
             onConfirm: () {
               PurchaseEmitter.emitPurchaseEvent(
-                  PurchaseEvents.removePurchaseProduct, wrapper);
+                  PurchaseEvents.removePurchaseProduct,data : wrapper);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -91,14 +92,14 @@ class SalesController {
   ) {
     PopupsUtility.displayGenericPopup(
       context,
-      width: 1000,
-      height: 800,
+      width: Measures.containerWidthLarge,
+      height: Measures.containerHeightLarge,
       SaleEditor(
         record: recordsLiveModel.activePurchaseRecord,
         onSearch: _onSearchProduct,
         confirmLabel: Translations.of(context)!.add,
         addSaleCallback: (record) => PurchaseEmitter.emitPurchaseEvent(
-            PurchaseEvents.addPurchase, record),
+            PurchaseEvents.addPurchase, data : record),
         addSaleProductCallback: (record) => Utility.displayToastMessage(
             context, Translations.of(context)!.addedProduct),
       ),

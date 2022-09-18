@@ -15,6 +15,7 @@ import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/DepositEditor/deposit_editor.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class DespositController {
@@ -44,15 +45,15 @@ class DespositController {
   void addDepositProduct(BuildContext context) {
     PopupsUtility.displayGenericPopup(
       context,
-      width: 1000,
-      height: 800,
+      width: Measures.containerWidthLarge,
+      height: Measures.containerHeightLarge,
       DepositEditor(
         record: Record.defaultInstance(
             paymentType: PaymentTypes.deposit,
             timeStamp: Record.depositTimeStamp),
         onSearch: _onSearchProduct,
         addDepositCallback: (record) =>
-            DepositEmitter.emitDepositEvent(DepositEvents.addDeposit, record),
+            DepositEmitter.emitDepositEvent(DepositEvents.addDeposit, data :record),
         addDepositProductCallback: (product) => Utility.displayToastMessage(
             context, Translations.of(context)!.addedProduct),
         confirmLabel: Translations.of(context)!.add,
@@ -66,7 +67,7 @@ class DespositController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () => DepositEmitter.emitDepositEvent(
-                DepositEvents.removeDeposit, record),
+                DepositEvents.removeDeposit,data : record),
             message: Translations.of(context)!.messageDeleteElement),
       ),
     );
@@ -80,7 +81,7 @@ class DespositController {
         content: ConfirmDialog(
             onConfirm: () {
               DepositEmitter.emitDepositEvent(
-                  DepositEvents.removeDepositProduct, wrapper);
+                  DepositEvents.removeDepositProduct, data :wrapper);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -96,7 +97,7 @@ class DespositController {
   }
 
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    DepositEmitter.emitDepositEvent(DepositEvents.quickSearchDeposit, query);
+    DepositEmitter.emitDepositEvent(DepositEvents.quickSearchDeposit,data : query);
   }
 
   void printReport(BuildContext context) {

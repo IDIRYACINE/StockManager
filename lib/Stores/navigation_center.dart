@@ -10,7 +10,15 @@ import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 class NavigationCenter with ChangeNotifier {
   final ValueNotifier<int> _selectedPanelIndex = ValueNotifier(0);
 
-  final List<Widget> _panels = [];
+  final List<Widget> _panels = [
+    const SalesPanel(),
+    const StockPanel(),
+    const OrdersPanel(),
+    const RecordsPanel(),
+    const SettingsPanel(),
+    const DepositsPanel()
+  ];
+
   final List<IconData> _panelIcons = [
     Icons.shopping_cart,
     Icons.house,
@@ -28,14 +36,6 @@ class NavigationCenter with ChangeNotifier {
       settingsIndex = 4,
       depositsIndex = 5;
 
-  void init() {
-    _panels.add(const SalesPanel());
-    _panels.add(const StockPanel());
-    _panels.add(const OrdersPanel());
-    _panels.add(const RecordsPanel());
-    _panels.add(const SettingsPanel());
-    _panels.add(const DepositsPanel());
-  }
 
   ValueListenable<int> get selectedIndex => _selectedPanelIndex;
 
@@ -49,4 +49,6 @@ class NavigationCenter with ChangeNotifier {
   }
 
   IconData? getSelectedPanelIcon(int index) => _panelIcons[index];
+
+  
 }

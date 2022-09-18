@@ -1,12 +1,13 @@
 
-typedef EventCallback = EventResponse Function(Object? data);
+typedef EventCallback = Future<void> Function(Object? data);
 
 class StoreEvent {
   StoreEvent(
       {this.subEventType,
       required this.event,
       this.listener,
-      this.broadcast = true,
+      required this.broadcast,
+      required this.notifyEmitteur ,
       this.data});
 
   String? subEventType;
@@ -16,6 +17,8 @@ class StoreEvent {
   EventListener? listener;
 
   bool broadcast;
+
+  bool notifyEmitteur;
 
   Object? data;
 }
@@ -33,24 +36,6 @@ abstract class EventListener {
 }
 
 abstract class Store {
-  void emit({required StoreEvent event});
-
-  void on(
-      {
-      String? subEventType,
-      required String event,
-      required EventListener listener});
-
-  void off(
-      {
-      String? subEventType,
-      required String event,
-      required EventListener listener});
-}
-
-
-abstract class BaseStore {
-
   void receiveEvent({required StoreEvent event});
 
   void on(
@@ -63,6 +48,7 @@ abstract class BaseStore {
       required String event,
       required EventListener listener});
 }
+
 
 
 abstract class IEventStore {

@@ -140,8 +140,8 @@ class _ProductModelRowState extends State<ProductModelRow> {
   void onEdit() {
     PopupsUtility.displayGenericPopup(
       context,
-      width: 400,
-      height: 400,
+      width: Measures.containerHeightMeduim,
+      height: Measures.containerHeightMeduim,
       ProductModelEditor(
         model: widget.model,
         onDeleteSize: onDeleteModelSize,

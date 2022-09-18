@@ -13,8 +13,9 @@ class OrderProductReportWrapper {
 class RecordProductWrapper{
   final RecordProduct recordProduct;
   final Record record;
-
-  RecordProductWrapper(this.recordProduct, this.record);
+  final bool isLast;
+  
+  RecordProductWrapper( this.record,this.recordProduct,this.isLast);
 }
 
 class PrimitiveWrapper<T> {

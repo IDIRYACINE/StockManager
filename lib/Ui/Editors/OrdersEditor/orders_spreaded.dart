@@ -3,7 +3,7 @@ import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/Utility/utility_wrappers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/i_editors.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';

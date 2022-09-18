@@ -6,10 +6,9 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/Types/i_editors.dart';
-import 'package:stock_manager/Types/i_stores.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class PurchaseStoreHandler implements PurchaseStoreDelegate {
@@ -19,7 +18,7 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
   final StockLiveDataModel stockLiveModel;
 
   @override
-  EventResponse addPurchase(Object? data) {
+  Future<void> addPurchase(Object? data) async {
     Record record = data as Record;
 
     recordsLiveModel.addActiveSaleRecord();
@@ -39,21 +38,15 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: PurchaseEvents.addPurchase.name);
-
-    return response;
   }
 
   @override
-  EventResponse addPurchaseProduct(Object? data) {
-    // TODO: implement addPurchaseProduct
+  Future<void> addPurchaseProduct(Object? data) async {
     throw UnimplementedError();
   }
 
   @override
-  EventResponse removePurchase(Object? data) {
+  Future<void> removePurchase(Object? data) async {
     Record record = data as Record;
 
     recordsLiveModel.removeSaleRecord(record);
@@ -68,15 +61,10 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
         event: DatabaseEvent.deletePurchaseRecord,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: PurchaseEvents.removePurchase.name);
-
-    return response;
   }
 
   @override
-  EventResponse removePurchaseProduct(Object? data) {
+  Future<void> removePurchaseProduct(Object? data) async {
     RecordProductWrapper wrapper = data as RecordProductWrapper;
 
     Record record = wrapper.record;
@@ -100,31 +88,21 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: PurchaseEvents.removePurchaseProduct.name);
-
-    return response;
   }
 
   @override
-  EventResponse updatePurchase(Object? data) {
+  Future<void> updatePurchase(Object? data) async {
     throw UnimplementedError();
   }
 
   @override
-  EventResponse updatePurchaseProduct(Object? data) {
+  Future<void> updatePurchaseProduct(Object? data) async {
     throw UnimplementedError();
   }
 
   @override
-  EventResponse clearPurchase(Object? data) {
+  Future<void> clearPurchase(Object? data) async {
     recordsLiveModel.clearSaleRecord();
-
-    EventResponse response =
-        EventResponse(event: PurchaseEvents.clearPurchase.name);
-
-    return response;
   }
 }
 
@@ -135,7 +113,7 @@ class DepositStoreHandler implements DepositStoreDelegate {
   final StockLiveDataModel stockLiveModel;
 
   @override
-  EventResponse addDeposit(Object? data) {
+  Future<void> addDeposit(Object? data) async {
     Record record = data as Record;
 
     recordsLiveModel.addActiveDepositRecord();
@@ -154,20 +132,15 @@ class DepositStoreHandler implements DepositStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: DepositEvents.addDeposit.name);
-
-    return response;
   }
 
   @override
-  EventResponse addDepositProduct(Object? data) {
+  Future<void> addDepositProduct(Object? data) async {
     throw UnimplementedError();
   }
 
   @override
-  EventResponse removeDeposit(Object? data) {
+  Future<void> removeDeposit(Object? data) async {
     Record record = data as Record;
 
     recordsLiveModel.removeDepositRecord(record);
@@ -182,15 +155,10 @@ class DepositStoreHandler implements DepositStoreDelegate {
         event: DatabaseEvent.deletePurchaseRecord,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: DepositEvents.removeDeposit.name);
-
-    return response;
   }
 
   @override
-  EventResponse removeDepositProduct(Object? data) {
+  Future<void> removeDepositProduct(Object? data) async {
     RecordProductWrapper wrapper = data as RecordProductWrapper;
 
     Record record = wrapper.record;
@@ -215,37 +183,25 @@ class DepositStoreHandler implements DepositStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: DepositEvents.removeDepositProduct.name);
-
-    return response;
   }
 
   @override
-  EventResponse updateDeposit(Object? data) {
-    // TODO: implement updateDeposit
+  Future<void> updateDeposit(Object? data) async {
     throw UnimplementedError();
   }
 
   @override
-  EventResponse updateDepositProduct(Object? data) {
-    // TODO: implement updateDepositProduct
+  Future<void> updateDepositProduct(Object? data) async {
     throw UnimplementedError();
   }
 
   @override
-  EventResponse clearDeposit(Object? data) {
+  Future<void> clearDeposit(Object? data) async {
     recordsLiveModel.clearDeposits();
-
-    EventResponse response =
-        EventResponse(event: DepositEvents.clearDeposit.name);
-
-    return response;
   }
 
   @override
-  EventResponse quickSearchDeposit(Object? data) {
+  Future<void> quickSearchDeposit(Object? data) async {
     Map<String, dynamic> query = data as Map<String, dynamic>;
 
     void _onResult(List<Record> records) {
@@ -264,11 +220,6 @@ class DepositStoreHandler implements DepositStoreDelegate {
         callback: _onResult);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: DepositEvents.quickSearchDeposit.name);
-
-    return response;
   }
 }
 
@@ -279,7 +230,7 @@ class OrderStoreHandler implements OrderStoreDelegate {
   final StockLiveDataModel stockLiveModel;
 
   @override
-  EventResponse addOrder(Object? data) {
+  Future<void> addOrder(Object? data) async {
     Order order = data as Order;
     ordersLiveModel.addOrder(order);
 
@@ -297,14 +248,10 @@ class OrderStoreHandler implements OrderStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response = EventResponse(event: OrderEvents.addOrder.name);
-
-    return response;
   }
 
   @override
-  EventResponse addOrderProduct(Object? data) {
+  Future<void> addOrderProduct(Object? data) async {
     RecordProduct orderProduct = data as RecordProduct;
     ordersLiveModel.addOrderProduct(orderProduct);
 
@@ -325,40 +272,31 @@ class OrderStoreHandler implements OrderStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: OrderEvents.addOrderProduct.name);
-
-    return response;
   }
 
   @override
-  EventResponse removeOrder(Object? data) {
-    Order order = data as Order;
+  Future<void> removeOrder(Object? data) async {
+    RemoveRequestWrapper<Order> wrapper = data as RemoveRequestWrapper<Order>;
 
-    ordersLiveModel.removeOrder(order, 0); //TODO create a wrapper
+    ordersLiveModel.removeOrder(wrapper.instance, wrapper.index!);
 
-    ordersLiveModel.addOrder(order);
-
-    order.products.forEach((key, value) {
+    wrapper.instance.products.forEach((key, value) {
       stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
     });
 
-    Map<ServicesData, dynamic> requestData = {ServicesData.instance: order};
+    Map<ServicesData, dynamic> requestData = {
+      ServicesData.instance: wrapper.instance
+    };
 
     ServiceMessage message = ServiceMessage(
         data: requestData,
         event: DatabaseEvent.deleteOrder,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response = EventResponse(event: OrderEvents.removeOrder.name);
-
-    return response;
   }
 
   @override
-  EventResponse removeOrderProduct(Object? data) {
+  Future<void> removeOrderProduct(Object? data) async {
     RecordProduct orderProduct = data as RecordProduct;
 
     ordersLiveModel.removeOrderProduct(orderProduct);
@@ -394,15 +332,10 @@ class OrderStoreHandler implements OrderStoreDelegate {
 
       updateOrder(modifierBuilder.map);
     }
-
-    EventResponse response =
-        EventResponse(event: OrderEvents.removeOrderProduct.name);
-
-    return response;
   }
 
   @override
-  EventResponse updateOrder(Object? data) {
+  Future<void> updateOrder(Object? data) async {
     AppJson updatedValues = data as AppJson;
 
     Order order = ordersLiveModel.selectedOrder;
@@ -420,20 +353,15 @@ class OrderStoreHandler implements OrderStoreDelegate {
     ServicesStore.instance.sendMessage(message);
 
     ordersLiveModel.updateOrder(order, index);
-
-    EventResponse response = EventResponse(event: OrderEvents.updateOrder.name);
-
-    return response;
   }
 
   @override
-  EventResponse updateOrderProduct(Object? data) {
-    // TODO: implement updateOrderProduct
+  Future<void> updateOrderProduct(Object? data) async {
     throw UnimplementedError();
   }
 
   @override
-  EventResponse searchOrders(Object? data) {
+  Future<void> searchOrders(Object? data) async {
     AppJson query = data as AppJson;
 
     void _onResult(List<Order> order) {
@@ -452,10 +380,5 @@ class OrderStoreHandler implements OrderStoreDelegate {
         callback: _onResult);
 
     ServicesStore.instance.sendMessage(message);
-
-    EventResponse response =
-        EventResponse(event: OrderEvents.searchOrders.name);
-
-    return response;
   }
 }

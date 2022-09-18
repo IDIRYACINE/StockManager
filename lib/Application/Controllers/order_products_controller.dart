@@ -13,15 +13,14 @@ import 'package:stock_manager/Ui/Editors/OrdersEditor/order_products.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrderProductsController {
-  OrderProductsController( this.ordersLiveModel);
+  OrderProductsController(this.ordersLiveModel);
 
   final OrdersLiveDataModel ordersLiveModel;
 
-  bool isEditing = false;
-
   void add(BuildContext context) {
     void _onConfirm(RecordProduct orderProduct) {
-      OrderEmiter.emitOrderEvent(OrderEvents.addOrderProduct, orderProduct);
+      OrderEmiter.emitOrderEvent(OrderEvents.addOrderProduct,
+          data: orderProduct);
 
       Navigator.pop(context);
     }
@@ -63,7 +62,8 @@ class OrderProductsController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () => OrderEmiter.emitOrderEvent(
-              OrderEvents.removeOrderProduct, orderProduct),
+              OrderEvents.removeOrderProduct,
+              data: orderProduct),
           message: Translations.of(context)!.messageDeleteElement,
         ),
       ),

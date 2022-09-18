@@ -32,8 +32,7 @@ class SellersController {
         context,
         SellersEditor(
           createCallback: _onConfirm,
-          confirmLabel: Translations.of(context)!.
-add,
+          confirmLabel: Translations.of(context)!.add,
           seller: Seller.defaultInstance(),
         ));
   }
@@ -60,8 +59,7 @@ add,
         seller: seller.copyWith(),
         editMode: true,
         editCallback: onEdit,
-        confirmLabel: Translations.of(context)!.
-update,
+        confirmLabel: Translations.of(context)!.update,
       ),
     );
   }
@@ -99,8 +97,7 @@ update,
         builder: (context) => AlertDialog(
                 content: ConfirmDialog(
               onConfirm: onRemove,
-              message: Translations.of(context)!.
-messageDeleteElement,
+              message: Translations.of(context)!.messageDeleteElement,
             )));
   }
 

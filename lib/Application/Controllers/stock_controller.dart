@@ -5,9 +5,11 @@ import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Types/i_infrastructre.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
+import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/i_stock.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
@@ -15,6 +17,7 @@ import 'package:stock_manager/Ui/Editors/ProductEditor/product_editor.dart';
 import 'package:stock_manager/Ui/Editors/ProductFamilyEditor/product_family_editor.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class StockController {
@@ -103,31 +106,18 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
   @override
   void add(BuildContext context) {
-    void _onConfirm(Product product) {
-      stockLiveDataModel.addProduct(product);
-
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: product,
-      };
-
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.insertProduct,
-          service: AppServices.database);
-
-      ServicesStore.instance.sendMessage(message);
-
-      Navigator.pop(context);
+    void onConfirm(Product product) {
+      StockProductEmiter.emitProductEvent(StockProductEvents.addStockProduct,
+          data: product);
     }
 
     PopupsUtility.displayGenericPopup(
       context,
-      width: 1000,
-      height: 800,
+      width: Measures.containerWidthLarge,
+      height: Measures.containerHeightLarge,
       ProductEditor(
-        createCallback: _onConfirm,
-        confirmLabel: Translations.of(context)!.
-add,
+        createCallback: onConfirm,
+        confirmLabel: Translations.of(context)!.add,
         product: Product.defaultInstance(),
       ),
     );
@@ -136,104 +126,56 @@ add,
   @override
   void edit(BuildContext context, Product product, int index) {
     void onEdit(Map<String, dynamic> updatedField, Product product) {
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: product.reference,
-        ServicesData.updatedValues: updatedField,
-      };
+      UpdateRequestWrapper<Product> wrapper =
+          UpdateRequestWrapper<Product>(product, updatedField, index);
 
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.updateProduct,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
-      stockLiveDataModel.updateProduct(product, index);
-
-      Navigator.pop(context);
+      StockProductEmiter.emitProductEvent(
+        StockProductEvents.updateStockProduct,
+        data: wrapper,
+      );
     }
 
     PopupsUtility.displayGenericPopup(
       context,
-      width: 1000,
-      height: 800,
-     ProductEditor(
-          product: product,
-          editMode: true,
-          editCallback: onEdit,
-          confirmLabel: Translations.of(context)!.
-update,
-        ),
+      width: Measures.containerWidthLarge,
+      height: Measures.containerHeightLarge,
+      ProductEditor(
+        product: product,
+        editMode: true,
+        editCallback: onEdit,
+        confirmLabel: Translations.of(context)!.update,
+      ),
     );
-
   }
 
   @override
   void refresh(BuildContext context) {
-    _showLoadingAlert(context);
-
-    void onResult(List<Product> products) {
-      Navigator.pop(context);
-      stockLiveDataModel.setAllProducts(products);
-    }
-
-    ServiceMessageDataMap data = {};
-
-    ServiceMessage message = ServiceMessage<List<Product>>(
-      data: data,
-      event: DatabaseEvent.loadProducts,
-      service: AppServices.database,
-      callback: onResult,
-      hasCallback: true,
+    StockProductEmiter.emitProductEvent(
+      StockProductEvents.refreshStockProducts,
     );
-
-    ServicesStore.instance.sendMessage(message);
   }
 
   @override
   void remove(BuildContext context, Product product) {
-    void onRemove() {
-      stockLiveDataModel.deleteProduct(product);
-
-      Map<ServicesData, dynamic> data = {ServicesData.instance: product};
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.deleteProduct,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
-    }
-
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              content: ConfirmDialog(
-                onConfirm: onRemove,
-                message: Translations.of(context)!.
-messageDeleteElement,
-              ),
-            ));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+          onConfirm: () => StockProductEmiter.emitProductEvent(
+              StockProductEvents.refreshStockProducts,
+              data: product),
+          message: Translations.of(context)!.messageDeleteElement,
+        ),
+      ),
+    );
   }
 
   @override
   void search(BuildContext context) {
-    void _onResult(List<Product> products) {
-      stockLiveDataModel.setAllProducts(products);
-      Navigator.pop(context);
-    }
-
     void onSearch(Map<String, dynamic> selector) {
-      _showLoadingAlert(context);
-
-      Map<ServicesData, dynamic> data = {
-        ServicesData.databaseSelector: selector,
-      };
-
-      ServiceMessage<List<Product>> message = ServiceMessage(
-          service: AppServices.database,
-          event: DatabaseEvent.searchProduct,
-          data: data,
-          hasCallback: true,
-          callback: _onResult);
-
-      ServicesStore.instance.sendMessage(message);
+      StockProductEmiter.emitProductEvent(
+          StockProductEvents.searchStockProducts,
+          data: selector);
     }
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
@@ -244,8 +186,7 @@ messageDeleteElement,
 
       return [
         SearchFieldText<int>(
-          label: Translations.of(context)!.
-barcode,
+          label: Translations.of(context)!.barcode,
           identifier: ProductFields.barcode.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
@@ -253,16 +194,14 @@ barcode,
           allowedSearchTypes: const [SearchType.equals],
         ),
         SearchFieldText<String>(
-          label: Translations.of(context)!.
-reference,
+          label: Translations.of(context)!.reference,
           identifier: ProductFields.reference.name,
           onSelected: onSelect,
           onDeselected: onDeselect,
           allowedSearchTypes: const [SearchType.equals],
         ),
         SearchFieldDropDown(
-            label: Translations.of(context)!.
-selectProductFamily,
+            label: Translations.of(context)!.selectProductFamily,
             identifier: ProductFields.family.name,
             onSelected: onSelect,
             onDeselected: onDeselect,
@@ -271,41 +210,20 @@ selectProductFamily,
     }
 
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: SearchEditor(
-              searchFieldBuilder: buildSearchFields,
-              searchCallback: onSearch,
-            )));
-  }
-
-  void _showLoadingAlert(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => const AlertDialog(content: Splash()));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: SearchEditor(
+          searchFieldBuilder: buildSearchFields,
+          searchCallback: onSearch,
+        ),
+      ),
+    );
   }
 
   @override
   void quickSearch(BuildContext context, AppJson query) {
-    void _onResult(List<Product> products) {
-      stockLiveDataModel.setAllProducts(products);
-      Navigator.pop(context);
-    }
-
-    _showLoadingAlert(context);
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.databaseSelector: query,
-    };
-
-    ServiceMessage<List<Product>> message = ServiceMessage(
-        service: AppServices.database,
-        event: DatabaseEvent.searchProduct,
-        data: data,
-        hasCallback: true,
-        callback: _onResult);
-
-    ServicesStore.instance.sendMessage(message);
+    StockProductEmiter.emitProductEvent(StockProductEvents.searchStockProducts,
+        data: query);
   }
 }
 
@@ -316,156 +234,88 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
   @override
   void add(BuildContext context) {
-    void _onConfirm(ProductFamily family) {
-      stockLiveDataModel.addProductFamily(family);
-
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: family,
-      };
-
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.insertProductFamily,
-          service: AppServices.database);
-
-      ServicesStore.instance.sendMessage(message);
-      Navigator.pop(context);
-    }
-
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: FamilyEditor(
-              family: ProductFamily(name: "", reference: ""),
-              createCallback: _onConfirm,
-              confirmLabel: Translations.of(context)!.
-add,
-            )));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: FamilyEditor(
+          family: ProductFamily(name: "", reference: ""),
+          createCallback: (family) => StockCategroyEmiter.emitCategoryEvent(
+              StockCategoryEvents.addStockCategory,
+              data: family),
+          confirmLabel: Translations.of(context)!.add,
+        ),
+      ),
+    );
   }
 
   @override
   void edit(BuildContext context, ProductFamily family, int index) {
-    void onEdit(Map<String, dynamic> updatedField, ProductFamily family) {
-      Map<ServicesData, dynamic> data = {
-        ServicesData.instance: family,
-        ServicesData.databaseSelector: updatedField,
-      };
-
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.updateProductFamily,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
-      stockLiveDataModel.updateProductFamily(family, index);
-      Navigator.pop(context);
-    }
-
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: FamilyEditor(
-              family: family.copyWith(),
-              editMode: true,
-              editCallback: onEdit,
-              confirmLabel: Translations.of(context)!.
-update,
-            )));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: FamilyEditor(
+          family: family.copyWith(),
+          editMode: true,
+          editCallback: (updatedValues, family) =>
+              StockCategroyEmiter.emitCategoryEvent(
+                  StockCategoryEvents.updateStockCategory,
+                  data: UpdateRequestWrapper<ProductFamily>(
+                      family, updatedValues, index)),
+          confirmLabel: Translations.of(context)!.update,
+        ),
+      ),
+    );
   }
 
   @override
   void refresh(BuildContext context) {
-    _showLoadingAlert(context);
-
-    void onResult(List<ProductFamily> familllies) {
-      Navigator.pop(context);
-      stockLiveDataModel.setAllFamillies(familllies);
-    }
-
-    ServiceMessageDataMap data = {
-      ServicesData.databaseSelector: {},
-    };
-
-    ServiceMessage message = ServiceMessage<List<ProductFamily>>(
-      data: data,
-      event: DatabaseEvent.loadProductFamillies,
-      service: AppServices.database,
-      callback: onResult,
-      hasCallback: true,
+    StockCategroyEmiter.emitCategoryEvent(
+      StockCategoryEvents.searchStockCategories,
     );
-
-    ServicesStore.instance.sendMessage(message);
   }
 
   @override
   void remove(BuildContext context, ProductFamily family) {
-    void onRemove() {
-      stockLiveDataModel.deleteProductFamily(family);
-
-      Map<ServicesData, dynamic> data = {ServicesData.instance: family};
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.deleteProductFamily,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
-    }
-
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: ConfirmDialog(
-              onConfirm: onRemove,
-              message: Translations.of(context)!.
-messageDeleteElement,
-            )));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+          onConfirm: () => StockCategroyEmiter.emitCategoryEvent(
+              StockCategoryEvents.removeStockCategory,
+              data: family),
+          message: Translations.of(context)!.messageDeleteElement,
+        ),
+      ),
+    );
   }
 
   @override
   void search(BuildContext context) {
-    void _onResult(List<ProductFamily> familllies) {
-      stockLiveDataModel.setAllFamillies(familllies);
-      Navigator.pop(context);
-    }
-
-    void onSearch(Map<String, dynamic> selector) {
-      _showLoadingAlert(context);
-
-      Map<ServicesData, dynamic> data = {
-        ServicesData.databaseSelector: selector,
-      };
-
-      ServiceMessage message = ServiceMessage<List<ProductFamily>>(
-          service: AppServices.database,
-          event: DatabaseEvent.searchProductFamily,
-          data: data,
-          hasCallback: true,
-          callback: _onResult);
-
-      ServicesStore.instance.sendMessage(message);
-    }
-
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: SearchEditor(
-              searchFieldBuilder: (onSelect , onDeselect)
-              { return buildSearchFields(onSelect , onDeselect,context);
-              },
-              searchCallback: onSearch,
-            )));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: SearchEditor(
+          searchFieldBuilder: (onSelect, onDeselect) {
+            return buildSearchFields(onSelect, onDeselect, context);
+          },
+          searchCallback: (query) => StockCategroyEmiter.emitCategoryEvent(
+              StockCategoryEvents.searchStockCategories,
+              data: query),
+        ),
+      ),
+    );
   }
 
   List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
-      RegisterSearchQueryBuilder onDeselect , BuildContext context) {
+      RegisterSearchQueryBuilder onDeselect, BuildContext context) {
     return [
       SearchFieldText(
-          label: Translations.of(context)!.
-name,
+          label: Translations.of(context)!.name,
           identifier: ProductFamilyFields.name.name,
           onSelected: onSelect,
           onDeselected: onDeselect),
       SearchFieldText(
-          label: Translations.of(context)!.
-reference,
+          label: Translations.of(context)!.reference,
           identifier: ProductFamilyFields.reference.name,
           onSelected: onSelect,
           onDeselected: onDeselect),

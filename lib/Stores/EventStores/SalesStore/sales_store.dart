@@ -3,18 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Stores/EventStores/SalesStore/delegates.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
-import 'package:stock_manager/Types/i_editors.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Types/i_stores.dart';
 
 class SalesStore implements Store {
-  final Map<String, BaseStore> _stores = {};
+  final Map<String, Store> _stores = {};
 
   SalesStore(BuildContext context) {
     _registerStores(context);
   }
 
   @override
-  void emit({required StoreEvent event}) {
+  void receiveEvent({required StoreEvent event}) {
     _stores[event.subEventType]?.receiveEvent(event: event);
   }
 
@@ -56,7 +56,7 @@ class SalesStore implements Store {
   }
 }
 
-class DepositStore implements BaseStore {
+class DepositStore implements Store {
   final List<EventListener> _listeners = [];
   final Map<String, EventCallback> _callbacks = {};
 
@@ -69,11 +69,7 @@ class DepositStore implements BaseStore {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    EventResponse? response = _callbacks[target]?.call(event);
-
-    for (EventListener listener in _listeners) {
-      listener.notifyEventResult(target, response);
-    }
+    _callbacks[target]?.call(event);
   }
 
   @override
@@ -107,7 +103,7 @@ class DepositStore implements BaseStore {
   }
 }
 
-class OrderStore implements BaseStore {
+class OrderStore implements Store {
   final List<EventListener> _listeners = [];
   final Map<String, EventCallback> _callbacks = {};
 
@@ -120,11 +116,7 @@ class OrderStore implements BaseStore {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    EventResponse? response = _callbacks[target]?.call(event);
-
-    for (EventListener listener in _listeners) {
-      listener.notifyEventResult(target, response);
-    }
+    _callbacks[target]?.call(event);
   }
 
   @override
@@ -153,7 +145,7 @@ class OrderStore implements BaseStore {
   }
 }
 
-class PurchaseStore implements BaseStore {
+class PurchaseStore implements Store {
   final List<EventListener> _listeners = [];
   final Map<String, EventCallback> _callbacks = {};
 
@@ -166,11 +158,7 @@ class PurchaseStore implements BaseStore {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    EventResponse? response = _callbacks[target]?.call(event);
-
-    for (EventListener listener in _listeners) {
-      listener.notifyEventResult(target, response);
-    }
+    _callbacks[target]?.call(event);
   }
 
   @override
