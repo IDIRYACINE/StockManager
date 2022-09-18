@@ -265,15 +265,14 @@ abstract class DatabaseRepository {
 
   static AppJson<dynamic> orderProductToJson({required RecordProduct product}) {
     AppJson json = {};
-
-    json[ProductFields.name.name] = product.product;
-    json[ProductFields.reference.name] = product.reference;
-    json[ProductFields.sellingPrice.name] = product.sellingPrice;
-    json[ProductModelFields.color.name] = product.color;
-    json[ProductModelFields.size.name] = product.size;
-
-    json[ProductModelFields.colorId.name] = product.colorId;
-    json[ProductModelFields.sizeId.name] = product.sizeId;
+    json[RecordProductFields.name.name] = product.product;
+    json[RecordProductFields.reference.name] = product.reference;
+    json[RecordProductFields.sellingPrice.name] = product.sellingPrice;
+    json[RecordProductFields.color.name] = product.color;
+    json[RecordProductFields.size.name] = product.size;
+    json[RecordProductFields.remainingPayement.name] = product.remainingPayement;
+    json[RecordProductFields.colorId.name] = product.colorId;
+    json[RecordProductFields.sizeId.name] = product.sizeId;
 
     return json;
   }

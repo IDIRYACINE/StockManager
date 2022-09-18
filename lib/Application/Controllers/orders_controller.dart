@@ -7,14 +7,15 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_orders.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_customer.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/orders_spreaded.dart';
-import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersController {
@@ -33,7 +34,8 @@ class OrdersController {
           height: 800,
           child: SpreardedOrderEditor(
             order: ordersLiveModel.selectedOrder,
-            createOrderCallback: _addOrder,
+            createOrderCallback: (order) => OrderEmiter.emitOrderEvent(
+                OrderEvents.addOrder,  order),
             onSearch: _onSearchProduct,
             confirmLabel: Translations.of(context)!.add,
           )),
@@ -57,42 +59,10 @@ class OrdersController {
     ServicesStore.instance.sendMessage(message);
   }
 
-  void _addOrder(Order order) {
-    ordersLiveModel.addOrder(order);
-
-    order.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
-    });
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: order,
-    };
-
-    ServiceMessage message = ServiceMessage(
-        data: data,
-        event: DatabaseEvent.insertOrder,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
-  }
-
-  void edit(BuildContext context, Order order, int index) {
-    ordersLiveModel.selectedOrderIndex = index;
-    ordersLiveModel.selectedOrder = order;
-
-    showDialog(
-      context: context,
-      builder: (context) => const Material(
-        child: OrderProductsPanel(
-          isEditing: true,
-        ),
-      ),
-    );
-  }
 
   void editCustomer(BuildContext context) {
     void onEdit(AppJson json, order) {
-      _updateOrderCustomer(json);
+      OrderEmiter.emitOrderEvent(OrderEvents.updateOrder,json);
       Navigator.pop(context);
     }
 
@@ -106,24 +76,6 @@ class OrdersController {
         ),
       ),
     );
-  }
-
-  void _updateOrderCustomer(AppJson<dynamic> updatedValues) {
-    Order order = ordersLiveModel.selectedOrder;
-    int index = ordersLiveModel.selectedOrderIndex;
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: order,
-      ServicesData.updatedValues: updatedValues,
-    };
-
-    ServiceMessage message = ServiceMessage<Order>(
-        data: data,
-        event: DatabaseEvent.updateOrder,
-        service: AppServices.database);
-    ServicesStore.instance.sendMessage(message);
-
-    ordersLiveModel.updateOrder(order, index);
   }
 
   void refresh(BuildContext context) {
@@ -152,7 +104,7 @@ class OrdersController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () {
-            onRemove(order, index);
+            OrderEmiter.emitOrderEvent(OrderEvents.removeOrder, order);
           },
           message: Translations.of(context)!.messageDeleteElement,
         ),
@@ -160,44 +112,9 @@ class OrdersController {
     );
   }
 
-  void onRemove(Order order, int index) {
-    ordersLiveModel.removeOrder(order, index);
-
-    ordersLiveModel.addOrder(order);
-
-    order.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
-    });
-
-    Map<ServicesData, dynamic> data = {ServicesData.instance: order};
-
-    ServiceMessage message = ServiceMessage(
-        data: data,
-        event: DatabaseEvent.deleteOrder,
-        service: AppServices.database);
-    ServicesStore.instance.sendMessage(message);
-  }
 
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    PopupsUtility.showLoadingAlert(context);
-
-    void _onResult(List<Order> order) {
-      ordersLiveModel.setAllOrders(order);
-      Navigator.pop(context);
-    }
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.databaseSelector: query,
-    };
-
-    ServiceMessage<List<Order>> message = ServiceMessage(
-        service: AppServices.database,
-        event: DatabaseEvent.searchOrders,
-        data: data,
-        hasCallback: true,
-        callback: _onResult);
-
-    ServicesStore.instance.sendMessage(message);
+    OrderEmiter.emitOrderEvent(OrderEvents.searchOrders, query);
   }
 
   void search(BuildContext context) {
@@ -276,5 +193,4 @@ class OrdersController {
     report.printReport(context);
   }
 
-  void done() {}
 }

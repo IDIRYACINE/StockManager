@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/OrdersEditor/order_products.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrderProductsController {
-  OrderProductsController(this.stockLiveModel, this.ordersLiveModel);
+  OrderProductsController( this.ordersLiveModel);
 
-  final StockLiveDataModel stockLiveModel;
   final OrdersLiveDataModel ordersLiveModel;
 
   bool isEditing = false;
 
   void add(BuildContext context) {
     void _onConfirm(RecordProduct orderProduct) {
-      _onAdd(orderProduct);
+      OrderEmiter.emitOrderEvent(OrderEvents.addOrderProduct, orderProduct);
 
       Navigator.pop(context);
     }
@@ -43,44 +41,6 @@ class OrderProductsController {
     );
   }
 
-  void _onAdd(RecordProduct orderProduct) {
-    ordersLiveModel.addOrderProduct(orderProduct);
-
-    stockLiveModel.reclaimStock(
-        orderProduct.reference, orderProduct.colorId, orderProduct.sizeId, -1);
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: orderProduct,
-      ServicesData.databaseSelector: SelectorBuilder()
-          .eq(OrderFields.timeStamp.name,
-              ordersLiveModel.selectedOrder.timeStamp)
-          .map
-    };
-
-    ServiceMessage message = ServiceMessage<List<Product>>(
-        data: data,
-        event: DatabaseEvent.insertOrderProduct,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
-  }
-
-  void _updateOrder(AppJson values) {
-    Order order = ordersLiveModel.selectedOrder;
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: order,
-      ServicesData.updatedValues: values,
-    };
-
-    ServiceMessage message = ServiceMessage<List<Product>>(
-        data: data,
-        event: DatabaseEvent.updateOrder,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
-  }
-
   void _onSearch(String searchValue, OnEditorSearchResulCallback callback) {
     Map<ServicesData, dynamic> data = {
       ServicesData.databaseSelector:
@@ -98,57 +58,19 @@ class OrderProductsController {
   }
 
   void remove(BuildContext context, RecordProduct orderProduct) {
-    void onRemove() {
-      _onRemove(orderProduct);
-
-      Order order = ordersLiveModel.selectedOrder;
-      final ModifierBuilder modifierBuilder = ModifierBuilder()
-          .set(OrderFields.remainingPayement.name, order.remainingPayement)
-          .set(OrderFields.totalPrice.name, order.totalPrice);
-
-      _updateOrder(modifierBuilder.map);
-
-      if (order.products.isEmpty) {
-        int index = ordersLiveModel.selectedOrderIndex;
-        ordersLiveModel.removeOrder(order, index);
-        Provider.of<ControllersProvider>(context, listen: false)
-            .ordersController
-            .onRemove(order, index);
-      }
-    }
-
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                content: ConfirmDialog(
-              onConfirm: onRemove,
-              message: Translations.of(context)!.messageDeleteElement,
-            )));
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+          onConfirm: () => OrderEmiter.emitOrderEvent(
+              OrderEvents.removeOrderProduct, orderProduct),
+          message: Translations.of(context)!.messageDeleteElement,
+        ),
+      ),
+    );
   }
 
   void cancel(BuildContext context) {
     Navigator.pop(context);
-  }
-
-  void _onRemove(RecordProduct orderProduct) {
-    ordersLiveModel.removeOrderProduct(orderProduct);
-
-    stockLiveModel.reclaimStock(
-        orderProduct.reference, orderProduct.colorId, orderProduct.sizeId, 1);
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: orderProduct,
-      ServicesData.databaseSelector: SelectorBuilder()
-          .eq(OrderFields.timeStamp.name,
-              ordersLiveModel.selectedOrder.timeStamp)
-          .map
-    };
-
-    ServiceMessage message = ServiceMessage<List<Product>>(
-        data: data,
-        event: DatabaseEvent.deleteOrderProduct,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
   }
 }

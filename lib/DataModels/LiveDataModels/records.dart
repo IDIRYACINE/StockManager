@@ -29,7 +29,7 @@ class RecordsLiveDataModel {
   Record get selectedDepositRecord =>
       _depositDelegate.depositRecords[selectedElementIndex];
   Record depositRecord(int index) => _depositDelegate.depositRecords[index];
-  Record get activeDepositRecord => _purchaseDelegate.activePurchaseRecord;
+  Record get activeDepositRecord => _depositDelegate._activeDepositRecord;
 
 
   VoidCallback? updateSelectedRow;
@@ -117,6 +117,10 @@ class RecordsLiveDataModel {
 
   void clearDeposits() {
     _depositDelegate.clearDeposits();
+  }
+
+  void removeDepositProduct(Record record, RecordProduct product) {
+    _depositDelegate.removeDepositProduct(record, product);
   }
 
 }
@@ -213,10 +217,6 @@ class _DepositDelegate {
   ValueListenable<bool> get depositRefresh => _depositRefresh;
   ValueListenable<double> get totalDeposit => _totalDeposit;
 
-  void toggleRefresh(ValueNotifier<bool> refresh) {
-    refresh.value = !refresh.value;
-  }
-
   void setAllRecords(Iterable<Record> elements) {
     _depositRecords.clear();
     _depositRecords.addAll(elements);
@@ -238,13 +238,13 @@ class _DepositDelegate {
   void addDepositRecord(Record record) {
     _totalDeposit.value += record.totalDeposit;
     _depositRecords.add(record);
-    toggleRefresh(_depositRefresh);
+    notifyChange(_depositRefresh);
   }
 
   void removeDepositRecord(Record record) {
     _totalDeposit.value -= record.totalDeposit;
     _depositRecords.remove(record);
-    toggleRefresh(_depositRefresh);
+    notifyChange(_depositRefresh);
   }
 
   void updateDepositRecord(Record record) {
@@ -252,7 +252,7 @@ class _DepositDelegate {
     _totalDeposit.value -= old.totalDeposit + record.totalDeposit;
 
     _depositRecords[selectedElementIndex] = record;
-    toggleRefresh(_depositRefresh);
+    notifyChange(_depositRefresh);
   }
 
   void setAllDeposits(List<Record> records) {
@@ -267,6 +267,11 @@ class _DepositDelegate {
     _activeDepositRecord = Record.defaultInstance(paymentType: PaymentTypes.deposit,timeStamp: Record.depositTimeStamp);
     _totalDeposit.value = 0;
     _depositRecords.clear();
+    notifyChange(_depositRefresh);
+  }
+  
+  void removeDepositProduct(Record record, RecordProduct product) {
+    _activeDepositRecord.products.remove(product.timeStamp);
     notifyChange(_depositRefresh);
   }
 }

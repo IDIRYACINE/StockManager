@@ -26,6 +26,11 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
 
       SelectableRow<RecordProductWrapper> row =
           SelectableRow<RecordProductWrapper>(
+            onClick: (detaills) => handleContextMenu(detaills,controller),
+        contextMenuItems: const [
+          ContextMenuOperation.remove,
+          ContextMenuOperation.completePayment
+        ],
         dataCellHelper: (wrapper) =>
             recordProductWrapperCellAdapter(record, product),
         index: int.parse(timestampKey),
@@ -39,7 +44,7 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
   }
 
   List<String> recordProductWrapperCellAdapter(
-      Record record, RecordProduct product) { 
+      Record record, RecordProduct product) {
     return [
       product.product,
       record.customer,
@@ -54,7 +59,7 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
       SelectableRowDetaills rowDetaills, DespositController controller) {
     switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
-        controller.remove(context, rowDetaills.data);
+        controller.removeDepositProduct(context, rowDetaills.data);
         break;
       case ContextMenuOperation.completePayment:
         controller.completePayment(context, rowDetaills.data);
@@ -102,6 +107,7 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
               child: ValueListenableBuilder<bool>(
                   valueListenable: records.depositRefresh,
                   builder: (context, value, child) {
+
                     return ListView.builder(
                         itemCount: records.depositsCounts,
                         itemBuilder: (context, index) {

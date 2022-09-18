@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Controllers/sales_controller.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Ui/Panels/Sales/price_card.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales_table.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
-import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'actions_card.dart';
 
@@ -32,9 +29,6 @@ class SalesPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SalesController controller =
-        Provider.of<ControllersProvider>(context).salesController;
-
     return Column(mainAxisSize: MainAxisSize.max, children: [
       Expanded(
         flex: upperRowFlex,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Stores/navigation_store.dart';
+import 'package:stock_manager/Stores/navigation_center.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
 import 'package:stock_manager/Ui/Generics/Sidebar/sidebar_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -28,32 +28,32 @@ class SidebarHolder extends StatelessWidget {
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.stock,
-                  index: NavigationStore.stockIndex)),
+                  index: NavigationCenter.stockIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.records,
-                  index: NavigationStore.recordsIndex)),
+                  index: NavigationCenter.recordsIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.sales,
-                  index: NavigationStore.salesIndex)),
+                  index: NavigationCenter.salesIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.deposit,
-                  index: NavigationStore.depositsIndex)),
+                  index: NavigationCenter.depositsIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.orders,
-                  index: NavigationStore.ordersIndex)),
+                  index: NavigationCenter.ordersIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.settings,
-                  index: NavigationStore.settingsIndex)),
+                  index: NavigationCenter.settingsIndex)),
           const SizedBox(height: Measures.medium),
         ],
       ),

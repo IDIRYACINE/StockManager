@@ -54,6 +54,7 @@ enum ProductFields {
   barcode,
 }
 
+
 enum ProductModelFields { color, size, quantity, colorId, sizeId }
 
 enum RecordFields {

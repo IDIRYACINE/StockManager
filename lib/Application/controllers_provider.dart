@@ -37,7 +37,7 @@ class ControllersProvider {
     ordersController = OrdersController(ordersLiveModel, stockLiveModel);
 
     orderProductsController =
-        OrderProductsController(stockLiveModel, ordersLiveModel);
+        OrderProductsController( ordersLiveModel);
 
     settingsController = SettingsController(
         Provider.of<SettingsLiveDataModel>(context, listen: false));

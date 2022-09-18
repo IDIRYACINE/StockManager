@@ -1,7 +1,18 @@
 
-enum EStores{
-  data,
-  navigation
+enum EventTypes{
+  navigation,
+  sales,
+  services,
+  exceptions,
+  inventory,
+}
+
+enum SubEventType{
+  purchase,
+  deposit,
+  order,
+  product,
+  category,
 }
 
 enum EEventDataKeys{
@@ -10,12 +21,49 @@ enum EEventDataKeys{
   operation,
 }
 
-enum EEvents{
-  add,
-  edit,
-  remove,
+enum Events{
+ 
   load,
-  search
+  search,
+  quickSearch,
+  printBill,
+  printReport,
+}
+
+enum PurchaseEvents {
+  addPurchase,
+  updatePurchase,
+  removePurchase,
+  addPurchaseProduct,
+  updatePurchaseProduct,
+  removePurchaseProduct,
+  printPurchaseBill,
+  clearPurchase
+}
+
+enum DepositEvents{
+  addDeposit,
+  updateDeposit,
+  removeDeposit,
+  addDepositProduct,
+  updateDepositProduct,
+  removeDepositProduct,
+  quickSearchDeposit,
+  clearDeposit,
+  printDepositBill,
+}
+
+enum OrderEvents{
+
+  addOrder,
+  updateOrder,
+  removeOrder,
+  addOrderProduct,
+  updateOrderProduct,
+  removeOrderProduct,
+  searchOrders,
+  printOrdersReport,
+  printOrderBill,
 }
 
 enum EOperationStatus{

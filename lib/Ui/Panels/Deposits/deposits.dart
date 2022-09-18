@@ -30,7 +30,7 @@ class DepositsPanel extends StatelessWidget {
   }
 
   void onAdd(BuildContext context, DespositController controller) {
-    controller.addDeposit(context);
+    controller.addDepositProduct(context);
   }
 
   @override
@@ -49,6 +49,7 @@ class DepositsPanel extends StatelessWidget {
         ),
         const SizedBox(height: Measures.large),
         QuickSearchField<int>(
+          label: Translations.of(context)!.invoiceId,
           parser: (value) => int.parse(value),
           valueIdentifier: RecordFields.timeStamp.name,
           onQuickSearch: (values) => onQuickSearch(context, values, controller),

@@ -347,7 +347,7 @@ class DatabaseDAO {
   deletePurchaseRecordProduct({required RecordProduct product, required AppJson selector}) {
      SelectorBuilder selectorBuilder = SelectorBuilder();
     selectorBuilder.map = selector;
-
+    
     ModifierBuilder updatedValues = ModifierBuilder()
         .unset('${RecordFields.products.name}.${product.timeStamp}');
 

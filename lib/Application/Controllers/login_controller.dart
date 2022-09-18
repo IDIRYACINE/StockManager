@@ -5,7 +5,7 @@ import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Stores/navigation_store.dart';
+import 'package:stock_manager/Stores/navigation_center.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
@@ -39,7 +39,7 @@ class LoginController {
   void _onConnected(BuildContext context, bool isConnected) {
     if (isConnected) {
       Provider.of<ControllersProvider>(context, listen: false).init(context);
-      Provider.of<NavigationStore>(context, listen: false).init();
+      Provider.of<NavigationCenter>(context, listen: false).init();
 
       _loadData(Provider.of<ControllersProvider>(context, listen: false));
 

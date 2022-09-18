@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/settings.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Stores/navigation_store.dart';
+import 'package:stock_manager/Stores/navigation_center.dart';
+import 'package:stock_manager/Stores/event_center.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
 import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -12,10 +13,9 @@ import 'package:stock_manager/Ui/Themes/themes.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 void main() async {
-  ServicesStore.getInstance();
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => NavigationStore()),
+    ChangeNotifierProvider(create: (context) => NavigationCenter()),
     ChangeNotifierProvider(create: (context) => SettingsLiveDataModel()),
     Provider(create: (context) => ControllersProvider()),
   ], child: const MyApp()));
@@ -31,8 +31,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+
+    ServicesStore.getInstance();
+    EventCenter.initialise(context);
+
     return Consumer<SettingsLiveDataModel>(
         builder: (context, liveModel, child) {
+
 
       return MaterialApp(
         title: Constants.appName,
@@ -79,13 +84,13 @@ class _AppState extends State<App> {
 
   late ValueListenable<int> selectedPanel;
 
-  late NavigationStore navigationStore;
+  late NavigationCenter navigationStore;
 
   void _init() {
     if (isInitialized) {
       return;
     }
-    navigationStore = Provider.of<NavigationStore>(context, listen: false);
+    navigationStore = Provider.of<NavigationCenter>(context, listen: false);
     selectedPanel = navigationStore.selectedIndex;
     isInitialized = true;
     App.appContext = context;

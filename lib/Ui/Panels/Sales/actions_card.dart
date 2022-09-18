@@ -10,7 +10,7 @@ class ActionsCard extends StatelessWidget {
   const ActionsCard({Key? key}) : super(key: key);
 
   void onAdd(BuildContext context, SalesController controller) {
-    controller.addSale(context);
+    controller.addSaleProduct(context);
   }
 
   void onClear(BuildContext context, SalesController controller) {

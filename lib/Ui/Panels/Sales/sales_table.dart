@@ -83,9 +83,12 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
 
     return SizedBox(
       width: double.infinity,
+            height: double.infinity,
+
       child: Card(
         elevation: Measures.small,
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Flexible(
                 child: SelectableRow(

@@ -33,10 +33,7 @@ class OrdersTable extends StatelessWidget {
         controller.remove(
             rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
         break;
-      case ContextMenuOperation.edit:
-        controller.edit(
-            rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
-        break;
+
 
       default:
         break;
@@ -210,10 +207,7 @@ class OrdersTableSpreaded extends StatelessWidget {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data.product);
         break;
-      case ContextMenuOperation.edit:
-        ordersController.edit(
-            rowDetaills.context, rowDetaills.data.order, rowDetaills.rowIndex);
-        break;
+    
 
       default:
         break;

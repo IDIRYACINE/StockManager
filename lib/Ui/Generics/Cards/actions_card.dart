@@ -70,11 +70,13 @@ class QuickSearchField<T> extends StatelessWidget {
       {Key? key,
       required this.onQuickSearch,
       required this.valueIdentifier,
-      this.parser})
+      this.parser,
+      required this.label})
       : super(key: key);
 
   final Callback<AppJson> onQuickSearch;
   final ResultCallback<String, T>? parser;
+  final String label;
 
   final String valueIdentifier;
 
@@ -100,7 +102,7 @@ class QuickSearchField<T> extends StatelessWidget {
         SizedBox(
           width: Measures.quickSearchFieldWidth,
           child: SearchFieldText<T>(
-              label: Translations.of(context)!.invoiceId,
+              label: label,
               isOptional: false,
               parser: parser,
               registerQueryGenerator: registerQuery,

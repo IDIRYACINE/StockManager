@@ -7,7 +7,7 @@ import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
 import 'package:stock_manager/Ui/Panels/Settings/settings_panel.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 
-class NavigationStore with ChangeNotifier {
+class NavigationCenter with ChangeNotifier {
   final ValueNotifier<int> _selectedPanelIndex = ValueNotifier(0);
 
   final List<Widget> _panels = [];

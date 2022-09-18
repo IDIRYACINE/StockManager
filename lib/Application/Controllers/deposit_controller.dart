@@ -5,10 +5,13 @@ import 'package:stock_manager/Application/Utility/validators.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/DepositEditor/deposit_editor.dart';
@@ -20,20 +23,6 @@ class DespositController {
   final RecordsLiveDataModel recordsLiveModel;
   final StockLiveDataModel stockLiveModel;
 
-  void addDeposit(BuildContext context) {
-    PopupsUtility.displayGenericPopup(
-      context,
-      width: 1000,
-      height: 800,
-      DepositEditor(
-        record: recordsLiveModel.activeDepositRecord,
-        onSearch: _onSearchProduct,
-        addDepositCallback: _onAddDeposit,
-        addDepositProductCallback: (record) => _onAddDepositProduct(context),
-        confirmLabel: Translations.of(context)!.add,
-      ),
-    );
-  }
 
   void _onSearchProduct(
       String searchValue, OnEditorSearchResulCallback callback) {
@@ -52,25 +41,6 @@ class DespositController {
     ServicesStore.instance.sendMessage(message);
   }
 
-  void _onAddDeposit(Record record) {
-    recordsLiveModel.addActiveDepositRecord();
-
-    record.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
-    });
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: record,
-    };
-
-    ServiceMessage message = ServiceMessage(
-        data: data,
-        event: DatabaseEvent.insertPurchaseRecord,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
-  }
-
   void addDepositProduct(BuildContext context) {
     PopupsUtility.displayGenericPopup(
       context,
@@ -81,67 +51,37 @@ class DespositController {
             paymentType: PaymentTypes.deposit,
             timeStamp: Record.depositTimeStamp),
         onSearch: _onSearchProduct,
-        addDepositCallback: _onAddDeposit,
-        addDepositProductCallback: (record) => _onAddDepositProduct(context),
+        addDepositCallback: (record) =>
+            DepositEmitter.emitDepositEvent(DepositEvents.addDeposit, record),
+        addDepositProductCallback: (product) => Utility.displayToastMessage(
+            context, Translations.of(context)!.addedProduct),
         confirmLabel: Translations.of(context)!.add,
       ),
     );
   }
 
-  void _onAddDepositProduct(BuildContext context) {
-    Utility.displayToastMessage(
-        context, Translations.of(context)!.addedProduct);
-  }
-
-  void edit(BuildContext context, Record record, int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: DepositEditor(
-          record: record.copyWith(),
-          editMode: true,
-          editCallback: _onEdit,
-          confirmLabel: Translations.of(context)!.update,
-        ),
-      ),
-    );
-  }
-
-  void _onEdit(Map<String, dynamic> updatedField, Record record) {
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: record,
-      ServicesData.databaseSelector: updatedField,
-    };
-
-    ServiceMessage message = ServiceMessage(
-        data: data,
-        event: DatabaseEvent.updatePurchaseRecord,
-        service: AppServices.database);
-    ServicesStore.instance.sendMessage(message);
-    recordsLiveModel.updateDepositRecord(record);
-  }
-
-  void remove(BuildContext context, Record record) {
-    void onRemove() {
-      recordsLiveModel.removeDepositRecord(record);
-
-      record.products.forEach((key, value) {
-        stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
-      });
-
-      Map<ServicesData, dynamic> data = {ServicesData.instance: record};
-      ServiceMessage message = ServiceMessage(
-          data: data,
-          event: DatabaseEvent.deletePurchaseRecord,
-          service: AppServices.database);
-      ServicesStore.instance.sendMessage(message);
-    }
-
+  void removeDeposit(BuildContext context, Record record) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
-            onConfirm: onRemove,
+            onConfirm: () => DepositEmitter.emitDepositEvent(
+                DepositEvents.removeDeposit, record),
+            message: Translations.of(context)!.messageDeleteElement),
+      ),
+    );
+  }
+
+  void removeDepositProduct(
+      BuildContext context, RecordProductWrapper wrapper) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+            onConfirm: () {
+              DepositEmitter.emitDepositEvent(
+                  DepositEvents.removeDepositProduct, wrapper);
+            },
             message: Translations.of(context)!.messageDeleteElement),
       ),
     );
@@ -156,35 +96,16 @@ class DespositController {
   }
 
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    PopupsUtility.showLoadingAlert(context);
-
-    void _onResult(List<Record> records) {
-      recordsLiveModel.setAllDeposits(records);
-      Navigator.pop(context);
-    }
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.databaseSelector: query,
-    };
-
-    ServiceMessage<List<Record>> message = ServiceMessage(
-        service: AppServices.database,
-        event: DatabaseEvent.searchPurchaseRecord,
-        data: data,
-        hasCallback: true,
-        callback: _onResult);
-
-    ServicesStore.instance.sendMessage(message);
+    DepositEmitter.emitDepositEvent(DepositEvents.quickSearchDeposit, query);
   }
 
   void printReport(BuildContext context) {
-    BillPurchase report = BillPurchase(recordsLiveModel.activeDepositRecord
-        );
+    BillPurchase report = BillPurchase(recordsLiveModel.activeDepositRecord);
     report.print(context);
   }
 
   void clear(BuildContext context) {
-    recordsLiveModel.clearDeposits();
+    DepositEmitter.emitDepositEvent(DepositEvents.clearDeposit);
   }
 
   void completePayment(BuildContext context, Record data) {

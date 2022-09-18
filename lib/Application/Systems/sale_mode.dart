@@ -67,7 +67,7 @@ abstract class SaleEditorMode<T> {
 
 class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   final Record record;
-  late RecordProduct recordProduct;
+  RecordProduct recordProduct = RecordProduct.defaultInstance();
 
   _ModeCreate(this.record);
 
@@ -84,7 +84,6 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
 
       recordProduct.sellingPrice = parsedPrice;
       recordProduct.remainingPayement += priceChange;
-
     }
   }
 
@@ -124,7 +123,8 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
       recordProduct.deposit = parsedDeposit;
       recordProduct.remainingPayement -= depositChange;
 
-      remainingPaymenentController.text = recordProduct.remainingPayement.toString();
+      remainingPaymenentController.text =
+          recordProduct.remainingPayement.toString();
     }
   }
 
@@ -159,6 +159,7 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
     record.remainingPayement += recordProduct.remainingPayement;
     record.products[timeStamp.toString()] = recordProduct;
 
+    recordProduct = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
   }
 
   @override
@@ -169,7 +170,7 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
 
 class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   final Record record;
-  late RecordProduct recordProduct;
+  RecordProduct recordProduct = RecordProduct.defaultInstance();
 
   _ModeEdit(this.record);
 
@@ -274,6 +275,9 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
     record.totalDeposit += recordProduct.deposit;
     record.totalPrice += recordProduct.sellingPrice;
     record.products[timeStamp.toString()] = recordProduct;
+
+    recordProduct = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
+
   }
 
   @override

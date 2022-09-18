@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_manager/Stores/navigation_store.dart';
+import 'package:stock_manager/Stores/navigation_center.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SidebarButton extends StatefulWidget {
@@ -22,7 +22,7 @@ class _SidebarButtonState extends State<SidebarButton> {
 
   late Color backgroundColor;
 
-  late NavigationStore navigationStore;
+  late NavigationCenter navigationStore;
   late double fonstSize;
 
   bool isInitialized = false;
@@ -31,7 +31,7 @@ class _SidebarButtonState extends State<SidebarButton> {
     if (isInitialized) {
       return;
     }
-    navigationStore = Provider.of<NavigationStore>(context);
+    navigationStore = Provider.of<NavigationCenter>(context);
 
     selectedBackground = Theme.of(context).hoverColor;
     selectedTextStyle =

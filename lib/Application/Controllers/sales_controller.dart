@@ -8,7 +8,9 @@ import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_editor.dart';
@@ -19,69 +21,6 @@ class SalesController {
 
   RecordsLiveDataModel recordsLiveModel;
   StockLiveDataModel stockLiveModel;
-
-  void editSale(BuildContext context, Record record, int index) {
-    PopupsUtility.displayGenericPopup(
-      context,
-      SizedBox(
-        width: 1000,
-        height: 800,
-        child: SaleEditor(
-          record: record.copyWith(),
-          editMode: true,
-          confirmLabel: Translations.of(context)!.update,
-          editCallback: _onEdit,
-        ),
-      ),
-    );
-  }
-
-  void _onEdit(Map<String, dynamic> updatedField, Record record) {
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: record,
-      ServicesData.databaseSelector: updatedField,
-    };
-
-    ServiceMessage message = ServiceMessage(
-        data: data,
-        event: DatabaseEvent.updatePurchaseRecord,
-        service: AppServices.database);
-    ServicesStore.instance.sendMessage(message);
-  }
-
-  void addSale(BuildContext context) {
-    PopupsUtility.displayGenericPopup(
-      context,
-      width: 1000,
-      height: 800,
-      SaleEditor(
-        record: recordsLiveModel.activePurchaseRecord,
-        onSearch: _onSearchProduct,
-        confirmLabel: Translations.of(context)!.add,
-        addSaleCallback: _onAddSale,
-      ),
-    );
-  }
-
-  void _onAddSale(Record record) {
-    recordsLiveModel.addActiveSaleRecord();
-
-    record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, -1);
-    });
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: record,
-    };
-
-    ServiceMessage message = ServiceMessage(
-        data: data,
-        event: DatabaseEvent.insertPurchaseRecord,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
-  }
 
   void _onSearchProduct(
       String searchValue, OnEditorSearchResulCallback callback) {
@@ -112,7 +51,7 @@ class SalesController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
-              recordsLiveModel.clearSaleRecord();
+              PurchaseEmitter.emitPurchaseEvent(PurchaseEvents.clearPurchase);
             },
             message: Translations.of(context)!.messageClearAll),
       ),
@@ -125,26 +64,12 @@ class SalesController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
-              onRemoveSale(record);
+              PurchaseEmitter.emitPurchaseEvent(
+                  PurchaseEvents.removePurchase, record);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
     );
-  }
-
-  void onRemoveSale(Record record) {
-    recordsLiveModel.removeSaleRecord(record);
-
-    record.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
-    });
-
-    Map<ServicesData, dynamic> data = {ServicesData.instance: record};
-    ServiceMessage message = ServiceMessage(
-        data: data,
-        event: DatabaseEvent.deletePurchaseRecord,
-        service: AppServices.database);
-    ServicesStore.instance.sendMessage(message);
   }
 
   void removeSaleProduct(BuildContext context, RecordProductWrapper wrapper) {
@@ -153,7 +78,8 @@ class SalesController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
-              onRemoveSaleProduct(wrapper.record, wrapper.recordProduct);
+              PurchaseEmitter.emitPurchaseEvent(
+                  PurchaseEvents.removePurchaseProduct, wrapper);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -171,36 +97,12 @@ class SalesController {
         record: recordsLiveModel.activePurchaseRecord,
         onSearch: _onSearchProduct,
         confirmLabel: Translations.of(context)!.add,
-        addSaleCallback: _onAddSale,
-        addSaleProductCallback: (record) => _onAddSaleProduct(record, context),
+        addSaleCallback: (record) => PurchaseEmitter.emitPurchaseEvent(
+            PurchaseEvents.addPurchase, record),
+        addSaleProductCallback: (record) => Utility.displayToastMessage(
+            context, Translations.of(context)!.addedProduct),
       ),
     );
-  }
-
-  void _onAddSaleProduct(RecordProduct recordProduct, BuildContext context) {
-    Utility.displayToastMessage(
-        context, Translations.of(context)!.addedProduct);
-  }
-
-  void onRemoveSaleProduct(Record record, RecordProduct recordProduct) {
-    record.products.remove(recordProduct.timeStamp);
-
-    stockLiveModel.reclaimStock(recordProduct.reference, recordProduct.colorId,
-        recordProduct.sizeId, 1);
-
-    Map<ServicesData, dynamic> data = {
-      ServicesData.instance: recordProduct,
-      ServicesData.databaseSelector: SelectorBuilder()
-          .eq(OrderFields.timeStamp.name, recordProduct.timeStamp)
-          .map
-    };
-
-    ServiceMessage message = ServiceMessage<List<Product>>(
-        data: data,
-        event: DatabaseEvent.deletePurchaseRecordProduct,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
   }
 
   void printPurchases(BuildContext context) {
