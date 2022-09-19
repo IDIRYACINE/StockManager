@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
-import 'package:stock_manager/Application/Systems/product_mode.dart';
+import 'package:stock_manager/Ui/Editors/Models/product_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

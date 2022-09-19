@@ -10,8 +10,7 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'editor_forms.dart';
-import '../../../Application/Systems/order_mode.dart';
-
+import 'package:stock_manager/Ui/Editors/Models/order_mode.dart';
 class OrderProductEditor extends StatelessWidget {
   const OrderProductEditor(
       {Key? key,

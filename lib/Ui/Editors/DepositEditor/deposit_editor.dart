@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Application/Systems/sale_mode.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';

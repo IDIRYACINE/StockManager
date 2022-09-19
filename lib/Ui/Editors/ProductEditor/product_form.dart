@@ -4,12 +4,12 @@ import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Ui/Editors/Models/product_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-import '../../../Application/Systems/product_mode.dart';
 
 class ProductForm extends StatelessWidget {
   const ProductForm(
