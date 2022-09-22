@@ -65,7 +65,7 @@ abstract class DatabaseRepository {
 
     if (rawProducts != null) {
       rawProducts.forEach((key, element) {
-        product = orderProductFromJson(json: element, key: key);
+        product = recordProductFromJson(json: element, key: key);
         products[key] = product;
       });
     }
@@ -96,7 +96,7 @@ abstract class DatabaseRepository {
     );
   }
 
-  static RecordProduct orderProductFromJson(
+  static RecordProduct recordProductFromJson(
       {required AppJson<dynamic> json, required String key}) {
     return RecordProduct(
       reference: json[RecordProductFields.reference.name] ?? 'not set',
@@ -121,7 +121,7 @@ abstract class DatabaseRepository {
 
     if (rawProducts != null) {
       rawProducts.forEach((key, element) {
-        product = orderProductFromJson(json: element, key: key);
+        product = recordProductFromJson(json: element, key: key);
         products[key] = product;
       });
     }
@@ -214,7 +214,7 @@ abstract class DatabaseRepository {
     AppJson<dynamic> products = {};
 
     record.products.forEach((key, product) {
-      products[key] = orderProductToJson(product: product);
+      products[key] = recordProductToJson(product: product);
     });
 
     json[RecordFields.paymentType.name] = record.payementType;
@@ -239,7 +239,7 @@ abstract class DatabaseRepository {
     AppJson<dynamic> products = {};
 
     order.products.forEach((key, product) {
-      products[key] = orderProductToJson(product: product);
+      products[key] = recordProductToJson(product: product);
     });
 
     json[OrderFields.products.name] = products;
@@ -263,13 +263,14 @@ abstract class DatabaseRepository {
     return json;
   }
 
-  static AppJson<dynamic> orderProductToJson({required RecordProduct product}) {
+  static AppJson<dynamic> recordProductToJson({required RecordProduct product}) {
     AppJson json = {};
     json[RecordProductFields.name.name] = product.product;
     json[RecordProductFields.reference.name] = product.reference;
     json[RecordProductFields.sellingPrice.name] = product.sellingPrice;
     json[RecordProductFields.color.name] = product.color;
     json[RecordProductFields.size.name] = product.size;
+    json[RecordProductFields.deposit.name] = product.deposit;
     json[RecordProductFields.remainingPayement.name] = product.remainingPayement;
     json[RecordProductFields.colorId.name] = product.colorId;
     json[RecordProductFields.sizeId.name] = product.sizeId;

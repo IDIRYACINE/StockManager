@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
+import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_records.dart';
@@ -17,9 +19,12 @@ class RecordsController {
   RecordsLiveDataModel recordsLiveModel;
 
   void refresh(BuildContext context) {
-    RecordEmiter.emitRecordEvent(
-      RecordEvents.searchRecords,
-    );
+    Map<String, dynamic> todayQuery = SelectorBuilder()
+        .gte(RecordFields.date.name, Utility.getTodayStartSearchTime())
+        .map;
+
+    RecordEmiter.emitRecordEvent(RecordEvents.searchRecords,
+        data: todayQuery);
   }
 
   void search(BuildContext context) {
@@ -58,7 +63,6 @@ class RecordsController {
       ),
     );
   }
-
 
   static DropdownMenuItem<PaymentTypes> payementTypeDropdownAdapter(
       PaymentTypes type) {

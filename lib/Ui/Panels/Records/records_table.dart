@@ -34,7 +34,9 @@ class _RecordsSpreadedTableState extends State<RecordsSpreadedTable> {
       children.add(row);
     });
 
-    return Column(children: [...children]);
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [...children]);
   }
 
   List<String> recordProductWrapperCellAdapter(
@@ -74,13 +76,12 @@ class _RecordsSpreadedTableState extends State<RecordsSpreadedTable> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Flexible(
-                child: SelectableRow(
+             SelectableRow(
               dataCellHelper: (v) => recordsTableColumns,
               textColor: Colors.grey,
               index: -1,
               dataModel: 0,
-            )),
+            ),
             Expanded(
               child: ValueListenableBuilder<bool>(
                   valueListenable: records.recordsRefresh,

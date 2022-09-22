@@ -69,7 +69,7 @@ class DepositStore implements Store {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    _callbacks[target]?.call(event);
+    _callbacks[target]?.call(event.data);
   }
 
   @override
@@ -116,7 +116,7 @@ class OrderStore implements Store {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    _callbacks[target]?.call(event);
+    _callbacks[target]?.call(event.data);
   }
 
   @override
@@ -158,7 +158,7 @@ class PurchaseStore implements Store {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    _callbacks[target]?.call(event);
+    _callbacks[target]?.call(event.data);
   }
 
   @override

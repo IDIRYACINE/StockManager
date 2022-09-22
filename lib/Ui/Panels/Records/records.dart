@@ -43,8 +43,7 @@ class RecordsPanel extends StatelessWidget {
         ActionsCard(
           onPrint: () => onPrint(context, controller),
           onRefresh: () => onRefresh(context, controller),
-          title: Translations.of(context)!.
-records,
+          title: Translations.of(context)!.records,
         ),
         const SizedBox(height: Measures.large),
         QuickSearchDate(

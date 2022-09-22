@@ -114,8 +114,10 @@ class DepositStoreHandler implements DepositStoreDelegate {
 
   @override
   Future<void> addDeposit(Object? data) async {
+    
     Record record = data as Record;
 
+    recordsLiveModel.setActiveDepositRecord(record);
     recordsLiveModel.addActiveDepositRecord();
 
     record.products.forEach((key, value) {

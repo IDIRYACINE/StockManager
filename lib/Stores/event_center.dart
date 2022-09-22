@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/Stores/EventStores/InventoryStore/inventory_store.dart';
+import 'package:stock_manager/Stores/EventStores/RecordsStore/records_store.dart';
 import 'package:stock_manager/Stores/EventStores/SalesStore/sales_store.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_stores.dart';
@@ -60,5 +61,9 @@ class EventCenter implements IEventStore {
     InventoryStore inventoryStore = InventoryStore(context);
     center.registerStore(
         eventType: EventTypes.inventory.name, store: inventoryStore);
+
+    RecordsStore recordsStore = RecordsStore(context);
+    center.registerStore(
+        eventType: EventTypes.record.name, store: recordsStore);    
   }
 }

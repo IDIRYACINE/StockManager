@@ -90,13 +90,12 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Flexible(
-                child: SelectableRow(
+            SelectableRow(
               dataCellHelper: (v) => salesTableColumns,
               textColor: Colors.grey,
               index: -1,
               dataModel: 0,
-            )),
+            ),
             Expanded(
               child: ValueListenableBuilder<bool>(
                   valueListenable: records.salesRefresh,

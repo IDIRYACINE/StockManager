@@ -29,7 +29,7 @@ class RecordsLiveDataModel {
   Record get selectedDepositRecord =>
       _depositDelegate.depositRecords[selectedElementIndex];
   Record depositRecord(int index) => _depositDelegate.depositRecords[index];
-  Record get activeDepositRecord => _depositDelegate._activeDepositRecord;
+  Record get activeDepositRecord => _depositDelegate.activeDepositRecord;
 
 
   VoidCallback? updateSelectedRow;
@@ -123,6 +123,10 @@ class RecordsLiveDataModel {
     _depositDelegate.removeDepositProduct(record, product);
   }
 
+  void setActiveDepositRecord(Record record) {
+    _depositDelegate.setActiveRecord(record);
+  }
+
 }
 
 class _PurchaseDelegate {
@@ -201,8 +205,8 @@ class _DepositDelegate {
   final List<Record> _depositRecords = [];
 
   List<Record> get depositRecords => _depositRecords;
+  Record get activeDepositRecord => _activeDepositRecord;
   Record _activeDepositRecord = Record.defaultInstance(paymentType: PaymentTypes.deposit,timeStamp: Record.depositTimeStamp);
-
 
   int get depositsCounts => _depositRecords.length;
 
@@ -228,7 +232,7 @@ class _DepositDelegate {
     _activeDepositRecord = record;
   }
 
-  void addActiveSaleRecord() {
+  void addActiveDepositRecord() {
     _totalDeposit.value += _activeDepositRecord.totalPrice;
     _depositRecords.add(_activeDepositRecord);
     notifyChange(_depositRefresh);

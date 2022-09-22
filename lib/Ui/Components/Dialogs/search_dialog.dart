@@ -39,32 +39,33 @@ class SearchEditor extends StatelessWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
-        key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(Measures.small),
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ...searchFieldBuilder(registerCallback, unregisterCallback),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DefaultButton(
-                        label: Translations.of(context)!.cancel,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    DefaultButton(
-                      label: Translations.of(context)!.search,
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(Measures.small),
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ...searchFieldBuilder(registerCallback, unregisterCallback),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DefaultButton(
+                      label: Translations.of(context)!.cancel,
                       onPressed: () {
-                        onSearch();
                         Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                )
-              ]),
-        ));
+                      }),
+                  DefaultButton(
+                    label: Translations.of(context)!.search,
+                    onPressed: () {
+                      onSearch();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              )
+            ]),
+      ),
+    );
   }
 }

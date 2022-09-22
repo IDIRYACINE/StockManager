@@ -22,6 +22,12 @@ abstract class Utility {
     return DateTime(now.year, now.month, now.day, 23, 59, 59);
   }
 
+
+  static DateTime getTodayStartSearchTime() {
+    DateTime now = DateTime.now();
+    return DateTime(now.year, now.month, now.day, 0, 0, 0);
+  }
+
   static String formatDateTimeToDisplay(DateTime time) {
     return '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}';
   }

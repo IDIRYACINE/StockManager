@@ -63,7 +63,7 @@ class ProductStore implements Store {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    _callbacks[target]?.call(event);
+    _callbacks[target]?.call(event.data);
   }
 
   @override
@@ -104,7 +104,7 @@ class CategoryStore implements Store {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    _callbacks[target]?.call(event);
+    _callbacks[target]?.call(event.data);
   }
 
   @override

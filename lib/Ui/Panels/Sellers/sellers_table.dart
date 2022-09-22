@@ -39,13 +39,12 @@ class SellersTable extends StatelessWidget {
             .sellersController;
 
     SellersLiveDataModel sellers =
-        Provider.of<ControllersProvider>(context, listen: false).sellersLiveModel;
+        Provider.of<ControllersProvider>(context, listen: false)
+            .sellersLiveModel;
 
     List<String> sellersTableColumns = [
-      Translations.of(context)!.
-sellerName,
-      Translations.of(context)!.
-phoneNumber,
+      Translations.of(context)!.sellerName,
+      Translations.of(context)!.phoneNumber,
     ];
 
     return SizedBox(
@@ -54,13 +53,12 @@ phoneNumber,
             elevation: Measures.small,
             child: Column(
               children: [
-                Flexible(
-                    child: SelectableRow(
+                SelectableRow(
                   textColor: Colors.grey,
                   dataCellHelper: (index) => sellersTableColumns,
                   index: -1,
                   dataModel: 0,
-                )),
+                ),
                 Expanded(
                   child: ValueListenableBuilder<bool>(
                       valueListenable: sellers.refreshSellers,

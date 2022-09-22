@@ -17,7 +17,7 @@ class RecordsStore implements Store {
 
   @override
   void receiveEvent({required StoreEvent event}) {
-    _callbacks[event.event]?.call(event);
+    _callbacks[event.event]?.call(event.data);
   }
 
   @override

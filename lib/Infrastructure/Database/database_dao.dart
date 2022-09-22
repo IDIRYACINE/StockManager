@@ -314,7 +314,7 @@ class DatabaseDAO {
 
     ModifierBuilder updatedValues = ModifierBuilder().set(
         '${OrderFields.products.name}.${orderProduct.timeStamp}',
-        DatabaseRepository.orderProductToJson(product: orderProduct));
+        DatabaseRepository.recordProductToJson(product: orderProduct));
 
     _updateStockQuantity(
         reference: orderProduct.reference,

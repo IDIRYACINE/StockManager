@@ -95,13 +95,11 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
         elevation: Measures.small,
         child: Column(
           children: [
-            Flexible(
-              child: SelectableRow(
-                dataCellHelper: (v) => depositsTableColumns,
-                textColor: Colors.grey,
-                index: -1,
-                dataModel: 0,
-              ),
+            SelectableRow(
+              dataCellHelper: (v) => depositsTableColumns,
+              textColor: Colors.grey,
+              index: -1,
+              dataModel: 0,
             ),
             Expanded(
               child: ValueListenableBuilder<bool>(

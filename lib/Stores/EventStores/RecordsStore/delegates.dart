@@ -11,9 +11,7 @@ class RecordsStoreHandler implements RecordsStoreDelegate {
 
   @override
   Future<void> searchRecords(Object? data) async {
-    Map<ServicesData, dynamic> requestData = (data == null)
-        ? {ServicesData.databaseSelector: {}}
-        : data as Map<ServicesData, dynamic>;
+    Map<ServicesData, dynamic> requestData = {ServicesData.databaseSelector: (data == null)? {} : data};
 
 
     ServiceMessage<List<Record>> message = ServiceMessage(

@@ -277,13 +277,12 @@ class OrdersTableSpreaded extends StatelessWidget {
             builder: (context, value, child) {
               return Column(
                 children: [
-                  Flexible(
-                      child: SelectableRow(
+                  SelectableRow(
                     dataCellHelper: (index) => ordersTableColumns,
                     index: -1,
                     textColor: Colors.grey,
                     dataModel: 0,
-                  )),
+                  ),
                   ...buildRows(orders, productsController, ordersController)
                 ],
               );
