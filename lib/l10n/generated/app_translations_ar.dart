@@ -275,6 +275,9 @@ class TranslationsAr extends Translations {
   String get addSeller => 'إضافة بائع';
 
   @override
+  String get dashboard => 'الاحصائيات';
+
+  @override
   String get addModel => 'ضافة نموذج';
 
   @override

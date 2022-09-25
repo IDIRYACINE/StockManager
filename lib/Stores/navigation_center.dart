@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:stock_manager/Ui/Panels/Dashboard/dashboard.dart';
 import 'package:stock_manager/Ui/Panels/Deposits/deposits.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/Ui/Panels/Records/records.dart';
@@ -16,7 +17,8 @@ class NavigationCenter with ChangeNotifier {
     const OrdersPanel(),
     const RecordsPanel(),
     const SettingsPanel(),
-    const DepositsPanel()
+    const DepositsPanel(),
+    const DashboardPanel(),
   ];
 
   final List<IconData> _panelIcons = [
@@ -25,7 +27,8 @@ class NavigationCenter with ChangeNotifier {
     Icons.monetization_on,
     Icons.online_prediction_rounded,
     Icons.receipt_long,
-    Icons.settings
+    Icons.settings,
+    Icons.dashboard
   ];
 
   // ignore: unused_field
@@ -34,8 +37,8 @@ class NavigationCenter with ChangeNotifier {
       ordersIndex = 2,
       recordsIndex = 3,
       settingsIndex = 4,
-      depositsIndex = 5;
-
+      depositsIndex = 5,
+      dashboardIndex = 6;
 
   ValueListenable<int> get selectedIndex => _selectedPanelIndex;
 

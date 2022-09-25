@@ -630,6 +630,12 @@ abstract class Translations {
   /// **'Add Seller'**
   String get addSeller;
 
+  /// No description provided for @dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
   /// No description provided for @addModel.
   ///
   /// In en, this message translates to:

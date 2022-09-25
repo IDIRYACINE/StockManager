@@ -96,6 +96,7 @@
   "descriptionDisplayLanguage" : "Changer la langue d'affichage",
   "selectLanguage" : "Sélectionnez la langue",
   "general" : "Général",
+  "dashboard" : "Statistiques",
   "messageDeleteElement": "Supprimer l'élément ?",
   "messageClearAll": "Tout effacer ?",
   "messageConnectionFailed": "Échec de la connexion",

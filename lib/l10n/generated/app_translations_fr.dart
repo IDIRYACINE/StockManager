@@ -275,6 +275,9 @@ class TranslationsFr extends Translations {
   String get addSeller => 'Ajouter Vendeur';
 
   @override
+  String get dashboard => 'Statistiques';
+
+  @override
   String get addModel => 'Ajouter Modèle';
 
   @override

@@ -275,6 +275,9 @@ class TranslationsEn extends Translations {
   String get addSeller => 'Add Seller';
 
   @override
+  String get dashboard => 'Dashboard';
+
+  @override
   String get addModel => 'Add Model';
 
   @override

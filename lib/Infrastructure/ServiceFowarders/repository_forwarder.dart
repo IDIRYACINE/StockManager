@@ -208,7 +208,6 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> searchPurchaseRecord(
       ServiceMessageData message) async {
-          print(message.data[ServicesData.databaseSelector].toString());
     List<Record> records = await _databaseDao.searchRecord(
       search: message.data[ServicesData.databaseSelector],
     );

@@ -151,7 +151,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void refresh(BuildContext context) {
     StockProductEmiter.emitProductEvent(
-      StockProductEvents.refreshStockProducts,
+      StockProductEvents.searchStockProducts,
     );
   }
 

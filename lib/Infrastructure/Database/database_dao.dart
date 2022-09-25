@@ -171,7 +171,7 @@ class DatabaseDAO {
     List<Product> products = [];
 
     MongoDbDataStream data = await _database.loadProducts(SelectorBuilder());
-    await await data.forEach((element) {
+    await data.forEach((element) {
       products.add(DatabaseRepository.productFromJson(json: element));
     });
 

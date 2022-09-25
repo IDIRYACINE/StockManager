@@ -25,6 +25,11 @@ class SidebarHolder extends StatelessWidget {
             ),
           ),
           Spacer(flex: sidebarButtonsSpacingFlex),
+           Flexible(
+              child: SidebarButton(
+                  title: Translations.of(context)!.dashboard,
+                  index: NavigationCenter.dashboardIndex)),
+          const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.stock,

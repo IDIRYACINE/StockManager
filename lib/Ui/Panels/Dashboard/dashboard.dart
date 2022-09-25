@@ -27,13 +27,25 @@ class DashboardPanel extends StatelessWidget {
     for (int i = 0; i < topProductsCount; i++) {
       final StatsProduct product = statsModel.topProductAt(i);
 
-      chartData.add(ChartData(
-          x: i,
-          name: product.name,
-          y: product.totalAmount));
+      chartData
+          .add(ChartData(x: i, name: product.name, y: product.totalAmount));
     }
     return chartData;
   }
+
+  int getSellersCount(SellersLiveDataModel sellersModel) {
+    return sellersModel.sellersCount < topSellersCount
+        ? sellersModel.sellersCount
+        : topSellersCount;
+  }
+
+
+  int getStatesCount(StatsLiveDataModel statsModel) {
+    return statsModel.cityStats.length < topStatesCounts
+        ? statsModel.cityStats.length
+        : topStatesCounts;
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -43,40 +55,51 @@ class DashboardPanel extends StatelessWidget {
     return Row(
       children: [
         Flexible(
-            child: Column(
-          children: [
-            const Flexible(child: ProfitCard()),
-            Flexible(
-                child: TopList(
-              title: Translations.of(context)!.
-topSellers,
-              builder: (context, index) => TopListItem(
-                index: index,
-                title: getSellerName(controllersProvider.sellersLiveModel, index),
-              ),
-              itemsCount: topSellersCount,
-            ))
-          ],
-        )),
+          child: Column(
+            children: [
+              const Expanded(child: ProfitCard()),
+              Flexible(
+                child: Card(
+                  child: TopList(
+                    title: Translations.of(context)!.topSellers,
+                    builder: (context, index) => TopListItem(
+                      index: index,
+                      title: getSellerName(
+                          controllersProvider.sellersLiveModel, index),
+                    ),
+                    itemsCount: getSellersCount(controllersProvider.sellersLiveModel),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
         Flexible(
-            child: Column(
-          children: [
-            Flexible(
-                child: TopList(
-              builder: (context, index) => TopListItem(
-                index: index,
-                title: getStateName(controllersProvider.statsLiveModel, index),
+          child: Column(
+            children: [
+              Flexible(
+                child: Card(
+                  child: TopList(
+                    builder: (context, index) => TopListItem(
+                      index: index,
+                      title:
+                          getStateName(controllersProvider.statsLiveModel, index),
+                    ),
+                    itemsCount: getStatesCount(controllersProvider.statsLiveModel),
+                  ),
+                ),
               ),
-              itemsCount: topStatesCounts,
-            )),
-             Flexible(
-                child: TopBarChart(
-              chartTitle: Translations.of(context)!.
-topProducts,
-              chartData: const [],
-            )),
-          ],
-        )),
+              Flexible(
+                child: Card(
+                  child: TopBarChart(
+                    chartTitle: Translations.of(context)!.topProducts,
+                    chartData: const [],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

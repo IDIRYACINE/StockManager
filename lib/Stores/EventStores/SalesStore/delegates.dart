@@ -51,8 +51,9 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
 
     recordsLiveModel.removeSaleRecord(record);
 
-    record.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
+   
+    record.products.forEach((key, product) {
+      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: record};
@@ -119,9 +120,9 @@ class DepositStoreHandler implements DepositStoreDelegate {
 
     recordsLiveModel.setActiveDepositRecord(record);
     recordsLiveModel.addActiveDepositRecord();
-
-    record.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
+    
+    record.products.forEach((key, product) {
+      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> requestData = {
@@ -147,8 +148,9 @@ class DepositStoreHandler implements DepositStoreDelegate {
 
     recordsLiveModel.removeDepositRecord(record);
 
-    record.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
+   
+    record.products.forEach((key, product) {
+      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, 1);
     });
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: record};
@@ -236,9 +238,10 @@ class OrderStoreHandler implements OrderStoreDelegate {
     Order order = data as Order;
     ordersLiveModel.addOrder(order);
 
-    order.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, -1);
+     order.products.forEach((key, product) {
+      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
     });
+
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: order,
@@ -282,8 +285,8 @@ class OrderStoreHandler implements OrderStoreDelegate {
 
     ordersLiveModel.removeOrder(wrapper.instance, wrapper.index!);
 
-    wrapper.instance.products.forEach((key, value) {
-      stockLiveModel.reclaimStock(key, value.colorId, value.sizeId, 1);
+    wrapper.instance.products.forEach((key, product) {
+      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> requestData = {

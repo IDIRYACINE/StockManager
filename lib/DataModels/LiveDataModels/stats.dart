@@ -11,8 +11,8 @@ class StatsLiveDataModel{
   final List<StatsCity> toStates = [];
   final List<StatsSeller> topSellers = [];
 
-  StatsCity state(int postalCOde) {
-    return cityStats[postalCOde]!;
+  StatsCity state(int postalCode) {
+    return cityStats[postalCode]!;
   }
 
   StatsCity stateAt(int index) {

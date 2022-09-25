@@ -13,7 +13,6 @@ import 'package:stock_manager/Ui/Themes/themes.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 void main() async {
-
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => NavigationCenter()),
     ChangeNotifierProvider(create: (context) => SettingsLiveDataModel()),
@@ -31,14 +30,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-
     ServicesStore.getInstance();
     EventCenter.initialise(context);
 
     return Consumer<SettingsLiveDataModel>(
         builder: (context, liveModel, child) {
-
-
       return MaterialApp(
         title: Constants.appName,
         theme: AppThemes.lightTheme2,
@@ -113,18 +109,19 @@ class _AppState extends State<App> {
             ),
           ),
           Expanded(
-              flex: widget.panelFLex,
-              child: Padding(
-                padding: const EdgeInsets.all(Measures.small),
-                child: ValueListenableBuilder<int>(
-                  valueListenable: selectedPanel,
-                  builder: (context, value, child) {
-                    return Center(
-                      child: navigationStore.getSelectedPanel(),
-                    );
-                  },
-                ),
-              ))
+            flex: widget.panelFLex,
+            child: Padding(
+              padding: const EdgeInsets.all(Measures.small),
+              child: ValueListenableBuilder<int>(
+                valueListenable: selectedPanel,
+                builder: (context, value, child) {
+                  return Center(
+                    child: navigationStore.getSelectedPanel(),
+                  );
+                },
+              ),
+            ),
+          )
         ],
       ),
     );

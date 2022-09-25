@@ -1,3 +1,4 @@
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -42,14 +43,16 @@ class ProductStoreHandler implements ProductStoreDelegate {
   }
 
   @override
-  Future<void> searchProducts(Object? data) async {
-    Map<ServicesData, dynamic> requestData = (data == null)
-        ? {ServicesData.databaseSelector: {}}
-        : data as Map<ServicesData, dynamic>;
+  Future<void> searchProducts(Object? data) async {    
+    print("searching");
+    Map<ServicesData, dynamic> requestData = {
+      ServicesData.databaseSelector:
+          (data == null) ? SelectorBuilder().map : data 
+    };
 
     ServiceMessage message = ServiceMessage<List<Product>>(
       data: requestData,
-      event: DatabaseEvent.loadProducts,
+      event: DatabaseEvent.searchProduct,
       service: AppServices.database,
       callback: (products) => stockLiveDataModel.setAllProducts(products),
       hasCallback: true,

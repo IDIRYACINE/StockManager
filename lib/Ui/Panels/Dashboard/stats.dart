@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ProfitCard extends StatefulWidget {
@@ -13,9 +17,31 @@ class ProfitCard extends StatefulWidget {
 class _ProfitCardState extends State<ProfitCard> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+     RecordsLiveDataModel records =
+        Provider.of<ControllersProvider>(context, listen: false).recordsLiveModel;
+        
+    return Card(
+      elevation: Measures.small,
+      color: Colors.amber,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Profit',
+            style: TextStyle(fontSize: Measures.h1TextSize,color: Colors.white),
+          ),
+          ValueListenableBuilder<double>(
+              valueListenable: records.totalPrice,
+              builder: (context, totalPrice, child) {
+                return Text(totalPrice.toString(),
+                    style: const TextStyle(fontSize: Measures.h1TextSize,color: Colors.white));
+              }),
+        ],
+      ),
+    );
   }
 }
+
 
 class TopBarChart extends StatefulWidget {
   const TopBarChart({Key? key, required this.chartData, this.chartTitle})
@@ -29,7 +55,6 @@ class TopBarChart extends StatefulWidget {
 }
 
 class _TopBarChartState extends State<TopBarChart> {
-
   bool get displayChartTitle => widget.chartTitle != null;
 
   @override
@@ -60,14 +85,12 @@ class BarChart extends StatefulWidget {
 }
 
 class _BarChartState extends State<BarChart> {
-
-    bool get displayChartTitle => widget.chartTitle != null;
+  bool get displayChartTitle => widget.chartTitle != null;
 
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
-            title: displayChartTitle ? ChartTitle(text: widget.chartTitle!) : null,
-
+      title: displayChartTitle ? ChartTitle(text: widget.chartTitle!) : null,
       series: <ChartSeries<ChartData, int>>[
         ColumnSeries<ChartData, int>(
           dataSource: widget.chartData,
@@ -81,7 +104,8 @@ class _BarChartState extends State<BarChart> {
 }
 
 class PieChart extends StatefulWidget {
-  const PieChart({Key? key, required this.chartData, this.chartTitle}) : super(key: key);
+  const PieChart({Key? key, required this.chartData, this.chartTitle})
+      : super(key: key);
 
   final List<ChartData> chartData;
   final String? chartTitle;
@@ -96,7 +120,7 @@ class _PieChartState extends State<PieChart> {
     return SfCircularChart(
       series: <CircularSeries>[
         PieSeries<ChartData, int>(
-          dataSource:widget.chartData,
+          dataSource: widget.chartData,
           xValueMapper: (ChartData data, int index) => index,
           yValueMapper: (ChartData data, int index) => data.y,
           dataLabelMapper: (ChartData data, int index) => data.name,
