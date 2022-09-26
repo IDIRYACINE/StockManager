@@ -1,6 +1,5 @@
-
-
 import 'models.dart';
+import 'models_stats.dart';
 
 class OrderProductReportWrapper {
   final Order order;
@@ -21,4 +20,14 @@ class RecordProductWrapper{
 class PrimitiveWrapper<T> {
   T value;
   PrimitiveWrapper(this.value);
+}
+
+class StatsProductChanges {
+  final Map<String, StatsProduct> statsProducts;
+  final double profitChange;
+  final int productCounts;
+  final String sellerCode;
+  final String sellerName;
+
+  StatsProductChanges( {required this.sellerName ,required this.statsProducts, required this.profitChange,required this.productCounts,required this.sellerCode,});
 }

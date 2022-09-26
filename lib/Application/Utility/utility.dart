@@ -58,4 +58,9 @@ abstract class Utility {
     int expectedPageCount = (itemsLength / maxRowsPerPage).floor();
     return expectedPageCount < 1 ? 1 : expectedPageCount;
   }
+
+  static DateTime getMonth() {
+    DateTime now = DateTime.now();
+    return DateTime(now.year, now.month);
+  }
 }

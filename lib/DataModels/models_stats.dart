@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class StatsRecord {
@@ -52,12 +53,12 @@ class StatsRecordProduct {
 }
 
 class StatsProduct {
-  final int quantity;
-  final double totalAmount;
+  int totalQuantity;
+  double profit;
   final String name;
-  final int referenceHash;
+  final String reference;
 
-  StatsProduct(this.quantity, this.totalAmount, this.name, this.referenceHash);
+  StatsProduct({required this.totalQuantity,required this.profit, required this.name, required this.reference});
 }
 
 class StatsRecordSeller {
@@ -69,11 +70,11 @@ class StatsRecordSeller {
 }
 
 class StatsSeller {
-  final int sellerCode;
+  final String sellerCode;
   final String name;
-  final int totalSold;
+  int totalSold;
 
-  StatsSeller(this.sellerCode, this.name, this.totalSold);
+  StatsSeller({required this.sellerCode,required this.name,required this.totalSold});
 }
 
 class StatsRecordCity {

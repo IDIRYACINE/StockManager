@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Types/i_stores.dart';
 
 class ProductFormEditor {
   final TextEditingController productNameController =
@@ -78,7 +79,13 @@ abstract class CategoryStoreDelegate{
 }
 
 abstract class RecordsStoreDelegate{
- 
-
   Future<void> searchRecords(Object? data);
+}
+
+abstract class StatistiquesStoreDelegate{
+  Future<void> searchStatistiques(Object? data);
+  Future<void> updatePurchaseStatistiques(Object? data);
+  Future<void> updateOrderStatistiques(Object? data);
+  Future<void> updateSellersStatistiques(Object? data);
+  Future<void> notifyEventResult(String event, EventResponse? response);
 }

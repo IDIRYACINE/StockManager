@@ -28,7 +28,7 @@ class DashboardPanel extends StatelessWidget {
       final StatsProduct product = statsModel.topProductAt(i);
 
       chartData
-          .add(ChartData(x: i, name: product.name, y: product.totalAmount));
+          .add(ChartData(x: i, name: product.name, y: product.profit));
     }
     return chartData;
   }

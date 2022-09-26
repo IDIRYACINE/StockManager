@@ -33,6 +33,10 @@ class EventCenter implements IEventStore {
     _stores[eventType]?.off(event: subEventType!, listener: listener);
   }
 
+  ///
+  /// * [eventType] is the targeted store . Instance of [EventTypes]
+  /// * [subEventType] is the targeted sub store . Instance of [SubEventType]
+  /// * [event] is the targeted event . Instance of SubStore events
   @override
   void on(
       {required String eventType,

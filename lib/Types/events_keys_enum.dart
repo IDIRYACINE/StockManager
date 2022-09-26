@@ -91,6 +91,12 @@ enum RecordEvents {
   refreshRecords,
 }
 
+enum StatistiquesEvents{
+  searchStatistiques,
+  updateProductsStatistiques,
+  updateSellersStatistiques,
+}
+
 enum EOperationStatus{
   success,
   error,
