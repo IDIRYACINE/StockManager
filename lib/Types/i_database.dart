@@ -30,6 +30,7 @@ enum Collections {
   sellers,
   products,
   productsFamily,
+  statestiques,
 }
 
 enum Indexes {
@@ -118,4 +119,28 @@ enum RecordProductFields {
   timeStamp,
   deposit,
   remainingPayement
+}
+
+enum StatistiquesFields{
+  date,
+  totalProfit,
+  totalNetProfit,
+  totalRemaining,
+  sellers,
+  orders,
+  products,
+}
+
+enum StatistiquesProductFields{
+  profit,
+  quantity,
+  name,
+  reference,
+}
+
+enum StatistiquesSellerFields{
+  profit,
+  quantity,
+  name,
+  code,
 }

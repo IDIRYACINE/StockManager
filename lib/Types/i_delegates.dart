@@ -86,6 +86,5 @@ abstract class StatistiquesStoreDelegate{
   Future<void> searchStatistiques(Object? data);
   Future<void> updatePurchaseStatistiques(Object? data);
   Future<void> updateOrderStatistiques(Object? data);
-  Future<void> updateSellersStatistiques(Object? data);
   Future<void> notifyEventResult(String event, EventResponse? response);
 }

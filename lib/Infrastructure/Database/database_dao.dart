@@ -1,5 +1,6 @@
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
@@ -281,12 +282,28 @@ class DatabaseDAO {
     selector.map = search;
     MongoDbDataStream data = await _database.searchOrder(selector);
 
-    await data.forEach((element) {
-      orders.add(DatabaseRepository.orderFromJson(json: element));
+    await data.forEach((rawOrder) {
+      orders.add(DatabaseRepository.orderFromJson(json: rawOrder));
     });
 
     return orders;
   }
+
+
+  Future<List<StatsRecord>> searchPurchaseStatistiques({required AppJson search}) async {
+    List<StatsRecord> stats = [];
+
+    SelectorBuilder selector = SelectorBuilder();
+    selector.map = search;
+    MongoDbDataStream data = await _database.searchPurchaseStatistiques(selector);
+    await data.forEach((rawStatRecord) {
+      stats.add(DatabaseRepository.statsRecordFromJson(json: rawStatRecord));
+    });
+
+    return stats;
+  }
+
+
 
   Future<void> _updateStockQuantity(
       {required String reference,
@@ -364,5 +381,28 @@ class DatabaseDAO {
     _database
         .insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
   }
+
+  Future<void> updatePurchaseStatistiques({required StatsRecord purchaseStatistiques}) async {
+    SelectorBuilder selector = SelectorBuilder();
+    selector.eq(StatistiquesFields.date.name, purchaseStatistiques.date);
+
+    ModifierBuilder modifier = ModifierBuilder();
+    modifier.inc(StatistiquesFields.totalProfit.name, purchaseStatistiques.totalProfit);
+    modifier.inc(StatistiquesFields.totalNetProfit.name, purchaseStatistiques.totalNetProfit);
+
+    Map<String,dynamic> rawProductsStats = DatabaseRepository.statistiqueProductsToJson(stats: purchaseStatistiques.purchaseRecords);
+    modifier.set(StatistiquesFields.products.name, rawProductsStats);
+
+    Map<String,dynamic> rawSellersStats = DatabaseRepository.statistiqueSellersToJson(stats: purchaseStatistiques.sellerRecords);
+    modifier.set(StatistiquesFields.sellers.name, rawSellersStats);
+
+    _database.updatePurchaseStatistiques(selector,modifier);
+  }
+
+  Future<void> updateOrderStatistiques({required purchaseStatistiques}) async {
+    //TODO
+  }
+
+
 
 }

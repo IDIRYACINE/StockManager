@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class StatsRecord {
   final DateTime date;
   final StatsVisibility visibility;
-  final Map<int, StatsCity> cityRecords;
-  final Map<int, StatsProduct> productRecords;
-  final Map<int, StatsSeller> customerRecords;
+  final Map<String, StatsCity> orderRecords;
+  final Map<String, StatsProduct> purchaseRecords;
+  final Map<String, StatsSeller> sellerRecords;
   final double totalProfit;
   final double totalNetProfit;
 
   StatsRecord({
     required this.date,
     required this.visibility,
-    required this.cityRecords,
-    required this.productRecords,
-    required this.customerRecords,
+    required this.orderRecords,
+    required this.purchaseRecords,
+    required this.sellerRecords,
     required this.totalProfit,
     required this.totalNetProfit,
   });
@@ -26,9 +25,9 @@ class StatsRecord {
     return StatsRecord(
       date: date,
       visibility: visibility,
-      cityRecords: {},
-      productRecords: {},
-      customerRecords: {},
+      orderRecords: {},
+      purchaseRecords: {},
+      sellerRecords: {},
       totalProfit: 0,
       totalNetProfit: 0,
     );
@@ -70,11 +69,11 @@ class StatsRecordSeller {
 }
 
 class StatsSeller {
-  final String sellerCode;
+  final String code;
   final String name;
   int totalSold;
 
-  StatsSeller({required this.sellerCode,required this.name,required this.totalSold});
+  StatsSeller({required this.code,required this.name,required this.totalSold});
 }
 
 class StatsRecordCity {

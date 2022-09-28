@@ -24,10 +24,11 @@ class PrimitiveWrapper<T> {
 
 class StatsProductChanges {
   final Map<String, StatsProduct> statsProducts;
-  final double profitChange;
-  final int productCounts;
+  double profitChange;
+  double netProfitChange;
+  int productCounts;
   final String sellerCode;
   final String sellerName;
 
-  StatsProductChanges( {required this.sellerName ,required this.statsProducts, required this.profitChange,required this.productCounts,required this.sellerCode,});
+  StatsProductChanges({required this.netProfitChange,required this.sellerName ,required this.statsProducts, required this.profitChange,required this.productCounts,required this.sellerCode,});
 }

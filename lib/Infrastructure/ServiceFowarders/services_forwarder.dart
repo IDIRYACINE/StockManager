@@ -106,5 +106,12 @@ class ServicesForwarder {
         _databaseForwarder.insertOrderProduct;
     _callbacks[DatabaseEvent.deleteOrderProduct] =
         _databaseForwarder.deleteOrderProduct;
+
+    _callbacks[DatabaseEvent.updatePurchaseStatistiques] =
+        _databaseForwarder.updatePurchaseStatistiques;
+    _callbacks[DatabaseEvent.updateOrdersStatistiques] =
+        _databaseForwarder.updateOrderStatistiques;
+        _callbacks[DatabaseEvent.searchPurchaseStatistiques] =
+        _databaseForwarder.searchPurchaseStatistiques;
   }
 }

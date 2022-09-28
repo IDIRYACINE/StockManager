@@ -21,7 +21,6 @@ class Database {
     }
 
     return database.isConnected;
-
   }
 
   Future<void> _createDatabase(String identifier, String password) async {
@@ -56,7 +55,7 @@ class Database {
 
     collection.createIndex(keys: {
       Indexes.barcode.name: 1,
-      Indexes.reference.name : 1,
+      Indexes.reference.name: 1,
     });
 
     collection = database.collection(Collections.productsFamily.name);
@@ -72,8 +71,8 @@ class Database {
     collection = database.collection(Collections.orders.name);
     collection.createIndex(keys: {
       Indexes.date.name: -1,
-      Indexes.status.name : 1,
-      Indexes.phone.name : 1,
+      Indexes.status.name: 1,
+      Indexes.phone.name: 1,
     });
   }
 
@@ -106,7 +105,8 @@ class Database {
     await collection.insert(order);
   }
 
-  FutureMongoDbDataStream loadDayPurchaseRecords(SelectorBuilder selector) async {
+  FutureMongoDbDataStream loadDayPurchaseRecords(
+      SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.records.name);
     return collection.find(selector);
   }
@@ -127,18 +127,16 @@ class Database {
     return collection.find();
   }
 
-
   FutureMongoDbDataStream loadOrders() async {
     DbCollection collection = database.collection(Collections.orders.name);
     return collection.find();
   }
 
-
-  FutureMongoDbDataStream loadPurchaseRecords(SelectorBuilder selectorBuilder) async{
+  FutureMongoDbDataStream loadPurchaseRecords(
+      SelectorBuilder selectorBuilder) async {
     DbCollection collection = database.collection(Collections.records.name);
     return collection.find();
   }
-
 
   void removeProduct(SelectorBuilder selector) async {
     DbCollection collection = database.collection(Collections.products.name);
@@ -156,43 +154,44 @@ class Database {
     collection.deleteOne(selector);
   }
 
-  void removePurchaseRecord(SelectorBuilder selector) async{
-     DbCollection collection = database.collection(Collections.records.name);
+  void removePurchaseRecord(SelectorBuilder selector) async {
+    DbCollection collection = database.collection(Collections.records.name);
     collection.deleteOne(selector);
   }
 
-  void removeOrder(SelectorBuilder selector) async{
-     DbCollection collection = database.collection(Collections.orders.name);
+  void removeOrder(SelectorBuilder selector) async {
+    DbCollection collection = database.collection(Collections.orders.name);
     collection.deleteOne(selector);
   }
 
-
-
-  void updateProduct(SelectorBuilder selector, ModifierBuilder updatedValues) async {
+  void updateProduct(
+      SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection = database.collection(Collections.products.name);
     await collection.updateOne(selector, updatedValues);
   }
 
-  void updateProductFamily(SelectorBuilder selector, ModifierBuilder updatedValues) async {
+  void updateProductFamily(
+      SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection =
         database.collection(Collections.productsFamily.name);
     await collection.updateOne(selector, updatedValues);
   }
 
-  void updateSeller(SelectorBuilder selector, ModifierBuilder updatedValues) async {
+  void updateSeller(
+      SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection = database.collection(Collections.sellers.name);
     await collection.updateOne(selector, updatedValues);
   }
 
-  void updatePurchaseRecord(SelectorBuilder selector, ModifierBuilder updatedValues) async {
-    DbCollection collection =
-        database.collection(Collections.records.name);
+  void updatePurchaseRecord(
+      SelectorBuilder selector, ModifierBuilder updatedValues) async {
+    DbCollection collection = database.collection(Collections.records.name);
     await collection.updateOne(selector, updatedValues);
   }
 
-  void updateOrder(SelectorBuilder selector, ModifierBuilder updatedValues) async {
-    DbCollection collection =
-        database.collection(Collections.orders.name);
+  void updateOrder(
+      SelectorBuilder selector, ModifierBuilder updatedValues) async {
+    DbCollection collection = database.collection(Collections.orders.name);
     await collection.updateOne(selector, updatedValues);
   }
 
@@ -202,7 +201,8 @@ class Database {
   }
 
   FutureMongoDbDataStream searchProductFamily(SelectorBuilder selector) async {
-    DbCollection collection = database.collection(Collections.productsFamily.name);
+    DbCollection collection =
+        database.collection(Collections.productsFamily.name);
     return collection.find(selector);
   }
 
@@ -216,4 +216,17 @@ class Database {
     return collection.find(selector);
   }
 
+  void updatePurchaseStatistiques(
+      SelectorBuilder selector, ModifierBuilder updatedValues) async {
+    DbCollection collection =
+        database.collection(Collections.statestiques.name);
+    await collection.updateOne(selector, updatedValues);
+  }
+
+  FutureMongoDbDataStream searchPurchaseStatistiques(
+      SelectorBuilder selector) async {
+    DbCollection collection =
+        database.collection(Collections.statestiques.name);
+    return collection.find(selector);
+  }
 }

@@ -44,7 +44,6 @@ class ProductStoreHandler implements ProductStoreDelegate {
 
   @override
   Future<void> searchProducts(Object? data) async {    
-    print("searching");
     Map<ServicesData, dynamic> requestData = {
       ServicesData.databaseSelector:
           (data == null) ? SelectorBuilder().map : data 

@@ -25,18 +25,24 @@ class StatsLiveDataModel {
   StatsProduct topProductAt(int index) {
     return topProducts[index];
   }
-
+  
+  /// this mutates statsChanges into the current ones after calculations
   void updatePurchaseStats(StatsProductChanges statChanges) {
     _updateProductStats(statChanges);
     _updateSellerStats(statChanges);
   }
 
+  /// this mutates statsChanges into the current ones after calculations
   void _updateProductStats(StatsProductChanges statChanges) {
     statChanges.statsProducts.forEach((reference, stat) {
       StatsProduct? currentState = productStats[reference];
       if (currentState != null) {
         currentState.totalQuantity += stat.totalQuantity;
         currentState.profit += stat.profit;
+
+        stat.totalQuantity = currentState.totalQuantity;
+        stat.profit = currentState.profit;
+
       } else {
         productStats[reference] = stat;
       }
@@ -45,13 +51,17 @@ class StatsLiveDataModel {
     _totalProfit.value += statChanges.profitChange;
   }
 
+  /// this mutates statsChanges into the current ones after calculations
   void _updateSellerStats(StatsProductChanges statChanges) {
     StatsSeller? currentState = sellerStats[statChanges.sellerCode];
     if (currentState != null) {
       currentState.totalSold += statChanges.productCounts;
+
+      statChanges.productCounts = currentState.totalSold;
+
     } else {
       sellerStats[statChanges.sellerCode] = StatsSeller(
-        sellerCode: statChanges.sellerCode,
+        code: statChanges.sellerCode,
         totalSold : statChanges.productCounts,
         name: statChanges.sellerName,
       );
@@ -59,4 +69,19 @@ class StatsLiveDataModel {
   }
 
   void updateOrderStats(StatsProductChanges productStatsChanges) {}
+
+  void setAllStats(List<StatsRecord> statsRecords) {
+    StatsRecord monthlyStats = statsRecords[0];
+
+    cityStats.clear();
+    cityStats.addAll(monthlyStats.orderRecords);
+
+    sellerStats.clear();
+    sellerStats.addAll(monthlyStats.sellerRecords);
+
+    productStats.clear();
+    productStats.addAll(monthlyStats.purchaseRecords);
+
+    _totalProfit.value = monthlyStats.totalProfit;
+  }
 }

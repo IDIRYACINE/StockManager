@@ -1,4 +1,5 @@
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/Infrastructure/Database/database.dart';
 import 'package:stock_manager/Infrastructure/Database/database_dao.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -471,6 +472,49 @@ class DatabaseFrowarder {
 
     ServiceResponse response = ServiceResponse(
       hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> updatePurchaseStatistiques(ServiceMessageData message) async {
+    await _databaseDao.updatePurchaseStatistiques(
+      purchaseStatistiques: message.data[ServicesData.instance],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> updateOrderStatistiques(ServiceMessageData message) async {
+      await _databaseDao.updateOrderStatistiques(
+      purchaseStatistiques: message.data[ServicesData.instance],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: false,
+      messageId: message.messageId,
+      status: OperationStatus.success,
+    );
+
+    return response;
+  }
+
+  Future<ServiceResponse> searchPurchaseStatistiques(ServiceMessageData message) async{
+    List<StatsRecord> records = await _databaseDao.searchPurchaseStatistiques(
+      search: message.data[ServicesData.databaseSelector],
+    );
+
+    ServiceResponse response = ServiceResponse(
+      hasData: true,
+      data: records,
       messageId: message.messageId,
       status: OperationStatus.success,
     );

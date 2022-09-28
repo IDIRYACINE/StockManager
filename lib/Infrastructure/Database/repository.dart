@@ -1,6 +1,8 @@
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/special_enums.dart';
 
 abstract class DatabaseRepository {
   // x from json
@@ -146,6 +148,29 @@ abstract class DatabaseRepository {
     );
   }
 
+  static ModelSize modelSizefromJson({required json}) {
+    return ModelSize(
+      json[ProductModelFields.size.name] ?? '',
+      json[ProductModelFields.quantity.name] ?? 0,
+    );
+  }
+
+  static Map<String, StatsProduct> statistiquesProductFromJson(
+      {required AppJson json}) {
+    Map<String, StatsProduct> stats = {};
+
+    json.forEach((reference, rawStat) {
+      stats[reference] = StatsProduct(
+        reference: rawStat[StatistiquesProductFields.reference.name],
+        name: rawStat[StatistiquesProductFields.name.name],
+        totalQuantity: rawStat[StatistiquesProductFields.quantity.name],
+        profit: rawStat[StatistiquesProductFields.profit.name],
+      );
+    });
+
+    return stats;
+  }
+
   // x to json
 
   static AppJson<dynamic> productFamilyToJson({required ProductFamily family}) {
@@ -263,7 +288,8 @@ abstract class DatabaseRepository {
     return json;
   }
 
-  static AppJson<dynamic> recordProductToJson({required RecordProduct product}) {
+  static AppJson<dynamic> recordProductToJson(
+      {required RecordProduct product}) {
     AppJson json = {};
     json[RecordProductFields.name.name] = product.product;
     json[RecordProductFields.reference.name] = product.reference;
@@ -271,17 +297,93 @@ abstract class DatabaseRepository {
     json[RecordProductFields.color.name] = product.color;
     json[RecordProductFields.size.name] = product.size;
     json[RecordProductFields.deposit.name] = product.deposit;
-    json[RecordProductFields.remainingPayement.name] = product.remainingPayement;
+    json[RecordProductFields.remainingPayement.name] =
+        product.remainingPayement;
     json[RecordProductFields.colorId.name] = product.colorId;
     json[RecordProductFields.sizeId.name] = product.sizeId;
 
     return json;
   }
 
-  static ModelSize modelSizefromJson({required json}) {
-    return ModelSize(
-      json[ProductModelFields.size.name] ?? '',
-      json[ProductModelFields.quantity.name] ?? 0,
-    );
+  static AppJson<dynamic> statistiqueProductsToJson(
+      {required Map<String, StatsProduct> stats}) {
+    AppJson<dynamic> json = {};
+
+    stats.forEach((reference, productStat) {
+      AppJson<dynamic> rawStat = {};
+      rawStat[StatistiquesProductFields.quantity.name] =
+          productStat.totalQuantity;
+      rawStat[StatistiquesProductFields.profit.name] = productStat.profit;
+      rawStat[StatistiquesProductFields.name.name] = productStat.reference;
+      rawStat[StatistiquesProductFields.reference.name] = productStat.reference;
+
+      json[reference] = rawStat;
+    });
+    return json;
+  }
+
+  static Map<String, dynamic> statistiqueSellersToJson(
+      {required Map<String, StatsSeller> stats}) {
+    Map<String, dynamic> json = {};
+
+    stats.forEach((name, sellerStat) {
+      Map<String, dynamic> rawStat = {};
+      rawStat[StatistiquesSellerFields.name.name] = sellerStat.name;
+      rawStat[StatistiquesSellerFields.code.name] = sellerStat.code;
+      rawStat[StatistiquesSellerFields.quantity.name] = sellerStat.totalSold;
+
+      json[name] = rawStat;
+    });
+
+    return json;
+  }
+
+  static StatsRecord statsRecordFromJson({required Map<String, dynamic> json}) {
+    AppJson<RecordProduct> products = {};
+
+    AppJson<dynamic>? rawProductStats = json[StatistiquesFields.products.name];
+
+    RecordProduct product;
+
+    if (rawProductStats != null) {
+      rawProductStats.forEach((key, element) {
+        product = recordProductFromJson(json: element, key: key);
+        products[key] = product;
+      });
+    }
+
+    return StatsRecord(
+        date: json[StatistiquesFields.date.name],
+        orderRecords: statistiquesOrderFromJson(
+            json: json[StatistiquesFields.orders.name]),
+        purchaseRecords: statistiquesProductFromJson(
+            json: json[StatistiquesFields.products.name]),
+        sellerRecords: statistiqueSellersFromJson(
+            json: json[StatistiquesFields.sellers.name]),
+        totalNetProfit: json[StatistiquesFields.totalNetProfit.name] ?? 0,
+        totalProfit: json[StatistiquesFields.totalProfit.name] ?? 0,
+        visibility: StatsVisibility.monthly);
+  }
+
+  static Map<String, StatsCity> statistiquesOrderFromJson(
+      {required AppJson json}) {
+    Map<String, StatsCity> stats = {};
+
+    return stats;
+  }
+
+  static Map<String, StatsSeller> statistiqueSellersFromJson(
+      {required AppJson json}) {
+    Map<String, StatsSeller> stats = {};
+
+    json.forEach((reference, rawStat) {
+      stats[reference] = StatsSeller(
+        code: rawStat[StatistiquesSellerFields.code.name],
+        name: rawStat[StatistiquesSellerFields.name.name],
+        totalSold: rawStat[StatistiquesSellerFields.quantity.name],
+      );
+    });
+
+    return stats;
   }
 }

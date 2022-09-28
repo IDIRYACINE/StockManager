@@ -43,7 +43,7 @@ enum DatabaseEvent{
   updatePurchaseRecord,
   updateSeller,
   updatePurchaseStatistiques,
-  updateSellersStatistiques,
+  updateOrdersStatistiques,
   deleteProductFamily,
   deleteOrder,
   deleteOrderProduct,
@@ -64,6 +64,7 @@ enum DatabaseEvent{
   searchPurchaseRecord,
   searchProductFamily,
   searchStatistiques,
+  searchPurchaseStatistiques,
 }
 
 enum ServiceMessageFields{

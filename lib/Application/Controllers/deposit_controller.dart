@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
-import 'package:stock_manager/Application/Utility/validators.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -110,44 +109,50 @@ class DespositController {
   }
 
   void completePayment(BuildContext context, Record data) {
-    PopupsUtility.displayGenericPopup(
-      context,
-      width: 100,
-      height: 100,
-      TextFieldDialog(
-        label: Translations.of(context)!.deposit,
-        validator: ValueValidator.validateNumber,
-        initialValue: data.remainingPayement.toString(),
-        onConfirm: (String? value) {
-          _onCompletePayment(data, value!);
-        },
-      ),
+    _onCompletePayment(data);
+    PopupsUtility.displayToast(context, "Generated Remaining");
+  }
+
+  void _onCompletePayment(Record record) {
+
+    Record remainingRecord = generateRemainingRecord(record);
+    recordsLiveModel.addRecord(remainingRecord);
+
+    Map<ServicesData, dynamic> messageData = {
+      ServicesData.instance: remainingRecord,
+    };
+
+    ServiceMessage<List<Record>> message = ServiceMessage(
+      service: AppServices.database,
+      event: DatabaseEvent.insertRemainingRecord,
+      data: messageData,
     );
+
+    ServicesStore.instance.sendMessage(message);
   }
 
-  void _onCompletePayment(Record record, String newDeposit) {
-    // double parsedDeposit = double.parse(newDeposit);
+  Record generateRemainingRecord(Record deposit){
 
-    // Record remainingRecord = record.copyWith(
-    //   payementType: PaymentTypes.remaining.name,
-    //   payementTypeIndex: PaymentTypes.remaining.index,
-    //   remainingPayement: -1 * (record.remainingPayement - parsedDeposit),
-    //   deposit: parsedDeposit,
-    //   date: DateTime.now(),
-    // );
+    Map<String,RecordProduct> products = {};
 
-    // recordsLiveModel.addRecord(remainingRecord);
+    deposit.products.forEach((timestamp, product) {
+      RecordProduct newProduct = product.copyWith(
+        remainingPayement: 0,
+        deposit: product.remainingPayement,
+      );
 
-    // Map<ServicesData, dynamic> messageData = {
-    //   ServicesData.instance: remainingRecord,
-    // };
+      products[timestamp] = newProduct;
+    });
 
-    // ServiceMessage<List<Record>> message = ServiceMessage(
-    //   service: AppServices.database,
-    //   event: DatabaseEvent.insertRemainingRecord,
-    //   data: messageData,
-    // );
+    Record remainingRecord = deposit.copyWith(
+      payementType: PaymentTypes.remaining.name,
+      payementTypeIndex: PaymentTypes.remaining.index,
+      products: products,
+      remainingPayement: 0,
+      totalDeposit: deposit.remainingPayement,
+    );
 
-    // ServicesStore.instance.sendMessage(message);
+    return remainingRecord;
   }
+  
 }
