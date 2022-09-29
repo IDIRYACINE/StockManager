@@ -2,6 +2,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
+import 'package:stock_manager/Types/i_stores.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class RecordsStoreHandler implements RecordsStoreDelegate {
@@ -10,7 +11,7 @@ class RecordsStoreHandler implements RecordsStoreDelegate {
   final RecordsLiveDataModel recordsLiveModel;
 
   @override
-  Future<void> searchRecords(Object? data) async {
+  Future<EventResponse?> searchRecords(Object? data) async {
     Map<ServicesData, dynamic> requestData = {ServicesData.databaseSelector: (data == null)? {} : data};
 
 
@@ -22,5 +23,7 @@ class RecordsStoreHandler implements RecordsStoreDelegate {
         callback: (records) => recordsLiveModel.setAllRecords(records));
 
     ServicesStore.instance.sendMessage(message);
+    
+    return null;
   }
 }

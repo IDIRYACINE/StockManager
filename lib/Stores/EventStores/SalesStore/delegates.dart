@@ -6,8 +6,10 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
+import 'package:stock_manager/Types/i_stores.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
@@ -18,8 +20,8 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
   final StockLiveDataModel stockLiveModel;
 
   @override
-  Future<void> addPurchase(Object? data) async {
-    Record record = data as Record;
+  Future<EventResponse?> addPurchase(StoreEvent? event) async {
+    Record record = event!.data as Record;
 
     recordsLiveModel.addActiveSaleRecord();
 
@@ -38,22 +40,29 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+
+    EventResponse response = EventResponse(
+        data: record,
+        event: PurchaseEvents.addPurchase.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
-  Future<void> addPurchaseProduct(Object? data) async {
+  Future<EventResponse?> addPurchaseProduct(StoreEvent? event) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> removePurchase(Object? data) async {
-    Record record = data as Record;
+  Future<EventResponse?> removePurchase(StoreEvent? event) async {
+    Record record = event!.data as Record;
 
     recordsLiveModel.removeSaleRecord(record);
 
-   
     record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
+      stockLiveModel.reclaimStock(
+          product.reference, product.colorId, product.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: record};
@@ -62,11 +71,18 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
         event: DatabaseEvent.deletePurchaseRecord,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
+
+    EventResponse response = EventResponse(
+        data: record,
+        event: PurchaseEvents.removePurchase.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
-  Future<void> removePurchaseProduct(Object? data) async {
-    RecordProductWrapper wrapper = data as RecordProductWrapper;
+  Future<EventResponse?> removePurchaseProduct(StoreEvent? event) async {
+    RecordProductWrapper wrapper = event!.data as RecordProductWrapper;
 
     Record record = wrapper.record;
     RecordProduct recordProduct = wrapper.recordProduct;
@@ -89,21 +105,29 @@ class PurchaseStoreHandler implements PurchaseStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+
+    EventResponse response = EventResponse(
+        data: recordProduct,
+        event: PurchaseEvents.removePurchaseProduct.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
-  Future<void> updatePurchase(Object? data) async {
+  Future<EventResponse?> updatePurchase(StoreEvent? event) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> updatePurchaseProduct(Object? data) async {
+  Future<EventResponse?> updatePurchaseProduct(StoreEvent? event) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> clearPurchase(Object? data) async {
+  Future<EventResponse?> clearPurchase(StoreEvent? event) async {
     recordsLiveModel.clearSaleRecord();
+    return null;
   }
 }
 
@@ -114,15 +138,15 @@ class DepositStoreHandler implements DepositStoreDelegate {
   final StockLiveDataModel stockLiveModel;
 
   @override
-  Future<void> addDeposit(Object? data) async {
-    
-    Record record = data as Record;
+  Future<EventResponse?> addDeposit(StoreEvent? event) async {
+    Record record = event!.data as Record;
 
     recordsLiveModel.setActiveDepositRecord(record);
     recordsLiveModel.addActiveDepositRecord();
-    
+
     record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
+      stockLiveModel.reclaimStock(
+          product.reference, product.colorId, product.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> requestData = {
@@ -135,22 +159,29 @@ class DepositStoreHandler implements DepositStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+    
+    EventResponse response = EventResponse(
+        data: record,
+        event: DepositEvents.addDeposit.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
-  Future<void> addDepositProduct(Object? data) async {
+  Future<EventResponse?> addDepositProduct(StoreEvent? event) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> removeDeposit(Object? data) async {
-    Record record = data as Record;
+  Future<EventResponse?> removeDeposit(StoreEvent? event) async {
+    Record record = event!.data as Record;
 
     recordsLiveModel.removeDepositRecord(record);
 
-   
     record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, 1);
+      stockLiveModel.reclaimStock(
+          product.reference, product.colorId, product.sizeId, 1);
     });
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: record};
@@ -159,11 +190,12 @@ class DepositStoreHandler implements DepositStoreDelegate {
         event: DatabaseEvent.deletePurchaseRecord,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> removeDepositProduct(Object? data) async {
-    RecordProductWrapper wrapper = data as RecordProductWrapper;
+  Future<EventResponse?> removeDepositProduct(StoreEvent? event) async {
+    RecordProductWrapper wrapper = event!.data as RecordProductWrapper;
 
     Record record = wrapper.record;
 
@@ -187,26 +219,28 @@ class DepositStoreHandler implements DepositStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> updateDeposit(Object? data) async {
+  Future<EventResponse?> updateDeposit(StoreEvent? event) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> updateDepositProduct(Object? data) async {
+  Future<EventResponse?> updateDepositProduct(StoreEvent? event) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> clearDeposit(Object? data) async {
+  Future<EventResponse?> clearDeposit(StoreEvent? event) async {
     recordsLiveModel.clearDeposits();
+    return null;
   }
 
   @override
-  Future<void> quickSearchDeposit(Object? data) async {
-    Map<String, dynamic> query = data as Map<String, dynamic>;
+  Future<EventResponse?> quickSearchDeposit(StoreEvent? event) async {
+    Map<String, dynamic> query = event!.data as Map<String, dynamic>;
 
     void _onResult(List<Record> records) {
       recordsLiveModel.setAllDeposits(records);
@@ -224,6 +258,7 @@ class DepositStoreHandler implements DepositStoreDelegate {
         callback: _onResult);
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 }
 
@@ -234,14 +269,14 @@ class OrderStoreHandler implements OrderStoreDelegate {
   final StockLiveDataModel stockLiveModel;
 
   @override
-  Future<void> addOrder(Object? data) async {
-    Order order = data as Order;
+  Future<EventResponse?> addOrder(StoreEvent? event) async {
+    Order order = event!.data as Order;
     ordersLiveModel.addOrder(order);
 
-     order.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
+    order.products.forEach((key, product) {
+      stockLiveModel.reclaimStock(
+          product.reference, product.colorId, product.sizeId, -1);
     });
-
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: order,
@@ -253,11 +288,12 @@ class OrderStoreHandler implements OrderStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> addOrderProduct(Object? data) async {
-    RecordProduct orderProduct = data as RecordProduct;
+  Future<EventResponse?> addOrderProduct(StoreEvent? event) async {
+    RecordProduct orderProduct = event!.data as RecordProduct;
     ordersLiveModel.addOrderProduct(orderProduct);
 
     stockLiveModel.reclaimStock(
@@ -277,16 +313,19 @@ class OrderStoreHandler implements OrderStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> removeOrder(Object? data) async {
-    RemoveRequestWrapper<Order> wrapper = data as RemoveRequestWrapper<Order>;
+  Future<EventResponse?> removeOrder(StoreEvent? event) async {
+    RemoveRequestWrapper<Order> wrapper =
+        event!.data as RemoveRequestWrapper<Order>;
 
     ordersLiveModel.removeOrder(wrapper.instance, wrapper.index!);
 
     wrapper.instance.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(product.reference, product.colorId, product.sizeId, -1);
+      stockLiveModel.reclaimStock(
+          product.reference, product.colorId, product.sizeId, -1);
     });
 
     Map<ServicesData, dynamic> requestData = {
@@ -298,11 +337,12 @@ class OrderStoreHandler implements OrderStoreDelegate {
         event: DatabaseEvent.deleteOrder,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> removeOrderProduct(Object? data) async {
-    RecordProduct orderProduct = data as RecordProduct;
+  Future<EventResponse?> removeOrderProduct(StoreEvent? event) async {
+    RecordProduct orderProduct = event!.data as RecordProduct;
 
     ordersLiveModel.removeOrderProduct(orderProduct);
 
@@ -329,19 +369,27 @@ class OrderStoreHandler implements OrderStoreDelegate {
     if (order.products.isEmpty) {
       int index = ordersLiveModel.selectedOrderIndex;
       ordersLiveModel.removeOrder(order, index);
-      removeOrder(order);
+      StoreEvent removeEvent = StoreEvent(
+          data: order, broadcast: false, event: '', notifyEmitteur: false);
+      removeOrder(removeEvent);
     } else {
       final ModifierBuilder modifierBuilder = ModifierBuilder()
           .set(OrderFields.remainingPayement.name, order.remainingPayement)
           .set(OrderFields.totalPrice.name, order.totalPrice);
 
-      updateOrder(modifierBuilder.map);
+      StoreEvent updateEvent = StoreEvent(
+          data: modifierBuilder.map,
+          broadcast: false,
+          event: '',
+          notifyEmitteur: false);
+      updateOrder(updateEvent);
     }
+    return null;
   }
 
   @override
-  Future<void> updateOrder(Object? data) async {
-    AppJson updatedValues = data as AppJson;
+  Future<EventResponse?> updateOrder(StoreEvent? event) async {
+    AppJson updatedValues = event!.data as AppJson;
 
     Order order = ordersLiveModel.selectedOrder;
     int index = ordersLiveModel.selectedOrderIndex;
@@ -358,16 +406,17 @@ class OrderStoreHandler implements OrderStoreDelegate {
     ServicesStore.instance.sendMessage(message);
 
     ordersLiveModel.updateOrder(order, index);
+    return null;
   }
 
   @override
-  Future<void> updateOrderProduct(Object? data) async {
+  Future<EventResponse?> updateOrderProduct(StoreEvent? event) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> searchOrders(Object? data) async {
-    AppJson query = data as AppJson;
+  Future<EventResponse?> searchOrders(StoreEvent? event) async {
+    AppJson query = event!.data as AppJson;
 
     void _onResult(List<Order> order) {
       ordersLiveModel.setAllOrders(order);
@@ -385,5 +434,6 @@ class OrderStoreHandler implements OrderStoreDelegate {
         callback: _onResult);
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 }

@@ -5,6 +5,7 @@ enum EventTypes{
   services,
   exceptions,
   inventory,
+  statistiques,
   record,
 }
 

@@ -63,4 +63,9 @@ abstract class Utility {
     DateTime now = DateTime.now();
     return DateTime(now.year, now.month);
   }
+
+  static void searchByCurrentMonth(SelectorBuilder selector) {
+    DateTime date = getMonth();
+    selector.eq(RecordFields.date.name, date);
+  }
 }

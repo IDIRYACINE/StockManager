@@ -3,10 +3,9 @@ import 'dart:isolate';
 
 import 'package:stock_manager/Infrastructure/Database/database.dart';
 import 'package:stock_manager/Infrastructure/ServiceFowarders/repository_forwarder.dart';
+import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_infrastructre.dart';
 import 'package:stock_manager/Types/special_enums.dart';
-
-import '../serivces_store.dart';
 
 class ServicesForwarder {
   ServicesForwarder({required this.uiThreadPort}) {
@@ -111,7 +110,7 @@ class ServicesForwarder {
         _databaseForwarder.updatePurchaseStatistiques;
     _callbacks[DatabaseEvent.updateOrdersStatistiques] =
         _databaseForwarder.updateOrderStatistiques;
-        _callbacks[DatabaseEvent.searchPurchaseStatistiques] =
+    _callbacks[DatabaseEvent.searchPurchaseStatistiques] =
         _databaseForwarder.searchPurchaseStatistiques;
   }
 }

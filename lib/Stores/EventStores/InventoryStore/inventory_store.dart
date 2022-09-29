@@ -63,16 +63,28 @@ class ProductStore implements Store {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    _callbacks[target]?.call(event.data);
+     _callbacks[target]?.call(event).then((response) {
+      if (event.broadcast) {
+        for (EventListener listener in _listeners) {
+          listener.notifyEventResult(
+              event.subEventType ?? event.event, response);
+        }
+        return;
+      }
+      if (event.notifyEmitteur) {
+        event.listener
+            ?.notifyEventResult(event.subEventType ?? event.event, response);
+      }
+    });
   }
 
   @override
-  void on({required String event, required EventListener listener}) {
+  void on({String? subEventType,required String event, required EventListener listener}) {
     _listeners.add(listener);
   }
 
   @override
-  void off({required String event, required EventListener listener}) {
+  void off({String? subEventType,required String event, required EventListener listener}) {
     _listeners.remove(listener);
   }
 
@@ -104,16 +116,16 @@ class CategoryStore implements Store {
   @override
   void receiveEvent({required StoreEvent event}) {
     String target = event.event;
-    _callbacks[target]?.call(event.data);
+    _callbacks[target]?.call(event);
   }
 
   @override
-  void on({required String event, required EventListener listener}) {
+  void on({String? subEventType,required String event, required EventListener listener}) {
     _listeners.add(listener);
   }
 
   @override
-  void off({required String event, required EventListener listener}) {
+  void off({String? subEventType,required String event, required EventListener listener}) {
     _listeners.remove(listener);
   }
 

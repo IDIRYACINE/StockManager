@@ -14,7 +14,7 @@ class Database {
     try {
       database = Db("mongodb://$identifier:$password@$host:$port/$dbName");
       await database.open();
-      _checkIfDatabaseSchemaCreate();
+      _checkIfDatabaseSchemaExists();
     } catch (e) {
       log(e.toString());
       await _createDatabase(identifier, password);
@@ -28,13 +28,13 @@ class Database {
       database = await Db.create(
           "mongodb+srv://$identifier:$password@$host:$port/$dbName");
       await database.open();
-      _checkIfDatabaseSchemaCreate();
+      _checkIfDatabaseSchemaExists();
     } catch (e) {
       log(e.toString());
     }
   }
 
-  void _checkIfDatabaseSchemaCreate() async {
+  void _checkIfDatabaseSchemaExists() async {
     List<String?> collections = await database.getCollectionNames();
     if (collections.isEmpty) {
       createCollections();
@@ -48,6 +48,7 @@ class Database {
     database.createCollection(Collections.records.name);
     database.createCollection(Collections.sellers.name);
     database.createCollection(Collections.orders.name);
+    database.createCollection(Collections.statestiques.name);
   }
 
   void createIndexes() {
@@ -220,7 +221,7 @@ class Database {
       SelectorBuilder selector, ModifierBuilder updatedValues) async {
     DbCollection collection =
         database.collection(Collections.statestiques.name);
-    await collection.updateOne(selector, updatedValues);
+    await collection.update(selector, updatedValues,upsert: true);
   }
 
   FutureMongoDbDataStream searchPurchaseStatistiques(

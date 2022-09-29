@@ -12,7 +12,7 @@ import 'package:stock_manager/Types/special_enums.dart';
 
 class StatistiquesStoreHandler
     implements StatistiquesStoreDelegate, EventListener {
-  final Map<String, EventCallback> _reactions = {};
+  final Map<String, EventResultCallback> _reactions = {};
   final StatsLiveDataModel statsLiveModel;
 
   StatistiquesStoreHandler(this.statsLiveModel) {
@@ -21,13 +21,15 @@ class StatistiquesStoreHandler
   }
 
   @override
-  Future<void> notifyEventResult(String event, EventResponse? response) async {
+  Future<EventResponse?> notifyEventResult(String event, EventResponse? response) async {
     _reactions[event]?.call(response);
+    
+    return null;
   }
 
   @override
-  Future<void> searchStatistiques(Object? data) async {
-    Map<String, dynamic> query = data as Map<String, dynamic>;
+  Future<EventResponse?> searchStatistiques(StoreEvent event) async {
+    Map<String, dynamic> query = event.data as Map<String, dynamic>;
 
     void _onResult(List<StatsRecord> records) {
       statsLiveModel.setAllStats(records);
@@ -45,13 +47,13 @@ class StatistiquesStoreHandler
         callback: _onResult);
 
     ServicesStore.instance.sendMessage(message);
+        return null;
+
   }
 
   @override
-  Future<void> updatePurchaseStatistiques(Object? data) async {
-    EventResponse response = data as EventResponse;
-
-    Record record = response.data as Record;
+  Future<EventResponse?> updatePurchaseStatistiques(EventResponse? response) async {
+    Record record = response!.data as Record;
 
     int modifier = _isAddOrRemoveEvent(response.event);
     StatsProductChanges productStatsChanges =
@@ -71,13 +73,14 @@ class StatistiquesStoreHandler
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+        return null;
+
   }
 
   @override
-  Future<void> updateOrderStatistiques(Object? data) async {
-    EventResponse response = data as EventResponse;
+  Future<EventResponse?> updateOrderStatistiques(EventResponse? response) async {
 
-    Order order = response.data as Order;
+    Order order = response!.data as Order;
 
     int modifier = _isAddOrRemoveEvent(response.event);
     StatsProductChanges productStatsChanges =
@@ -97,6 +100,8 @@ class StatistiquesStoreHandler
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+        return null;
+
   }
 
   void _registerHandlers() {
@@ -118,33 +123,21 @@ class StatistiquesStoreHandler
         subEventType: SubEventType.deposit.name,
         event: DepositEvents.addDeposit.name,
         listener: this);
-    eventCenter.on(
-        eventType: EventTypes.sales.name,
-        subEventType: SubEventType.deposit.name,
-        event: DepositEvents.removeDeposit.name,
-        listener: this);
+   
 
     eventCenter.on(
         eventType: EventTypes.sales.name,
         subEventType: SubEventType.purchase.name,
         event: PurchaseEvents.addPurchase.name,
         listener: this);
-    eventCenter.on(
-        eventType: EventTypes.sales.name,
-        subEventType: SubEventType.purchase.name,
-        event: PurchaseEvents.removePurchase.name,
-        listener: this);
+  
 
     eventCenter.on(
         eventType: EventTypes.sales.name,
         subEventType: SubEventType.order.name,
         event: OrderEvents.addOrder.name,
         listener: this);
-    eventCenter.on(
-        eventType: EventTypes.sales.name,
-        subEventType: SubEventType.order.name,
-        event: OrderEvents.removeOrder.name,
-        listener: this);
+    
   }
 
   StatsProductChanges _recordProductsToStats(Record record, int modifier) {

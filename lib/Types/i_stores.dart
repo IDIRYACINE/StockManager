@@ -1,5 +1,6 @@
 
-typedef EventCallback = Future<void> Function(Object? data);
+typedef EventCallback = Future<EventResponse?> Function(StoreEvent event);
+typedef EventResultCallback = Future<void> Function(EventResponse? response);
 
 class StoreEvent {
   StoreEvent(
@@ -39,12 +40,12 @@ abstract class Store {
   void receiveEvent({required StoreEvent event});
 
   void on(
-      {
+      {String? subEventType,
       required String event,
       required EventListener listener});
 
   void off(
-      {
+      {String? subEventType,
       required String event,
       required EventListener listener});
 }

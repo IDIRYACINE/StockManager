@@ -99,7 +99,7 @@ class SalesController {
         onSearch: _onSearchProduct,
         confirmLabel: Translations.of(context)!.add,
         addSaleCallback: (record) => PurchaseEmitter.emitPurchaseEvent(
-            PurchaseEvents.addPurchase, data : record),
+            PurchaseEvents.addPurchase, data : record,broadcast: true),
         addSaleProductCallback: (record) => Utility.displayToastMessage(
             context, Translations.of(context)!.addedProduct),
       ),

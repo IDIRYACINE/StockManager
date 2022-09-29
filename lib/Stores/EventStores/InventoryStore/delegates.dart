@@ -3,6 +3,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
+import 'package:stock_manager/Types/i_stores.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
@@ -12,8 +13,8 @@ class ProductStoreHandler implements ProductStoreDelegate {
   final StockLiveDataModel stockLiveDataModel;
 
   @override
-  Future<void> addProduct(Object? data) async {
-    Product product = data as Product;
+  Future<EventResponse?> addProduct(StoreEvent event) async {
+    Product product = event.data as Product;
 
     stockLiveDataModel.addProduct(product);
 
@@ -27,11 +28,12 @@ class ProductStoreHandler implements ProductStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> removeProduct(Object? data) async {
-    Product product = data as Product;
+  Future<EventResponse?> removeProduct(StoreEvent event) async {
+    Product product = event.data as Product;
     stockLiveDataModel.deleteProduct(product);
 
     Map<ServicesData, dynamic> reauestData = {ServicesData.instance: product};
@@ -40,13 +42,14 @@ class ProductStoreHandler implements ProductStoreDelegate {
         event: DatabaseEvent.deleteProduct,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> searchProducts(Object? data) async {    
+  Future<EventResponse?> searchProducts(StoreEvent event) async {
     Map<ServicesData, dynamic> requestData = {
       ServicesData.databaseSelector:
-          (data == null) ? SelectorBuilder().map : data 
+          (event.data == null) ? SelectorBuilder().map : event.data
     };
 
     ServiceMessage message = ServiceMessage<List<Product>>(
@@ -58,12 +61,13 @@ class ProductStoreHandler implements ProductStoreDelegate {
     );
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> updateProduct(Object? data) async {
+  Future<EventResponse?> updateProduct(StoreEvent event) async {
     UpdateRequestWrapper<Product> wrapper =
-        data as UpdateRequestWrapper<Product>;
+        event.data as UpdateRequestWrapper<Product>;
 
     stockLiveDataModel.updateProduct(wrapper.instance, wrapper.index!);
 
@@ -77,6 +81,7 @@ class ProductStoreHandler implements ProductStoreDelegate {
         event: DatabaseEvent.updateProduct,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 }
 
@@ -86,8 +91,8 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
   final StockLiveDataModel stockLiveDataModel;
 
   @override
-  Future<void> addCategory(Object? data) async {
-    ProductFamily family = data as ProductFamily;
+  Future<EventResponse?> addCategory(StoreEvent event) async {
+    ProductFamily family = event.data as ProductFamily;
 
     stockLiveDataModel.addProductFamily(family);
 
@@ -101,11 +106,12 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> removeCategory(Object? data) async {
-    ProductFamily family = data as ProductFamily;
+  Future<EventResponse?> removeCategory(StoreEvent event) async {
+    ProductFamily family = event.data as ProductFamily;
 
     stockLiveDataModel.deleteProductFamily(family);
 
@@ -115,13 +121,14 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
         event: DatabaseEvent.deleteProductFamily,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> searchCategories(Object? data) async {
-    Map<ServicesData, dynamic> requestData = (data == null)
+  Future<EventResponse?> searchCategories(StoreEvent event) async {
+    Map<ServicesData, dynamic> requestData = (event.data == null)
         ? {ServicesData.databaseSelector: {}}
-        : data as Map<ServicesData, dynamic>;
+        : event.data as Map<ServicesData, dynamic>;
 
     ServiceMessage message = ServiceMessage<List<ProductFamily>>(
       data: requestData,
@@ -132,17 +139,18 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
     );
 
     ServicesStore.instance.sendMessage(message);
+    return null;
   }
 
   @override
-  Future<void> updateCategory(Object? data) async {
+  Future<EventResponse?> updateCategory(StoreEvent event) async {
     UpdateRequestWrapper<ProductFamily> wrapper =
-        data as UpdateRequestWrapper<ProductFamily>;
+        event.data as UpdateRequestWrapper<ProductFamily>;
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: wrapper.instance,
       ServicesData.databaseSelector: wrapper.updatedField,
-    };
+    }; 
 
     ServiceMessage message = ServiceMessage(
         data: requestData,
@@ -150,5 +158,6 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
     stockLiveDataModel.updateProductFamily(wrapper.instance, wrapper.index!);
+    return null;
   }
 }

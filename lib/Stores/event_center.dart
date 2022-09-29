@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/Stores/EventStores/InventoryStore/inventory_store.dart';
 import 'package:stock_manager/Stores/EventStores/RecordsStore/records_store.dart';
 import 'package:stock_manager/Stores/EventStores/SalesStore/sales_store.dart';
+import 'package:stock_manager/Stores/EventStores/StatistiquesStore/statistiques_store.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_stores.dart';
 
@@ -43,7 +44,7 @@ class EventCenter implements IEventStore {
       String? subEventType,
       required String event,
       required EventListener listener}) {
-    _stores[eventType]?.on(event: subEventType!, listener: listener);
+    _stores[eventType]?.on(subEventType: subEventType,event: event, listener: listener);
   }
 
   @override
@@ -57,6 +58,8 @@ class EventCenter implements IEventStore {
   }
 
   static void initialise(BuildContext context) {
+    if(_instance != null) return;
+
     EventCenter center = EventCenter();
 
     SalesStore salesStore = SalesStore(context);
@@ -68,6 +71,10 @@ class EventCenter implements IEventStore {
 
     RecordsStore recordsStore = RecordsStore(context);
     center.registerStore(
-        eventType: EventTypes.record.name, store: recordsStore);    
+        eventType: EventTypes.record.name, store: recordsStore);
+
+    StatistiquesStore statistiquesStore = StatistiquesStore(context);
+    center.registerStore(
+        eventType: EventTypes.statistiques.name, store: statistiquesStore);
   }
 }

@@ -355,7 +355,7 @@ abstract class DatabaseRepository {
     return StatsRecord(
         date: json[StatistiquesFields.date.name],
         orderRecords: statistiquesOrderFromJson(
-            json: json[StatistiquesFields.orders.name]),
+            json: json[StatistiquesFields.orders.name]?? {}),
         purchaseRecords: statistiquesProductFromJson(
             json: json[StatistiquesFields.products.name]),
         sellerRecords: statistiqueSellersFromJson(

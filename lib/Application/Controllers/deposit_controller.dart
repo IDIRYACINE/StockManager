@@ -108,8 +108,8 @@ class DespositController {
     DepositEmitter.emitDepositEvent(DepositEvents.clearDeposit);
   }
 
-  void completePayment(BuildContext context, Record data) {
-    _onCompletePayment(data);
+  void completePayment(BuildContext context, RecordProductWrapper wrapper) {
+    _onCompletePayment(wrapper.record);
     PopupsUtility.displayToast(context, "Generated Remaining");
   }
 

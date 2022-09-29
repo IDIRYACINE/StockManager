@@ -23,68 +23,68 @@ class ProductFormEditor {
 
 
 abstract class DepositStoreDelegate {
-  Future<void> addDeposit(Object? data);
-  Future<void> updateDeposit(Object? data);
-  Future<void> removeDeposit(Object? data);
+  Future<EventResponse?> addDeposit(StoreEvent event);
+  Future<EventResponse?> updateDeposit(StoreEvent event);
+  Future<EventResponse?> removeDeposit(StoreEvent event);
 
-  Future<void> addDepositProduct(Object? data);
-  Future<void> updateDepositProduct(Object? data);
-  Future<void> removeDepositProduct(Object? data);
+  Future<EventResponse?> addDepositProduct(StoreEvent event);
+  Future<EventResponse?> updateDepositProduct(StoreEvent event);
+  Future<EventResponse?> removeDepositProduct(StoreEvent event);
 
-  Future<void> quickSearchDeposit(Object? data);
+  Future<EventResponse?> quickSearchDeposit(StoreEvent event);
 
-  Future<void> clearDeposit(Object? data);
+  Future<EventResponse?> clearDeposit(StoreEvent event);
 }
 
 abstract class PurchaseStoreDelegate {
-  Future<void> addPurchase(Object? data);
-  Future<void> updatePurchase(Object? data);
-  Future<void> removePurchase(Object? data);
+  Future<EventResponse?> addPurchase(StoreEvent event);
+  Future<EventResponse?> updatePurchase(StoreEvent event);
+  Future<EventResponse?> removePurchase(StoreEvent event);
 
-  Future<void> addPurchaseProduct(Object? data);
-  Future<void> updatePurchaseProduct(Object? data);
-  Future<void> removePurchaseProduct(Object? data);
+  Future<EventResponse?> addPurchaseProduct(StoreEvent event);
+  Future<EventResponse?> updatePurchaseProduct(StoreEvent event);
+  Future<EventResponse?> removePurchaseProduct(StoreEvent event);
 
-  Future<void> clearPurchase(Object? data);
+  Future<EventResponse?> clearPurchase(StoreEvent event);
 
 }
 
 abstract class OrderStoreDelegate {
-  Future<void> addOrder(Object? data);
-  Future<void> updateOrder(Object? data);
-  Future<void> removeOrder(Object? data);
+  Future<EventResponse?> addOrder(StoreEvent event);
+  Future<EventResponse?> updateOrder(StoreEvent event);
+  Future<EventResponse?> removeOrder(StoreEvent event);
 
-  Future<void> addOrderProduct(Object? data);
-  Future<void> updateOrderProduct(Object? data);
-  Future<void> removeOrderProduct(Object? data);
+  Future<EventResponse?> addOrderProduct(StoreEvent event);
+  Future<EventResponse?> updateOrderProduct(StoreEvent event);
+  Future<EventResponse?> removeOrderProduct(StoreEvent event);
 
-  Future<void> searchOrders(Object? data);
+  Future<EventResponse?> searchOrders(StoreEvent event);
 }
 
 abstract class ProductStoreDelegate{
-  Future<void> addProduct(Object? data);
-  Future<void> updateProduct(Object? data);
-  Future<void> removeProduct(Object? data);
+  Future<EventResponse?> addProduct(StoreEvent event);
+  Future<EventResponse?> updateProduct(StoreEvent event);
+  Future<EventResponse?> removeProduct(StoreEvent event);
 
-  Future<void> searchProducts(Object? data);
+  Future<EventResponse?> searchProducts(StoreEvent event);
 
 }
 
 abstract class CategoryStoreDelegate{
-  Future<void> addCategory(Object? data);
-  Future<void> updateCategory(Object? data);
-  Future<void> removeCategory(Object? data);
+  Future<EventResponse?> addCategory(StoreEvent event);
+  Future<EventResponse?> updateCategory(StoreEvent event);
+  Future<EventResponse?> removeCategory(StoreEvent event);
 
-  Future<void> searchCategories(Object? data);
+  Future<EventResponse?> searchCategories(StoreEvent event);
 }
 
 abstract class RecordsStoreDelegate{
-  Future<void> searchRecords(Object? data);
+  Future<EventResponse?> searchRecords(StoreEvent event);
 }
 
 abstract class StatistiquesStoreDelegate{
-  Future<void> searchStatistiques(Object? data);
-  Future<void> updatePurchaseStatistiques(Object? data);
-  Future<void> updateOrderStatistiques(Object? data);
-  Future<void> notifyEventResult(String event, EventResponse? response);
+  Future<EventResponse?> searchStatistiques(StoreEvent event);
+  Future<EventResponse?> updatePurchaseStatistiques(EventResponse event);
+  Future<EventResponse?> updateOrderStatistiques(EventResponse event);
+  Future<EventResponse?> notifyEventResult(String event, EventResponse? response);
 }
