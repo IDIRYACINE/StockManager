@@ -52,7 +52,7 @@ class SalesController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
-              PurchaseEmitter.emitPurchaseEvent(PurchaseEvents.clearPurchase);
+              PurchaseEmitter.emitPurchaseEvent(SalesEvents.clearPurchase);
             },
             message: Translations.of(context)!.messageClearAll),
       ),
@@ -66,7 +66,7 @@ class SalesController {
         content: ConfirmDialog(
             onConfirm: () {
               PurchaseEmitter.emitPurchaseEvent(
-                  PurchaseEvents.removePurchase, data :record);
+                  SalesEvents.removePurchase, data :record);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -80,7 +80,7 @@ class SalesController {
         content: ConfirmDialog(
             onConfirm: () {
               PurchaseEmitter.emitPurchaseEvent(
-                  PurchaseEvents.removePurchaseProduct,data : wrapper);
+                  SalesEvents.removePurchaseProduct,data : wrapper);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -99,7 +99,7 @@ class SalesController {
         onSearch: _onSearchProduct,
         confirmLabel: Translations.of(context)!.add,
         addSaleCallback: (record) => PurchaseEmitter.emitPurchaseEvent(
-            PurchaseEvents.addPurchase, data : record,broadcast: true),
+            SalesEvents.addPurchase, data : record,broadcast: true),
         addSaleProductCallback: (record) => Utility.displayToastMessage(
             context, Translations.of(context)!.addedProduct),
       ),

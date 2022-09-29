@@ -107,7 +107,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void add(BuildContext context) {
     void onConfirm(Product product) {
-      StockProductEmiter.emitProductEvent(StockProductEvents.addStockProduct,
+      StockProductEmiter.emitProductEvent(StockEvents.addStockProduct,
           data: product);
     }
 
@@ -130,7 +130,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
           UpdateRequestWrapper<Product>(product, updatedField, index);
 
       StockProductEmiter.emitProductEvent(
-        StockProductEvents.updateStockProduct,
+        StockEvents.updateStockProduct,
         data: wrapper,
       );
     }
@@ -151,7 +151,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void refresh(BuildContext context) {
     StockProductEmiter.emitProductEvent(
-      StockProductEvents.searchStockProducts,
+      StockEvents.searchStockProducts,
     );
   }
 
@@ -162,7 +162,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () => StockProductEmiter.emitProductEvent(
-              StockProductEvents.refreshStockProducts,
+              StockEvents.refreshStockProducts,
               data: product),
           message: Translations.of(context)!.messageDeleteElement,
         ),
@@ -174,7 +174,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   void search(BuildContext context) {
     void onSearch(Map<String, dynamic> selector) {
       StockProductEmiter.emitProductEvent(
-          StockProductEvents.searchStockProducts,
+          StockEvents.searchStockProducts,
           data: selector);
     }
 
@@ -222,7 +222,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
   @override
   void quickSearch(BuildContext context, AppJson query) {
-    StockProductEmiter.emitProductEvent(StockProductEvents.searchStockProducts,
+    StockProductEmiter.emitProductEvent(StockEvents.searchStockProducts,
         data: query);
   }
 }
@@ -240,7 +240,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
         content: FamilyEditor(
           family: ProductFamily(name: "", reference: ""),
           createCallback: (family) => StockCategroyEmiter.emitCategoryEvent(
-              StockCategoryEvents.addStockCategory,
+              StockEvents.addStockCategory,
               data: family),
           confirmLabel: Translations.of(context)!.add,
         ),
@@ -258,7 +258,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
           editMode: true,
           editCallback: (updatedValues, family) =>
               StockCategroyEmiter.emitCategoryEvent(
-                  StockCategoryEvents.updateStockCategory,
+                  StockEvents.updateStockCategory,
                   data: UpdateRequestWrapper<ProductFamily>(
                       family, updatedValues, index)),
           confirmLabel: Translations.of(context)!.update,
@@ -270,7 +270,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
   @override
   void refresh(BuildContext context) {
     StockCategroyEmiter.emitCategoryEvent(
-      StockCategoryEvents.searchStockCategories,
+      StockEvents.searchStockCategories,
     );
   }
 
@@ -281,7 +281,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () => StockCategroyEmiter.emitCategoryEvent(
-              StockCategoryEvents.removeStockCategory,
+              StockEvents.removeStockCategory,
               data: family),
           message: Translations.of(context)!.messageDeleteElement,
         ),
@@ -299,7 +299,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
             return buildSearchFields(onSelect, onDeselect, context);
           },
           searchCallback: (query) => StockCategroyEmiter.emitCategoryEvent(
-              StockCategoryEvents.searchStockCategories,
+              StockEvents.searchStockCategories,
               data: query),
         ),
       ),

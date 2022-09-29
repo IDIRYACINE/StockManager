@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Types/i_stores.dart';
-
-import 'delegates.dart';
+import 'actions.dart';
 
 class InventoryStore implements Store {
-  final Map<String, Store> _stores = {};
+  final List<EventListener> _listeners = [];
+  late List<StoreAction> _callbacks;
 
   InventoryStore(BuildContext context) {
     _registerStores(context);
@@ -16,15 +17,17 @@ class InventoryStore implements Store {
 
   @override
   void receiveEvent({required StoreEvent event}) {
-    _stores[event.subEventType]?.receiveEvent(event: event);
-  }
-
-  @override
-  void off(
-      {String? subEventType,
-      required String event,
-      required EventListener listener}) {
-    _stores[subEventType]?.off(event: event, listener: listener);
+    _callbacks[event.eventId].execute(event).then((response) {
+      if (event.broadcast) {
+        for (EventListener listener in _listeners) {
+          listener.notifyEventResult(event.event, response);
+        }
+        return;
+      }
+      if (event.notifyEmitteur) {
+        event.listener?.notifyEventResult(event.event, response);
+      }
+    });
   }
 
   @override
@@ -32,114 +35,49 @@ class InventoryStore implements Store {
       {String? subEventType,
       required String event,
       required EventListener listener}) {
-    _stores[subEventType]?.on(event: event, listener: listener);
+    _listeners.add(listener);
+  }
+
+  @override
+  void off(
+      {String? subEventType,
+      required String event,
+      required EventListener listener}) {
+    _listeners.remove(listener);
   }
 
   void _registerStores(BuildContext context) {
     ControllersProvider controllersProvider =
         Provider.of<ControllersProvider>(context, listen: false);
 
-    ProductStoreDelegate productDelegate =
-        ProductStoreHandler(controllersProvider.stockLiveModel);
+    StockLiveDataModel stockLiveModel = controllersProvider.stockLiveModel;
 
-    CategoryStoreDelegate categoryStoreDelegate =
-        CategoryStoreHandler(controllersProvider.stockLiveModel);
+    EmptyAction emptyAction = EmptyAction();
+    _callbacks = List.filled(StockEvents.values.length, emptyAction);
 
-    _stores[SubEventType.product.name] = ProductStore(productDelegate);
-    _stores[SubEventType.category.name] = CategoryStore(categoryStoreDelegate);
-  }
-}
+    AddProduct addProductAction = AddProduct(stockLiveModel);
+    _callbacks[addProductAction.getId()] = addProductAction;
 
-class ProductStore implements Store {
-  final List<EventListener> _listeners = [];
-  final Map<String, EventCallback> _callbacks = {};
+    RemoveProduct removeProductAction = RemoveProduct(stockLiveModel);
+    _callbacks[removeProductAction.getId()] = removeProductAction;
 
-  ProductStoreDelegate productDelegate;
+    SearchProducts searchProductAction = SearchProducts(stockLiveModel);
+    _callbacks[searchProductAction.getId()] = searchProductAction;
 
-  ProductStore(this.productDelegate) {
-    _registerStringHandlers();
-  }
+    UpdateProduct updateProductAction = UpdateProduct(stockLiveModel);
+    _callbacks[updateProductAction.getId()] = updateProductAction;
 
-  @override
-  void receiveEvent({required StoreEvent event}) {
-    String target = event.event;
-     _callbacks[target]?.call(event).then((response) {
-      if (event.broadcast) {
-        for (EventListener listener in _listeners) {
-          listener.notifyEventResult(
-              event.subEventType ?? event.event, response);
-        }
-        return;
-      }
-      if (event.notifyEmitteur) {
-        event.listener
-            ?.notifyEventResult(event.subEventType ?? event.event, response);
-      }
-    });
-  }
+     AddCategory addCategoryAction = AddCategory(stockLiveModel);
+    _callbacks[addCategoryAction.getId()] = addCategoryAction;
 
-  @override
-  void on({String? subEventType,required String event, required EventListener listener}) {
-    _listeners.add(listener);
-  }
+    RemoveCategory removeCategoryAction = RemoveCategory(stockLiveModel);
+    _callbacks[removeCategoryAction.getId()] = removeCategoryAction;
 
-  @override
-  void off({String? subEventType,required String event, required EventListener listener}) {
-    _listeners.remove(listener);
-  }
+    SearchCategories searchCategoryAction = SearchCategories(stockLiveModel);
+    _callbacks[searchCategoryAction.getId()] = searchCategoryAction;
 
-  void _registerStringHandlers() {
-    _callbacks[StockProductEvents.addStockProduct.name] =
-        productDelegate.addProduct;
+    UpdateCategory updateategoryAction = UpdateCategory(stockLiveModel);
+    _callbacks[updateategoryAction.getId()] = updateategoryAction;
 
-    _callbacks[StockProductEvents.updateStockProduct.name] =
-        productDelegate.updateProduct;
-
-    _callbacks[StockProductEvents.removeStockProduct.name] =
-        productDelegate.removeProduct;
-
-    _callbacks[StockProductEvents.searchStockProducts.name] =
-        productDelegate.searchProducts;
-  }
-}
-
-class CategoryStore implements Store {
-  final List<EventListener> _listeners = [];
-  final Map<String, EventCallback> _callbacks = {};
-
-  CategoryStoreDelegate categoryDelegate;
-
-  CategoryStore(this.categoryDelegate) {
-    _registerStringHandlers();
-  }
-
-  @override
-  void receiveEvent({required StoreEvent event}) {
-    String target = event.event;
-    _callbacks[target]?.call(event);
-  }
-
-  @override
-  void on({String? subEventType,required String event, required EventListener listener}) {
-    _listeners.add(listener);
-  }
-
-  @override
-  void off({String? subEventType,required String event, required EventListener listener}) {
-    _listeners.remove(listener);
-  }
-
-  void _registerStringHandlers() {
-    _callbacks[StockCategoryEvents.addStockCategory.name] =
-        categoryDelegate.addCategory;
-
-    _callbacks[StockCategoryEvents.updateStockCategory.name] =
-        categoryDelegate.updateCategory;
-
-    _callbacks[StockCategoryEvents.removeStockCategory.name] =
-        categoryDelegate.removeCategory;
-
-    _callbacks[StockCategoryEvents.searchStockCategories.name] =
-        categoryDelegate.searchCategories;
   }
 }

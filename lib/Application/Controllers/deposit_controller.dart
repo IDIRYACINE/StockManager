@@ -52,7 +52,7 @@ class DespositController {
             timeStamp: Record.depositTimeStamp),
         onSearch: _onSearchProduct,
         addDepositCallback: (record) =>
-            DepositEmitter.emitDepositEvent(DepositEvents.addDeposit, data :record),
+            DepositEmitter.emitDepositEvent(SalesEvents.addDeposit, data :record),
         addDepositProductCallback: (product) => Utility.displayToastMessage(
             context, Translations.of(context)!.addedProduct),
         confirmLabel: Translations.of(context)!.add,
@@ -66,7 +66,7 @@ class DespositController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () => DepositEmitter.emitDepositEvent(
-                DepositEvents.removeDeposit,data : record),
+                SalesEvents.removeDeposit,data : record),
             message: Translations.of(context)!.messageDeleteElement),
       ),
     );
@@ -80,7 +80,7 @@ class DespositController {
         content: ConfirmDialog(
             onConfirm: () {
               DepositEmitter.emitDepositEvent(
-                  DepositEvents.removeDepositProduct, data :wrapper);
+                  SalesEvents.removeDepositProduct, data :wrapper);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -96,7 +96,7 @@ class DespositController {
   }
 
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    DepositEmitter.emitDepositEvent(DepositEvents.quickSearchDeposit,data : query);
+    DepositEmitter.emitDepositEvent(SalesEvents.quickSearchDeposit,data : query);
   }
 
   void printReport(BuildContext context) {
@@ -105,7 +105,7 @@ class DespositController {
   }
 
   void clear(BuildContext context) {
-    DepositEmitter.emitDepositEvent(DepositEvents.clearDeposit);
+    DepositEmitter.emitDepositEvent(SalesEvents.clearDeposit);
   }
 
   void completePayment(BuildContext context, RecordProductWrapper wrapper) {

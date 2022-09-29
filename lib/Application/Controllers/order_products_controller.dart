@@ -19,7 +19,7 @@ class OrderProductsController {
 
   void add(BuildContext context) {
     void _onConfirm(RecordProduct orderProduct) {
-      OrderEmiter.emitOrderEvent(OrderEvents.addOrderProduct,
+      OrderEmiter.emitOrderEvent(SalesEvents.addOrderProduct,
           data: orderProduct);
 
       Navigator.pop(context);
@@ -62,7 +62,7 @@ class OrderProductsController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () => OrderEmiter.emitOrderEvent(
-              OrderEvents.removeOrderProduct,
+              SalesEvents.removeOrderProduct,
               data: orderProduct),
           message: Translations.of(context)!.messageDeleteElement,
         ),

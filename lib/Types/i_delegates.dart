@@ -88,3 +88,28 @@ abstract class StatistiquesStoreDelegate{
   Future<EventResponse?> updateOrderStatistiques(EventResponse event);
   Future<EventResponse?> notifyEventResult(String event, EventResponse? response);
 }
+
+
+abstract class StoreAction{
+  Future<EventResponse?> execute(StoreEvent event);
+  String getName();
+  int getId();
+}
+
+
+class EmptyAction implements StoreAction {
+  @override
+  Future<EventResponse?> execute(StoreEvent event) {
+    throw UnimplementedError();
+  }
+
+  @override
+  int getId() {
+    throw UnimplementedError();
+  }
+
+  @override
+  String getName() {
+    throw UnimplementedError();
+  }
+}

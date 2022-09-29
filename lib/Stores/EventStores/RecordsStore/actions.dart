@@ -1,18 +1,21 @@
+
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Types/i_stores.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
-class RecordsStoreHandler implements RecordsStoreDelegate {
-  RecordsStoreHandler(this.recordsLiveModel);
-
+class SearchRecords implements StoreAction{
   final RecordsLiveDataModel recordsLiveModel;
 
+  SearchRecords(this.recordsLiveModel);
+
   @override
-  Future<EventResponse?> searchRecords(Object? data) async {
-    Map<ServicesData, dynamic> requestData = {ServicesData.databaseSelector: (data == null)? {} : data};
+  Future<EventResponse?> execute(StoreEvent event)  async {
+
+    Map<ServicesData, dynamic> requestData = {ServicesData.databaseSelector: (event.data == null)? {} : event.data};
 
 
     ServiceMessage<List<Record>> message = ServiceMessage(
@@ -25,5 +28,15 @@ class RecordsStoreHandler implements RecordsStoreDelegate {
     ServicesStore.instance.sendMessage(message);
     
     return null;
+  }
+
+  @override
+  int getId() {
+   return RecordEvents.searchRecords.index;
+  }
+
+  @override
+  String getName() {
+    return RecordEvents.searchRecords.name;
   }
 }

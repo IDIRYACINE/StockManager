@@ -2,18 +2,19 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Types/i_stores.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
-class ProductStoreHandler implements ProductStoreDelegate {
-  ProductStoreHandler(this.stockLiveDataModel);
-
+class AddProduct implements StoreAction {
   final StockLiveDataModel stockLiveDataModel;
 
+  AddProduct(this.stockLiveDataModel);
+
   @override
-  Future<EventResponse?> addProduct(StoreEvent event) async {
+  Future<EventResponse?> execute(StoreEvent event) async {
     Product product = event.data as Product;
 
     stockLiveDataModel.addProduct(product);
@@ -32,7 +33,23 @@ class ProductStoreHandler implements ProductStoreDelegate {
   }
 
   @override
-  Future<EventResponse?> removeProduct(StoreEvent event) async {
+  int getId() {
+    return StockEvents.addStockProduct.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.addStockProduct.name;
+  }
+}
+
+class RemoveProduct implements StoreAction {
+  final StockLiveDataModel stockLiveDataModel;
+
+  RemoveProduct(this.stockLiveDataModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
     Product product = event.data as Product;
     stockLiveDataModel.deleteProduct(product);
 
@@ -46,7 +63,23 @@ class ProductStoreHandler implements ProductStoreDelegate {
   }
 
   @override
-  Future<EventResponse?> searchProducts(StoreEvent event) async {
+  int getId() {
+    return StockEvents.removeStockProduct.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.removeStockProduct.name;
+  }
+}
+
+class SearchProducts implements StoreAction {
+  final StockLiveDataModel stockLiveDataModel;
+
+  SearchProducts(this.stockLiveDataModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
     Map<ServicesData, dynamic> requestData = {
       ServicesData.databaseSelector:
           (event.data == null) ? SelectorBuilder().map : event.data
@@ -65,7 +98,23 @@ class ProductStoreHandler implements ProductStoreDelegate {
   }
 
   @override
-  Future<EventResponse?> updateProduct(StoreEvent event) async {
+  int getId() {
+    return StockEvents.searchStockProducts.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.searchStockProducts.name;
+  }
+}
+
+class UpdateProduct implements StoreAction {
+  final StockLiveDataModel stockLiveDataModel;
+
+  UpdateProduct(this.stockLiveDataModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
     UpdateRequestWrapper<Product> wrapper =
         event.data as UpdateRequestWrapper<Product>;
 
@@ -83,15 +132,25 @@ class ProductStoreHandler implements ProductStoreDelegate {
     ServicesStore.instance.sendMessage(message);
     return null;
   }
-}
-
-class CategoryStoreHandler implements CategoryStoreDelegate {
-  CategoryStoreHandler(this.stockLiveDataModel);
-
-  final StockLiveDataModel stockLiveDataModel;
 
   @override
-  Future<EventResponse?> addCategory(StoreEvent event) async {
+  int getId() {
+    return StockEvents.updateStockProduct.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.updateStockProduct.name;
+  }
+}
+
+class AddCategory implements StoreAction {
+  final StockLiveDataModel stockLiveDataModel;
+
+  AddCategory(this.stockLiveDataModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
     ProductFamily family = event.data as ProductFamily;
 
     stockLiveDataModel.addProductFamily(family);
@@ -110,7 +169,23 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
   }
 
   @override
-  Future<EventResponse?> removeCategory(StoreEvent event) async {
+  int getId() {
+    return StockEvents.addStockCategory.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.addStockCategory.name;
+  }
+}
+
+class RemoveCategory implements StoreAction {
+  final StockLiveDataModel stockLiveDataModel;
+
+  RemoveCategory(this.stockLiveDataModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
     ProductFamily family = event.data as ProductFamily;
 
     stockLiveDataModel.deleteProductFamily(family);
@@ -125,7 +200,23 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
   }
 
   @override
-  Future<EventResponse?> searchCategories(StoreEvent event) async {
+  int getId() {
+    return StockEvents.removeStockCategory.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.removeStockCategory.name;
+  }
+}
+
+class SearchCategories implements StoreAction {
+  final StockLiveDataModel stockLiveDataModel;
+
+  SearchCategories(this.stockLiveDataModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
     Map<ServicesData, dynamic> requestData = (event.data == null)
         ? {ServicesData.databaseSelector: {}}
         : event.data as Map<ServicesData, dynamic>;
@@ -143,14 +234,30 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
   }
 
   @override
-  Future<EventResponse?> updateCategory(StoreEvent event) async {
+  int getId() {
+    return StockEvents.searchStockCategories.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.searchStockCategories.name;
+  }
+}
+
+class UpdateCategory implements StoreAction {
+  final StockLiveDataModel stockLiveDataModel;
+
+  UpdateCategory(this.stockLiveDataModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
     UpdateRequestWrapper<ProductFamily> wrapper =
         event.data as UpdateRequestWrapper<ProductFamily>;
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: wrapper.instance,
       ServicesData.databaseSelector: wrapper.updatedField,
-    }; 
+    };
 
     ServiceMessage message = ServiceMessage(
         data: requestData,
@@ -159,5 +266,15 @@ class CategoryStoreHandler implements CategoryStoreDelegate {
     ServicesStore.instance.sendMessage(message);
     stockLiveDataModel.updateProductFamily(wrapper.instance, wrapper.index!);
     return null;
+  }
+
+  @override
+  int getId() {
+    return StockEvents.updateStockCategory.index;
+  }
+
+  @override
+  String getName() {
+    return StockEvents.updateStockCategory.name;
   }
 }

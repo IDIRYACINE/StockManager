@@ -1,5 +1,4 @@
-
-enum EventTypes{
+enum EventTypes {
   navigation,
   sales,
   services,
@@ -9,7 +8,7 @@ enum EventTypes{
   record,
 }
 
-enum SubEventType{
+enum SubEventType {
   purchase,
   deposit,
   order,
@@ -17,14 +16,13 @@ enum SubEventType{
   category,
 }
 
-enum EEventDataKeys{
+enum EEventDataKeys {
   instance,
   instanceCollection,
   operation,
 }
 
-enum Events{
- 
+enum Events {
   load,
   search,
   quickSearch,
@@ -43,7 +41,7 @@ enum PurchaseEvents {
   clearPurchase
 }
 
-enum DepositEvents{
+enum DepositEvents {
   addDeposit,
   updateDeposit,
   removeDeposit,
@@ -55,7 +53,7 @@ enum DepositEvents{
   printDepositBill,
 }
 
-enum OrderEvents{
+enum OrderEvents {
   addOrder,
   updateOrder,
   removeOrder,
@@ -67,16 +65,13 @@ enum OrderEvents{
   printOrderBill,
 }
 
-enum StockProductEvents{
+enum StockEvents {
   addStockProduct,
   updateStockProduct,
   removeStockProduct,
   searchStockProducts,
   loadStockProducts,
   refreshStockProducts,
-}
-
-enum StockCategoryEvents{
   addStockCategory,
   updateStockCategory,
   removeStockCategory,
@@ -92,17 +87,46 @@ enum RecordEvents {
   refreshRecords,
 }
 
-enum StatistiquesEvents{
+enum StatistiquesEvents {
   searchStatistiques,
   updateProductsStatistiques,
   updateSellersStatistiques,
 }
 
-enum EOperationStatus{
+enum EOperationStatus {
   success,
   error,
 }
 
-enum EOperations{
+enum EOperations {
   printPurchase,
+}
+
+enum SalesEvents {
+  addOrder,
+  updateOrder,
+  removeOrder,
+  addOrderProduct,
+  updateOrderProduct,
+  removeOrderProduct,
+  searchOrders,
+  printOrdersReport,
+  printOrderBill,
+  addPurchase,
+  updatePurchase,
+  removePurchase,
+  addPurchaseProduct,
+  updatePurchaseProduct,
+  removePurchaseProduct,
+  printPurchaseBill,
+  clearPurchase,
+  addDeposit,
+  updateDeposit,
+  removeDeposit,
+  addDepositProduct,
+  updateDepositProduct,
+  removeDepositProduct,
+  quickSearchDeposit,
+  clearDeposit,
+  printDepositBill,
 }

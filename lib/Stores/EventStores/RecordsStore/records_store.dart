@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Stores/EventStores/RecordsStore/delegates.dart';
+import 'package:stock_manager/Stores/EventStores/RecordsStore/actions.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Types/i_stores.dart';
 
 class RecordsStore implements Store {
   final List<EventListener> _listeners = [];
-  final Map<String, EventCallback> _callbacks = {};
-
-  late RecordsStoreHandler recordDelegate;
+  late List<StoreAction> _callbacks;
 
   RecordsStore(BuildContext context) {
     _registerHandlers(context);
@@ -17,7 +16,7 @@ class RecordsStore implements Store {
 
   @override
   void receiveEvent({required StoreEvent event}) {
-    _callbacks[event.event]?.call(event).then((response) {
+    _callbacks[event.eventId].execute(event).then((response) {
       if (event.broadcast) {
         for (EventListener listener in _listeners) {
           listener.notifyEventResult(
@@ -52,8 +51,11 @@ class RecordsStore implements Store {
     ControllersProvider controllersProvider =
         Provider.of<ControllersProvider>(context);
 
-    recordDelegate = RecordsStoreHandler(controllersProvider.recordsLiveModel);
+    EmptyAction emptyAction = EmptyAction();
+    _callbacks = List.filled(RecordEvents.values.length, emptyAction);
 
-    _callbacks[RecordEvents.searchRecords.name] = recordDelegate.searchRecords;
+    SearchRecords searchRecords =
+        SearchRecords(controllersProvider.recordsLiveModel);
+    _callbacks[searchRecords.getId()] = searchRecords;
   }
 }

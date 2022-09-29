@@ -37,7 +37,7 @@ class OrdersController {
         child: SpreardedOrderEditor(
           order: ordersLiveModel.selectedOrder,
           createOrderCallback: (order) =>
-              OrderEmiter.emitOrderEvent(OrderEvents.addOrder, data: order),
+              OrderEmiter.emitOrderEvent(SalesEvents.addOrder, data: order),
           onSearch: _onSearchProduct,
           confirmLabel: Translations.of(context)!.add,
         ),
@@ -64,7 +64,7 @@ class OrdersController {
 
   void editCustomer(BuildContext context) {
     void onEdit(AppJson json, order) {
-      OrderEmiter.emitOrderEvent(OrderEvents.updateOrder, data: json);
+      OrderEmiter.emitOrderEvent(SalesEvents.updateOrder, data: json);
       Navigator.pop(context);
     }
 
@@ -106,7 +106,7 @@ class OrdersController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () {
-            OrderEmiter.emitOrderEvent(OrderEvents.removeOrder,
+            OrderEmiter.emitOrderEvent(SalesEvents.removeOrder,
                 data: RemoveRequestWrapper<Order>(order, index));
           },
           message: Translations.of(context)!.messageDeleteElement,
@@ -116,7 +116,7 @@ class OrdersController {
   }
 
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    OrderEmiter.emitOrderEvent(OrderEvents.searchOrders, data: query);
+    OrderEmiter.emitOrderEvent(SalesEvents.searchOrders, data: query);
   }
 
   void search(BuildContext context) {
