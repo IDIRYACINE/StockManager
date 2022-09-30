@@ -355,7 +355,7 @@ abstract class DatabaseRepository {
     return StatsRecord(
         date: json[StatistiquesFields.date.name],
         orderRecords: statistiquesOrderFromJson(
-            json: json[StatistiquesFields.orders.name]?? {}),
+            json: json[StatistiquesFields.orders.name] ?? {}),
         purchaseRecords: statistiquesProductFromJson(
             json: json[StatistiquesFields.products.name]),
         sellerRecords: statistiqueSellersFromJson(
@@ -367,9 +367,33 @@ abstract class DatabaseRepository {
 
   static Map<String, StatsCity> statistiquesOrderFromJson(
       {required AppJson json}) {
-    Map<String, StatsCity> stats = {};
+   Map<String, StatsCity> stats = {};
+
+    json.forEach((postalCode, rawStat) {
+      stats[postalCode] = StatsCity(
+        count: rawStat[StatistiquesCityFields.quantity.name],
+        name: rawStat[StatistiquesCityFields.name.name],
+        postalCode: rawStat[StatistiquesCityFields.postalCode.name],
+      );
+    });
 
     return stats;
+  }
+
+  static AppJson statistiquesOrderToJson(
+      {required Map<String, StatsCity> stats}) {
+    AppJson<dynamic> json = {};
+
+    stats.forEach((postalCode, cityStat) {
+      AppJson<dynamic> rawStat = {};
+      rawStat[StatistiquesCityFields.quantity.name] = cityStat.count;
+      rawStat[StatistiquesCityFields.name.name] = cityStat.name;
+      rawStat[StatistiquesCityFields.postalCode.name] = cityStat.postalCode;
+
+      json[postalCode] = rawStat;
+    });
+
+    return json;
   }
 
   static Map<String, StatsSeller> statistiqueSellersFromJson(

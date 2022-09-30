@@ -85,7 +85,6 @@ class DatabaseDAO {
   }
 
   Future<void> insertRecord({required Record record}) async {
-    
     record.products.forEach((key, product) async => await _updateStockQuantity(
         reference: product.reference,
         quantity: -1,
@@ -289,21 +288,20 @@ class DatabaseDAO {
     return orders;
   }
 
-
-  Future<List<StatsRecord>> searchPurchaseStatistiques({required AppJson search}) async {
+  Future<List<StatsRecord>> searchPurchaseStatistiques(
+      {required AppJson search}) async {
     List<StatsRecord> stats = [];
 
     SelectorBuilder selector = SelectorBuilder();
     selector.map = search;
-    MongoDbDataStream data = await _database.searchPurchaseStatistiques(selector);
+    MongoDbDataStream data =
+        await _database.searchPurchaseStatistiques(selector);
     await data.forEach((rawStatRecord) {
       stats.add(DatabaseRepository.statsRecordFromJson(json: rawStatRecord));
     });
 
     return stats;
   }
-
-
 
   Future<void> _updateStockQuantity(
       {required String reference,
@@ -360,11 +358,11 @@ class DatabaseDAO {
     _database.updateOrder(selectorBuilder, updatedValues);
   }
 
-
-  deletePurchaseRecordProduct({required RecordProduct product, required AppJson selector}) {
-     SelectorBuilder selectorBuilder = SelectorBuilder();
+  deletePurchaseRecordProduct(
+      {required RecordProduct product, required AppJson selector}) {
+    SelectorBuilder selectorBuilder = SelectorBuilder();
     selectorBuilder.map = selector;
-    
+
     ModifierBuilder updatedValues = ModifierBuilder()
         .unset('${RecordFields.products.name}.${product.timeStamp}');
 
@@ -382,27 +380,56 @@ class DatabaseDAO {
         .insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
   }
 
-  Future<void> updatePurchaseStatistiques({required StatsRecord purchaseStatistiques}) async {
+  Future<void> updatePurchaseStatistiques(
+      {required StatsRecord purchaseStatistiques}) async {
     SelectorBuilder selector = SelectorBuilder();
     selector.eq(StatistiquesFields.date.name, purchaseStatistiques.date);
 
     ModifierBuilder modifier = ModifierBuilder();
-    modifier.inc(StatistiquesFields.totalProfit.name, purchaseStatistiques.totalProfit);
-    modifier.inc(StatistiquesFields.totalNetProfit.name, purchaseStatistiques.totalNetProfit);
+    modifier.inc(
+        StatistiquesFields.totalProfit.name, purchaseStatistiques.totalProfit);
+    modifier.inc(StatistiquesFields.totalNetProfit.name,
+        purchaseStatistiques.totalNetProfit);
 
-    Map<String,dynamic> rawProductsStats = DatabaseRepository.statistiqueProductsToJson(stats: purchaseStatistiques.purchaseRecords);
+    Map<String, dynamic> rawProductsStats =
+        DatabaseRepository.statistiqueProductsToJson(
+            stats: purchaseStatistiques.purchaseRecords);
     modifier.set(StatistiquesFields.products.name, rawProductsStats);
 
-    Map<String,dynamic> rawSellersStats = DatabaseRepository.statistiqueSellersToJson(stats: purchaseStatistiques.sellerRecords);
+    Map<String, dynamic> rawSellersStats =
+        DatabaseRepository.statistiqueSellersToJson(
+            stats: purchaseStatistiques.sellerRecords);
     modifier.set(StatistiquesFields.sellers.name, rawSellersStats);
 
-    _database.updatePurchaseStatistiques(selector,modifier);
+    _database.updatePurchaseStatistiques(selector, modifier);
   }
 
-  Future<void> updateOrderStatistiques({required purchaseStatistiques}) async {
-    //TODO
+  Future<void> updateOrderStatistiques(
+      {required StatsRecord orderStatistiques}) async {
+    SelectorBuilder selector = SelectorBuilder();
+    selector.eq(StatistiquesFields.date.name, orderStatistiques.date);
+
+    ModifierBuilder modifier = ModifierBuilder();
+    modifier.inc(
+        StatistiquesFields.totalProfit.name, orderStatistiques.totalProfit);
+    modifier.inc(StatistiquesFields.totalNetProfit.name,
+        orderStatistiques.totalNetProfit);
+
+    Map<String, dynamic> rawProductsStats =
+        DatabaseRepository.statistiqueProductsToJson(
+            stats: orderStatistiques.purchaseRecords);
+    modifier.set(StatistiquesFields.products.name, rawProductsStats);
+
+    Map<String, dynamic> rawOrdersStats =
+        DatabaseRepository.statistiquesOrderToJson(
+            stats: orderStatistiques.orderRecords);
+    modifier.set(StatistiquesFields.products.name, rawOrdersStats);
+
+    Map<String, dynamic> rawSellersStats =
+        DatabaseRepository.statistiqueSellersToJson(
+            stats: orderStatistiques.sellerRecords);
+    modifier.set(StatistiquesFields.sellers.name, rawSellersStats);
+
+    _database.updatePurchaseStatistiques(selector, modifier);
   }
-
-
-
 }

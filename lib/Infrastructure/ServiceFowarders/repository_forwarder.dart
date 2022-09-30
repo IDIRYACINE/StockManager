@@ -495,7 +495,7 @@ class DatabaseFrowarder {
 
   Future<ServiceResponse> updateOrderStatistiques(ServiceMessageData message) async {
       await _databaseDao.updateOrderStatistiques(
-      purchaseStatistiques: message.data[ServicesData.instance],
+      orderStatistiques: message.data[ServicesData.instance],
     );
 
     ServiceResponse response = ServiceResponse(

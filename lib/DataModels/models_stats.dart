@@ -89,7 +89,7 @@ class StatsCity {
   final int count;
   final int postalCode;
 
-  StatsCity(this.name, this.count, this.postalCode);
+  StatsCity({required this.name,required  this.count,required  this.postalCode});
 }
 
 class RecordReportTotals {

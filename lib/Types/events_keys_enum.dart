@@ -89,8 +89,12 @@ enum RecordEvents {
 
 enum StatistiquesEvents {
   searchStatistiques,
-  updateProductsStatistiques,
   updateSellersStatistiques,
+}
+
+enum StatistiquesReactions {
+  updateOrderStatistiques,
+  updatePurchaseStatistiques,
 }
 
 enum EOperationStatus {

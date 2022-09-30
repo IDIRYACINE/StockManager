@@ -21,7 +21,6 @@ class ProductFormEditor {
       TextEditingController(text: '');
 }
 
-
 abstract class DepositStoreDelegate {
   Future<EventResponse?> addDeposit(StoreEvent event);
   Future<EventResponse?> updateDeposit(StoreEvent event);
@@ -46,7 +45,6 @@ abstract class PurchaseStoreDelegate {
   Future<EventResponse?> removePurchaseProduct(StoreEvent event);
 
   Future<EventResponse?> clearPurchase(StoreEvent event);
-
 }
 
 abstract class OrderStoreDelegate {
@@ -61,16 +59,15 @@ abstract class OrderStoreDelegate {
   Future<EventResponse?> searchOrders(StoreEvent event);
 }
 
-abstract class ProductStoreDelegate{
+abstract class ProductStoreDelegate {
   Future<EventResponse?> addProduct(StoreEvent event);
   Future<EventResponse?> updateProduct(StoreEvent event);
   Future<EventResponse?> removeProduct(StoreEvent event);
 
   Future<EventResponse?> searchProducts(StoreEvent event);
-
 }
 
-abstract class CategoryStoreDelegate{
+abstract class CategoryStoreDelegate {
   Future<EventResponse?> addCategory(StoreEvent event);
   Future<EventResponse?> updateCategory(StoreEvent event);
   Future<EventResponse?> removeCategory(StoreEvent event);
@@ -78,28 +75,51 @@ abstract class CategoryStoreDelegate{
   Future<EventResponse?> searchCategories(StoreEvent event);
 }
 
-abstract class RecordsStoreDelegate{
+abstract class RecordsStoreDelegate {
   Future<EventResponse?> searchRecords(StoreEvent event);
 }
 
-abstract class StatistiquesStoreDelegate{
+abstract class StatistiquesStoreDelegate {
   Future<EventResponse?> searchStatistiques(StoreEvent event);
   Future<EventResponse?> updatePurchaseStatistiques(EventResponse event);
   Future<EventResponse?> updateOrderStatistiques(EventResponse event);
-  Future<EventResponse?> notifyEventResult(String event, EventResponse? response);
+  Future<EventResponse?> notifyEventResult(
+      String event, EventResponse? response);
 }
 
-
-abstract class StoreAction{
+abstract class StoreAction {
   Future<EventResponse?> execute(StoreEvent event);
   String getName();
   int getId();
 }
 
+abstract class StoreReaction {
+  Future<void> execute(EventResponse? response);
+  String getName();
+  int getId();
+}
 
 class EmptyAction implements StoreAction {
   @override
   Future<EventResponse?> execute(StoreEvent event) {
+    throw UnimplementedError();
+  }
+
+  @override
+  int getId() {
+    throw UnimplementedError();
+  }
+
+  @override
+  String getName() {
+    throw UnimplementedError();
+  }
+}
+
+
+class EmptyReaction implements StoreReaction {
+  @override
+  Future<void> execute(EventResponse? event) {
     throw UnimplementedError();
   }
 

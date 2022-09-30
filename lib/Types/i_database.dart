@@ -138,6 +138,12 @@ enum StatistiquesProductFields{
   reference,
 }
 
+enum StatistiquesCityFields{
+  name ,
+  quantity,
+  postalCode,
+}
+
 enum StatistiquesSellerFields{
   profit,
   quantity,
