@@ -247,7 +247,13 @@ class RemoveDeposit implements StoreAction {
         event: DatabaseEvent.deletePurchaseRecord,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
-    return null;
+
+    EventResponse response = EventResponse(
+        data: record,
+        event: DepositEvents.removeDeposit.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
@@ -293,7 +299,13 @@ class RemoveDepositProduct implements StoreAction {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-    return null;
+
+    EventResponse response = EventResponse(
+        data: product,
+        event: DepositEvents.removeDepositProduct.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
@@ -346,6 +358,28 @@ class QuickSearchDeposit implements StoreAction {
   }
 }
 
+class ClearDeposits implements StoreAction {
+  final RecordsLiveDataModel recordsLiveModel;
+
+  ClearDeposits(this.recordsLiveModel);
+
+  @override
+  Future<EventResponse?> execute(StoreEvent event) async {
+    recordsLiveModel.clearDeposits();
+    return null;
+  }
+
+  @override
+  int getId() {
+    return SalesEvents.clearDeposit.index;
+  }
+
+  @override
+  String getName() {
+    return PurchaseEvents.clearPurchase.name;
+  }
+}
+
 class AddOrder implements StoreAction {
   final OrdersLiveDataModel ordersLiveModel;
   final StockLiveDataModel stockLiveModel;
@@ -372,7 +406,13 @@ class AddOrder implements StoreAction {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-    return null;
+
+    EventResponse response = EventResponse(
+        data: order,
+        event: SalesEvents.addOrder.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
@@ -414,7 +454,13 @@ class AddOrderProduct implements StoreAction {
         service: AppServices.database);
 
     ServicesStore.instance.sendMessage(message);
-    return null;
+
+    EventResponse response = EventResponse(
+        data: orderProduct,
+        event: SalesEvents.addOrderProduct.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
@@ -455,7 +501,14 @@ class RemoveOrder implements StoreAction {
         event: DatabaseEvent.deleteOrder,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
-    return null;
+   
+   
+    EventResponse response = EventResponse(
+        data: wrapper.instance,
+        event: SalesEvents.removeOrder.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   @override
@@ -511,7 +564,13 @@ class RemoveOrderProduct implements StoreAction {
 
       _updateOrder(order,orderIndex,modifierBuilder.map);
     }
-    return null;
+    
+    EventResponse response = EventResponse(
+        data: orderProduct,
+        event: SalesEvents.removeOrderProduct.name,
+        status: OperationStatus.success.name);
+
+    return response;
   }
 
   void _updateOrder(Order order, int orderIndex, AppJson updatedValues) {

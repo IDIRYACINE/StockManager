@@ -52,7 +52,7 @@ class DespositController {
             timeStamp: Record.depositTimeStamp),
         onSearch: _onSearchProduct,
         addDepositCallback: (record) =>
-            DepositEmitter.emitDepositEvent(SalesEvents.addDeposit, data :record),
+            DepositEmitter.emitDepositEvent(SalesEvents.addDeposit, data :record,broadcast: true),
         addDepositProductCallback: (product) => Utility.displayToastMessage(
             context, Translations.of(context)!.addedProduct),
         confirmLabel: Translations.of(context)!.add,
@@ -66,7 +66,7 @@ class DespositController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () => DepositEmitter.emitDepositEvent(
-                SalesEvents.removeDeposit,data : record),
+                SalesEvents.removeDeposit,data : record,broadcast: true),
             message: Translations.of(context)!.messageDeleteElement),
       ),
     );
@@ -80,7 +80,7 @@ class DespositController {
         content: ConfirmDialog(
             onConfirm: () {
               DepositEmitter.emitDepositEvent(
-                  SalesEvents.removeDepositProduct, data :wrapper);
+                  SalesEvents.removeDepositProduct, data :wrapper,broadcast: true);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),

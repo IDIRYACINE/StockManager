@@ -46,6 +46,19 @@ class DashboardPanel extends StatelessWidget {
         : topStatesCounts;
   }
   
+  List<ChartData> productsStats(StatsLiveDataModel statsModel, int maxDisplay){
+    List<ChartData> chartData = [];
+    int count = 0 ;
+    maxDisplay = maxDisplay>statsModel.productStats.length ? statsModel.productStats.length : maxDisplay;
+    
+    statsModel.productStats.forEach((reference, stat) {
+      chartData.add(ChartData(x:count ,y: stat.totalQuantity , name: stat.name));
+      count++;
+      if(count > maxDisplay) return;
+    });
+
+    return chartData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +106,7 @@ class DashboardPanel extends StatelessWidget {
                 child: Card(
                   child: TopBarChart(
                     chartTitle: Translations.of(context)!.topProducts,
-                    chartData: const [],
+                    chartData: productsStats(controllersProvider.statsLiveModel,5),
                   ),
                 ),
               ),

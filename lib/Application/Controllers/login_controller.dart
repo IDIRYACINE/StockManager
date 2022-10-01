@@ -93,18 +93,21 @@ class LoginController {
         event: DatabaseEvent.loadProductFamillies,
         data: {});
 
+    SelectorBuilder recordsSelector = SelectorBuilder();
+    Utility.searchByTodayDate(recordsSelector);
     ServiceMessage loadRecords = ServiceMessage(
         service: AppServices.database,
         hasCallback: true,
         callback: (records) {
           controllersProvider.recordsLiveModel.setAllRecords(records);
         },
-        event: DatabaseEvent.loadPurchaseRecords,
-        data: {});
+        event: DatabaseEvent.searchPurchaseRecord,
+        data: {
+          ServicesData.databaseSelector: recordsSelector.map,
+        });
 
     SelectorBuilder ordersSelector = SelectorBuilder();
     Utility.searchByTodayDate(ordersSelector);
-
     ServiceMessage loadOrders = ServiceMessage(
         service: AppServices.database,
         hasCallback: true,
@@ -128,7 +131,7 @@ class LoginController {
         event: DatabaseEvent.searchPurchaseStatistiques,
         data: {
           ServicesData.databaseSelector: statistiquesSelector.map,
-        });    
+        });
 
     Record.generatePurchaseId();
     Record.generateDepositId();

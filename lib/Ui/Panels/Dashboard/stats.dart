@@ -22,7 +22,7 @@ class _ProfitCardState extends State<ProfitCard> {
         
     return Card(
       elevation: Measures.small,
-      color: Colors.amber,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -151,7 +151,7 @@ class _TopListState extends State<TopList> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (widget.title != null) Text(widget.title!),
+        if (widget.title != null) Text(widget.title!,style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Colors.white),),
         for (var i = 0; i < widget.itemsCount; i++)
           Expanded(child: widget.builder(context, i)),
       ],

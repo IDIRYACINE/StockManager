@@ -19,7 +19,7 @@ class _PriceCardState extends State<PriceCard> {
 
     return Card(
       elevation: Measures.small,
-      color: Colors.amber,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -291,7 +291,6 @@ class DatabaseDAO {
   Future<List<StatsRecord>> searchPurchaseStatistiques(
       {required AppJson search}) async {
     List<StatsRecord> stats = [];
-
     SelectorBuilder selector = SelectorBuilder();
     selector.map = search;
     MongoDbDataStream data =
@@ -394,12 +393,18 @@ class DatabaseDAO {
     Map<String, dynamic> rawProductsStats =
         DatabaseRepository.statistiqueProductsToJson(
             stats: purchaseStatistiques.purchaseRecords);
-    modifier.set(StatistiquesFields.products.name, rawProductsStats);
+    rawProductsStats.forEach((productReference, productStat) {
+      modifier.set(
+          "${StatistiquesFields.products.name}.$productReference", productStat);
+    });
 
     Map<String, dynamic> rawSellersStats =
         DatabaseRepository.statistiqueSellersToJson(
             stats: purchaseStatistiques.sellerRecords);
-    modifier.set(StatistiquesFields.sellers.name, rawSellersStats);
+    rawSellersStats.forEach((sellerCode, sellerStats) {
+      modifier.set(
+          "${StatistiquesFields.sellers.name}.$sellerCode", sellerStats);
+    });
 
     _database.updatePurchaseStatistiques(selector, modifier);
   }
@@ -418,17 +423,26 @@ class DatabaseDAO {
     Map<String, dynamic> rawProductsStats =
         DatabaseRepository.statistiqueProductsToJson(
             stats: orderStatistiques.purchaseRecords);
-    modifier.set(StatistiquesFields.products.name, rawProductsStats);
+            
+    rawProductsStats.forEach((productReference, productStat) {
+      modifier.set(
+          "${StatistiquesFields.products.name}.$productReference", productStat);
+    });
 
     Map<String, dynamic> rawOrdersStats =
         DatabaseRepository.statistiquesOrderToJson(
             stats: orderStatistiques.orderRecords);
-    modifier.set(StatistiquesFields.products.name, rawOrdersStats);
+    rawOrdersStats.forEach((postalCode, cityStats) {
+      modifier.set("${StatistiquesFields.orders.name}.$postalCode", cityStats);
+    });
 
     Map<String, dynamic> rawSellersStats =
         DatabaseRepository.statistiqueSellersToJson(
             stats: orderStatistiques.sellerRecords);
-    modifier.set(StatistiquesFields.sellers.name, rawSellersStats);
+    rawSellersStats.forEach((sellerCode, sellerStats) {
+      modifier.set(
+          "${StatistiquesFields.sellers.name}.$sellerCode", sellerStats);
+    });
 
     _database.updatePurchaseStatistiques(selector, modifier);
   }

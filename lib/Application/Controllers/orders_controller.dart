@@ -37,7 +37,7 @@ class OrdersController {
         child: SpreardedOrderEditor(
           order: ordersLiveModel.selectedOrder,
           createOrderCallback: (order) =>
-              OrderEmiter.emitOrderEvent(SalesEvents.addOrder, data: order),
+              OrderEmiter.emitOrderEvent(SalesEvents.addOrder, data: order,broadcast: true),
           onSearch: _onSearchProduct,
           confirmLabel: Translations.of(context)!.add,
         ),
@@ -107,7 +107,7 @@ class OrdersController {
         content: ConfirmDialog(
           onConfirm: () {
             OrderEmiter.emitOrderEvent(SalesEvents.removeOrder,
-                data: RemoveRequestWrapper<Order>(order, index));
+                data: RemoveRequestWrapper<Order>(order, index),broadcast: true);
           },
           message: Translations.of(context)!.messageDeleteElement,
         ),

@@ -71,6 +71,7 @@ class StatsLiveDataModel {
   void updateOrderStats(StatsProductChanges productStatsChanges) {}
 
   void setAllStats(List<StatsRecord> statsRecords) {
+    if (statsRecords.isEmpty) return;
     StatsRecord monthlyStats = statsRecords[0];
 
     cityStats.clear();

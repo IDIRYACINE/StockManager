@@ -88,7 +88,7 @@ class SalesStore implements Store {
 
     RemoveDepositProduct removeDepositProductAction =
         RemoveDepositProduct(recordsLiveModel, stockLiveModel);
-    _callbacks[removeDepositAction.getId()] = removeDepositProductAction;
+    _callbacks[removeDepositProductAction.getId()] = removeDepositProductAction;
 
     QuickSearchDeposit quickSearchDepositAction =
         QuickSearchDeposit(recordsLiveModel);
@@ -116,6 +116,9 @@ class SalesStore implements Store {
     SearchOrder searchOrderAction =
         SearchOrder(ordersLiveModel);
     _callbacks[removeOrderAction.getId()] = searchOrderAction;
+
+    ClearDeposits clearDepositsAction = ClearDeposits(recordsLiveModel);
+    _callbacks[clearDepositsAction.getId()] = clearDepositsAction;
 
   }
 }
