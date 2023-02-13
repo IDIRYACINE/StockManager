@@ -27,8 +27,7 @@ class DashboardPanel extends StatelessWidget {
     for (int i = 0; i < topProductsCount; i++) {
       final StatsProduct product = statsModel.topProductAt(i);
 
-      chartData
-          .add(ChartData(x: i, name: product.name, y: product.profit));
+      chartData.add(ChartData(x: i, name: product.name, y: product.profit));
     }
     return chartData;
   }
@@ -39,22 +38,24 @@ class DashboardPanel extends StatelessWidget {
         : topSellersCount;
   }
 
-
   int getStatesCount(StatsLiveDataModel statsModel) {
     return statsModel.cityStats.length < topStatesCounts
         ? statsModel.cityStats.length
         : topStatesCounts;
   }
-  
-  List<ChartData> productsStats(StatsLiveDataModel statsModel, int maxDisplay){
+
+  List<ChartData> productsStats(StatsLiveDataModel statsModel, int maxDisplay) {
     List<ChartData> chartData = [];
-    int count = 0 ;
-    maxDisplay = maxDisplay>statsModel.productStats.length ? statsModel.productStats.length : maxDisplay;
-    
+    int count = 0;
+    maxDisplay = maxDisplay > statsModel.productStats.length
+        ? statsModel.productStats.length
+        : maxDisplay;
+
     statsModel.productStats.forEach((reference, stat) {
-      chartData.add(ChartData(x:count ,y: stat.totalQuantity , name: stat.name));
+      chartData
+          .add(ChartData(x: count, y: stat.totalQuantity, name: stat.name));
       count++;
-      if(count > maxDisplay) return;
+      if (count > maxDisplay) return;
     });
 
     return chartData;
@@ -70,7 +71,11 @@ class DashboardPanel extends StatelessWidget {
         Flexible(
           child: Column(
             children: [
-              const Expanded(child: ProfitCard()),
+              const Expanded(
+                child: SizedBox(
+                      width: double.infinity,
+                      child: ProfitCard(),),
+                  ),
               Flexible(
                 child: Card(
                   child: TopList(
@@ -80,7 +85,8 @@ class DashboardPanel extends StatelessWidget {
                       title: getSellerName(
                           controllersProvider.sellersLiveModel, index),
                     ),
-                    itemsCount: getSellersCount(controllersProvider.sellersLiveModel),
+                    itemsCount:
+                        getSellersCount(controllersProvider.sellersLiveModel),
                   ),
                 ),
               )
@@ -95,10 +101,11 @@ class DashboardPanel extends StatelessWidget {
                   child: TopList(
                     builder: (context, index) => TopListItem(
                       index: index,
-                      title:
-                          getStateName(controllersProvider.statsLiveModel, index),
+                      title: getStateName(
+                          controllersProvider.statsLiveModel, index),
                     ),
-                    itemsCount: getStatesCount(controllersProvider.statsLiveModel),
+                    itemsCount:
+                        getStatesCount(controllersProvider.statsLiveModel),
                   ),
                 ),
               ),
@@ -106,7 +113,8 @@ class DashboardPanel extends StatelessWidget {
                 child: Card(
                   child: TopBarChart(
                     chartTitle: Translations.of(context)!.topProducts,
-                    chartData: productsStats(controllersProvider.statsLiveModel,5),
+                    chartData:
+                        productsStats(controllersProvider.statsLiveModel, 5),
                   ),
                 ),
               ),

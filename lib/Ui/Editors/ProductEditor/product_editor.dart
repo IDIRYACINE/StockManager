@@ -74,10 +74,12 @@ class ProductEditor extends StatelessWidget {
                               ),
                             )),
                             Expanded(
-                                child: DefaultDecorator(
-                                    child: ProductModels(
-                                        productEditorMode: modeDelegate,
-                                        product: product))),
+                              child: DefaultDecorator(
+                                child: ProductModels(
+                                    productEditorMode: modeDelegate,
+                                    product: product),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -91,8 +93,7 @@ class ProductEditor extends StatelessWidget {
                     children: [
                       Flexible(
                         child: DefaultButton(
-                            label: Translations.of(context)!.
-cancel,
+                            label: Translations.of(context)!.cancel,
                             onPressed: () {
                               Navigator.pop(context);
                             }),

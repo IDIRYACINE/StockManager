@@ -109,6 +109,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
     void onConfirm(Product product) {
       StockProductEmiter.emitProductEvent(StockEvents.addStockProduct,
           data: product);
+      Navigator.of(context).pop();    
     }
 
     PopupsUtility.displayGenericPopup(
@@ -133,6 +134,8 @@ class _ProductsDelegate implements IStockDelegate<Product> {
         StockEvents.updateStockProduct,
         data: wrapper,
       );
+
+      Navigator.of(context).pop();
     }
 
     PopupsUtility.displayGenericPopup(

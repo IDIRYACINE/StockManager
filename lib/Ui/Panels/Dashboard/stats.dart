@@ -5,6 +5,7 @@ import 'package:stock_manager/DataModels/LiveDataModels/stats.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
+import 'package:stock_manager/l10n/generated/app_translations.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ProfitCard extends StatefulWidget {
@@ -17,31 +18,34 @@ class ProfitCard extends StatefulWidget {
 class _ProfitCardState extends State<ProfitCard> {
   @override
   Widget build(BuildContext context) {
-     StatsLiveDataModel stats =
+    StatsLiveDataModel stats =
         Provider.of<ControllersProvider>(context, listen: false).statsLiveModel;
-        
+
     return Card(
       elevation: Measures.small,
       color: Theme.of(context).colorScheme.primaryContainer,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Profit',
-            style: TextStyle(fontSize: Measures.h1TextSize,color: Colors.white),
+           Text(
+            Translations.of(context)!.profit,
+            style:
+                const TextStyle(fontSize: Measures.h1TextSize, color: Colors.white),
           ),
           ValueListenableBuilder<double>(
               valueListenable: stats.totalProfit,
               builder: (context, totalPrice, child) {
-                return Text(totalPrice.toString(),
-                    style: const TextStyle(fontSize: Measures.h1TextSize,color: Colors.white));
+                return Text(
+                  totalPrice.toString(),
+                  style: const TextStyle(
+                      fontSize: Measures.h1TextSize, color: Colors.white),
+                );
               }),
         ],
       ),
     );
   }
 }
-
 
 class TopBarChart extends StatefulWidget {
   const TopBarChart({Key? key, required this.chartData, this.chartTitle})
@@ -151,7 +155,14 @@ class _TopListState extends State<TopList> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (widget.title != null) Text(widget.title!,style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Colors.white),),
+        if (widget.title != null)
+          Text(
+            widget.title!,
+            style: Theme.of(context)
+                .textTheme
+                .displaySmall!
+                .copyWith(color: Colors.white),
+          ),
         for (var i = 0; i < widget.itemsCount; i++)
           Expanded(child: widget.builder(context, i)),
       ],

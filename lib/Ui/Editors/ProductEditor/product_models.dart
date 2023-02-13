@@ -58,35 +58,35 @@ class _ProductModelsState extends State<ProductModels> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Flexible(
-                  child: ElevatedButton(
-                onPressed: add,
-                child:  Text(Translations.of(context)!.
-addModel),
-              )),
+                child: ElevatedButton(
+                  onPressed: add,
+                  child: Text(Translations.of(context)!.addModel),
+                ),
+              ),
             ],
           ),
         ),
         Expanded(
-            flex: widget.lowerRowFlex,
-            child: ListView.builder(
-              itemCount: modelKeys.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.only(top: Measures.small),
-                  child: ProductModelRow(
-                    model: widget.product.models[modelKeys[index]]!,
-                    id: modelKeys[index],
-                    onDeleteModel: remove,
-                    onColorChanged: widget.productEditorMode.setModelColor,
-                    onQuantityChanged:
-                        widget.productEditorMode.setModelQuantity,
-                    onSizeChanged: widget.productEditorMode.setModelSize,
-                    onDeleteSize: widget.productEditorMode.removeSize,
-                    onAddSize: widget.productEditorMode.addSize,
-                  ),
-                );
-              },
-            ))
+          flex: widget.lowerRowFlex,
+          child: ListView.builder(
+            itemCount: modelKeys.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                margin: const EdgeInsets.only(top: Measures.small),
+                child: ProductModelRow(
+                  model: widget.product.models[modelKeys[index]]!,
+                  id: modelKeys[index],
+                  onDeleteModel: remove,
+                  onColorChanged: widget.productEditorMode.setModelColor,
+                  onQuantityChanged: widget.productEditorMode.setModelQuantity,
+                  onSizeChanged: widget.productEditorMode.setModelSize,
+                  onDeleteSize: widget.productEditorMode.removeSize,
+                  onAddSize: widget.productEditorMode.addSize,
+                ),
+              );
+            },
+          ),
+        )
       ],
     );
   }
@@ -164,8 +164,7 @@ class _ProductModelRowState extends State<ProductModelRow> {
             Flexible(
                 child: AttributeTextField(
               initialValue: widget.model.color,
-              label: Translations.of(context)!.
-color,
+              label: Translations.of(context)!.color,
               onChanged: (value) {
                 if (value != null) {
                   widget.onColorChanged(value, widget.id);
@@ -180,10 +179,11 @@ color,
                     onEdit();
                   });
                 },
-              ),),
-               Flexible(
+              ),
+            ),
+            Flexible(
               child: IconButton(
-                icon: const  Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 onPressed: () {
                   setState(() {
                     widget.onDeleteModel(widget.id);
@@ -222,8 +222,7 @@ class _SizeQuantityRow extends StatelessWidget {
         Flexible(
             child: AttributeTextField(
           initialValue: model.sizes[sizeId]!.size,
-          label: Translations.of(context)!.
-size,
+          label: Translations.of(context)!.size,
           onChanged: (value) {
             if (value != null) {
               onSizeChanged(value, sizeId);
@@ -236,8 +235,7 @@ size,
         Flexible(
           child: AttributeTextField(
             initialValue: model.sizes[sizeId]!.quantity.toString(),
-            label: Translations.of(context)!.
-quantity,
+            label: Translations.of(context)!.quantity,
             onChanged: (value) {
               if (value != null) {
                 onQuantityChanged(value, sizeId);
@@ -250,8 +248,7 @@ quantity,
         ),
         Flexible(
             child: DefaultButton(
-          label: Translations.of(context)!.
-remove,
+          label: Translations.of(context)!.remove,
           onPressed: () {
             onDeleteSize(sizeId);
           },
@@ -301,8 +298,7 @@ class _ProductModelEditorState extends State<ProductModelEditor> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              Translations.of(context)!.
-sizes,
+              Translations.of(context)!.sizes,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -310,14 +306,19 @@ sizes,
             ),
             Flexible(
               child: DefaultButton(
-                label: Translations.of(context)!.
-addSize,
+                label: Translations.of(context)!.addSize,
                 onPressed: () {
                   setState(() {
                     widget.onAddSize(widget.modelId);
                     sizesIds = widget.model.sizes.keys.toList();
                   });
                 },
+              ),
+            ),
+            Flexible(
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(Translations.of(context)!.done),
               ),
             ),
           ],
@@ -327,25 +328,24 @@ addSize,
         ),
         Expanded(
           child: ListView.builder(
-              itemCount: sizesIds.length,
-              itemBuilder: (context, index) => Container(
-                margin: const EdgeInsets.only(top: Measures.small),
-                child: _SizeQuantityRow(
-                  onQuantityChanged: widget.onQuantityChanged,
-                  onSizeChanged: widget.onSizeChanged,
-                  sizeId: sizesIds[index],
-                  model: widget.model,
-                  onDeleteSize: (index) {
-                    setState(() {
-                      widget.onDeleteSize(index);
-                      sizesIds = widget.model.sizes.keys.toList();
-                    });
-                  },
-                ),
+            itemCount: sizesIds.length,
+            itemBuilder: (context, index) => Container(
+              margin: const EdgeInsets.only(top: Measures.small),
+              child: _SizeQuantityRow(
+                onQuantityChanged: widget.onQuantityChanged,
+                onSizeChanged: widget.onSizeChanged,
+                sizeId: sizesIds[index],
+                model: widget.model,
+                onDeleteSize: (index) {
+                  setState(() {
+                    widget.onDeleteSize(index);
+                    sizesIds = widget.model.sizes.keys.toList();
+                  });
+                },
               ),
             ),
+          ),
         ),
-        
       ],
     );
   }
