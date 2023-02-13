@@ -79,7 +79,7 @@ class DepositEditor extends StatelessWidget {
       }
     }
 
-    void _onSearch(String barcode) {
+    void onSearchResult(String barcode) {
       onSearch?.call(barcode, updateProduct);
     }
 
@@ -94,7 +94,7 @@ class DepositEditor extends StatelessWidget {
               Flexible(
                 flex: searchBarFlex,
                 child: DefaultDecorator(
-                  child: _SearchBar(onSearch: _onSearch),
+                  child: _SearchBar(onSearch: onSearchResult),
                 ),
               ),
               Expanded(

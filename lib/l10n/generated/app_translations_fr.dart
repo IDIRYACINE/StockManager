@@ -1,6 +1,3 @@
-
-
-
 import 'app_translations.dart';
 
 /// The translations for French (`fr`).

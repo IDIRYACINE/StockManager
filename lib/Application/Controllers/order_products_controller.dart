@@ -18,7 +18,7 @@ class OrderProductsController {
   final OrdersLiveDataModel ordersLiveModel;
 
   void add(BuildContext context) {
-    void _onConfirm(RecordProduct orderProduct) {
+    void onConfirm(RecordProduct orderProduct) {
       OrderEmiter.emitOrderEvent(SalesEvents.addOrderProduct,
           data: orderProduct);
 
@@ -29,7 +29,7 @@ class OrderProductsController {
       context: context,
       builder: (context) => Material(
         child: OrderProductEditor(
-          createCallback: _onConfirm,
+          createCallback: onConfirm,
           editMode: false,
           confirmLabel: Translations.of(context)!.add,
           onSearch: _onSearch,

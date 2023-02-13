@@ -42,7 +42,7 @@ class SelectableRow<T> extends StatefulWidget {
 class _SelectableRowState<T> extends State<SelectableRow<T>> {
   void onRowClicked(
       BuildContext context, T data, int rowIndex, TapDownDetails details) {
-    void _onContextMenuSelected(ContextMenuOperation? operation) {
+    void onContextMenuSelected(ContextMenuOperation? operation) {
       SelectableRowDetaills<T> rowDetaills = SelectableRowDetaills<T>(
         context: context,
         data: data,
@@ -63,7 +63,7 @@ class _SelectableRowState<T> extends State<SelectableRow<T>> {
       items: PopupsUtility.buildEnumPopupItem(
           widget.contextMenuItems ?? ContextMenuOperation.values),
       position: position,
-    ).then((value) => _onContextMenuSelected(value));
+    ).then((value) => onContextMenuSelected(value));
   }
 
   @override

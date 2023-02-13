@@ -328,7 +328,7 @@ class QuickSearchDeposit implements StoreAction {
   Future<EventResponse?> execute(StoreEvent event) async {
     Map<String, dynamic> query = event.data as Map<String, dynamic>;
 
-    void _onResult(List<Record> records) {
+    void onResult(List<Record> records) {
       recordsLiveModel.setAllDeposits(records);
     }
 
@@ -341,7 +341,7 @@ class QuickSearchDeposit implements StoreAction {
         event: DatabaseEvent.searchPurchaseRecord,
         data: requestData,
         hasCallback: true,
-        callback: _onResult);
+        callback: onResult);
 
     ServicesStore.instance.sendMessage(message);
     return null;
@@ -663,7 +663,7 @@ class SearchOrder implements StoreAction {
   Future<EventResponse?> execute(StoreEvent event) async {
     AppJson query = event.data as AppJson;
 
-    void _onResult(List<Order> order) {
+    void onResult(List<Order> order) {
       ordersLiveModel.setAllOrders(order);
     }
 
@@ -676,7 +676,7 @@ class SearchOrder implements StoreAction {
         event: DatabaseEvent.searchOrders,
         data: requestData,
         hasCallback: true,
-        callback: _onResult);
+        callback: onResult);
 
     ServicesStore.instance.sendMessage(message);
     return null;

@@ -120,7 +120,7 @@ class OrdersController {
   }
 
   void search(BuildContext context) {
-    void _onResult(List<Order> orders) {
+    void onResult(List<Order> orders) {
       ordersLiveModel.setAllOrders(orders);
       Navigator.pop(context);
     }
@@ -137,7 +137,7 @@ class OrdersController {
           event: DatabaseEvent.searchOrders,
           data: data,
           hasCallback: true,
-          callback: _onResult);
+          callback: onResult);
 
       ServicesStore.instance.sendMessage(message);
     }

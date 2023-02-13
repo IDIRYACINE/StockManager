@@ -80,7 +80,7 @@ class SaleEditor extends StatelessWidget {
       }
     }
 
-    void _onSearch(String barcode) {
+    void onSearchResult(String barcode) {
       onSearch?.call(barcode, updateProduct);
     }
 
@@ -96,7 +96,7 @@ class SaleEditor extends StatelessWidget {
               Flexible(
                 flex: searchBarFlex,
                 child: DefaultDecorator(
-                  child: SearchBar(onSearch: _onSearch),
+                  child: SearchBar(onSearch: onSearchResult),
                 ),
               ),
             Expanded(

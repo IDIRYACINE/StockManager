@@ -13,7 +13,7 @@ class SellersController {
   final SellersLiveDataModel sellersLiveModel;
 
   void add(BuildContext context) {
-    void _onConfirm(Seller seller) {
+    void onConfirm(Seller seller) {
       sellersLiveModel.add(seller);
 
       Map<ServicesData, dynamic> data = {
@@ -31,7 +31,7 @@ class SellersController {
     PopupsUtility.displayGenericPopup(
         context,
         SellersEditor(
-          createCallback: _onConfirm,
+          createCallback: onConfirm,
           confirmLabel: Translations.of(context)!.add,
           seller: Seller.defaultInstance(),
         ));

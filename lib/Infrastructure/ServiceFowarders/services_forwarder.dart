@@ -24,7 +24,6 @@ class ServicesForwarder {
   void handleMessage(dynamic message) async {
     ServiceMessageData serviceMessage = message as ServiceMessageData;
     ServiceResponse? response;
-    print(message.event.name);
 
     try {
       response = await _callbacks[message.event]?.call(serviceMessage);

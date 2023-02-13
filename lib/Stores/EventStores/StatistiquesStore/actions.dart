@@ -18,7 +18,7 @@ class SearchStatistiques implements StoreAction {
   Future<EventResponse?> execute(StoreEvent event) async {
     Map<String, dynamic> query = event.data as Map<String, dynamic>;
 
-    void _onResult(List<StatsRecord> records) {
+    void onResult(List<StatsRecord> records) {
       statsLiveModel.setAllStats(records);
     }
 
@@ -31,7 +31,7 @@ class SearchStatistiques implements StoreAction {
         event: DatabaseEvent.searchPurchaseStatistiques,
         data: requestData,
         hasCallback: true,
-        callback: _onResult);
+        callback: onResult);
 
     ServicesStore.instance.sendMessage(message);
     return null;

@@ -330,7 +330,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
   @override
   void quickSearch(BuildContext context, AppJson query) {
-    void _onResult(List<ProductFamily> famillies) {
+    void onResult(List<ProductFamily> famillies) {
       stockLiveDataModel.setAllFamillies(famillies);
       Navigator.pop(context);
     }
@@ -346,7 +346,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
         event: DatabaseEvent.searchProductFamily,
         data: data,
         hasCallback: true,
-        callback: _onResult);
+        callback: onResult);
 
     ServicesStore.instance.sendMessage(message);
   }

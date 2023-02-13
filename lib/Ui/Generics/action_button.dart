@@ -25,7 +25,7 @@ class ActionButton extends StatelessWidget {
       child: ElevatedButton(onPressed: onPressed,
       
       style: ElevatedButton.styleFrom(
-        primary: backgroundColor,
+        backgroundColor: backgroundColor,
         elevation: 10,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.zero
