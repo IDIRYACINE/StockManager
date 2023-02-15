@@ -91,6 +91,7 @@ class DatabaseDAO {
         colorId: product.colorId,
         sizeId: product.sizeId));
 
+
     _database
         .insertPurchaseRecord(DatabaseRepository.recordToJson(record: record));
   }

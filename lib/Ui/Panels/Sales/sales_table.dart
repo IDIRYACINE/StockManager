@@ -100,11 +100,7 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
               child: ValueListenableBuilder<bool>(
                   valueListenable: records.salesRefresh,
                   builder: (context, value, child) {
-                    return ListView.builder(
-                        itemCount: records.purchasesCount,
-                        itemBuilder: (context, index) {
-                          return buildRecordGroup(records.purchaseRecord(index),controller);
-                        });
+                    return buildRecordGroup(records.activePurchaseRecord,controller);
                   }),
             ),
           ],

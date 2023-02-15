@@ -51,6 +51,7 @@ class StatistiquesStore implements Store, EventListener {
 
   @override
   void notifyEventResult(String event, EventResponse? response) {
+
     if ((event == SalesEvents.addOrder.name) ||
         (event == SalesEvents.removeOrder.name)) {
       _reactions[StatistiquesReactions.updateOrderStatistiques.index]
@@ -91,6 +92,5 @@ class StatistiquesStore implements Store, EventListener {
         subEventType: SubEventType.deposit.name,
         event: DepositEvents.addDeposit.name,
         listener: this);
-
   }
 }

@@ -20,9 +20,6 @@ class RecordsLiveDataModel {
   Record record(int index) => _loadedRecords[index];
 
   int get purchasesCount => _purchaseDelegate.purchasesCount;
-  Record get selectedPurchaseRecord =>
-      _purchaseDelegate.purchaseRecords[selectedElementIndex];
-  Record purchaseRecord(int index) => _purchaseDelegate.purchaseRecords[index];
   Record get activePurchaseRecord => _purchaseDelegate.activePurchaseRecord;
 
   int get depositsCounts => _depositDelegate.depositsCounts;
@@ -31,18 +28,16 @@ class RecordsLiveDataModel {
   Record depositRecord(int index) => _depositDelegate.depositRecords[index];
   Record get activeDepositRecord => _depositDelegate.activeDepositRecord;
 
-
   VoidCallback? updateSelectedRow;
   int selectedElementIndex = -1;
 
   final ValueNotifier<bool> _recordsRefresh = ValueNotifier(false);
 
   ValueListenable<bool> get recordsRefresh => _recordsRefresh;
-    ValueListenable<bool> get depositRefresh => _depositDelegate.depositRefresh;
+  ValueListenable<bool> get depositRefresh => _depositDelegate.depositRefresh;
   ValueListenable<bool> get salesRefresh => _purchaseDelegate.salesRefresh;
   ValueListenable<double> get totalPrice => _purchaseDelegate.totalPrice;
 
-  List<Record> get purchaseRecords => _purchaseDelegate.purchaseRecords;
   List<Record> get records => _loadedRecords;
 
   void toggleRefresh(ValueNotifier<bool> refresh) {
@@ -71,7 +66,6 @@ class RecordsLiveDataModel {
     _purchaseDelegate.addSaleRecord(record);
   }
 
-
   void addActiveSaleRecord() {
     _loadedRecords.add(activePurchaseRecord);
     _purchaseDelegate.addActiveSaleRecord();
@@ -86,12 +80,14 @@ class RecordsLiveDataModel {
     _purchaseDelegate.removeSaleRecord(record);
   }
 
+  void removeSaleProduct(Record record, RecordProduct product) {
+    _purchaseDelegate.removeSaleProduct(record, product);
+  }
 
   void addDepositRecord(Record element) {
     _loadedRecords.add(element);
     _depositDelegate.addDepositRecord(element);
   }
-
 
   void addActiveDepositRecord() {
     _loadedRecords.add(activeDepositRecord);
@@ -106,10 +102,6 @@ class RecordsLiveDataModel {
   void updateDepositRecord(Record element) {
     _depositDelegate.updateDepositRecord(element);
   }
-  Record saleRecord(int index) {
-    return _purchaseDelegate.purchaseRecords[index];
-  }
-
 
   void setAllDeposits(List<Record> records) {
     _depositDelegate.setAllDeposits(records);
@@ -126,7 +118,6 @@ class RecordsLiveDataModel {
   void setActiveDepositRecord(Record record) {
     _depositDelegate.setActiveRecord(record);
   }
-
 }
 
 class _PurchaseDelegate {
@@ -134,15 +125,14 @@ class _PurchaseDelegate {
 
   final Callback<ValueNotifier<bool>> notifyChange;
 
-  final List<Record> _purchaseRecords = [];
-  Record _activePurchaseRecord = Record.defaultInstance(paymentType: PaymentTypes.payement,timeStamp: Record.purchaseTimeStamp);
+  Record _activePurchaseRecord = Record.defaultInstance(
+      paymentType: PaymentTypes.payement, timeStamp: Record.purchaseTimeStamp);
 
-  int get purchasesCount => _purchaseRecords.length;
-  Record get selectedPurchaseRecord => _purchaseRecords[selectedElementIndex];
+  int get purchasesCount => _activePurchaseRecord.products.length;
+  RecordProduct get selectedPurchaseProduct =>
+      _activePurchaseRecord.products[selectedElementIndex]!;
 
   Record get activePurchaseRecord => _activePurchaseRecord;
-
-  Record purchaseRecord(int index) => _purchaseRecords[index];
 
   int selectedElementIndex = -1;
 
@@ -152,51 +142,45 @@ class _PurchaseDelegate {
   ValueListenable<bool> get salesRefresh => _salesRefresh;
   ValueListenable<double> get totalPrice => _totalPrice;
 
-  List<Record> get purchaseRecords => _purchaseRecords;
-
   void addSaleRecord(Record record) {
     _totalPrice.value += record.totalPrice;
-    _purchaseRecords.add(record);
     notifyChange(_salesRefresh);
   }
 
-  void setActiveRecord(Record record){
+  void setActiveRecord(Record record) {
     _activePurchaseRecord = record;
   }
 
   void addActiveSaleRecord() {
     _totalPrice.value = _activePurchaseRecord.totalPrice;
-    _purchaseRecords.add(_activePurchaseRecord);
     notifyChange(_salesRefresh);
-    
   }
 
   void clearSaleRecord() {
     Record.generatePurchaseId();
-    _activePurchaseRecord = Record.defaultInstance(paymentType: PaymentTypes.payement,
-     timeStamp: Record.purchaseTimeStamp);
-    _purchaseRecords.clear();
+    _activePurchaseRecord = Record.defaultInstance(
+        paymentType: PaymentTypes.payement,
+        timeStamp: Record.purchaseTimeStamp);
     _totalPrice.value = 0;
     notifyChange(_salesRefresh);
   }
 
   void removeSaleRecord(Record record) {
     _totalPrice.value -= record.totalPrice;
-    _purchaseRecords.remove(record);
     notifyChange(_salesRefresh);
   }
 
-  Record saleRecord(int index) {
-    return _purchaseRecords[index];
-  }
-  
   void addSaleProduct(RecordProduct recordProduct) {
     _activePurchaseRecord.products[recordProduct.timeStamp] = recordProduct;
     notifyChange(_salesRefresh);
   }
+
+  void removeSaleProduct(Record record, RecordProduct product) {
+    _activePurchaseRecord.products.remove(product.timeStamp);
+    _totalPrice.value -= product.sellingPrice;
+    notifyChange(_salesRefresh);
+  }
 }
-
-
 
 class _DepositDelegate {
   _DepositDelegate(this.notifyChange);
@@ -206,7 +190,8 @@ class _DepositDelegate {
 
   List<Record> get depositRecords => _depositRecords;
   Record get activeDepositRecord => _activeDepositRecord;
-  Record _activeDepositRecord = Record.defaultInstance(paymentType: PaymentTypes.deposit,timeStamp: Record.depositTimeStamp);
+  Record _activeDepositRecord = Record.defaultInstance(
+      paymentType: PaymentTypes.deposit, timeStamp: Record.depositTimeStamp);
 
   int get depositsCounts => _depositRecords.length;
 
@@ -227,8 +212,7 @@ class _DepositDelegate {
     notifyChange(_depositRefresh);
   }
 
-  
-  void setActiveRecord(Record record){
+  void setActiveRecord(Record record) {
     _activeDepositRecord = record;
   }
 
@@ -236,7 +220,6 @@ class _DepositDelegate {
     _totalDeposit.value += _activeDepositRecord.totalPrice;
     _depositRecords.add(_activeDepositRecord);
     notifyChange(_depositRefresh);
-    
   }
 
   void addDepositRecord(Record record) {
@@ -265,17 +248,20 @@ class _DepositDelegate {
     _depositRecords.addAll(records);
     notifyChange(_depositRefresh);
   }
-  
+
   void clearDeposits() {
     Record.generateDepositId();
-    _activeDepositRecord = Record.defaultInstance(paymentType: PaymentTypes.deposit,timeStamp: Record.depositTimeStamp);
+    _activeDepositRecord = Record.defaultInstance(
+        paymentType: PaymentTypes.deposit, timeStamp: Record.depositTimeStamp);
     _totalDeposit.value = 0;
     _depositRecords.clear();
     notifyChange(_depositRefresh);
   }
-  
+
   void removeDepositProduct(Record record, RecordProduct product) {
     _activeDepositRecord.products.remove(product.timeStamp);
+    _totalDeposit.value -= product.sellingPrice;
+
     notifyChange(_depositRefresh);
   }
 }

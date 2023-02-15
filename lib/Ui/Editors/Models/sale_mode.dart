@@ -153,11 +153,10 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   @override
   void appendRecordProduct() {
     int timeStamp = Utility.getTimeStamp();
-    record.timeStamp = timeStamp;
     record.totalDeposit += recordProduct.deposit;
     record.totalPrice += recordProduct.sellingPrice;
     record.remainingPayement += recordProduct.remainingPayement;
-    record.products[timeStamp.toString()] = recordProduct;
+    record.products[timeStamp.toString()] = recordProduct.copyWith(timeStamp: timeStamp.toString());
 
     recordProduct = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
   }
@@ -270,11 +269,10 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   @override
   void appendRecordProduct() {
     int timeStamp = Utility.getTimeStamp();
-    record.timeStamp = timeStamp;
     recordProduct.deposit = recordProduct.sellingPrice;
     record.totalDeposit += recordProduct.deposit;
     record.totalPrice += recordProduct.sellingPrice;
-    record.products[timeStamp.toString()] = recordProduct;
+    record.products[timeStamp.toString()] = recordProduct.copyWith(timeStamp: timeStamp.toString());
 
     recordProduct = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
 

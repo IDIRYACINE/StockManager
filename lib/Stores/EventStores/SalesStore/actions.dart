@@ -118,6 +118,8 @@ class RemovePurchaseProduct implements StoreAction {
 
     record.products.remove(recordProduct.timeStamp);
 
+    recordsLiveModel.removeSaleProduct(record,recordProduct);
+
     stockLiveModel.reclaimStock(recordProduct.reference, recordProduct.colorId,
         recordProduct.sizeId, 1);
 
