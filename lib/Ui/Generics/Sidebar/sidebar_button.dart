@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:stock_manager/Stores/navigation_center.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
@@ -31,7 +30,7 @@ class _SidebarButtonState extends State<SidebarButton> {
     if (isInitialized) {
       return;
     }
-    navigationStore = Provider.of<NavigationCenter>(context);
+    navigationStore = NavigationCenter.instance();
 
     selectedBackground = Theme.of(context).hoverColor;
     selectedTextStyle =

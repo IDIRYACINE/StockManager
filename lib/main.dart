@@ -1,13 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Blocs/Deposit/bloc.dart';
-import 'package:stock_manager/Application/Blocs/Orders/bloc.dart';
-import 'package:stock_manager/Application/Blocs/Sellers/sellers.dart';
-import 'package:stock_manager/Application/Blocs/Statistiques/statistiques.dart';
+import 'package:stock_manager/Features/Deposit/State/bloc.dart';
+import 'package:stock_manager/Features/Orders/State/bloc.dart';
+import 'package:stock_manager/Features/Sellers/Sellers/sellers.dart';
+import 'package:stock_manager/Features/Statistiques/Statistiques/statistiques.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/settings.dart';
+import 'package:stock_manager/Features/Settings/Models/settings.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Stores/navigation_center.dart';
 import 'package:stock_manager/Stores/event_center.dart';
@@ -17,7 +16,7 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-import 'Application/Blocs/Purchase/purchase.dart';
+import 'Features/Purchase/Purchase/purchase.dart';
 
 void main() async {
   runApp(
@@ -99,7 +98,7 @@ class _AppState extends State<App> {
     if (isInitialized) {
       return;
     }
-    navigationStore = Provider.of<NavigationCenter>(context, listen: false);
+    navigationStore = NavigationCenter.instance();
     selectedPanel = navigationStore.selectedIndex;
     isInitialized = true;
     App.appContext = context;

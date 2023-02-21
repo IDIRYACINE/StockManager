@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/Features/Settings/settings_feature.dart';
 import 'package:stock_manager/Ui/Generics/Cards/settings_card.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
@@ -11,8 +10,7 @@ class SettingsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final controller = Provider.of<ControllersProvider>(context, listen: false)
-        .settingsController;
+    final controller = SettingsController(SettingsLiveDataModel.instance());
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),
@@ -41,7 +39,8 @@ class SettingsPanel extends StatelessWidget {
                 ),
                 SettingRowData(
                   title: Translations.of(context)!.displayLanguage,
-                  subtitle: Translations.of(context)!.descriptionDisplayLanguage,
+                  subtitle:
+                      Translations.of(context)!.descriptionDisplayLanguage,
                   onClick: () {
                     controller.changeDisplayLangauge(context);
                   },
@@ -53,7 +52,8 @@ class SettingsPanel extends StatelessWidget {
               rowData: [
                 SettingRowData(
                   title: Translations.of(context)!.developerContact,
-                  subtitle: Translations.of(context)!.descriptionDeveloperContact,
+                  subtitle:
+                      Translations.of(context)!.descriptionDeveloperContact,
                   onClick: () {
                     controller.displayAbout(context);
                   },

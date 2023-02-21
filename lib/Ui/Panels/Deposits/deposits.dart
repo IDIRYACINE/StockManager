@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Controllers/deposit_controller.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/Features/Deposit/Logic/deposit_controller.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
@@ -36,7 +34,7 @@ class DepositsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DespositController controller =
-        Provider.of<ControllersProvider>(context).depositController;
+        DespositController();
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),

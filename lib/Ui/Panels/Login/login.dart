@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/Controllers/login_controller.dart';
+import 'package:stock_manager/Features/Login/Logic/login_controller.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -13,9 +11,7 @@ class LoginPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginController loginController =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .loginController;
+    LoginController loginController = LoginController();
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: Measures.cardWidthLarge),

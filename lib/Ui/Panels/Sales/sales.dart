@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stock_manager/Application/Controllers/sales_controller.dart';
+import 'package:stock_manager/Features/Purchase/Logic/sales_controller.dart';
 import 'package:stock_manager/Ui/Panels/Sales/price_card.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales_table.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

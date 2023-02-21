@@ -9,6 +9,8 @@ import 'package:stock_manager/Ui/Panels/Settings/settings_panel.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
 
 class NavigationCenter with ChangeNotifier {
+  NavigationCenter._();
+
   final ValueNotifier<int> _selectedPanelIndex = ValueNotifier(0);
 
   final List<Widget> _panels = [
@@ -53,5 +55,9 @@ class NavigationCenter with ChangeNotifier {
 
   IconData? getSelectedPanelIcon(int index) => _panelIcons[index];
 
-  
+  static NavigationCenter? _instance;
+  factory NavigationCenter.instance() {
+    _instance ??= NavigationCenter._();
+    return _instance!;
+  }
 }

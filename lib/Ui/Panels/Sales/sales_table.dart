@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Blocs/Purchase/bloc.dart';
-import 'package:stock_manager/Application/Blocs/Purchase/state.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/Controllers/sales_controller.dart';
+import 'package:stock_manager/Features/Purchase/Purchase/bloc.dart';
+import 'package:stock_manager/Features/Purchase/Purchase/state.dart';
+
+import 'package:stock_manager/Features/Purchase/Logic/sales_controller.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -70,8 +69,7 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
   @override
   Widget build(BuildContext context) {
     SalesController controller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .salesController;
+        SalesController();
 
     List<String> salesTableColumns = [
       Translations.of(context)!.productName,

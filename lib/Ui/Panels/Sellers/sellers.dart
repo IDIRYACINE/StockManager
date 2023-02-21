@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Controllers/sellers_controller.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
+import 'package:stock_manager/Features/Sellers/Logic/sellers_controller.dart';
+
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
@@ -24,8 +23,7 @@ class SellersPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<ControllersProvider>(context, listen: false)
-        .sellersController;
+    final controller = SellersController();
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),

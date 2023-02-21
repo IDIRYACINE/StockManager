@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Blocs/Sellers/sellers.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/Controllers/sellers_controller.dart';
+import 'package:stock_manager/Features/Sellers/Sellers/sellers.dart';
+
+import 'package:stock_manager/Features/Sellers/Logic/sellers_controller.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
@@ -36,8 +35,7 @@ class SellersTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SellersController controller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .sellersController;
+        SellersController();
 
 
     List<String> sellersTableColumns = [

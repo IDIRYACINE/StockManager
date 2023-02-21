@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Blocs/Deposit/deposit.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/Controllers/deposit_controller.dart';
+import 'package:stock_manager/Features/Deposit/State/deposit.dart';
+
+import 'package:stock_manager/Features/Deposit/Logic/deposit_controller.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -73,9 +72,7 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
 
   @override
   Widget build(BuildContext context) {
-    DespositController controller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .depositController;
+    DespositController controller =DespositController();
 
 
     List<String> depositsTableColumns = [

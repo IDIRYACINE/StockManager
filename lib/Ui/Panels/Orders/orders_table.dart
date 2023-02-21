@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Blocs/Orders/bloc.dart';
-import 'package:stock_manager/Application/Blocs/Orders/state.dart';
+import 'package:stock_manager/Features/Orders/State/bloc.dart';
+import 'package:stock_manager/Features/Orders/State/state.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/Utility/utility_wrappers.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
-import 'package:stock_manager/Application/Controllers/orders_controller.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Features/Orders/Logic/order_products_controller.dart';
+import 'package:stock_manager/Features/Orders/Logic/orders_controller.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -43,9 +41,7 @@ class OrdersTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrdersController controller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .ordersController;
+    OrdersController controller =OrdersController();
 
     List<String> ordersTableColumns = [
       Translations.of(context)!.date,
@@ -119,9 +115,7 @@ class OrderProductsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderProductsController controller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .orderProductsController;
+    OrderProductsController controller =OrderProductsController();
 
     List<String> orderProductsTableColumns = [
       Translations.of(context)!.productName,
@@ -237,13 +231,9 @@ class OrdersTableSpreaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderProductsController productsController =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .orderProductsController;
+    OrderProductsController productsController =OrderProductsController();
 
-    OrdersController ordersController =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .ordersController;
+    OrdersController ordersController =OrdersController();
 
 
     List<String> ordersTableColumns = [

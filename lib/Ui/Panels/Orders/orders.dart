@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Controllers/orders_controller.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Features/Orders/orders_feature.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Orders/orders_table.dart';
@@ -38,8 +36,7 @@ class OrdersPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final OrdersController controller =
-        Provider.of<ControllersProvider>(context).ordersController;
+    final OrdersController controller =OrdersController();
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),

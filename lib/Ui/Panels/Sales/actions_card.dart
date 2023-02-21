@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/Application/Controllers/sales_controller.dart';
+
+import 'package:stock_manager/Features/Purchase/Logic/sales_controller.dart';
 import 'package:stock_manager/Ui/Generics/action_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
@@ -23,9 +22,7 @@ class ActionsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SalesController controller =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .salesController;
+    SalesController controller =SalesController();
 
     return Card(
       elevation: Measures.small,
