@@ -9,7 +9,6 @@ import 'package:stock_manager/Ui/Editors/Models/order_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
-import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
@@ -81,7 +80,7 @@ class SpreadedOrderProductForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: [
-          ProductForm(product: product, productFormEditor: productFormEditor),
+          // ProductForm(product: product, productFormEditor: productFormEditor),TODO
           AttributeTextField(
             controller: orderProductEditorMode.sellingPriceController,
             onChanged: orderProductEditorMode.setSellingPrice,

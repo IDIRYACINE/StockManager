@@ -60,3 +60,5 @@ typedef EditorSearchCallback = void Function (String barcode,OnEditorSearchResul
 typedef SearchFieldParser<R> = R Function(String value); 
 
 typedef TextFieldValidator = String? Function(String? value);
+
+typedef ProductModelsType = Map<String,ProductModel>;

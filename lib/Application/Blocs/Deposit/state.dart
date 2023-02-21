@@ -7,8 +7,12 @@ class DepositState {
   static int _generateTimeStamp() => DateTime.now().millisecondsSinceEpoch;
 
   final Record activeDepositRecord;
+  final RecordProduct? activeDepositProduct;
+  late Product loadedProduct;
 
-  DepositState({required this.activeDepositRecord});
+  DepositState({required this.activeDepositRecord, this.activeDepositProduct, Product? loadedProduct }){
+    this.loadedProduct = loadedProduct ?? Product.defaultInstance();
+  }
 
   factory DepositState.initial() {
     return DepositState(
@@ -16,9 +20,12 @@ class DepositState {
             paymentType: _payementType, timeStamp: _generateTimeStamp()));
   }
 
-  DepositState copyWith({Record? activeDepositRecord}) {
+  DepositState copyWith({Record? activeDepositRecord, RecordProduct? activeDepositProduct, Product? loadedProduct}) {
     return DepositState(
-        activeDepositRecord: activeDepositRecord ?? this.activeDepositRecord);
+        activeDepositRecord: activeDepositRecord ?? this.activeDepositRecord,
+        activeDepositProduct: activeDepositProduct ?? this.activeDepositProduct,
+        loadedProduct: loadedProduct ?? this.loadedProduct
+        );
   }
 
 }

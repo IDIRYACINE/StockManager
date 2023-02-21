@@ -106,9 +106,8 @@ class OrderProductEditor extends StatelessWidget {
                     Expanded(
                         child: DefaultDecorator(
                             child: ProductForm(
-                      product: product,
-                      productFormEditor: productFormEditor,
-                    ))),
+                      product: Product.defaultInstance(),
+                    ),),),
                     const SizedBox(width: Measures.small),
                     Expanded(
                       child: DefaultDecorator(

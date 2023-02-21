@@ -412,4 +412,78 @@ class Record {
       customer: '',
     );
   }
+
+  static defaultDepositInstance() {
+    return Record(
+      payementType: PaymentTypes.deposit.name,
+      date: Utility.getDate(),
+      timeStamp: Utility.getTimeStamp(),
+      remainingPayement: 0.0,
+      totalQuantity: 0,
+      payementTypeIndex: PaymentTypes.deposit.index,
+      totalPrice: 0.0,
+      products: {},
+      sellerName: '',
+      totalDeposit: 0.0,
+      customer: '',
+    );
+  }
+
+  static defaultPurchaseInstance() {
+    return Record(
+      payementType: PaymentTypes.payement.name,
+      date: Utility.getDate(),
+      timeStamp: Utility.getTimeStamp(),
+      remainingPayement: 0.0,
+      totalQuantity: 0,
+      payementTypeIndex: PaymentTypes.payement.index,
+      totalPrice: 0.0,
+      products: {},
+      sellerName: '',
+      totalDeposit: 0.0,
+      customer: '',
+    ); 
+  }
+}
+
+
+class CustomerDataHolder {
+  CustomerDataHolder({
+    required this.name,
+    required this.phoneNumber,
+    required this.address,
+    required this.city,
+    required this.postalCode,
+  });
+
+  String name;
+  int phoneNumber;
+  String address;
+  String city;
+  int postalCode;
+
+  static CustomerDataHolder defaultInstance() {
+    return CustomerDataHolder(
+        name: '',
+        phoneNumber: 0,
+        address: '',
+        city: '',
+        postalCode: 0);
+  }
+
+  CustomerDataHolder copyWith({
+    String? name,
+    int? phoneNumber,
+    String? address,
+    String? city,
+    int? postalCode,
+  }) {
+    return CustomerDataHolder(
+      name: name ?? this.name,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      city: city ?? this.city,
+      postalCode: postalCode ?? this.postalCode,
+    );
+  }
 }

@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
@@ -13,23 +13,20 @@ import 'package:stock_manager/Ui/Generics/browse_image.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-class DepositForm extends StatefulWidget {
+class DepositForm extends StatelessWidget {
   const DepositForm(
       {Key? key,
-      required this.product,
+      required this.models,
       required this.record,
-      required this.depositMode})
+      required this.depositMode
+      })
       : super(key: key);
 
-  final ValueListenable<Product> product;
+  final ProductModelsType models;
   final Record record;
   final SaleEditorMode depositMode;
 
-  @override
-  State<DepositForm> createState() => _DepositFormState();
-}
 
-class _DepositFormState extends State<DepositForm> {
   @override
   Widget build(BuildContext context) {
     final sellersLiveModel =
@@ -42,16 +39,14 @@ class _DepositFormState extends State<DepositForm> {
     final ValueNotifier<Seller?> sellerNotifier = ValueNotifier(null);
 
     return SingleChildScrollView(
-      child: ValueListenableBuilder<Product>(
-          valueListenable: widget.product,
-          builder: (context, product, child) {
-            return Column(
+      child: 
+             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
                 SelectorDropDown<Seller>(
                   onSelect: (seller) {
-                    widget.depositMode.setSeller(seller);
+                    depositMode.setSeller(seller);
                     sellerNotifier.value = seller;
                   },
                   items: sellersDropdown,
@@ -64,17 +59,17 @@ class _DepositFormState extends State<DepositForm> {
                   children: [
                     Expanded(
                       child: AttributeTextField(
-                        initialValue: widget.record.customer,
-                        onChanged: widget.depositMode.setCustomer,
+                        initialValue: record.customer,
+                        onChanged: depositMode.setCustomer,
                         label: Translations.of(context)!.customerName,
                       ),
                     ),
                     const SizedBox(width: Measures.small),
                     Expanded(
                       child: AttributeTextField(
-                        initialValue: widget.record.phoneNumber.toString(),
+                        initialValue: record.phoneNumber.toString(),
                         label: Translations.of(context)!.phoneNumber,
-                        onChanged: widget.depositMode.setPhoneNumber,
+                        onChanged: depositMode.setPhoneNumber,
                       ),
                     ),
                   ],
@@ -85,63 +80,58 @@ class _DepositFormState extends State<DepositForm> {
                   children: [
                     Expanded(
                       child: AttributeTextField(
-                        initialValue: widget.record.city,
+                        initialValue: record.city,
                         label: Translations.of(context)!.city,
-                        onChanged: widget.depositMode.setCity,
+                        onChanged: depositMode.setCity,
                       ),
                     ),
                     const SizedBox(width: Measures.small),
                     Expanded(
                       child: AttributeTextField(
-                        initialValue: widget.record.address,
+                        initialValue: record.address,
                         label: Translations.of(context)!.address,
-                        onChanged: widget.depositMode.setAddress,
+                        onChanged: depositMode.setAddress,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: widget.depositMode.sellingPriceController,
-                  onChanged: widget.depositMode.setSellingPrice,
+                  controller: depositMode.sellingPriceController,
+                  onChanged: depositMode.setSellingPrice,
                   label: Translations.of(context)!.sellingPrice,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: widget.depositMode.depositController,
-                  onChanged: widget.depositMode.setDeposit,
+                  controller: depositMode.depositController,
+                  onChanged: depositMode.setDeposit,
                   label: Translations.of(context)!.deposit,
                 ),
                 const SizedBox(height: Measures.medium),
                 AttributeTextField(
-                  controller: widget.depositMode.remainingPaymenentController,
+                  controller: depositMode.remainingPaymenentController,
                   label: Translations.of(context)!.remainingPayement,
                   readOnly: true,
                 ),
                 const SizedBox(height: Measures.small),
                 ModelSelector(
-                  productModels: product.models,
-                  colorSelectorCallback: widget.depositMode.setColor,
-                  sizeSelectorCallback: widget.depositMode.setSize,
+                  productModels: models,
+                  colorSelectorCallback: depositMode.setColor,
+                  sizeSelectorCallback: depositMode.setSize,
                 ),
                 const SizedBox(height: Measures.medium),
               ],
-            );
-          }),
+            
+          ),
     );
   }
 }
 
-class ProductForm extends StatefulWidget {
-  const ProductForm({Key? key, required this.product, required this.editorMode})
+class ProductForm extends StatelessWidget {
+  const ProductForm({Key? key, required this.product})
       : super(key: key);
-  final ValueListenable<Product> product;
-  final SaleEditorMode editorMode;
-  @override
-  State<ProductForm> createState() => _ProductFormState();
-}
+  final Product product;
 
-class _ProductFormState extends State<ProductForm> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -151,42 +141,39 @@ class _ProductFormState extends State<ProductForm> {
           mainAxisSize: MainAxisSize.max,
           children: [
             DefaultDecorator(
-              child: ValueListenableBuilder<Product>(
-                valueListenable: widget.product,
-                builder: (context, product, child) {
-                  return FaultToleratedImage(
+              child:  FaultToleratedImage(
                     imageUrl: product.imageUrl ?? '',
-                  );
-                },
-              ),
+              )
+                
+              
             ),
             const SizedBox(height: Measures.medium),
             AttributeTextField(
-              controller: widget.editorMode.nameController,
+              initialValue: product.name,
               label: Translations.of(context)!.name,
               readOnly: true,
             ),
             const SizedBox(height: Measures.medium),
             AttributeTextField(
-              controller: widget.editorMode.referenceController,
+              initialValue: product.reference,
               label: Translations.of(context)!.reference,
               readOnly: true,
             ),
             const SizedBox(height: Measures.medium),
             AttributeTextField(
-              controller: widget.editorMode.familyController,
+              initialValue: product.productFamily,
               label: Translations.of(context)!.productFamily,
               readOnly: true,
             ),
             const SizedBox(height: Measures.medium),
             AttributeTextField(
-              controller: widget.editorMode.minSellingPriceController,
+              initialValue: product.sellingPrice.toString(),
               label: Translations.of(context)!.sellingPrice,
               readOnly: true,
             ),
             const SizedBox(height: Measures.medium),
             AttributeTextField(
-              controller: widget.editorMode.remainingQuantity,
+              initialValue: product.totalQuantity.toString(),
               label: Translations.of(context)!.quantity,
               readOnly: true,
             ),

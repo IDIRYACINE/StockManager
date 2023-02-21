@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
@@ -20,13 +18,12 @@ class SaleForm extends StatelessWidget {
       required this.product,
       required this.record,
       required this.saleEditorMode,
-      required this.sellingPriceController})
+      r})
       : super(key: key);
 
-  final ValueListenable<Product> product;
+  final Product product;
   final Record record;
   final SaleEditorMode saleEditorMode;
-  final TextEditingController sellingPriceController;
 
   @override
   Widget build(BuildContext context) {
@@ -59,37 +56,28 @@ class SaleForm extends StatelessWidget {
           onChanged: saleEditorMode.setCustomer,
         ),
         AttributeTextField(
-          controller: sellingPriceController,
+          initialValue: product.sellingPrice.toString(),
           onChanged: saleEditorMode.setSellingPrice,
           label: Translations.of(context)!.sellingPrice,
         ),
         const SizedBox(height: Measures.small),
-        ValueListenableBuilder<Product>(
-            valueListenable: product,
-            builder: (context, product, child) {
-              return ModelSelector(
+         ModelSelector(
                 productModels: product.models,
                 colorSelectorCallback: saleEditorMode.setColor,
                 sizeSelectorCallback: saleEditorMode.setSize,
-              );
-            }),
+              ),
+            
       ],
     );
   }
 }
 
-class ProductForm extends StatefulWidget {
+class ProductForm extends StatelessWidget {
   const ProductForm(
-      {Key? key, required this.product, required this.productFormEditor})
+      {Key? key, required this.product, })
       : super(key: key);
 
-  final ValueListenable<Product> product;
-  final ProductFormEditor productFormEditor;
-  @override
-  State<ProductForm> createState() => _ProductFormState();
-}
-
-class _ProductFormState extends State<ProductForm> {
+  final Product product;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -97,41 +85,37 @@ class _ProductFormState extends State<ProductForm> {
       mainAxisSize: MainAxisSize.max,
       children: [
         DefaultDecorator(
-          child: ValueListenableBuilder<Product>(
-              valueListenable: widget.product,
-              builder: (context, product, child) {
-                return FaultToleratedImage(
+          child: FaultToleratedImage(
                   imageUrl: product.imageUrl ?? '',
-                );
-              }),
+              ),
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          controller: widget.productFormEditor.productNameController,
+          initialValue: product.name,
           label: Translations.of(context)!.name,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          controller: widget.productFormEditor.referenceController,
+          initialValue: product.reference,
           label: Translations.of(context)!.reference,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          controller: widget.productFormEditor.familyController,
+          initialValue: product.productFamily,
           label: Translations.of(context)!.productFamily,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          controller: widget.productFormEditor.minSellingPriceController,
+          initialValue: product.sellingPrice.toString(),
           label: Translations.of(context)!.sellingPrice,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          controller: widget.productFormEditor.remainingQuantity,
+          initialValue: product.totalQuantity.toString(),
           label: Translations.of(context)!.quantity,
           readOnly: true,
         ),

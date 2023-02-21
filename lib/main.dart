@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Blocs/Deposit/bloc.dart';
+import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/settings.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -12,12 +15,20 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
+import 'Application/Blocs/Purchase/purchase.dart';
+
 void main() async {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => NavigationCenter()),
-    ChangeNotifierProvider(create: (context) => SettingsLiveDataModel()),
-    Provider(create: (context) => ControllersProvider()),
-  ], child: const MyApp()));
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => DepositBloc.initial()),
+      BlocProvider(create: (context) => PurchaseBloc.initial()),
+    ],
+    child: MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => NavigationCenter()),
+      ChangeNotifierProvider(create: (context) => SettingsLiveDataModel()),
+      Provider(create: (context) => ControllersProvider()),
+    ], child: const MyApp()),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -41,6 +52,7 @@ class _MyAppState extends State<MyApp> {
         themeMode: ThemeMode.dark,
         darkTheme: AppThemes.darkTheme2,
         locale: liveModel.displayLanguage,
+        navigatorKey: AppNavigator.key,
         localizationsDelegates: Translations.localizationsDelegates,
         supportedLocales: Translations.supportedLocales,
         home: const MyHomePage(),

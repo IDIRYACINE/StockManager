@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mongo_dart/mongo_dart.dart';
-import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
-import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
-import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
@@ -24,38 +20,19 @@ class DespositController {
   final StockLiveDataModel stockLiveModel;
 
 
-  void _onSearchProduct(
-      String searchValue, OnEditorSearchResulCallback callback) {
-    Map<ServicesData, dynamic> data = {
-      ServicesData.databaseSelector:
-          SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
-    };
-
-    ServiceMessage message = ServiceMessage<List<Product>>(
-        callback: callback,
-        hasCallback: true,
-        data: data,
-        event: DatabaseEvent.searchProduct,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
-  }
 
   void addDepositProduct(BuildContext context) {
     PopupsUtility.displayGenericPopup(
       context,
       width: Measures.containerWidthLarge,
       height: Measures.containerHeightLarge,
-      DepositEditor(
-        record: Record.defaultInstance(
-            paymentType: PaymentTypes.deposit,
-            timeStamp: Record.depositTimeStamp),
-        onSearch: _onSearchProduct,
-        addDepositCallback: (record) =>
-            DepositEmitter.emitDepositEvent(SalesEvents.addDeposit, data :record,broadcast: true),
-        addDepositProductCallback: (product) => Utility.displayToastMessage(
-            context, Translations.of(context)!.addedProduct),
-        confirmLabel: Translations.of(context)!.add,
+      const DepositEditor(
+     
+        // addDepositCallback: (record) =>
+        //     DepositEmitter.emitDepositEvent(SalesEvents.addDeposit, data :record,broadcast: true),
+        // addDepositProductCallback: (product) => Utility.displayToastMessage(
+        //     context, Translations.of(context)!.addedProduct),
+        // confirmLabel: Translations.of(context)!.add,
       ),
     );
   }
