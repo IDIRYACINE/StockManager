@@ -1,7 +1,5 @@
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -14,19 +12,14 @@ import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class AddPurchase implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
-  final StockLiveDataModel stockLiveModel;
+  
 
-  AddPurchase(this.recordsLiveModel, this.stockLiveModel);
+  AddPurchase( );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Record record = event.data as Record;
 
-    record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, -1);
-    });
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: record,
@@ -59,19 +52,14 @@ class AddPurchase implements StoreAction {
 }
 
 class RemovePurchase implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
-  final StockLiveDataModel stockLiveModel;
+  
 
-  RemovePurchase(this.recordsLiveModel, this.stockLiveModel);
+  RemovePurchase( );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Record record = event.data as Record;
 
-    record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, -1);
-    });
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: record};
     ServiceMessage message = ServiceMessage(
@@ -100,10 +88,9 @@ class RemovePurchase implements StoreAction {
 }
 
 class RemovePurchaseProduct implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
-  final StockLiveDataModel stockLiveModel;
+  
 
-  RemovePurchaseProduct(this.recordsLiveModel, this.stockLiveModel);
+  RemovePurchaseProduct( );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -114,8 +101,6 @@ class RemovePurchaseProduct implements StoreAction {
 
     record.products.remove(recordProduct.timeStamp);
 
-    stockLiveModel.reclaimStock(recordProduct.reference, recordProduct.colorId,
-        recordProduct.sizeId, 1);
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: recordProduct,
@@ -151,9 +136,9 @@ class RemovePurchaseProduct implements StoreAction {
 }
 
 class ClearPurchases implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
+  
 
-  ClearPurchases(this.recordsLiveModel);
+  ClearPurchases();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -172,22 +157,17 @@ class ClearPurchases implements StoreAction {
 }
 
 class AddDeposit implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
-  final StockLiveDataModel stockLiveModel;
+  
 
-  AddDeposit(this.recordsLiveModel, this.stockLiveModel);
+  AddDeposit( );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Record record = event.data as Record;
 
-    recordsLiveModel.setActiveDepositRecord(record);
-    recordsLiveModel.addActiveDepositRecord();
+    
+    
 
-    record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, -1);
-    });
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: record,
@@ -220,21 +200,14 @@ class AddDeposit implements StoreAction {
 }
 
 class RemoveDeposit implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
-  final StockLiveDataModel stockLiveModel;
+  
 
-  RemoveDeposit(this.recordsLiveModel, this.stockLiveModel);
+  RemoveDeposit( );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Record record = event.data as Record;
 
-    recordsLiveModel.removeDepositRecord(record);
-
-    record.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, 1);
-    });
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: record};
     ServiceMessage message = ServiceMessage(
@@ -263,10 +236,9 @@ class RemoveDeposit implements StoreAction {
 }
 
 class RemoveDepositProduct implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
-  final StockLiveDataModel stockLiveModel;
-
-  RemoveDepositProduct(this.recordsLiveModel, this.stockLiveModel);
+  
+  
+  RemoveDepositProduct( );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -276,10 +248,8 @@ class RemoveDepositProduct implements StoreAction {
 
     RecordProduct product = wrapper.recordProduct;
 
-    stockLiveModel.reclaimStock(
-        product.reference, product.colorId, product.sizeId, 1);
+    
 
-    recordsLiveModel.removeDepositProduct(record, product);
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: product,
@@ -315,16 +285,16 @@ class RemoveDepositProduct implements StoreAction {
 }
 
 class QuickSearchDeposit implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
+  
 
-  QuickSearchDeposit(this.recordsLiveModel);
+  QuickSearchDeposit();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Map<String, dynamic> query = event.data as Map<String, dynamic>;
 
     void onResult(List<Record> records) {
-      recordsLiveModel.setAllDeposits(records);
+      
     }
 
     Map<ServicesData, dynamic> requestData = {
@@ -354,13 +324,12 @@ class QuickSearchDeposit implements StoreAction {
 }
 
 class ClearDeposits implements StoreAction {
-  final RecordsLiveDataModel recordsLiveModel;
+  
 
-  ClearDeposits(this.recordsLiveModel);
+  ClearDeposits();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
-    recordsLiveModel.clearDeposits();
     return null;
   }
 
@@ -377,19 +346,14 @@ class ClearDeposits implements StoreAction {
 
 class AddOrder implements StoreAction {
   final OrdersLiveDataModel ordersLiveModel;
-  final StockLiveDataModel stockLiveModel;
-
-  AddOrder(this.ordersLiveModel, this.stockLiveModel);
+  
+  AddOrder(this.ordersLiveModel, );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Order order = event.data as Order;
     ordersLiveModel.addOrder(order);
 
-    order.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, -1);
-    });
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: order,
@@ -423,17 +387,15 @@ class AddOrder implements StoreAction {
 
 class AddOrderProduct implements StoreAction {
   final OrdersLiveDataModel ordersLiveModel;
-  final StockLiveDataModel stockLiveModel;
-
-  AddOrderProduct(this.ordersLiveModel, this.stockLiveModel);
+  
+  AddOrderProduct(this.ordersLiveModel, );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     RecordProduct orderProduct = event.data as RecordProduct;
     ordersLiveModel.addOrderProduct(orderProduct);
 
-    stockLiveModel.reclaimStock(
-        orderProduct.reference, orderProduct.colorId, orderProduct.sizeId, -1);
+    
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: orderProduct,
@@ -471,9 +433,8 @@ class AddOrderProduct implements StoreAction {
 
 class RemoveOrder implements StoreAction {
   final OrdersLiveDataModel ordersLiveModel;
-  final StockLiveDataModel stockLiveModel;
-
-  RemoveOrder(this.ordersLiveModel, this.stockLiveModel);
+  
+  RemoveOrder(this.ordersLiveModel, );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -482,10 +443,6 @@ class RemoveOrder implements StoreAction {
 
     ordersLiveModel.removeOrder(wrapper.instance, wrapper.index!);
 
-    wrapper.instance.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, -1);
-    });
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: wrapper.instance
@@ -518,9 +475,8 @@ class RemoveOrder implements StoreAction {
 
 class RemoveOrderProduct implements StoreAction {
   final OrdersLiveDataModel ordersLiveModel;
-  final StockLiveDataModel stockLiveModel;
-
-  RemoveOrderProduct(this.ordersLiveModel, this.stockLiveModel);
+  
+  RemoveOrderProduct(this.ordersLiveModel, );
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -528,8 +484,6 @@ class RemoveOrderProduct implements StoreAction {
 
     ordersLiveModel.removeOrderProduct(orderProduct);
 
-    stockLiveModel.reclaimStock(
-        orderProduct.reference, orderProduct.colorId, orderProduct.sizeId, 1);
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: orderProduct,
@@ -584,10 +538,6 @@ class RemoveOrderProduct implements StoreAction {
   void _removeOrder(Order order, int orderIndex) {
     ordersLiveModel.removeOrder(order, orderIndex);
 
-    order.products.forEach((key, product) {
-      stockLiveModel.reclaimStock(
-          product.reference, product.colorId, product.sizeId, -1);
-    });
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: order};
 

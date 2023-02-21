@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Blocs/Stock/stock.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/stock_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
@@ -70,8 +71,6 @@ class _ProductsTable extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .stockController;
 
-    StockLiveDataModel stock =
-        Provider.of<ControllersProvider>(context, listen: false).stockLiveModel;
 
     List<String> stockProductTableColumns = [
       Translations.of(context)!.
@@ -98,11 +97,10 @@ quantity,
           dataModel: 0,
         )),
         Expanded(
-          child: ValueListenableBuilder<bool>(
-              valueListenable: stock.refreshProducts,
-              builder: (context, value, child) {
+          child: BlocBuilder<StockBloc,StockState>(
+              builder: (context, state) {
                 return ListView.builder(
-                    itemCount: stock.productsCount,
+                    itemCount: state.productsCount,
                     itemBuilder: (context, index) {
                       return SelectableRow<Product>(
                         dataCellHelper: (product) =>
@@ -114,7 +112,7 @@ quantity,
                           ContextMenuOperation.remove,
                         ],
                         index: index,
-                        dataModel: stock.productAt(index),
+                        dataModel: state.productAt(index),
                       );
                     });
               }),
@@ -153,8 +151,7 @@ class _FamilliesTable extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .stockController;
 
-    StockLiveDataModel stock =
-        Provider.of<ControllersProvider>(context, listen: false).stockLiveModel;
+     
 
     List<String> stockFamilliesTableColumns = [
       Translations.of(context)!.
@@ -173,11 +170,10 @@ reference,
           dataModel: 0,
         )),
         Expanded(
-          child: ValueListenableBuilder<bool>(
-              valueListenable: stock.refreshProductsFamily,
-              builder: (context, value, child) {
+          child: BlocBuilder<StockBloc,StockState>(
+              builder: (context, state) {
                 return ListView.builder(
-                    itemCount: stock.productFamilysCount,
+                    itemCount: state.productFamilysCount,
                     itemBuilder: (context, index) {
                       return SelectableRow<ProductFamily>(
                         dataCellHelper: (family) =>
@@ -185,7 +181,7 @@ reference,
                         onClick: (detaills) =>
                             handleContextMenu(detaills, controller),
                         index: index,
-                        dataModel: stock.productFamilyAt(index),
+                        dataModel: state.productFamilyAt(index),
                         contextMenuItems: const [
                           ContextMenuOperation.edit,
                           ContextMenuOperation.remove,

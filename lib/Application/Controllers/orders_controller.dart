@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_orders.dart';
@@ -21,10 +20,9 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersController {
-  OrdersController(this.ordersLiveModel, this.stockLiveModel);
+  OrdersController(this.ordersLiveModel, );
 
   final OrdersLiveDataModel ordersLiveModel;
-  final StockLiveDataModel stockLiveModel;
 
   void addSpreadedOrder(BuildContext context) {
     ordersLiveModel.selectedOrder = Order.defaultInstance();

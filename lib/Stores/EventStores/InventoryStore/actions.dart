@@ -1,5 +1,4 @@
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
@@ -9,15 +8,15 @@ import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class AddProduct implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  AddProduct(this.stockLiveDataModel);
+  AddProduct();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Product product = event.data as Product;
 
-    stockLiveDataModel.addProduct(product);
+    
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: product,
@@ -44,14 +43,13 @@ class AddProduct implements StoreAction {
 }
 
 class RemoveProduct implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  RemoveProduct(this.stockLiveDataModel);
+  RemoveProduct();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Product product = event.data as Product;
-    stockLiveDataModel.deleteProduct(product);
 
     Map<ServicesData, dynamic> reauestData = {ServicesData.instance: product};
     ServiceMessage message = ServiceMessage(
@@ -74,9 +72,9 @@ class RemoveProduct implements StoreAction {
 }
 
 class SearchProducts implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  SearchProducts(this.stockLiveDataModel);
+  SearchProducts();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -89,7 +87,7 @@ class SearchProducts implements StoreAction {
       data: requestData,
       event: DatabaseEvent.searchProduct,
       service: AppServices.database,
-      callback: (products) => stockLiveDataModel.setAllProducts(products),
+      callback: (products) => {},
       hasCallback: true,
     );
 
@@ -109,16 +107,15 @@ class SearchProducts implements StoreAction {
 }
 
 class UpdateProduct implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  UpdateProduct(this.stockLiveDataModel);
+  UpdateProduct();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     UpdateRequestWrapper<Product> wrapper =
         event.data as UpdateRequestWrapper<Product>;
 
-    stockLiveDataModel.updateProduct(wrapper.instance, wrapper.index!);
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: wrapper.instance.reference,
@@ -145,15 +142,14 @@ class UpdateProduct implements StoreAction {
 }
 
 class AddCategory implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  AddCategory(this.stockLiveDataModel);
+  AddCategory();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     ProductFamily family = event.data as ProductFamily;
 
-    stockLiveDataModel.addProductFamily(family);
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: family,
@@ -180,15 +176,14 @@ class AddCategory implements StoreAction {
 }
 
 class RemoveCategory implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  RemoveCategory(this.stockLiveDataModel);
+  RemoveCategory();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     ProductFamily family = event.data as ProductFamily;
 
-    stockLiveDataModel.deleteProductFamily(family);
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: family};
     ServiceMessage message = ServiceMessage(
@@ -211,9 +206,9 @@ class RemoveCategory implements StoreAction {
 }
 
 class SearchCategories implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  SearchCategories(this.stockLiveDataModel);
+  SearchCategories();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -225,7 +220,7 @@ class SearchCategories implements StoreAction {
       data: requestData,
       event: DatabaseEvent.loadProductFamillies,
       service: AppServices.database,
-      callback: (families) => stockLiveDataModel.setAllFamillies(families),
+      callback: (families) => {},
       hasCallback: true,
     );
 
@@ -245,9 +240,9 @@ class SearchCategories implements StoreAction {
 }
 
 class UpdateCategory implements StoreAction {
-  final StockLiveDataModel stockLiveDataModel;
+  
 
-  UpdateCategory(this.stockLiveDataModel);
+  UpdateCategory();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
@@ -264,7 +259,6 @@ class UpdateCategory implements StoreAction {
         event: DatabaseEvent.updateProductFamily,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
-    stockLiveDataModel.updateProductFamily(wrapper.instance, wrapper.index!);
     return null;
   }
 

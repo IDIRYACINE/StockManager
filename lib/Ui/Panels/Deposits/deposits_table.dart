@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Blocs/Deposit/deposit.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/deposit_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -76,9 +77,6 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
         Provider.of<ControllersProvider>(context, listen: false)
             .depositController;
 
-    RecordsLiveDataModel records =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .recordsLiveModel;
 
     List<String> depositsTableColumns = [
       Translations.of(context)!.productName,
@@ -102,15 +100,15 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
               dataModel: 0,
             ),
             Expanded(
-              child: ValueListenableBuilder<bool>(
-                  valueListenable: records.depositRefresh,
-                  builder: (context, value, child) {
+              child: BlocBuilder<DepositBloc,DepositState>(
+                  builder: (context, state) {
+
 
                     return ListView.builder(
-                        itemCount: records.depositsCounts,
+                        itemCount: state.activeDepositRecord.products.length,
                         itemBuilder: (context, index) {
                           return buildRecordGroup(
-                              records.depositRecord(index), controller);
+                              state.activeDepositRecord, controller);
                         });
                   }),
             ),

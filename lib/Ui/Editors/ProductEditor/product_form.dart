@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Editors/Models/product_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
@@ -26,17 +22,10 @@ class ProductForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StockLiveDataModel stockLiveModel =
-        Provider.of<ControllersProvider>(context, listen: false).stockLiveModel;
 
 
-    final familliesDropdown = stockLiveModel.loadedProductFamillies
-        .map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e))
-        .toList();
 
-    ProductFamily? initialFamily = stockLiveModel.searchProductFamily(product.familyReference);    
-
-    final ValueNotifier<ProductFamily?> familyNotifier = ValueNotifier(initialFamily);
+    final ValueNotifier<ProductFamily?> familyNotifier = ValueNotifier(null);
 
 
 
@@ -53,7 +42,7 @@ class ProductForm extends StatelessWidget {
                   },
             initialSelection:familyNotifier
                 ,
-            items: familliesDropdown,
+            items: const[],
             label:  Text(Translations.of(context)!.
 selectProductFamily),
           )),

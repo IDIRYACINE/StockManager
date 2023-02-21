@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Application/Blocs/History/history.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
@@ -54,9 +53,6 @@ class _RecordsSpreadedTableState extends State<RecordsSpreadedTable> {
 
   @override
   Widget build(BuildContext context) {
-    RecordsLiveDataModel records =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .recordsLiveModel;
 
     List<String> recordsTableColumns = [
       Translations.of(context)!.date,
@@ -83,13 +79,12 @@ class _RecordsSpreadedTableState extends State<RecordsSpreadedTable> {
               dataModel: 0,
             ),
             Expanded(
-              child: ValueListenableBuilder<bool>(
-                  valueListenable: records.recordsRefresh,
-                  builder: (context, value, child) {
+              child: BlocBuilder<HistoryBloc,HistoryState>(
+                  builder: (context, state) {
                     return ListView.builder(
-                        itemCount: records.recordsCount,
+                        itemCount: state.records.length,
                         itemBuilder: (context, index) {
-                          return buildRecordGroup(records.record(index));
+                          return buildRecordGroup(state.getRecord(index));
                         });
                   }),
             ),

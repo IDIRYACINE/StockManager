@@ -79,7 +79,7 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (products) {
-          controllersProvider.stockLiveModel.setAllProducts(products);
+          
         },
         event: DatabaseEvent.loadProducts,
         data: {});
@@ -88,7 +88,7 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (famillies) {
-          controllersProvider.stockLiveModel.setAllFamillies(famillies);
+          
         },
         event: DatabaseEvent.loadProductFamillies,
         data: {});
@@ -99,7 +99,6 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (records) {
-          controllersProvider.recordsLiveModel.setAllRecords(records);
         },
         event: DatabaseEvent.searchPurchaseRecord,
         data: {

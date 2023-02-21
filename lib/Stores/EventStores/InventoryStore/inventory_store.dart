@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Types/i_stores.dart';
@@ -47,36 +44,33 @@ class InventoryStore implements Store {
   }
 
   void _registerStores(BuildContext context) {
-    ControllersProvider controllersProvider =
-        Provider.of<ControllersProvider>(context, listen: false);
 
-    StockLiveDataModel stockLiveModel = controllersProvider.stockLiveModel;
 
     EmptyAction emptyAction = EmptyAction();
     _callbacks = List.filled(StockEvents.values.length, emptyAction);
 
-    AddProduct addProductAction = AddProduct(stockLiveModel);
+    AddProduct addProductAction = AddProduct();
     _callbacks[addProductAction.getId()] = addProductAction;
 
-    RemoveProduct removeProductAction = RemoveProduct(stockLiveModel);
+    RemoveProduct removeProductAction = RemoveProduct();
     _callbacks[removeProductAction.getId()] = removeProductAction;
 
-    SearchProducts searchProductAction = SearchProducts(stockLiveModel);
+    SearchProducts searchProductAction = SearchProducts();
     _callbacks[searchProductAction.getId()] = searchProductAction;
 
-    UpdateProduct updateProductAction = UpdateProduct(stockLiveModel);
+    UpdateProduct updateProductAction = UpdateProduct();
     _callbacks[updateProductAction.getId()] = updateProductAction;
 
-     AddCategory addCategoryAction = AddCategory(stockLiveModel);
+     AddCategory addCategoryAction = AddCategory();
     _callbacks[addCategoryAction.getId()] = addCategoryAction;
 
-    RemoveCategory removeCategoryAction = RemoveCategory(stockLiveModel);
+    RemoveCategory removeCategoryAction = RemoveCategory();
     _callbacks[removeCategoryAction.getId()] = removeCategoryAction;
 
-    SearchCategories searchCategoryAction = SearchCategories(stockLiveModel);
+    SearchCategories searchCategoryAction = SearchCategories();
     _callbacks[searchCategoryAction.getId()] = searchCategoryAction;
 
-    UpdateCategory updateategoryAction = UpdateCategory(stockLiveModel);
+    UpdateCategory updateategoryAction = UpdateCategory();
     _callbacks[updateategoryAction.getId()] = updateategoryAction;
 
   }

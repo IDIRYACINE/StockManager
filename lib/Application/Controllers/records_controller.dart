@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Blocs/History/history.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_records.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
@@ -14,9 +15,8 @@ import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class RecordsController {
-  RecordsController(this.recordsLiveModel);
+  RecordsController();
 
-  RecordsLiveDataModel recordsLiveModel;
 
   void refresh(BuildContext context) {
     Map<String, dynamic> todayQuery = SelectorBuilder()
@@ -77,7 +77,10 @@ class RecordsController {
   }
 
   void printRecords(BuildContext context) {
-    RecordsReport report = RecordsReport(recordsLiveModel.records);
+    final records= 
+        BlocProvider.of<HistoryBloc>(context).state.records;
+
+    RecordsReport report = RecordsReport(records);
     report.printRecords(context);
   }
 }

@@ -1,5 +1,4 @@
 
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
@@ -8,9 +7,8 @@ import 'package:stock_manager/Types/i_stores.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class SearchRecords implements StoreAction{
-  final RecordsLiveDataModel recordsLiveModel;
 
-  SearchRecords(this.recordsLiveModel);
+  SearchRecords();
 
   @override
   Future<EventResponse?> execute(StoreEvent event)  async {
@@ -23,7 +21,7 @@ class SearchRecords implements StoreAction{
         event: DatabaseEvent.searchPurchaseRecord,
         data: requestData,
         hasCallback: true,
-        callback: (records) => recordsLiveModel.setAllRecords(records));
+        callback: (records) => {});//todo:
 
     ServicesStore.instance.sendMessage(message);
     

@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -21,9 +19,9 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class StockController {
-  StockController(StockLiveDataModel stockLiveDataModel) {
-    _productsDelegate = _ProductsDelegate(stockLiveDataModel);
-    _familliesDelegate = _FamilliesDelegate(stockLiveDataModel);
+  StockController() {
+    _productsDelegate = _ProductsDelegate();
+    _familliesDelegate = _FamilliesDelegate();
     _stockDelegate = _productsDelegate;
   }
 
@@ -100,9 +98,9 @@ class StockController {
 }
 
 class _ProductsDelegate implements IStockDelegate<Product> {
-  _ProductsDelegate(this.stockLiveDataModel);
+  _ProductsDelegate();
 
-  final StockLiveDataModel stockLiveDataModel;
+  
 
   @override
   void add(BuildContext context) {
@@ -183,9 +181,6 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
         RegisterSearchQueryBuilder onDeselect) {
-      final familliesDropddown = stockLiveDataModel.loadedProductFamillies
-          .map((e) => DropdownAdapters.productFamilyMenuItemAdapter(e))
-          .toList();
 
       return [
         SearchFieldText<int>(
@@ -208,7 +203,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
             identifier: ProductFields.family.name,
             onSelected: onSelect,
             onDeselected: onDeselect,
-            values: familliesDropddown)
+            values: const [])
       ];
     }
 
@@ -231,9 +226,9 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 }
 
 class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
-  _FamilliesDelegate(this.stockLiveDataModel);
+  _FamilliesDelegate();
 
-  final StockLiveDataModel stockLiveDataModel;
+  
 
   @override
   void add(BuildContext context) {
@@ -334,7 +329,6 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
   @override
   void quickSearch(BuildContext context, AppJson query) {
     void onResult(List<ProductFamily> famillies) {
-      stockLiveDataModel.setAllFamillies(famillies);
       Navigator.pop(context);
     }
 

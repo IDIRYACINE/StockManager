@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Application/Blocs/Deposit/deposit.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
@@ -14,11 +14,10 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class DespositController {
-  DespositController(this.recordsLiveModel, this.stockLiveModel);
+  DespositController( );
 
-  final RecordsLiveDataModel recordsLiveModel;
-  final StockLiveDataModel stockLiveModel;
-
+  
+  
 
 
   void addDepositProduct(BuildContext context) {
@@ -77,7 +76,8 @@ class DespositController {
   }
 
   void printReport(BuildContext context) {
-    BillPurchase report = BillPurchase(recordsLiveModel.activeDepositRecord);
+    final record = BlocProvider.of<DepositBloc>(context).state.activeDepositRecord;
+    BillPurchase report = BillPurchase(record);
     report.print(context);
   }
 
@@ -93,7 +93,6 @@ class DespositController {
   void _onCompletePayment(Record record) {
 
     Record remainingRecord = generateRemainingRecord(record);
-    recordsLiveModel.addRecord(remainingRecord);
 
     Map<ServicesData, dynamic> messageData = {
       ServicesData.instance: remainingRecord,

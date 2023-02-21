@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/Stores/EventStores/SalesStore/actions.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
@@ -54,59 +52,55 @@ class SalesStore implements Store {
     ControllersProvider controllersProvider =
         Provider.of<ControllersProvider>(context);
 
-    RecordsLiveDataModel recordsLiveModel =
-        controllersProvider.recordsLiveModel;
-
-    StockLiveDataModel stockLiveModel = controllersProvider.stockLiveModel;
 
     OrdersLiveDataModel ordersLiveModel = controllersProvider.ordersLiveModel;
 
     EmptyAction emptyAction = EmptyAction();
     _callbacks = List.filled(SalesEvents.values.length, emptyAction);
 
-    AddPurchase purchaseAction = AddPurchase(recordsLiveModel, stockLiveModel);
+    AddPurchase purchaseAction = AddPurchase();
     _callbacks[purchaseAction.getId()] = purchaseAction;
 
     RemovePurchase removePurchaseAction =
-        RemovePurchase(recordsLiveModel, stockLiveModel);
+        RemovePurchase();
     _callbacks[removePurchaseAction.getId()] = removePurchaseAction;
 
     RemovePurchaseProduct removePurchaseProductAction =
-        RemovePurchaseProduct(recordsLiveModel, stockLiveModel);
+        RemovePurchaseProduct();
     _callbacks[removePurchaseProductAction.getId()] =
         removePurchaseProductAction;
 
-    ClearPurchases clearPurchasesAction = ClearPurchases(recordsLiveModel);
+    ClearPurchases clearPurchasesAction = ClearPurchases();
     _callbacks[clearPurchasesAction.getId()] = clearPurchasesAction;
 
-    AddDeposit addDepositAction = AddDeposit(recordsLiveModel, stockLiveModel);
+    AddDeposit addDepositAction = AddDeposit();
     _callbacks[addDepositAction.getId()] = addDepositAction;
 
     RemoveDeposit removeDepositAction =
-        RemoveDeposit(recordsLiveModel, stockLiveModel);
+        RemoveDeposit();
     _callbacks[removeDepositAction.getId()] = removeDepositAction;
 
     RemoveDepositProduct removeDepositProductAction =
-        RemoveDepositProduct(recordsLiveModel, stockLiveModel);
+        RemoveDepositProduct();
     _callbacks[removeDepositProductAction.getId()] = removeDepositProductAction;
 
     QuickSearchDeposit quickSearchDepositAction =
-        QuickSearchDeposit(recordsLiveModel);
+        QuickSearchDeposit();
     _callbacks[quickSearchDepositAction.getId()] = quickSearchDepositAction;
 
-    AddOrder addOrderAction = AddOrder(ordersLiveModel, stockLiveModel);
+    AddOrder addOrderAction = AddOrder(ordersLiveModel,);
     _callbacks[addOrderAction.getId()] = addOrderAction;
 
     AddOrderProduct addOrderProductAction =
-        AddOrderProduct(ordersLiveModel, stockLiveModel);
+        AddOrderProduct(ordersLiveModel,);
     _callbacks[addOrderProductAction.getId()] = addOrderProductAction;
 
     RemoveOrder removeOrderAction =
-        RemoveOrder(ordersLiveModel, stockLiveModel);
+        RemoveOrder(ordersLiveModel,);
     _callbacks[removeOrderAction.getId()] = removeOrderAction;
 
     RemoveOrderProduct removeOrderProductAction =
-        RemoveOrderProduct(ordersLiveModel, stockLiveModel);
+        RemoveOrderProduct(ordersLiveModel,);
     _callbacks[removeOrderProductAction.getId()] = removeOrderProductAction;
 
     UpdateOrder updateOrderAction =
@@ -117,7 +111,7 @@ class SalesStore implements Store {
         SearchOrder(ordersLiveModel);
     _callbacks[removeOrderAction.getId()] = searchOrderAction;
 
-    ClearDeposits clearDepositsAction = ClearDeposits(recordsLiveModel);
+    ClearDeposits clearDepositsAction = ClearDeposits();
     _callbacks[clearDepositsAction.getId()] = clearDepositsAction;
 
   }

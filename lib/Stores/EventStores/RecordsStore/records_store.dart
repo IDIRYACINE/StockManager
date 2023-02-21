@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Stores/EventStores/RecordsStore/actions.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
@@ -48,14 +46,12 @@ class RecordsStore implements Store {
   }
 
   void _registerHandlers(BuildContext context) {
-    ControllersProvider controllersProvider =
-        Provider.of<ControllersProvider>(context);
 
     EmptyAction emptyAction = EmptyAction();
     _callbacks = List.filled(RecordEvents.values.length, emptyAction);
 
     SearchRecords searchRecords =
-        SearchRecords(controllersProvider.recordsLiveModel);
+        SearchRecords();
     _callbacks[searchRecords.getId()] = searchRecords;
   }
 }

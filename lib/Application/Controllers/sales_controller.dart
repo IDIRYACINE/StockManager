@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Application/Blocs/Purchase/bloc.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
@@ -14,10 +12,9 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SalesController {
-  SalesController(this.recordsLiveModel, this.stockLiveModel);
+  SalesController( );
 
-  RecordsLiveDataModel recordsLiveModel;
-  StockLiveDataModel stockLiveModel;
+  
 
   void clearSales(BuildContext context) {
     showDialog(
