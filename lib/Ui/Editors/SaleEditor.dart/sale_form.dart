@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
@@ -61,23 +62,24 @@ class SaleForm extends StatelessWidget {
           label: Translations.of(context)!.sellingPrice,
         ),
         const SizedBox(height: Measures.small),
-         ModelSelector(
-                productModels: product.models,
-                colorSelectorCallback: saleEditorMode.setColor,
-                sizeSelectorCallback: saleEditorMode.setSize,
-              ),
-            
+        ModelSelector(
+          productModels: product.models,
+          colorSelectorCallback: saleEditorMode.setColor,
+          sizeSelectorCallback: saleEditorMode.setSize,
+        ),
       ],
     );
   }
 }
 
 class ProductForm extends StatelessWidget {
-  const ProductForm(
-      {Key? key, required this.product, })
-      : super(key: key);
+  const ProductForm({
+    Key? key,
+    required this.productEditor,
+  }) : super(key: key);
 
-  final Product product;
+  final ProductFormEditor productEditor;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -85,37 +87,42 @@ class ProductForm extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         DefaultDecorator(
-          child: FaultToleratedImage(
-                  imageUrl: product.imageUrl ?? '',
-              ),
+          child: ValueListenableBuilder<String>(
+            valueListenable: productEditor.imageUrlNotifier,
+            builder: (context,value ,child) {
+              return FaultToleratedImage(
+                imageUrl: value,
+              );
+            }
+          ),
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          initialValue: product.name,
+          controller: productEditor.productNameController,
           label: Translations.of(context)!.name,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          initialValue: product.reference,
+          controller: productEditor.referenceController,
           label: Translations.of(context)!.reference,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          initialValue: product.productFamily,
+          controller: productEditor.familyController,
           label: Translations.of(context)!.productFamily,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          initialValue: product.sellingPrice.toString(),
+          controller: productEditor.minSellingPriceController,
           label: Translations.of(context)!.sellingPrice,
           readOnly: true,
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          initialValue: product.totalQuantity.toString(),
+          controller: productEditor.remainingQuantity,
           label: Translations.of(context)!.quantity,
           readOnly: true,
         ),

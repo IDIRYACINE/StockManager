@@ -63,9 +63,9 @@ save,
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       if (editMode) {
-                        sellerEditorMode.confirm(editCallback);
+                        sellerEditorMode.result(editCallback);
                       } else {
-                        sellerEditorMode.confirm(createCallback);
+                        sellerEditorMode.result(createCallback);
                       }
                     }
                   },

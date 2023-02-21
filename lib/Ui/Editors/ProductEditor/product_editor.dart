@@ -104,11 +104,11 @@ class ProductEditor extends StatelessWidget {
                           label: confirmLabel,
                           onPressed: () {
                             if (editMode) {
-                              modeDelegate.confirm(
+                              modeDelegate.result(
                                 editCallback,
                               );
                             } else {
-                              modeDelegate.confirm(
+                              modeDelegate.result(
                                 createCallback,
                               );
                             }

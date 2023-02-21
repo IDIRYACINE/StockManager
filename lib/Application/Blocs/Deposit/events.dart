@@ -8,7 +8,12 @@ class LoadDepositProduct extends DepositEvent {
   LoadDepositProduct(this.product);
 }
 
-class AddDepositProduct extends DepositEvent {}
+class AddDepositProduct extends DepositEvent {
+  final RecordProduct product;
+
+  AddDepositProduct(this.product);
+
+}
 
 class RemoveDepositProduct extends DepositEvent {
   final String productTimeStamp;

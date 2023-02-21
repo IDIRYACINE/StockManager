@@ -73,9 +73,9 @@ cancel,
                   label: confirmLabel,
                   onPressed: () {
                     if (editMode) {
-                      modeDelegate.confirm(editCallback);
+                      modeDelegate.result(editCallback);
                     } else {
-                      modeDelegate.confirm(createCallback);
+                      modeDelegate.result(createCallback);
                     }
                   },
                 ),

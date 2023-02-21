@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Application/Blocs/Purchase/bloc.dart';
+import 'package:stock_manager/Application/Blocs/Purchase/state.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class PriceCard extends StatefulWidget {
@@ -14,8 +14,6 @@ class PriceCard extends StatefulWidget {
 class _PriceCardState extends State<PriceCard> {
   @override
   Widget build(BuildContext context) {
-    RecordsLiveDataModel records =
-        Provider.of<ControllersProvider>(context, listen: false).recordsLiveModel;
 
     return Card(
       elevation: Measures.small,
@@ -27,10 +25,9 @@ class _PriceCardState extends State<PriceCard> {
             'Total Price',
             style: TextStyle(fontSize: Measures.h1TextSize,color: Colors.white),
           ),
-          ValueListenableBuilder<double>(
-              valueListenable: records.totalPrice,
-              builder: (context, totalPrice, child) {
-                return Text(totalPrice.toString(),
+          BlocBuilder<PurchaseBloc,PurchaseState>(
+              builder: (context, state) {
+                return Text(state.totalPrice.toString(),
                     style: const TextStyle(fontSize: Measures.h1TextSize,color: Colors.white));
               }),
         ],

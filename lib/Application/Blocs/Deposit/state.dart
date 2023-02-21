@@ -1,4 +1,5 @@
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class DepositState {
@@ -7,11 +8,15 @@ class DepositState {
   static int _generateTimeStamp() => DateTime.now().millisecondsSinceEpoch;
 
   final Record activeDepositRecord;
-  final RecordProduct? activeDepositProduct;
   late Product loadedProduct;
+  late ProductFormEditor formEditor;
 
-  DepositState({required this.activeDepositRecord, this.activeDepositProduct, Product? loadedProduct }){
+  DepositState(
+      {required this.activeDepositRecord,
+      ProductFormEditor? formEditor,
+      Product? loadedProduct}) {
     this.loadedProduct = loadedProduct ?? Product.defaultInstance();
+    this.formEditor = formEditor ?? ProductFormEditor();
   }
 
   factory DepositState.initial() {
@@ -20,12 +25,13 @@ class DepositState {
             paymentType: _payementType, timeStamp: _generateTimeStamp()));
   }
 
-  DepositState copyWith({Record? activeDepositRecord, RecordProduct? activeDepositProduct, Product? loadedProduct}) {
+  DepositState copyWith(
+      {Record? activeDepositRecord,
+      ProductFormEditor? formEditor,
+      Product? loadedProduct}) {
     return DepositState(
         activeDepositRecord: activeDepositRecord ?? this.activeDepositRecord,
-        activeDepositProduct: activeDepositProduct ?? this.activeDepositProduct,
-        loadedProduct: loadedProduct ?? this.loadedProduct
-        );
+        loadedProduct: loadedProduct ?? this.loadedProduct,
+        formEditor: formEditor ?? this.formEditor);
   }
-
 }

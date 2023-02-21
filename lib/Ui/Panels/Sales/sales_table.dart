@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Blocs/Purchase/bloc.dart';
+import 'package:stock_manager/Application/Blocs/Purchase/state.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/sales_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -18,11 +20,12 @@ class SalesSpreadedTable extends StatefulWidget {
 }
 
 class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
-  Widget buildRecordGroup(Record record , SalesController controller) {
+  Widget buildRecordGroup(Record record, SalesController controller) {
     List<Widget> children = [];
 
     record.products.forEach((timestampKey, product) {
-      RecordProductWrapper wrapper = RecordProductWrapper(record,product, false);
+      RecordProductWrapper wrapper =
+          RecordProductWrapper(record, product, false);
 
       SelectableRow<RecordProductWrapper> row =
           SelectableRow<RecordProductWrapper>(
@@ -30,7 +33,7 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
             recordProductWrapperCellAdapter(record, product),
         index: int.parse(timestampKey),
         contextMenuItems: const [ContextMenuOperation.remove],
-        onClick: (detaills) => handleContextMenu(detaills,controller),
+        onClick: (detaills) => handleContextMenu(detaills, controller),
         dataModel: wrapper,
       );
 
@@ -41,7 +44,7 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
   }
 
   List<String> recordProductWrapperCellAdapter(
-      Record record, RecordProduct product) {   
+      Record record, RecordProduct product) {
     return [
       product.product,
       product.reference,
@@ -52,7 +55,8 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
   }
 
   void handleContextMenu(
-      SelectableRowDetaills<RecordProductWrapper> rowDetaills, SalesController controller) {
+      SelectableRowDetaills<RecordProductWrapper> rowDetaills,
+      SalesController controller) {
     switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.removeSaleProduct(rowDetaills.context, rowDetaills.data);
@@ -69,10 +73,6 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
         Provider.of<ControllersProvider>(context, listen: false)
             .salesController;
 
-    RecordsLiveDataModel records =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .recordsLiveModel;
-
     List<String> salesTableColumns = [
       Translations.of(context)!.productName,
       Translations.of(context)!.reference,
@@ -83,8 +83,7 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
 
     return SizedBox(
       width: double.infinity,
-            height: double.infinity,
-
+      height: double.infinity,
       child: Card(
         elevation: Measures.small,
         child: Column(
@@ -97,11 +96,12 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
               dataModel: 0,
             ),
             Expanded(
-              child: ValueListenableBuilder<bool>(
-                  valueListenable: records.salesRefresh,
-                  builder: (context, value, child) {
-                    return buildRecordGroup(records.activePurchaseRecord,controller);
-                  }),
+              child: BlocBuilder<PurchaseBloc, PurchaseState>(builder: (
+                context,
+                state,
+              ) {
+                return buildRecordGroup(state.activePurchaseRecord, controller);
+              }),
             ),
           ],
         ),

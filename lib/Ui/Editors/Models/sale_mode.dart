@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Types/i_database.dart';
 
 abstract class SaleEditorMode<T> {
@@ -51,21 +51,21 @@ abstract class SaleEditorMode<T> {
 
   void setRecordProduct(RecordProduct recordProduct);
 
-  void appendRecordProduct();
+  RecordProduct getRecordProduct();
 
-  void confirm(T callback);
+  T result();
 
-  static SaleEditorMode<Callback<Record>> createModeInstance(Record record) {
+  static SaleEditorMode<Record> createModeInstance(Record record) {
     return _ModeCreate(record);
   }
 
-  static SaleEditorMode<EditorCallback<AppJson, Record>> editModeInstance(
+  static SaleEditorMode<FormUpdatedWrapper> editModeInstance(
       Record record) {
     return _ModeEdit(record);
   }
 }
 
-class _ModeCreate extends SaleEditorMode<Callback<Record>> {
+class _ModeCreate extends SaleEditorMode<Record> {
   final Record record;
   RecordProduct recordProduct = RecordProduct.defaultInstance();
 
@@ -151,23 +151,20 @@ class _ModeCreate extends SaleEditorMode<Callback<Record>> {
   }
 
   @override
-  void appendRecordProduct() {
-    int timeStamp = Utility.getTimeStamp();
-    record.totalDeposit += recordProduct.deposit;
-    record.totalPrice += recordProduct.sellingPrice;
-    record.remainingPayement += recordProduct.remainingPayement;
-    record.products[timeStamp.toString()] = recordProduct.copyWith(timeStamp: timeStamp.toString());
-
+  RecordProduct getRecordProduct() {
+    final result = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
     recordProduct = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
+
+    return result;
   }
 
   @override
-  void confirm(Callback<Record> callback) {
-    callback(record);
+  Record result() {
+    return record;
   }
 }
 
-class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
+class _ModeEdit extends SaleEditorMode<FormUpdatedWrapper> {
   final Record record;
   RecordProduct recordProduct = RecordProduct.defaultInstance();
 
@@ -267,25 +264,20 @@ class _ModeEdit extends SaleEditorMode<EditorCallback<AppJson, Record>> {
   }
 
   @override
-  void appendRecordProduct() {
-    int timeStamp = Utility.getTimeStamp();
-    recordProduct.deposit = recordProduct.sellingPrice;
-    record.totalDeposit += recordProduct.deposit;
-    record.totalPrice += recordProduct.sellingPrice;
-    record.products[timeStamp.toString()] = recordProduct.copyWith(timeStamp: timeStamp.toString());
-
+  RecordProduct getRecordProduct() {
+    final result = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
     recordProduct = recordProduct.copyWith(timeStamp: Utility.getTimeStamp().toString());
-
-  }
+    return result;
+  } 
 
   @override
-  void confirm(EditorCallback<AppJson, Record> callback) {
+  FormUpdatedWrapper result() {
     final ModifierBuilder modifierBuilder = ModifierBuilder();
 
     updatedFields.forEach((key, value) {
       modifierBuilder.set(key.name, value);
     });
 
-    callback(modifierBuilder.map, record);
+    return FormUpdatedWrapper(record,modifierBuilder.map);
   }
 }

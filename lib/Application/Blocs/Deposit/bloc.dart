@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Application/Blocs/Deposit/helpers/state_helpers.dart';
-import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 
 import 'deposit.dart';
@@ -25,16 +24,12 @@ class DepositBloc extends Bloc<DepositEvent, DepositState> {
 
   FutureOr<void> _addDepositProduct(
       AddDepositProduct event, Emitter<DepositState> emit) {
-    final newProduct = state.activeDepositProduct?.copyWith(
-      timeStamp: Utility.getTimeStamp().toString(),
-    );
-
-    if (newProduct == null) return null;
+   
 
     final newDepositRecord =
-        updateRecordAmounts(state.activeDepositRecord, true, newProduct);
+        updateRecordAmounts(state.activeDepositRecord, true, event.product);
 
-    newDepositRecord.products[newProduct.timeStamp] = newProduct;
+    newDepositRecord.products[event.product.timeStamp] = event.product;
 
     emit(state.copyWith(activeDepositRecord: newDepositRecord));
   }
@@ -83,6 +78,8 @@ class DepositBloc extends Bloc<DepositEvent, DepositState> {
 
   FutureOr<void> _loadDepositProduct(
       LoadDepositProduct event, Emitter<DepositState> emit) {
+    state.formEditor.updateSelf(event.product);
+
     emit(state.copyWith(loadedProduct: event.product));
   }
 

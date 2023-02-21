@@ -77,6 +77,7 @@ class DepositEditor extends StatelessWidget {
                           record: state.activeDepositRecord,
                           models: state.loadedProduct.models,
                           depositMode: depositMode,
+                          formEditor: state.formEditor
                         )),
                       ),
                     ],
@@ -106,7 +107,8 @@ class DepositEditor extends StatelessWidget {
                       DefaultButton(
                         label: confirmLabel,
                         onPressed: () {
-                          bloc.add(AddDepositProduct());
+                          final recordProduct = depositMode.getRecordProduct(); 
+                          bloc.add(AddDepositProduct(recordProduct));
                         },
                       ),
                     ],

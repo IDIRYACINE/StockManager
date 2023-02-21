@@ -6,11 +6,9 @@ import 'package:stock_manager/Types/special_enums.dart';
 class RecordsLiveDataModel {
   RecordsLiveDataModel() {
     _depositDelegate = _DepositDelegate(_toggleDelegate);
-    _purchaseDelegate = _PurchaseDelegate(_toggleDelegate);
   }
 
   late _DepositDelegate _depositDelegate;
-  late _PurchaseDelegate _purchaseDelegate;
 
   final List<Record> _loadedRecords = [];
 
@@ -19,8 +17,6 @@ class RecordsLiveDataModel {
   int get recordsCount => _loadedRecords.length;
   Record record(int index) => _loadedRecords[index];
 
-  int get purchasesCount => _purchaseDelegate.purchasesCount;
-  Record get activePurchaseRecord => _purchaseDelegate.activePurchaseRecord;
 
   int get depositsCounts => _depositDelegate.depositsCounts;
   Record get selectedDepositRecord =>
@@ -35,8 +31,6 @@ class RecordsLiveDataModel {
 
   ValueListenable<bool> get recordsRefresh => _recordsRefresh;
   ValueListenable<bool> get depositRefresh => _depositDelegate.depositRefresh;
-  ValueListenable<bool> get salesRefresh => _purchaseDelegate.salesRefresh;
-  ValueListenable<double> get totalPrice => _purchaseDelegate.totalPrice;
 
   List<Record> get records => _loadedRecords;
 
@@ -59,29 +53,6 @@ class RecordsLiveDataModel {
     _loadedRecords.clear();
     _loadedRecords.addAll(elements);
     toggleRefresh(_recordsRefresh);
-  }
-
-  void addSaleRecord(Record record) {
-    _loadedRecords.add(record);
-    _purchaseDelegate.addSaleRecord(record);
-  }
-
-  void addActiveSaleRecord() {
-    _loadedRecords.add(activePurchaseRecord);
-    _purchaseDelegate.addActiveSaleRecord();
-  }
-
-  void clearSaleRecord() {
-    _purchaseDelegate.clearSaleRecord();
-  }
-
-  void removeSaleRecord(Record record) {
-    _loadedRecords.remove(record);
-    _purchaseDelegate.removeSaleRecord(record);
-  }
-
-  void removeSaleProduct(Record record, RecordProduct product) {
-    _purchaseDelegate.removeSaleProduct(record, product);
   }
 
   void addDepositRecord(Record element) {
@@ -117,68 +88,6 @@ class RecordsLiveDataModel {
 
   void setActiveDepositRecord(Record record) {
     _depositDelegate.setActiveRecord(record);
-  }
-}
-
-class _PurchaseDelegate {
-  _PurchaseDelegate(this.notifyChange);
-
-  final Callback<ValueNotifier<bool>> notifyChange;
-
-  Record _activePurchaseRecord = Record.defaultInstance(
-      paymentType: PaymentTypes.payement, timeStamp: Record.purchaseTimeStamp);
-
-  int get purchasesCount => _activePurchaseRecord.products.length;
-  RecordProduct get selectedPurchaseProduct =>
-      _activePurchaseRecord.products[selectedElementIndex]!;
-
-  Record get activePurchaseRecord => _activePurchaseRecord;
-
-  int selectedElementIndex = -1;
-
-  final ValueNotifier<double> _totalPrice = ValueNotifier(0);
-  final ValueNotifier<bool> _salesRefresh = ValueNotifier(false);
-
-  ValueListenable<bool> get salesRefresh => _salesRefresh;
-  ValueListenable<double> get totalPrice => _totalPrice;
-
-  void addSaleRecord(Record record) {
-    _totalPrice.value += record.totalPrice;
-    notifyChange(_salesRefresh);
-  }
-
-  void setActiveRecord(Record record) {
-    _activePurchaseRecord = record;
-  }
-
-  void addActiveSaleRecord() {
-    _totalPrice.value = _activePurchaseRecord.totalPrice;
-    notifyChange(_salesRefresh);
-  }
-
-  void clearSaleRecord() {
-    Record.generatePurchaseId();
-    _activePurchaseRecord = Record.defaultInstance(
-        paymentType: PaymentTypes.payement,
-        timeStamp: Record.purchaseTimeStamp);
-    _totalPrice.value = 0;
-    notifyChange(_salesRefresh);
-  }
-
-  void removeSaleRecord(Record record) {
-    _totalPrice.value -= record.totalPrice;
-    notifyChange(_salesRefresh);
-  }
-
-  void addSaleProduct(RecordProduct recordProduct) {
-    _activePurchaseRecord.products[recordProduct.timeStamp] = recordProduct;
-    notifyChange(_salesRefresh);
-  }
-
-  void removeSaleProduct(Record record, RecordProduct product) {
-    _activePurchaseRecord.products.remove(product.timeStamp);
-    _totalPrice.value -= product.sellingPrice;
-    notifyChange(_salesRefresh);
   }
 }
 

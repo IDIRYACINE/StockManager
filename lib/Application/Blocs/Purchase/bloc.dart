@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Application/Blocs/Purchase/helpers/state_helpers.dart';
-import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 
 import 'helpers/events_helpers.dart';
@@ -24,16 +23,12 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
 
   FutureOr<void> _addPurchaseProduct(
       AddPurchaseProduct event, Emitter<PurchaseState> emit) {
-    final newProduct = state.activePurchaseProduct?.copyWith(
-      timeStamp: Utility.getTimeStamp().toString(),
-    );
-
-    if (newProduct == null) return null;
+    
 
     final newPurchaseRecord =
-        updateRecordAmounts(state.activePurchaseRecord, true, newProduct);
+        updateRecordAmounts(state.activePurchaseRecord, true, event.product);
 
-    newPurchaseRecord.products[newProduct.timeStamp] = newProduct;
+    newPurchaseRecord.products[event.product.timeStamp] = event.product;
 
     emit(state.copyWith(activePurchaseRecord: newPurchaseRecord));
   }
@@ -89,6 +84,9 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
 
   FutureOr<void> _loadPurchaseProduct(
       LoadPurchaseProduct event, Emitter<PurchaseState> emit) {
+    
+    state.productFormEditor.updateSelf(event.product);
+
     emit(state.copyWith(loadedProduct: event.product));
   }
 }

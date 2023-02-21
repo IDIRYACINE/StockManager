@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Application/Blocs/Purchase/bloc.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/records.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/stock.dart';
 import 'package:stock_manager/DataModels/models.dart';
@@ -36,8 +38,8 @@ class SalesController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
-              PurchaseEmitter.emitPurchaseEvent(
-                  SalesEvents.removePurchase, data :record);
+              PurchaseEmitter.emitPurchaseEvent(SalesEvents.removePurchase,
+                  data: record);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -51,7 +53,8 @@ class SalesController {
         content: ConfirmDialog(
             onConfirm: () {
               PurchaseEmitter.emitPurchaseEvent(
-                  SalesEvents.removePurchaseProduct,data : wrapper);
+                  SalesEvents.removePurchaseProduct,
+                  data: wrapper);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -65,15 +68,15 @@ class SalesController {
       context,
       width: Measures.containerWidthLarge,
       height: Measures.containerHeightLarge,
-      SaleEditor(
-        record: recordsLiveModel.activePurchaseRecord,
-       
-      ),
+      const SaleEditor(),
     );
   }
 
   void printPurchases(BuildContext context) {
-    BillPurchase bill = BillPurchase(recordsLiveModel.activePurchaseRecord);
+    final record =
+        BlocProvider.of<PurchaseBloc>(context).state.activePurchaseRecord;
+
+    BillPurchase bill = BillPurchase(record);
     bill.print(context);
   }
 }

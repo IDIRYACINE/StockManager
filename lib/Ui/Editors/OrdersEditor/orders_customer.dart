@@ -70,7 +70,7 @@ cancel,
                       label: confirmLabel,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          editorMode.confirm(editCallback);
+                          editorMode.result(editCallback);
                         }
                       },
                     ),

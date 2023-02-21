@@ -23,8 +23,6 @@ class AddPurchase implements StoreAction {
   Future<EventResponse?> execute(StoreEvent event) async {
     Record record = event.data as Record;
 
-    recordsLiveModel.addActiveSaleRecord();
-
     record.products.forEach((key, product) {
       stockLiveModel.reclaimStock(
           product.reference, product.colorId, product.sizeId, -1);
@@ -69,8 +67,6 @@ class RemovePurchase implements StoreAction {
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Record record = event.data as Record;
-
-    recordsLiveModel.removeSaleRecord(record);
 
     record.products.forEach((key, product) {
       stockLiveModel.reclaimStock(
@@ -118,8 +114,6 @@ class RemovePurchaseProduct implements StoreAction {
 
     record.products.remove(recordProduct.timeStamp);
 
-    recordsLiveModel.removeSaleProduct(record,recordProduct);
-
     stockLiveModel.reclaimStock(recordProduct.reference, recordProduct.colorId,
         recordProduct.sizeId, 1);
 
@@ -163,7 +157,6 @@ class ClearPurchases implements StoreAction {
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
-    recordsLiveModel.clearSaleRecord();
     return null;
   }
 
@@ -503,8 +496,7 @@ class RemoveOrder implements StoreAction {
         event: DatabaseEvent.deleteOrder,
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
-   
-   
+
     EventResponse response = EventResponse(
         data: wrapper.instance,
         event: SalesEvents.removeOrder.name,
@@ -559,14 +551,13 @@ class RemoveOrderProduct implements StoreAction {
     if (order.products.isEmpty) {
       _removeOrder(order, orderIndex);
     } else {
+      final ModifierBuilder modifierBuilder = ModifierBuilder()
+          .set(OrderFields.remainingPayement.name, order.remainingPayement)
+          .set(OrderFields.totalPrice.name, order.totalPrice);
 
-    final ModifierBuilder modifierBuilder = ModifierBuilder()
-        .set(OrderFields.remainingPayement.name, order.remainingPayement)
-        .set(OrderFields.totalPrice.name, order.totalPrice);
-
-      _updateOrder(order,orderIndex,modifierBuilder.map);
+      _updateOrder(order, orderIndex, modifierBuilder.map);
     }
-    
+
     EventResponse response = EventResponse(
         data: orderProduct,
         event: SalesEvents.removeOrderProduct.name,
@@ -577,7 +568,7 @@ class RemoveOrderProduct implements StoreAction {
 
   void _updateOrder(Order order, int orderIndex, AppJson updatedValues) {
     ordersLiveModel.updateOrder(order, orderIndex);
-    
+
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: order,
       ServicesData.updatedValues: updatedValues,

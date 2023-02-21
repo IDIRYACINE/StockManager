@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/i_stores.dart';
 
 class ProductFormEditor {
@@ -19,6 +20,18 @@ class ProductFormEditor {
 
   final TextEditingController remainingQuantity =
       TextEditingController(text: '');
+
+  final ValueNotifier<String> imageUrlNotifier = ValueNotifier('');
+
+  void updateSelf(Product product) {
+    productNameController.text = product.name;
+    referenceController.text = product.reference;
+    familyController.text = product.productFamily;
+    minSellingPriceController.text = product.sellingPrice.toString();
+    sellingPriceController.text = product.sellingPrice.toString();
+    remainingQuantity.text = product.totalQuantity.toString();
+    imageUrlNotifier.value = product.imageUrl??"";
+  }
 }
 
 abstract class DepositStoreDelegate {

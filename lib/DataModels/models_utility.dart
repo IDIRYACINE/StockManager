@@ -1,5 +1,6 @@
 import 'models.dart';
 import 'models_stats.dart';
+import 'type_defs.dart';
 
 class OrderProductReportWrapper {
   final Order order;
@@ -9,12 +10,12 @@ class OrderProductReportWrapper {
   OrderProductReportWrapper(this.order, this.orderProduct, this.isLast);
 }
 
-class RecordProductWrapper{
+class RecordProductWrapper {
   final RecordProduct recordProduct;
   final Record record;
   final bool isLast;
-  
-  RecordProductWrapper( this.record,this.recordProduct,this.isLast);
+
+  RecordProductWrapper(this.record, this.recordProduct, this.isLast);
 }
 
 class PrimitiveWrapper<T> {
@@ -30,5 +31,19 @@ class StatsProductChanges {
   final String sellerCode;
   final String sellerName;
 
-  StatsProductChanges({required this.netProfitChange,required this.sellerName ,required this.statsProducts, required this.profitChange,required this.productCounts,required this.sellerCode,});
+  StatsProductChanges({
+    required this.netProfitChange,
+    required this.sellerName,
+    required this.statsProducts,
+    required this.profitChange,
+    required this.productCounts,
+    required this.sellerCode,
+  });
+}
+
+class FormUpdatedWrapper {
+  final Record record;
+  final AppJson appJson;
+
+  FormUpdatedWrapper(this.record, this.appJson);
 }

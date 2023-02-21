@@ -3,7 +3,6 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
-import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_form.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -11,6 +10,8 @@ import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 import 'editor_forms.dart';
 import 'package:stock_manager/Ui/Editors/Models/order_mode.dart';
+
+
 class OrderProductEditor extends StatelessWidget {
   const OrderProductEditor(
       {Key? key,
@@ -103,11 +104,11 @@ class OrderProductEditor extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                        child: DefaultDecorator(
-                            child: ProductForm(
-                      product: Product.defaultInstance(),
-                    ),),),
+                    // Expanded(
+                    //     child: DefaultDecorator(
+                    //         child: ProductForm(
+                    //   product: Product.defaultInstance(),
+                    // ),),),
                     const SizedBox(width: Measures.small),
                     Expanded(
                       child: DefaultDecorator(

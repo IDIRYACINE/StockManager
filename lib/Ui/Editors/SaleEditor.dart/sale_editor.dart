@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Application/Blocs/Purchase/purchase.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
-import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Editors/SaleEditor.dart/sale_form.dart';
@@ -15,11 +14,9 @@ import 'package:stock_manager/l10n/generated/app_translations.dart';
 class SaleEditor extends StatelessWidget {
   const SaleEditor({
     Key? key,
-    required this.record,
     this.editMode = false,
   }) : super(key: key);
 
-  final Record record;
   final int searchBarFlex = 2;
   final int bodyFlex = 5;
   final int actionsFlex = 1;
@@ -68,12 +65,14 @@ class SaleEditor extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
-                        child: DefaultDecorator(
-                            child: SingleChildScrollView(
-                      child: ProductForm(
-                        product: state.loadedProduct,
+                      child: DefaultDecorator(
+                        child: SingleChildScrollView(
+                          child: ProductForm(
+                            productEditor: state.productFormEditor,
+                          ),
+                        ),
                       ),
-                    ))),
+                    ),
                     const SizedBox(width: Measures.small),
                     Expanded(
                       child: DefaultDecorator(
@@ -103,6 +102,7 @@ class SaleEditor extends StatelessWidget {
                       label: Translations.of(context)!.done,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
+                          
                           bloc.add(RegisterPurchase());
 
                           AppNavigator.maybePop();
@@ -112,7 +112,9 @@ class SaleEditor extends StatelessWidget {
                     DefaultButton(
                       label: confirmLabel,
                       onPressed: () {
-                        bloc.add(AddPurchaseProduct());
+                        final recordProduct = saleMode.getRecordProduct();
+
+                        bloc.add(AddPurchaseProduct(recordProduct));
                       },
                     ),
                   ],
