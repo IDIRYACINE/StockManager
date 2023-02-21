@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
@@ -13,9 +12,9 @@ import 'package:stock_manager/Ui/Editors/OrdersEditor/order_products.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrderProductsController {
-  OrderProductsController(this.ordersLiveModel);
+  OrderProductsController();
 
-  final OrdersLiveDataModel ordersLiveModel;
+  
 
   void add(BuildContext context) {
     void onConfirm(RecordProduct orderProduct) {
@@ -34,7 +33,7 @@ class OrderProductsController {
           confirmLabel: Translations.of(context)!.add,
           onSearch: _onSearch,
           orderProduct: RecordProduct.defaultInstance(),
-          order: ordersLiveModel.selectedOrder,
+          order: Order.defaultInstance(),
         ),
       ),
     );

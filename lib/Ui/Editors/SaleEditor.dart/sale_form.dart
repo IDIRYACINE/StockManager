@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
@@ -28,11 +26,8 @@ class SaleForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sellersLiveModel =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .sellersLiveModel;
 
-    final sellersDropdown = sellersLiveModel.loadedSellers
+    final sellersDropdown = []
         .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
         .toList();
 

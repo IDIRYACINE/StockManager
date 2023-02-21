@@ -1,5 +1,4 @@
 import 'package:mongo_dart/mongo_dart.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
@@ -345,14 +344,13 @@ class ClearDeposits implements StoreAction {
 }
 
 class AddOrder implements StoreAction {
-  final OrdersLiveDataModel ordersLiveModel;
   
-  AddOrder(this.ordersLiveModel, );
+  
+  AddOrder();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Order order = event.data as Order;
-    ordersLiveModel.addOrder(order);
 
 
     Map<ServicesData, dynamic> requestData = {
@@ -386,14 +384,13 @@ class AddOrder implements StoreAction {
 }
 
 class AddOrderProduct implements StoreAction {
-  final OrdersLiveDataModel ordersLiveModel;
   
-  AddOrderProduct(this.ordersLiveModel, );
+  
+  AddOrderProduct();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     RecordProduct orderProduct = event.data as RecordProduct;
-    ordersLiveModel.addOrderProduct(orderProduct);
 
     
 
@@ -401,7 +398,7 @@ class AddOrderProduct implements StoreAction {
       ServicesData.instance: orderProduct,
       ServicesData.databaseSelector: SelectorBuilder()
           .eq(OrderFields.timeStamp.name,
-              ordersLiveModel.selectedOrder.timeStamp)
+              0)
           .map
     };
 
@@ -432,16 +429,15 @@ class AddOrderProduct implements StoreAction {
 }
 
 class RemoveOrder implements StoreAction {
-  final OrdersLiveDataModel ordersLiveModel;
   
-  RemoveOrder(this.ordersLiveModel, );
+  
+  RemoveOrder();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     RemoveRequestWrapper<Order> wrapper =
         event.data as RemoveRequestWrapper<Order>;
 
-    ordersLiveModel.removeOrder(wrapper.instance, wrapper.index!);
 
 
     Map<ServicesData, dynamic> requestData = {
@@ -474,22 +470,21 @@ class RemoveOrder implements StoreAction {
 }
 
 class RemoveOrderProduct implements StoreAction {
-  final OrdersLiveDataModel ordersLiveModel;
   
-  RemoveOrderProduct(this.ordersLiveModel, );
+  
+  RemoveOrderProduct();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     RecordProduct orderProduct = event.data as RecordProduct;
 
-    ordersLiveModel.removeOrderProduct(orderProduct);
 
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: orderProduct,
       ServicesData.databaseSelector: SelectorBuilder()
           .eq(OrderFields.timeStamp.name,
-              ordersLiveModel.selectedOrder.timeStamp)
+              0)
           .map
     };
 
@@ -500,8 +495,9 @@ class RemoveOrderProduct implements StoreAction {
 
     ServicesStore.instance.sendMessage(message);
 
-    Order order = ordersLiveModel.selectedOrder;
-    int orderIndex = ordersLiveModel.selectedOrderIndex;
+    Order order = Order.defaultInstance();
+    int orderIndex = 0;
+
     if (order.products.isEmpty) {
       _removeOrder(order, orderIndex);
     } else {
@@ -521,7 +517,6 @@ class RemoveOrderProduct implements StoreAction {
   }
 
   void _updateOrder(Order order, int orderIndex, AppJson updatedValues) {
-    ordersLiveModel.updateOrder(order, orderIndex);
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: order,
@@ -536,7 +531,6 @@ class RemoveOrderProduct implements StoreAction {
   }
 
   void _removeOrder(Order order, int orderIndex) {
-    ordersLiveModel.removeOrder(order, orderIndex);
 
 
     Map<ServicesData, dynamic> requestData = {ServicesData.instance: order};
@@ -560,16 +554,15 @@ class RemoveOrderProduct implements StoreAction {
 }
 
 class UpdateOrder implements StoreAction {
-  final OrdersLiveDataModel ordersLiveModel;
+  
 
-  UpdateOrder(this.ordersLiveModel);
+  UpdateOrder();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     AppJson updatedValues = event.data as AppJson;
 
-    Order order = ordersLiveModel.selectedOrder;
-    int index = ordersLiveModel.selectedOrderIndex;
+    Order order = Order.defaultInstance();
 
     Map<ServicesData, dynamic> requestData = {
       ServicesData.instance: order,
@@ -582,7 +575,6 @@ class UpdateOrder implements StoreAction {
         service: AppServices.database);
     ServicesStore.instance.sendMessage(message);
 
-    ordersLiveModel.updateOrder(order, index);
     return null;
   }
 
@@ -598,16 +590,14 @@ class UpdateOrder implements StoreAction {
 }
 
 class SearchOrder implements StoreAction {
-  final OrdersLiveDataModel ordersLiveModel;
 
-  SearchOrder(this.ordersLiveModel);
+  SearchOrder();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     AppJson query = event.data as AppJson;
 
     void onResult(List<Order> order) {
-      ordersLiveModel.setAllOrders(order);
     }
 
     Map<ServicesData, dynamic> requestData = {

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Blocs/Orders/bloc.dart';
+import 'package:stock_manager/Application/Blocs/Orders/state.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/Utility/utility_wrappers.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/order_products_controller.dart';
 import 'package:stock_manager/Application/Controllers/orders_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
@@ -34,7 +36,6 @@ class OrdersTable extends StatelessWidget {
             rowDetaills.context, rowDetaills.data, rowDetaills.rowIndex);
         break;
 
-
       default:
         break;
     }
@@ -45,10 +46,6 @@ class OrdersTable extends StatelessWidget {
     OrdersController controller =
         Provider.of<ControllersProvider>(context, listen: false)
             .ordersController;
-
-    OrdersLiveDataModel orders =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .ordersLiveModel;
 
     List<String> ordersTableColumns = [
       Translations.of(context)!.date,
@@ -61,36 +58,37 @@ class OrdersTable extends StatelessWidget {
     ];
 
     return SizedBox(
-        width: double.infinity,
-        child: Card(
-            elevation: Measures.small,
-            child: Column(
-              children: [
-                Flexible(
-                    child: SelectableRow(
-                  dataCellHelper: (index) => ordersTableColumns,
-                  index: -1,
-                  dataModel: 0,
-                )),
-                Expanded(
-                  child: ValueListenableBuilder<bool>(
-                      valueListenable: orders.refreshOrders,
-                      builder: (context, value, child) {
-                        return ListView.builder(
-                            itemCount: orders.ordersCount,
-                            itemBuilder: (context, index) {
-                              return SelectableRow<Order>(
-                                dataCellHelper: ordersToCellsAdapter,
-                                onClick: (detaills) =>
-                                    handleContextMenu(detaills, controller),
-                                index: index,
-                                dataModel: orders.order(index),
-                              );
-                            });
-                      }),
-                ),
-              ],
-            )));
+      width: double.infinity,
+      child: Card(
+        elevation: Measures.small,
+        child: Column(
+          children: [
+            Flexible(
+                child: SelectableRow(
+              dataCellHelper: (index) => ordersTableColumns,
+              index: -1,
+              dataModel: 0,
+            )),
+            Expanded(
+              child: BlocBuilder<OrdersBloc, OrdersState>(
+                  builder: (context, state) {
+                return ListView.builder(
+                    itemCount: state.orders.ordersCount,
+                    itemBuilder: (context, index) {
+                      return SelectableRow<Order>(
+                        dataCellHelper: ordersToCellsAdapter,
+                        onClick: (detaills) =>
+                            handleContextMenu(detaills, controller),
+                        index: index,
+                        dataModel: state.order(index),
+                      );
+                    });
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -125,10 +123,6 @@ class OrderProductsTable extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .orderProductsController;
 
-    OrdersLiveDataModel orders =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .ordersLiveModel;
-
     List<String> orderProductsTableColumns = [
       Translations.of(context)!.productName,
       Translations.of(context)!.reference,
@@ -150,27 +144,25 @@ class OrderProductsTable extends StatelessWidget {
                   dataModel: 0,
                 )),
                 Expanded(
-                  child: ValueListenableBuilder<bool>(
-                      valueListenable: orders.refreshOrderProducts,
-                      builder: (context, value, child) {
-                        final keys =
-                            orders.selectedOrder.products.keys.toList();
+                  child: BlocBuilder<OrdersBloc, OrdersState>(
+                      builder: (context, state) {
+                    final keys = state.selectedOrder.products.keys.toList();
 
-                        return ListView.builder(
-                            itemCount: keys.length,
-                            itemBuilder: (context, index) {
-                              return SelectableRow<RecordProduct>(
-                                dataCellHelper: orderProductsToCellAdapter,
-                                onClick: (detaills) =>
-                                    handleContextMenu(detaills, controller),
-                                index: index,
-                                contextMenuItems: const [
-                                  ContextMenuOperation.remove
-                                ],
-                                dataModel: orders.orderProduct(keys[index]),
-                              );
-                            });
-                      }),
+                    return ListView.builder(
+                        itemCount: keys.length,
+                        itemBuilder: (context, index) {
+                          return SelectableRow<RecordProduct>(
+                            dataCellHelper: orderProductsToCellAdapter,
+                            onClick: (detaills) =>
+                                handleContextMenu(detaills, controller),
+                            index: index,
+                            contextMenuItems: const [
+                              ContextMenuOperation.remove
+                            ],
+                            dataModel: state.orderProduct(keys[index]),
+                          );
+                        });
+                  }),
                 ),
               ],
             )));
@@ -207,18 +199,17 @@ class OrdersTableSpreaded extends StatelessWidget {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data.product);
         break;
-    
 
       default:
         break;
     }
   }
 
-  List<Widget> buildRows(OrdersLiveDataModel liveModel,
+  List<Widget> buildRows(List<Order> orders,
       OrderProductsController controller, OrdersController ordersController) {
     List<Widget> rows = [];
 
-    liveModel.orders.forEach((orderKey, order) {
+    for (Order order in orders) {
       int productIndex = 0;
       order.products.forEach((productKey, product) {
         SpreadedOrdersWrapper wrapper =
@@ -239,7 +230,7 @@ class OrdersTableSpreaded extends StatelessWidget {
         rows.add(row);
         productIndex++;
       });
-    });
+    }
 
     return rows;
   }
@@ -254,9 +245,6 @@ class OrdersTableSpreaded extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .ordersController;
 
-    OrdersLiveDataModel orders =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .ordersLiveModel;
 
     List<String> ordersTableColumns = [
       Translations.of(context)!.date,
@@ -272,9 +260,8 @@ class OrdersTableSpreaded extends StatelessWidget {
       width: double.infinity,
       child: Card(
         elevation: Measures.small,
-        child: ValueListenableBuilder<bool>(
-            valueListenable: orders.refreshOrders,
-            builder: (context, value, child) {
+        child: BlocBuilder<OrdersBloc,OrdersState>(
+            builder: (context, state) {
               return Column(
                 children: [
                   SelectableRow(
@@ -283,7 +270,7 @@ class OrdersTableSpreaded extends StatelessWidget {
                     textColor: Colors.grey,
                     dataModel: 0,
                   ),
-                  ...buildRows(orders, productsController, ordersController)
+                  ...buildRows(state.orders, productsController, ordersController)
                 ],
               );
             }),

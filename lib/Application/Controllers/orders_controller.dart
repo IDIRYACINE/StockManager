@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Application/Blocs/Orders/orders.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_orders.dart';
@@ -20,12 +21,10 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersController {
-  OrdersController(this.ordersLiveModel, );
+  OrdersController();
 
-  final OrdersLiveDataModel ordersLiveModel;
 
   void addSpreadedOrder(BuildContext context) {
-    ordersLiveModel.selectedOrder = Order.defaultInstance();
 
     PopupsUtility.displayGenericPopup(
       context,
@@ -33,7 +32,7 @@ class OrdersController {
         width: Measures.containerWidthLarge,
         height: Measures.containerHeightLarge,
         child: SpreardedOrderEditor(
-          order: ordersLiveModel.selectedOrder,
+          order: Order.defaultInstance(),
           createOrderCallback: (order) =>
               OrderEmiter.emitOrderEvent(SalesEvents.addOrder, data: order,broadcast: true),
           onSearch: _onSearchProduct,
@@ -71,7 +70,7 @@ class OrdersController {
       builder: (context) => Material(
         child: OrderCustomerEditor(
           confirmLabel: Translations.of(context)!.save,
-          order: ordersLiveModel.selectedOrder,
+          order: Order.defaultInstance(),
           editCallback: onEdit,
         ),
       ),
@@ -80,7 +79,6 @@ class OrdersController {
 
   void refresh(BuildContext context) {
     void onResult(List<Order> order) {
-      ordersLiveModel.setAllOrders(order);
     }
 
     SelectorBuilder selector = SelectorBuilder();
@@ -119,7 +117,6 @@ class OrdersController {
 
   void search(BuildContext context) {
     void onResult(List<Order> orders) {
-      ordersLiveModel.setAllOrders(orders);
       Navigator.pop(context);
     }
 
@@ -189,7 +186,9 @@ class OrdersController {
   }
 
   void printReport(BuildContext context) {
-    OrdersReport report = OrdersReport(ordersLiveModel.orders);
+    final orders = BlocProvider.of<OrdersBloc>(context).state.orders;
+
+        OrdersReport report = OrdersReport(orders);
     report.printReport(context);
   }
 }

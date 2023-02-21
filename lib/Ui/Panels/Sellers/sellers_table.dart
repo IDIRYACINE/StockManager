@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_manager/Application/Blocs/Sellers/sellers.dart';
 import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/Application/Controllers/sellers_controller.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
@@ -38,9 +39,6 @@ class SellersTable extends StatelessWidget {
         Provider.of<ControllersProvider>(context, listen: false)
             .sellersController;
 
-    SellersLiveDataModel sellers =
-        Provider.of<ControllersProvider>(context, listen: false)
-            .sellersLiveModel;
 
     List<String> sellersTableColumns = [
       Translations.of(context)!.sellerName,
@@ -60,11 +58,10 @@ class SellersTable extends StatelessWidget {
                   dataModel: 0,
                 ),
                 Expanded(
-                  child: ValueListenableBuilder<bool>(
-                      valueListenable: sellers.refreshSellers,
-                      builder: (context, value, child) {
+                  child: BlocBuilder<SellersBloc,SellersState>(
+                      builder: (context, state,) {
                         return ListView.builder(
-                            itemCount: sellers.sellersCount,
+                            itemCount: state.sellersCount,
                             itemBuilder: (context, index) {
                               return SelectableRow<Seller>(
                                 dataCellHelper: sellerToCellsAdapter,
@@ -75,7 +72,7 @@ class SellersTable extends StatelessWidget {
                                   ContextMenuOperation.remove
                                 ],
                                 index: index,
-                                dataModel: sellers.seller(index),
+                                dataModel: state.seller(index),
                               );
                             });
                       }),

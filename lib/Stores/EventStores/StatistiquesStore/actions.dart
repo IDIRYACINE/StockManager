@@ -1,5 +1,4 @@
 import 'package:stock_manager/Application/Utility/utility.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stats.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
@@ -10,16 +9,14 @@ import 'package:stock_manager/Types/i_stores.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 
 class SearchStatistiques implements StoreAction {
-  final StatsLiveDataModel statsLiveModel;
 
-  SearchStatistiques(this.statsLiveModel);
+  SearchStatistiques();
 
   @override
   Future<EventResponse?> execute(StoreEvent event) async {
     Map<String, dynamic> query = event.data as Map<String, dynamic>;
 
     void onResult(List<StatsRecord> records) {
-      statsLiveModel.setAllStats(records);
     }
 
     Map<ServicesData, dynamic> requestData = {
@@ -49,9 +46,9 @@ class SearchStatistiques implements StoreAction {
 }
 
 class UpdatePurchaseStatistiques implements StoreReaction {
-  final StatsLiveDataModel statsLiveModel;
+  
 
-  UpdatePurchaseStatistiques(this.statsLiveModel);
+  UpdatePurchaseStatistiques();
 
   @override
   Future<void> execute(EventResponse? response) async {
@@ -61,7 +58,6 @@ class UpdatePurchaseStatistiques implements StoreReaction {
     StatsProductChanges productStatsChanges =
         _recordProductsToStats(record, modifier);
 
-    statsLiveModel.updatePurchaseStats(productStatsChanges);
 
     StatsRecord statsRecord = _generatePurchaseStats(productStatsChanges);
 
@@ -149,9 +145,9 @@ class UpdatePurchaseStatistiques implements StoreReaction {
 }
 
 class UpdateOrderStatistiques implements StoreReaction {
-  final StatsLiveDataModel statsLiveModel;
+  
 
-  UpdateOrderStatistiques(this.statsLiveModel);
+  UpdateOrderStatistiques();
 
   @override
   Future<void> execute(EventResponse? response) async {
@@ -161,7 +157,6 @@ class UpdateOrderStatistiques implements StoreReaction {
     StatsProductChanges productStatsChanges =
         _orderProductsToStats(order, modifier);
 
-    statsLiveModel.updateOrderStats(productStatsChanges);
 
     StatsRecord statsRecord = _generateOrderStats(productStatsChanges);
 

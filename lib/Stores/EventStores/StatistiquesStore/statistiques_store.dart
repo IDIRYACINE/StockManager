@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stats.dart';
 import 'package:stock_manager/Stores/event_center.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
@@ -14,7 +11,7 @@ class StatistiquesStore implements Store, EventListener {
   late List<StoreReaction> _reactions;
 
   StatistiquesStore(BuildContext context) {
-    _registerHandlers(Provider.of<ControllersProvider>(context).statsLiveModel);
+    _registerHandlers();
     _setup();
   }
 
@@ -62,12 +59,12 @@ class StatistiquesStore implements Store, EventListener {
     }
   }
 
-  void _registerHandlers(StatsLiveDataModel statsLiveModel) {
+  void _registerHandlers() {
     EmptyAction emptyAction = EmptyAction();
     _callbacks = List.filled(StatistiquesEvents.values.length, emptyAction);
 
     SearchStatistiques searchStatistiquesAction =
-        SearchStatistiques(statsLiveModel);
+        SearchStatistiques();
     _callbacks[searchStatistiquesAction.getId()] = searchStatistiquesAction;
 
     EmptyReaction emptyReaction = EmptyReaction();
@@ -75,11 +72,11 @@ class StatistiquesStore implements Store, EventListener {
         List.filled(StatistiquesReactions.values.length, emptyReaction);
 
     UpdateOrderStatistiques updateOrderStatsReaction =
-        UpdateOrderStatistiques(statsLiveModel);
+        UpdateOrderStatistiques();
     _reactions[updateOrderStatsReaction.getId()] = updateOrderStatsReaction;
 
     UpdatePurchaseStatistiques updatePurchaseStatsReaction =
-        UpdatePurchaseStatistiques(statsLiveModel);
+        UpdatePurchaseStatistiques();
     _reactions[updatePurchaseStatsReaction.getId()] =
         updatePurchaseStatsReaction;
   }

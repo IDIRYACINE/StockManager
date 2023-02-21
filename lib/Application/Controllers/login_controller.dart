@@ -71,7 +71,6 @@ class LoginController {
         event: DatabaseEvent.loadSellers,
         hasCallback: true,
         callback: (sellers) {
-          controllersProvider.sellersLiveModel.setAll(sellers);
         },
         data: {});
 
@@ -111,7 +110,6 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (orders) {
-          controllersProvider.ordersLiveModel.setAllOrders(orders);
         },
         event: DatabaseEvent.loadOrders,
         data: {
@@ -125,7 +123,6 @@ class LoginController {
         service: AppServices.database,
         hasCallback: true,
         callback: (stats) {
-          controllersProvider.statsLiveModel.setAllStats(stats);
         },
         event: DatabaseEvent.searchPurchaseStatistiques,
         data: {

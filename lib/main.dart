@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_manager/Application/Blocs/Deposit/bloc.dart';
+import 'package:stock_manager/Application/Blocs/Orders/bloc.dart';
+import 'package:stock_manager/Application/Blocs/Sellers/sellers.dart';
+import 'package:stock_manager/Application/Blocs/Statistiques/statistiques.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
 import 'package:stock_manager/DataModels/LiveDataModels/settings.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Stores/navigation_center.dart';
@@ -18,17 +20,15 @@ import 'package:stock_manager/l10n/generated/app_translations.dart';
 import 'Application/Blocs/Purchase/purchase.dart';
 
 void main() async {
-  runApp(MultiBlocProvider(
-    providers: [
+  runApp(
+    MultiBlocProvider(providers: [
       BlocProvider(create: (context) => DepositBloc.initial()),
       BlocProvider(create: (context) => PurchaseBloc.initial()),
-    ],
-    child: MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => NavigationCenter()),
-      ChangeNotifierProvider(create: (context) => SettingsLiveDataModel()),
-      Provider(create: (context) => ControllersProvider()),
+      BlocProvider(create: (context) => SellersBloc.initial()),
+      BlocProvider(create: (context) => OrdersBloc.initial()),
+      BlocProvider(create: (context) => StatistiquesBloc.initial()),
     ], child: const MyApp()),
-  ));
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -44,20 +44,21 @@ class _MyAppState extends State<MyApp> {
     ServicesStore.getInstance();
     EventCenter.initialise(context);
 
-    return Consumer<SettingsLiveDataModel>(
-        builder: (context, liveModel, child) {
-      return MaterialApp(
-        title: Constants.appName,
-        theme: AppThemes.lightTheme2,
-        themeMode: ThemeMode.dark,
-        darkTheme: AppThemes.darkTheme2,
-        locale: liveModel.displayLanguage,
-        navigatorKey: AppNavigator.key,
-        localizationsDelegates: Translations.localizationsDelegates,
-        supportedLocales: Translations.supportedLocales,
-        home: const MyHomePage(),
-      );
-    });
+    return AnimatedBuilder(
+        animation: SettingsLiveDataModel.instance(),
+        builder: (context, child) {
+          return MaterialApp(
+            title: Constants.appName,
+            theme: AppThemes.lightTheme2,
+            themeMode: ThemeMode.dark,
+            darkTheme: AppThemes.darkTheme2,
+            locale: SettingsLiveDataModel.instance().displayLanguage,
+            navigatorKey: AppNavigator.key,
+            localizationsDelegates: Translations.localizationsDelegates,
+            supportedLocales: Translations.supportedLocales,
+            home: const MyHomePage(),
+          );
+        });
   }
 }
 

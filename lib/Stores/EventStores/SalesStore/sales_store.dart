@@ -1,7 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/orders.dart';
 import 'package:stock_manager/Stores/EventStores/SalesStore/actions.dart';
 import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
@@ -49,11 +46,8 @@ class SalesStore implements Store {
   }
 
   void _registerStores(BuildContext context) {
-    ControllersProvider controllersProvider =
-        Provider.of<ControllersProvider>(context);
 
 
-    OrdersLiveDataModel ordersLiveModel = controllersProvider.ordersLiveModel;
 
     EmptyAction emptyAction = EmptyAction();
     _callbacks = List.filled(SalesEvents.values.length, emptyAction);
@@ -88,27 +82,27 @@ class SalesStore implements Store {
         QuickSearchDeposit();
     _callbacks[quickSearchDepositAction.getId()] = quickSearchDepositAction;
 
-    AddOrder addOrderAction = AddOrder(ordersLiveModel,);
+    AddOrder addOrderAction = AddOrder();
     _callbacks[addOrderAction.getId()] = addOrderAction;
 
     AddOrderProduct addOrderProductAction =
-        AddOrderProduct(ordersLiveModel,);
+        AddOrderProduct();
     _callbacks[addOrderProductAction.getId()] = addOrderProductAction;
 
     RemoveOrder removeOrderAction =
-        RemoveOrder(ordersLiveModel,);
+        RemoveOrder();
     _callbacks[removeOrderAction.getId()] = removeOrderAction;
 
     RemoveOrderProduct removeOrderProductAction =
-        RemoveOrderProduct(ordersLiveModel,);
+        RemoveOrderProduct();
     _callbacks[removeOrderProductAction.getId()] = removeOrderProductAction;
 
     UpdateOrder updateOrderAction =
-        UpdateOrder(ordersLiveModel);
+        UpdateOrder();
     _callbacks[updateOrderAction.getId()] = updateOrderAction;
 
     SearchOrder searchOrderAction =
-        SearchOrder(ordersLiveModel);
+        SearchOrder();
     _callbacks[removeOrderAction.getId()] = searchOrderAction;
 
     ClearDeposits clearDepositsAction = ClearDeposits();

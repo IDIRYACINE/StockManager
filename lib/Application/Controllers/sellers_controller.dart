@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/sellers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
 import 'package:stock_manager/Types/special_enums.dart';
@@ -8,13 +7,11 @@ import 'package:stock_manager/Ui/Editors/SellersEditor.dart/sellers_editor.dart'
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SellersController {
-  SellersController(this.sellersLiveModel);
+  SellersController();
 
-  final SellersLiveDataModel sellersLiveModel;
 
   void add(BuildContext context) {
     void onConfirm(Seller seller) {
-      sellersLiveModel.add(seller);
 
       Map<ServicesData, dynamic> data = {
         ServicesData.instance: seller,
@@ -50,7 +47,6 @@ class SellersController {
           service: AppServices.database);
       ServicesStore.instance.sendMessage(message);
 
-      sellersLiveModel.update(seller, index);
     }
 
     PopupsUtility.displayGenericPopup(
@@ -66,7 +62,6 @@ class SellersController {
 
   void refresh(BuildContext context) {
     void onResult(List<Seller> sellers) {
-      sellersLiveModel.setAll(sellers);
     }
 
     ServiceMessage message = ServiceMessage<List<Seller>>(
@@ -81,7 +76,6 @@ class SellersController {
 
   void remove(BuildContext context, Seller seller) {
     void onRemove() {
-      sellersLiveModel.remove(seller);
 
       Map<ServicesData, dynamic> data = {ServicesData.instance: seller};
 

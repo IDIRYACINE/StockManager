@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stock_manager/Application/controllers_provider.dart';
-import 'package:stock_manager/DataModels/LiveDataModels/stats.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Application/Blocs/Statistiques/statistiques.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -18,8 +17,6 @@ class ProfitCard extends StatefulWidget {
 class _ProfitCardState extends State<ProfitCard> {
   @override
   Widget build(BuildContext context) {
-    StatsLiveDataModel stats =
-        Provider.of<ControllersProvider>(context, listen: false).statsLiveModel;
 
     return Card(
       elevation: Measures.small,
@@ -32,11 +29,10 @@ class _ProfitCardState extends State<ProfitCard> {
             style:
                 const TextStyle(fontSize: Measures.h1TextSize, color: Colors.white),
           ),
-          ValueListenableBuilder<double>(
-              valueListenable: stats.totalProfit,
-              builder: (context, totalPrice, child) {
+          BlocBuilder<StatistiquesBloc,StatistiquesState>(
+              builder: (context, state) {
                 return Text(
-                  totalPrice.toString(),
+                  state.totalPrice.toString(),
                   style: const TextStyle(
                       fontSize: Measures.h1TextSize, color: Colors.white),
                 );
