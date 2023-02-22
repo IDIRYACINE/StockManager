@@ -73,7 +73,6 @@ class ServicesStore {
       message.voidCallback?.call();
     }
 
-
     _messagesQueue.remove(response.messageId);
   }
 }
@@ -100,18 +99,19 @@ class ServiceMessage<T> {
   Map<ServicesData, dynamic> data;
 
   ServiceMessageData toJson(int messageId) {
-    return ServiceMessageData(service: service, event: event, data: data, messageId: messageId);
+    return ServiceMessageData(
+        service: service, event: event, data: data, messageId: messageId);
   }
 }
 
 class ServiceMessageData {
-  ServiceMessageData(
-      {required this.service,
-      required this.event,
-      required this.data,
-      required this.messageId,
-     });
-      
+  ServiceMessageData({
+    required this.service,
+    required this.event,
+    required this.data,
+    required this.messageId,
+  });
+
   AppServices service;
   Enum event;
 
