@@ -1,0 +1,19 @@
+name: Build Windows
+on: 
+  workflow_dispatch:
+
+jobs:
+ build:
+   runs-on: windows-latest
+   steps:
+     - uses: actions/checkout@v3
+     - uses: subosito/flutter-action@v2
+       with:
+         channel: 'beta'
+     - run: flutter config --enable-windows-desktop
+     - run: flutter build --release windows
+     - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/windows/runner/Release/*"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.TOKEN }}

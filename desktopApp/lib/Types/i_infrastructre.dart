@@ -1,0 +1,20 @@
+
+import 'package:stock_manager/Infrastructure/serivces_store.dart';
+
+import '../DataModels/special_enums.dart';
+
+abstract class DispatchHelper {
+  ServiceResponse dispatch(ServiceMessage message);
+}
+
+class AuthObject {
+  String identifier;
+  String password;
+  AuthObject(this.identifier, this.password);
+}
+
+typedef ServiceEventHandler = Future<ServiceResponse> Function(ServiceMessageData message); 
+
+typedef CallbackDelegate = Map<DatabaseEvent , ServiceEventHandler>;
+
+typedef ServiceMessageDataMap = Map<ServicesData,dynamic>; 
