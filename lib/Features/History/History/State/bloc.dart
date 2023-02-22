@@ -4,5 +4,7 @@ import 'history.dart';
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
-  HistoryBloc() : super(HistoryState.initial());
+  HistoryBloc._() : super(HistoryState.initial());
+
+  factory HistoryBloc.initial() => HistoryBloc._();
 }

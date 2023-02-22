@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:stock_manager/Features/Stock/Stock/stock.dart';
+import 'package:stock_manager/Features/Stock/State/stock.dart';
 import 'package:stock_manager/Features/Stock/Logic/stock_controller.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/special_enums.dart';

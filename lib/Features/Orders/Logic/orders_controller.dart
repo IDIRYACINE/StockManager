@@ -7,10 +7,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_orders.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/Types/i_event_emitters.dart';
-import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
@@ -34,7 +31,7 @@ class OrdersController {
         child: SpreardedOrderEditor(
           order: Order.defaultInstance(),
           createOrderCallback: (order) =>
-              OrderEmiter.emitOrderEvent(SalesEvents.addOrder, data: order,broadcast: true),
+              {},
           onSearch: _onSearchProduct,
           confirmLabel: Translations.of(context)!.add,
         ),
@@ -61,7 +58,6 @@ class OrdersController {
 
   void editCustomer(BuildContext context) {
     void onEdit(AppJson json, order) {
-      OrderEmiter.emitOrderEvent(SalesEvents.updateOrder, data: json);
       Navigator.pop(context);
     }
 
@@ -102,8 +98,7 @@ class OrdersController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
           onConfirm: () {
-            OrderEmiter.emitOrderEvent(SalesEvents.removeOrder,
-                data: RemoveRequestWrapper<Order>(order, index),broadcast: true);
+            
           },
           message: Translations.of(context)!.messageDeleteElement,
         ),
@@ -112,7 +107,6 @@ class OrdersController {
   }
 
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    OrderEmiter.emitOrderEvent(SalesEvents.searchOrders, data: query);
   }
 
   void search(BuildContext context) {

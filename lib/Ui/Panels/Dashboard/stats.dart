@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stock_manager/Features/Statistiques/Statistiques/statistiques.dart';
+import 'package:stock_manager/Features/Statistiques/State/statistiques.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

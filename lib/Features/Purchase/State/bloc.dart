@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stock_manager/Features/Purchase/Purchase/helpers/state_helpers.dart';
+import 'package:stock_manager/Features/Purchase/State/helpers/state_helpers.dart';
 import 'package:stock_manager/DataModels/models.dart';
 
 import 'helpers/events_helpers.dart';

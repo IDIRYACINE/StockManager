@@ -5,8 +5,6 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Types/events_keys_enum.dart';
-import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Features/Deposit/DepositEditor/deposit_editor.dart';
@@ -41,8 +39,7 @@ class DespositController {
       context: context,
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
-            onConfirm: () => DepositEmitter.emitDepositEvent(
-                SalesEvents.removeDeposit,data : record,broadcast: true),
+            onConfirm: () => {},
             message: Translations.of(context)!.messageDeleteElement),
       ),
     );
@@ -55,8 +52,6 @@ class DespositController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
-              DepositEmitter.emitDepositEvent(
-                  SalesEvents.removeDepositProduct, data :wrapper,broadcast: true);
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -72,7 +67,6 @@ class DespositController {
   }
 
   void quickSearch(BuildContext context, Map<String, dynamic> query) {
-    DepositEmitter.emitDepositEvent(SalesEvents.quickSearchDeposit,data : query);
   }
 
   void printReport(BuildContext context) {
@@ -82,7 +76,6 @@ class DespositController {
   }
 
   void clear(BuildContext context) {
-    DepositEmitter.emitDepositEvent(SalesEvents.clearDeposit);
   }
 
   void completePayment(BuildContext context, RecordProductWrapper wrapper) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stock_manager/Features/Purchase/Purchase/bloc.dart';
-import 'package:stock_manager/Features/Purchase/Purchase/state.dart';
+import 'package:stock_manager/Features/Purchase/State/bloc.dart';
+import 'package:stock_manager/Features/Purchase/State/state.dart';
 
 import 'package:stock_manager/Features/Purchase/Logic/sales_controller.dart';
 import 'package:stock_manager/DataModels/models.dart';

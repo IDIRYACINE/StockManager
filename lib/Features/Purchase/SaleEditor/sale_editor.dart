@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stock_manager/Features/Purchase/Purchase/purchase.dart';
+import 'package:stock_manager/Features/Purchase/State/purchase.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';

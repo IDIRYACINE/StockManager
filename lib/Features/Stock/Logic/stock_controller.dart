@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Types/events_keys_enum.dart';
-import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Features/Stock/i_stock.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
@@ -105,8 +102,6 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void add(BuildContext context) {
     void onConfirm(Product product) {
-      StockProductEmiter.emitProductEvent(StockEvents.addStockProduct,
-          data: product);
       Navigator.of(context).pop();    
     }
 
@@ -125,13 +120,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void edit(BuildContext context, Product product, int index) {
     void onEdit(Map<String, dynamic> updatedField, Product product) {
-      UpdateRequestWrapper<Product> wrapper =
-          UpdateRequestWrapper<Product>(product, updatedField, index);
 
-      StockProductEmiter.emitProductEvent(
-        StockEvents.updateStockProduct,
-        data: wrapper,
-      );
 
       Navigator.of(context).pop();
     }
@@ -151,9 +140,6 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
   @override
   void refresh(BuildContext context) {
-    StockProductEmiter.emitProductEvent(
-      StockEvents.searchStockProducts,
-    );
   }
 
   @override
@@ -162,9 +148,7 @@ class _ProductsDelegate implements IStockDelegate<Product> {
       context: context,
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
-          onConfirm: () => StockProductEmiter.emitProductEvent(
-              StockEvents.refreshStockProducts,
-              data: product),
+          onConfirm: () => {},
           message: Translations.of(context)!.messageDeleteElement,
         ),
       ),
@@ -174,9 +158,6 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void search(BuildContext context) {
     void onSearch(Map<String, dynamic> selector) {
-      StockProductEmiter.emitProductEvent(
-          StockEvents.searchStockProducts,
-          data: selector);
     }
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
@@ -220,8 +201,6 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
   @override
   void quickSearch(BuildContext context, AppJson query) {
-    StockProductEmiter.emitProductEvent(StockEvents.searchStockProducts,
-        data: query);
   }
 }
 
@@ -237,9 +216,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
       builder: (context) => AlertDialog(
         content: FamilyEditor(
           family: ProductFamily(name: "", reference: ""),
-          createCallback: (family) => StockCategroyEmiter.emitCategoryEvent(
-              StockEvents.addStockCategory,
-              data: family),
+          createCallback: (family) => {},
           confirmLabel: Translations.of(context)!.add,
         ),
       ),
@@ -255,10 +232,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
           family: family.copyWith(),
           editMode: true,
           editCallback: (updatedValues, family) =>
-              StockCategroyEmiter.emitCategoryEvent(
-                  StockEvents.updateStockCategory,
-                  data: UpdateRequestWrapper<ProductFamily>(
-                      family, updatedValues, index)),
+              {},
           confirmLabel: Translations.of(context)!.update,
         ),
       ),
@@ -267,9 +241,6 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
   @override
   void refresh(BuildContext context) {
-    StockCategroyEmiter.emitCategoryEvent(
-      StockEvents.searchStockCategories,
-    );
   }
 
   @override
@@ -278,9 +249,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
       context: context,
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
-          onConfirm: () => StockCategroyEmiter.emitCategoryEvent(
-              StockEvents.removeStockCategory,
-              data: family),
+          onConfirm: () => {},
           message: Translations.of(context)!.messageDeleteElement,
         ),
       ),
@@ -296,9 +265,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
           searchFieldBuilder: (onSelect, onDeselect) {
             return buildSearchFields(onSelect, onDeselect, context);
           },
-          searchCallback: (query) => StockCategroyEmiter.emitCategoryEvent(
-              StockEvents.searchStockCategories,
-              data: query),
+          searchCallback: (query) => {},
         ),
       ),
     );

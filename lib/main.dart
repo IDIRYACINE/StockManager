@@ -2,21 +2,21 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Features/Deposit/State/bloc.dart';
+import 'package:stock_manager/Features/History/History/State/history.dart';
 import 'package:stock_manager/Features/Orders/State/bloc.dart';
-import 'package:stock_manager/Features/Sellers/Sellers/sellers.dart';
-import 'package:stock_manager/Features/Statistiques/Statistiques/statistiques.dart';
+import 'package:stock_manager/Features/Sellers/State/sellers.dart';
+import 'package:stock_manager/Features/Statistiques/State/statistiques.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Features/Settings/Models/settings.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Stores/navigation_center.dart';
-import 'package:stock_manager/Stores/event_center.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
 import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/Ui/Themes/themes.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-import 'Features/Purchase/Purchase/purchase.dart';
+import 'Features/Purchase/State/purchase.dart';
+import 'Features/Stock/State/stock.dart';
 
 void main() async {
   runApp(
@@ -26,6 +26,10 @@ void main() async {
       BlocProvider(create: (context) => SellersBloc.initial()),
       BlocProvider(create: (context) => OrdersBloc.initial()),
       BlocProvider(create: (context) => StatistiquesBloc.initial()),
+            BlocProvider(create: (context) => HistoryBloc.initial()),
+                        BlocProvider(create: (context) => StockBloc.initial()),
+
+
     ], child: const MyApp()),
   );
 }
@@ -41,7 +45,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     ServicesStore.getInstance();
-    EventCenter.initialise(context);
 
     return AnimatedBuilder(
         animation: SettingsLiveDataModel.instance(),
@@ -92,14 +95,12 @@ class _AppState extends State<App> {
 
   late ValueListenable<int> selectedPanel;
 
-  late NavigationCenter navigationStore;
 
   void _init() {
     if (isInitialized) {
       return;
     }
-    navigationStore = NavigationCenter.instance();
-    selectedPanel = navigationStore.selectedIndex;
+    selectedPanel = AppNavigator.selectedIndex;
     isInitialized = true;
     App.appContext = context;
   }
@@ -128,7 +129,7 @@ class _AppState extends State<App> {
                 valueListenable: selectedPanel,
                 builder: (context, value, child) {
                   return Center(
-                    child: navigationStore.getSelectedPanel(),
+                    child: AppNavigator.getSelectedPanel(),
                   );
                 },
               ),

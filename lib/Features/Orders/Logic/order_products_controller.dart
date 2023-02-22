@@ -3,9 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Infrastructure/serivces_store.dart';
-import 'package:stock_manager/Types/events_keys_enum.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/Types/i_event_emitters.dart';
 import 'package:stock_manager/Types/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Features/Orders/OrdersEditor/order_products.dart';
@@ -18,8 +16,6 @@ class OrderProductsController {
 
   void add(BuildContext context) {
     void onConfirm(RecordProduct orderProduct) {
-      OrderEmiter.emitOrderEvent(SalesEvents.addOrderProduct,
-          data: orderProduct);
 
       Navigator.pop(context);
     }
@@ -60,9 +56,7 @@ class OrderProductsController {
       context: context,
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
-          onConfirm: () => OrderEmiter.emitOrderEvent(
-              SalesEvents.removeOrderProduct,
-              data: orderProduct),
+          onConfirm: () => {},
           message: Translations.of(context)!.messageDeleteElement,
         ),
       ),

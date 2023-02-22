@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Stores/navigation_center.dart';
+import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SidebarButton extends StatefulWidget {
@@ -21,7 +21,6 @@ class _SidebarButtonState extends State<SidebarButton> {
 
   late Color backgroundColor;
 
-  late NavigationCenter navigationStore;
   late double fonstSize;
 
   bool isInitialized = false;
@@ -30,7 +29,6 @@ class _SidebarButtonState extends State<SidebarButton> {
     if (isInitialized) {
       return;
     }
-    navigationStore = NavigationCenter.instance();
 
     selectedBackground = Theme.of(context).hoverColor;
     selectedTextStyle =
@@ -41,7 +39,7 @@ class _SidebarButtonState extends State<SidebarButton> {
   }
 
   void onClicked() {
-    navigationStore.navigateToPanel(widget.index);
+    AppNavigator.navigateToPanel(widget.index);
   }
 
   @override
@@ -51,7 +49,7 @@ class _SidebarButtonState extends State<SidebarButton> {
     return SizedBox(
       width: double.infinity,
       child: ValueListenableBuilder<int>(
-          valueListenable: navigationStore.selectedIndex,
+          valueListenable: AppNavigator.selectedIndex,
           builder: (context, value, child) {
             bool isSelected = value == widget.index;
             backgroundColor = isSelected ? Colors.white : Colors.grey;
@@ -68,7 +66,7 @@ class _SidebarButtonState extends State<SidebarButton> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Icon(
-                        navigationStore.getSelectedPanelIcon(widget.index),
+                        AppNavigator.getSelectedPanelIcon(widget.index),
                         color: backgroundColor,
                       ),
                       const SizedBox(

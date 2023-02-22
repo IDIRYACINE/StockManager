@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Stores/navigation_center.dart';
+import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Ui/Components/logo.dart';
 import 'package:stock_manager/Ui/Generics/Sidebar/sidebar_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -28,37 +28,37 @@ class SidebarHolder extends StatelessWidget {
            Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.dashboard,
-                  index: NavigationCenter.dashboardIndex)),
+                  index: AppNavigator.dashboardIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.stock,
-                  index: NavigationCenter.stockIndex)),
+                  index: AppNavigator.stockIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.records,
-                  index: NavigationCenter.recordsIndex)),
+                  index: AppNavigator.recordsIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.sales,
-                  index: NavigationCenter.salesIndex)),
+                  index: AppNavigator.salesIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.deposit,
-                  index: NavigationCenter.depositsIndex)),
+                  index: AppNavigator.depositsIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.orders,
-                  index: NavigationCenter.ordersIndex)),
+                  index: AppNavigator.ordersIndex)),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: SidebarButton(
                   title: Translations.of(context)!.settings,
-                  index: NavigationCenter.settingsIndex)),
+                  index: AppNavigator.settingsIndex)),
           const SizedBox(height: Measures.medium),
         ],
       ),
