@@ -3,7 +3,7 @@ import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
-import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
+import 'package:stock_manager/Application/Editors/record_product_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
@@ -12,13 +12,12 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SaleForm extends StatelessWidget {
-  const SaleForm(
-      {Key? key,
-      required this.product,
-      required this.record,
-      required this.saleEditorMode,
-      r})
-      : super(key: key);
+  const SaleForm({
+    Key? key,
+    required this.product,
+    required this.record,
+    required this.saleEditorMode,
+  }) : super(key: key);
 
   final Product product;
   final Record record;
@@ -26,10 +25,8 @@ class SaleForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final sellersDropdown = []
-        .map((e) => DropdownAdapters.sellerMenuItemAdapter(e))
-        .toList();
+    final sellersDropdown =
+        [].map((e) => DropdownAdapters.sellerMenuItemAdapter(e)).toList();
 
     final ValueNotifier<Seller?> sellerNotifier = ValueNotifier(null);
 
@@ -39,7 +36,6 @@ class SaleForm extends StatelessWidget {
       children: [
         SelectorDropDown<Seller>(
           onSelect: (seller) {
-            saleEditorMode.setSeller(seller);
             sellerNotifier.value = seller;
           },
           items: sellersDropdown,
@@ -49,7 +45,6 @@ class SaleForm extends StatelessWidget {
         AttributeTextField(
           initialValue: record.customer,
           label: Translations.of(context)!.customerName,
-          onChanged: saleEditorMode.setCustomer,
         ),
         AttributeTextField(
           initialValue: product.sellingPrice.toString(),
@@ -83,13 +78,12 @@ class ProductForm extends StatelessWidget {
       children: [
         DefaultDecorator(
           child: ValueListenableBuilder<String>(
-            valueListenable: productEditor.imageUrlNotifier,
-            builder: (context,value ,child) {
-              return FaultToleratedImage(
-                imageUrl: value,
-              );
-            }
-          ),
+              valueListenable: productEditor.imageUrlNotifier,
+              builder: (context, value, child) {
+                return FaultToleratedImage(
+                  imageUrl: value,
+                );
+              }),
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
@@ -111,7 +105,7 @@ class ProductForm extends StatelessWidget {
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          controller: productEditor.minSellingPriceController,
+          controller: productEditor.sellingPriceController,
           label: Translations.of(context)!.sellingPrice,
           readOnly: true,
         ),

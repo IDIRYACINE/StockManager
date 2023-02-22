@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Features/Purchase/State/purchase.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
-import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
+import 'package:stock_manager/Application/Editors/record_product_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Features/Purchase/SaleEditor/sale_form.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
@@ -34,14 +34,13 @@ class SaleEditor extends StatelessWidget {
         ? Translations.of(context)!.update
         : Translations.of(context)!.add;
 
+    final SaleEditorMode saleMode = SaleEditorMode.createModeInstance();
+
     final PurchaseBloc bloc = BlocProvider.of<PurchaseBloc>(context);
 
     return BlocBuilder<PurchaseBloc, PurchaseState>(builder: (context, state) {
       final record = state.activePurchaseRecord.copyWith();
-
-      final SaleEditorMode saleMode = editMode
-          ? SaleEditorMode.editModeInstance(record)
-          : SaleEditorMode.createModeInstance(record);
+      saleMode.setProduct(state.loadedProduct);
 
       return Padding(
         padding: const EdgeInsets.all(Measures.paddingLarge),
@@ -76,14 +75,15 @@ class SaleEditor extends StatelessWidget {
                     const SizedBox(width: Measures.small),
                     Expanded(
                       child: DefaultDecorator(
-                          child: Padding(
-                        padding: const EdgeInsets.all(Measures.small),
-                        child: SaleForm(
-                          product: state.loadedProduct,
-                          record: record,
-                          saleEditorMode: saleMode,
+                        child: Padding(
+                          padding: const EdgeInsets.all(Measures.small),
+                          child: SaleForm(
+                            product: state.loadedProduct,
+                            record: record,
+                            saleEditorMode: saleMode,
+                          ),
                         ),
-                      )),
+                      ),
                     ),
                   ],
                 ),
@@ -102,8 +102,7 @@ class SaleEditor extends StatelessWidget {
                       label: Translations.of(context)!.done,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          
-                          bloc.add(RegisterPurchase());
+                          // bloc.add(RegisterPurchase());
 
                           AppNavigator.maybePop();
                         }
@@ -112,9 +111,11 @@ class SaleEditor extends StatelessWidget {
                     DefaultButton(
                       label: confirmLabel,
                       onPressed: () {
-                        final recordProduct = saleMode.getRecordProduct();
+                        if (!saleMode.isInvalidProduct) {
+                          final recordProduct = saleMode.getRecordProduct();
 
-                        bloc.add(AddPurchaseProduct(recordProduct));
+                          bloc.add(AddPurchaseProduct(recordProduct));
+                        }
                       },
                     ),
                   ],

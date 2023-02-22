@@ -68,8 +68,8 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
 
   @override
   Widget build(BuildContext context) {
-    SalesController controller =
-        SalesController();
+    final bloc = BlocProvider.of<PurchaseBloc>(context);
+    SalesController controller = SalesController(bloc);
 
     List<String> salesTableColumns = [
       Translations.of(context)!.productName,

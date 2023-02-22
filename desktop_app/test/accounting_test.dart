@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Ui/Editors/Models/order_mode.dart';
+import 'package:stock_manager/Application/Editors/order_mode.dart';
 
 void main() {
 

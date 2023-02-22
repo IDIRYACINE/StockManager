@@ -23,8 +23,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
 
   FutureOr<void> _addPurchaseProduct(
       AddPurchaseProduct event, Emitter<PurchaseState> emit) {
-    
-
     final newPurchaseRecord =
         updateRecordAmounts(state.activePurchaseRecord, true, event.product);
 
@@ -38,7 +36,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     Record newPurchaseRecord = state.activePurchaseRecord.copyWith();
     final removedProduct =
         newPurchaseRecord.products.remove(event.productTimeStamp);
-
     if (removedProduct == null) return null;
 
     newPurchaseRecord =
@@ -84,7 +81,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
 
   FutureOr<void> _loadPurchaseProduct(
       LoadPurchaseProduct event, Emitter<PurchaseState> emit) {
-    
     state.productFormEditor.updateSelf(event.product);
 
     emit(state.copyWith(loadedProduct: event.product));

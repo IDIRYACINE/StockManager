@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
-import 'package:stock_manager/Ui/Editors/Models/order_mode.dart';
+import 'package:stock_manager/Application/Editors/order_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Components/Forms/model_selector.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';

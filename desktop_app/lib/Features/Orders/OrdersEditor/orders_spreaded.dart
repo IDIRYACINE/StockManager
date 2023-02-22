@@ -11,7 +11,7 @@ import 'package:stock_manager/Features/Orders/OrdersEditor/editor_forms.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-import 'package:stock_manager/Ui/Editors/Models/order_mode.dart';
+import 'package:stock_manager/Application/Editors/order_mode.dart';
 class SpreardedOrderEditor extends StatelessWidget {
   const SpreardedOrderEditor(
       {Key? key,

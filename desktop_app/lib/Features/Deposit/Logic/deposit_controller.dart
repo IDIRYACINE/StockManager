@@ -12,36 +12,15 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class DespositController {
-  DespositController( );
-
-  
-  
-
+  final DepositBloc bloc;
+  DespositController(this.bloc);
 
   void addDepositProduct(BuildContext context) {
     PopupsUtility.displayGenericPopup(
       context,
       width: Measures.containerWidthLarge,
       height: Measures.containerHeightLarge,
-      const DepositEditor(
-     
-        // addDepositCallback: (record) =>
-        //     DepositEmitter.emitDepositEvent(SalesEvents.addDeposit, data :record,broadcast: true),
-        // addDepositProductCallback: (product) => Utility.displayToastMessage(
-        //     context, Translations.of(context)!.addedProduct),
-        // confirmLabel: Translations.of(context)!.add,
-      ),
-    );
-  }
-
-  void removeDeposit(BuildContext context, Record record) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: ConfirmDialog(
-            onConfirm: () => {},
-            message: Translations.of(context)!.messageDeleteElement),
-      ),
+      const DepositEditor(),
     );
   }
 
@@ -52,6 +31,7 @@ class DespositController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
+              bloc.add(RemoveDepositProduct(wrapper.recordProduct.timeStamp));
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),
@@ -66,16 +46,26 @@ class DespositController {
     );
   }
 
-  void quickSearch(BuildContext context, Map<String, dynamic> query) {
-  }
+  void quickSearch(BuildContext context, Map<String, dynamic> query) {}
 
   void printReport(BuildContext context) {
-    final record = BlocProvider.of<DepositBloc>(context).state.activeDepositRecord;
+    final record =
+        BlocProvider.of<DepositBloc>(context).state.activeDepositRecord;
     BillPurchase report = BillPurchase(record);
     report.print(context);
   }
 
   void clear(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+            onConfirm: () {
+              bloc.add(ClearDeposit());
+            },
+            message: Translations.of(context)!.messageClearAll),
+      ),
+    );
   }
 
   void completePayment(BuildContext context, RecordProductWrapper wrapper) {
@@ -84,7 +74,6 @@ class DespositController {
   }
 
   void _onCompletePayment(Record record) {
-
     Record remainingRecord = generateRemainingRecord(record);
 
     Map<ServicesData, dynamic> messageData = {
@@ -100,9 +89,8 @@ class DespositController {
     ServicesStore.instance.sendMessage(message);
   }
 
-  Record generateRemainingRecord(Record deposit){
-
-    Map<String,RecordProduct> products = {};
+  Record generateRemainingRecord(Record deposit) {
+    Map<String, RecordProduct> products = {};
 
     deposit.products.forEach((timestamp, product) {
       RecordProduct newProduct = product.copyWith(
@@ -123,5 +111,4 @@ class DespositController {
 
     return remainingRecord;
   }
-  
 }

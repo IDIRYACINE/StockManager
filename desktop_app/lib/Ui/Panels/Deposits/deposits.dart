@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Features/Deposit/Logic/deposit_controller.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Features/Deposit/State/deposit.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -33,8 +35,8 @@ class DepositsPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DespositController controller =
-        DespositController();
+    final bloc = BlocProvider.of<DepositBloc>(context);
+    final DespositController controller = DespositController(bloc);
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),

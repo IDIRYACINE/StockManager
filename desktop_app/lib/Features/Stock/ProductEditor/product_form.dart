@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Ui/Editors/Models/product_mode.dart';
+import 'package:stock_manager/Application/Editors/product_mode.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

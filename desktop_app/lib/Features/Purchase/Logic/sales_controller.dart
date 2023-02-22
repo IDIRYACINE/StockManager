@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stock_manager/Features/Purchase/State/bloc.dart';
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Features/Purchase/State/purchase.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Domain/Reports/bill_purchase.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
@@ -10,7 +9,9 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SalesController {
-  SalesController();
+  SalesController(this.bloc);
+
+  final PurchaseBloc bloc;
 
   void clearSales(BuildContext context) {
     showDialog(
@@ -18,20 +19,9 @@ class SalesController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
+              bloc.add(ClearPurchase());
             },
             message: Translations.of(context)!.messageClearAll),
-      ),
-    );
-  }
-
-  void removeSale(BuildContext context, Record record) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: ConfirmDialog(
-            onConfirm: () {
-            },
-            message: Translations.of(context)!.messageDeleteElement),
       ),
     );
   }
@@ -42,6 +32,7 @@ class SalesController {
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
             onConfirm: () {
+              bloc.add(RemovePurchaseProduct(wrapper.recordProduct.timeStamp));
             },
             message: Translations.of(context)!.messageDeleteElement),
       ),

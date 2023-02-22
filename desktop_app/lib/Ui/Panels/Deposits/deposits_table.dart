@@ -72,7 +72,8 @@ class _DepositsSpreadedTableState extends State<DepositsSpreadedTable> {
 
   @override
   Widget build(BuildContext context) {
-    DespositController controller =DespositController();
+    final bloc = BlocProvider.of<DepositBloc>(context);
+    DespositController controller = DespositController(bloc);
 
 
     List<String> depositsTableColumns = [

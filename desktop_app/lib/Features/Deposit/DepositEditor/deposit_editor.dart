@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Features/Deposit/State/deposit.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Ui/Editors/Models/sale_mode.dart';
+import 'package:stock_manager/Application/Editors/record_product_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
@@ -36,13 +36,10 @@ class DepositEditor extends StatelessWidget {
         : Translations.of(context)!.add;
 
     final DepositBloc bloc = BlocProvider.of<DepositBloc>(context);
+    final SaleEditorMode depositMode = SaleEditorMode.createModeInstance();
 
     return BlocBuilder<DepositBloc, DepositState>(builder: (context, state) {
-      final record = state.activeDepositRecord.copyWith();
-
-      final SaleEditorMode depositMode = editMode
-          ? SaleEditorMode.editModeInstance(record)
-          : SaleEditorMode.createModeInstance(record);
+      depositMode.setProduct(state.loadedProduct);
 
       return Padding(
         padding: const EdgeInsets.all(Measures.paddingNormal),
@@ -69,16 +66,15 @@ class DepositEditor extends StatelessWidget {
                           child: DefaultDecorator(
                               child: ProductForm(
                         product: state.loadedProduct,
-                      ))),
+                      ),),),
                       const SizedBox(width: Measures.small),
                       Expanded(
                         child: DefaultDecorator(
                             child: DepositForm(
-                          record: state.activeDepositRecord,
-                          models: state.loadedProduct.models,
-                          depositMode: depositMode,
-                          formEditor: state.formEditor
-                        )),
+                                record: state.activeDepositRecord,
+                                models: state.loadedProduct.models,
+                                depositMode: depositMode,
+                                formEditor: state.formEditor)),
                       ),
                     ],
                   ),
@@ -97,7 +93,7 @@ class DepositEditor extends StatelessWidget {
                         label: Translations.of(context)!.done,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            if(!editMode){
+                            if (!editMode) {
                               bloc.add(RegisterDeposit());
                             }
                             AppNavigator.maybePop();
@@ -107,7 +103,7 @@ class DepositEditor extends StatelessWidget {
                       DefaultButton(
                         label: confirmLabel,
                         onPressed: () {
-                          final recordProduct = depositMode.getRecordProduct(); 
+                          final recordProduct = depositMode.getRecordProduct();
                           bloc.add(AddDepositProduct(recordProduct));
                         },
                       ),

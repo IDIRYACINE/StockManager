@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Features/Sellers/SellersEditor.dart/seller_form.dart';
-import 'package:stock_manager/Ui/Editors/Models/seller_mode.dart';
+import 'package:stock_manager/Application/Editors/seller_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
