@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Features/Sellers/SellersEditor.dart/sellers_editor.dart';

@@ -3,7 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';

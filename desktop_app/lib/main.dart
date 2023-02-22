@@ -8,7 +8,7 @@ import 'package:stock_manager/Features/Sellers/State/sellers.dart';
 import 'package:stock_manager/Features/Statistiques/State/statistiques.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Features/Settings/Models/settings.dart';
-import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Ui/Components/Sidebar/sidebar_holder.dart';
 import 'package:stock_manager/Ui/Panels/Login/login.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

@@ -1,0 +1,4 @@
+
+enum PurchaseApi{
+  registerPurchase,
+}

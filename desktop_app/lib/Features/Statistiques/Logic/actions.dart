@@ -3,7 +3,7 @@ import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_stats.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 
 Future<void> searchStatistiques(AppJson query) async {

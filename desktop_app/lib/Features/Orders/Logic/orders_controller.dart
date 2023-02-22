@@ -6,7 +6,7 @@ import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_orders.dart';
-import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';

@@ -1,5 +1,5 @@
 import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/Infrastructure/serivces_store.dart';
+import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 
