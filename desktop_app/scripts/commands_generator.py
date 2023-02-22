@@ -40,7 +40,24 @@ stockCommands = [
 
 ]
 
-data = depositCommands
 
-for d in data:
-    command_generator.generate_command_file(d)
+sellersCommands = [
+    command_generator.DataHolder(
+        "load_sellers", "LoadSellers", "SellersApi", "loadSellers", "SellersService"),
+    command_generator.DataHolder(
+        "register_seller", "RegisterSeller", "SellersApi", "registerSeller", "SellersService"),
+    command_generator.DataHolder(
+        "update_seller", "UpdateSeller", "SellersApi", "updateSeller", "SellersService"),
+    command_generator.DataHolder(
+        "remove_seller", "RemoveSeller", "SellersApi", "removeSeller", "SellersService"),
+]
+
+
+def generate_commands(data):
+    for d in data:
+        command_generator.generate_command_file(d)
+
+# generate_commands(depositCommands)
+# generate_commands(purchaseCommands)
+# generate_commands(stockCommands)
+# generate_commands(sellersCommands)

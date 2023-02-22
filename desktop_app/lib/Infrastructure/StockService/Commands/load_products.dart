@@ -1,22 +1,24 @@
 
   import 'package:stock_manager/Application/ServiceStore/service.dart';
   import 'package:stock_manager/Infrastructure/StockService/api.dart';
+  import 'package:stock_manager/Infrastructure/services.dart';
 
-  class LoadProducts extends Command<EventData, RawEventData,
+  class LoadProducts extends Command<LoadProductsEventData, LoadProductsRawEventData,
     LoadProductsResponse> {
   static final eventId = StockApi.loadProducts.index;
   static final eventName = StockApi.loadProducts.name;
+  static final serviceId = Services.stockService.index;
 
   LoadProducts() : super(eventId, eventName);
 
   @override
-  Future<LoadProductsResponse> handleEvent(EventData eventData) {
+  Future<LoadProductsResponse> handleEvent(LoadProductsEventData eventData) {
     throw UnimplementedError();
   }
 
   @override
   Future<LoadProductsResponse> handleRawEvent(
-      RawEventData eventData) {
+      LoadProductsRawEventData eventData) {
     throw UnimplementedError();
   }
   }
@@ -25,17 +27,23 @@
   LoadProductsResponse(super.messageId, super.responseType);
   }
 
-  class RawEventData extends RawServiceEventData {
-  RawEventData({required int messageId, required String requesterId})
+  class LoadProductsRawEventData extends RawServiceEventData {
+  LoadProductsRawEventData({required int messageId, required String requesterId})
       : super(messageId, requesterId, LoadProducts.eventId);
   }
 
-  class EventData extends ServiceEventData<RawEventData> {
-  EventData(super.requesterId);
+  class LoadProductsEventData extends ServiceEventData<LoadProductsRawEventData> {
+  LoadProductsEventData(super.requesterId);
 
   @override
-  RawEventData toRawServiceEventData() {
-    return RawEventData(messageId: messageId, requesterId: requesterId);
+  LoadProductsRawEventData toRawServiceEventData() {
+    return LoadProductsRawEventData(messageId: messageId, requesterId: requesterId);
   }
   }
+
+
+class LoadProductsEvent extends ServiceEvent<LoadProductsResponse> {
+  LoadProductsEvent({required super.eventData, super.callback})
+      : super(LoadProducts.eventId, LoadProducts.eventName, LoadProducts.serviceId);
+}
   

@@ -1,22 +1,24 @@
 
   import 'package:stock_manager/Application/ServiceStore/service.dart';
   import 'package:stock_manager/Infrastructure/StockService/api.dart';
+  import 'package:stock_manager/Infrastructure/services.dart';
 
-  class AddProductModel extends Command<EventData, RawEventData,
+  class AddProductModel extends Command<AddProductModelEventData, AddProductModelRawEventData,
     AddProductModelResponse> {
   static final eventId = StockApi.addProductModel.index;
   static final eventName = StockApi.addProductModel.name;
+  static final serviceId = Services.stockService.index;
 
   AddProductModel() : super(eventId, eventName);
 
   @override
-  Future<AddProductModelResponse> handleEvent(EventData eventData) {
+  Future<AddProductModelResponse> handleEvent(AddProductModelEventData eventData) {
     throw UnimplementedError();
   }
 
   @override
   Future<AddProductModelResponse> handleRawEvent(
-      RawEventData eventData) {
+      AddProductModelRawEventData eventData) {
     throw UnimplementedError();
   }
   }
@@ -25,17 +27,23 @@
   AddProductModelResponse(super.messageId, super.responseType);
   }
 
-  class RawEventData extends RawServiceEventData {
-  RawEventData({required int messageId, required String requesterId})
+  class AddProductModelRawEventData extends RawServiceEventData {
+  AddProductModelRawEventData({required int messageId, required String requesterId})
       : super(messageId, requesterId, AddProductModel.eventId);
   }
 
-  class EventData extends ServiceEventData<RawEventData> {
-  EventData(super.requesterId);
+  class AddProductModelEventData extends ServiceEventData<AddProductModelRawEventData> {
+  AddProductModelEventData(super.requesterId);
 
   @override
-  RawEventData toRawServiceEventData() {
-    return RawEventData(messageId: messageId, requesterId: requesterId);
+  AddProductModelRawEventData toRawServiceEventData() {
+    return AddProductModelRawEventData(messageId: messageId, requesterId: requesterId);
   }
   }
+
+
+class AddProductModelEvent extends ServiceEvent<AddProductModelResponse> {
+  AddProductModelEvent({required super.eventData, super.callback})
+      : super(AddProductModel.eventId, AddProductModel.eventName, AddProductModel.serviceId);
+}
   

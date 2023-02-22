@@ -1,20 +1,23 @@
 
 
-  import 'package:stock_manager/DataModels/models.dart';
-import 'package:stock_manager/DataModels/special_enums.dart';
+import 'package:stock_manager/Infrastructure/StockService/service.dart';
+import 'package:stock_manager/Infrastructure/services_store.dart';
+import 'package:stock_manager/Types/i_database.dart';
 
-@override
-  Future<void> searchRecords(Map<ServicesData, dynamic> requestData)  async {
+const _requesterId = 'DepositBloc';
 
 
+  Future<void> searchRecords(SearchWrapper searchParams)  async {
 
-    ServiceMessage<List<Record>> message = ServiceMessage(
-        service: AppServices.database,
-        event: DatabaseEvent.searchPurchaseRecord,
-        data: requestData,
-        hasCallback: true,
-        callback: (records) => {});//todo:
+    final data = SearchProductEventData(
+      requesterId: _requesterId,
+      searchParams: searchParams,
+    );
 
-    ServicesStore.instance.sendMessage(message);
+    final event = SearchProductEvent(
+      eventData: data,
+    );
+
+    ServicesGateway.instance().sendEvent(event);
     
 }

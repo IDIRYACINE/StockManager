@@ -1,22 +1,24 @@
 
   import 'package:stock_manager/Application/ServiceStore/service.dart';
   import 'package:stock_manager/Infrastructure/StockService/api.dart';
+  import 'package:stock_manager/Infrastructure/services.dart';
 
-  class DeleteProduct extends Command<EventData, RawEventData,
+  class DeleteProduct extends Command<DeleteProductEventData, DeleteProductRawEventData,
     DeleteProductResponse> {
   static final eventId = StockApi.deleteProduct.index;
   static final eventName = StockApi.deleteProduct.name;
+  static final serviceId = Services.stockService.index;
 
   DeleteProduct() : super(eventId, eventName);
 
   @override
-  Future<DeleteProductResponse> handleEvent(EventData eventData) {
+  Future<DeleteProductResponse> handleEvent(DeleteProductEventData eventData) {
     throw UnimplementedError();
   }
 
   @override
   Future<DeleteProductResponse> handleRawEvent(
-      RawEventData eventData) {
+      DeleteProductRawEventData eventData) {
     throw UnimplementedError();
   }
   }
@@ -25,17 +27,23 @@
   DeleteProductResponse(super.messageId, super.responseType);
   }
 
-  class RawEventData extends RawServiceEventData {
-  RawEventData({required int messageId, required String requesterId})
+  class DeleteProductRawEventData extends RawServiceEventData {
+  DeleteProductRawEventData({required int messageId, required String requesterId})
       : super(messageId, requesterId, DeleteProduct.eventId);
   }
 
-  class EventData extends ServiceEventData<RawEventData> {
-  EventData(super.requesterId);
+  class DeleteProductEventData extends ServiceEventData<DeleteProductRawEventData> {
+  DeleteProductEventData(super.requesterId);
 
   @override
-  RawEventData toRawServiceEventData() {
-    return RawEventData(messageId: messageId, requesterId: requesterId);
+  DeleteProductRawEventData toRawServiceEventData() {
+    return DeleteProductRawEventData(messageId: messageId, requesterId: requesterId);
   }
   }
+
+
+class DeleteProductEvent extends ServiceEvent<DeleteProductResponse> {
+  DeleteProductEvent({required super.eventData, super.callback})
+      : super(DeleteProduct.eventId, DeleteProduct.eventName, DeleteProduct.serviceId);
+}
   

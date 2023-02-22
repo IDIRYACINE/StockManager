@@ -1,21 +1,17 @@
-import 'package:mongo_dart/mongo_dart.dart';
-import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/DataModels/special_enums.dart';
+import 'package:stock_manager/Infrastructure/StockService/service.dart' as stock_service;
+import 'package:stock_manager/Infrastructure/services_store.dart';
+
+
+const _requesterId = 'DepositBloc';
 
 void loadProductDetaills(String searchValue, OnEditorSearchResulCallback callback) {
-  Map<ServicesData, dynamic> data = {
-    ServicesData.databaseSelector:
-        SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
-  };
+  
+  final data = stock_service.QuickSearchProductEventData(searchValue: searchValue,requesterId:_requesterId);
 
-  ServiceMessage message = ServiceMessage<List<Product>>(
-      callback: callback,
-      hasCallback: true,
-      data: data,
-      event: DatabaseEvent.searchProduct,
-      service: AppServices.database);
+  final event = stock_service.QuickSearchProductEvent(
+    eventData: data,
+  );
 
-  ServicesStore.instance.sendMessage(message);
+  ServicesGateway.instance().sendEvent(event);
 }

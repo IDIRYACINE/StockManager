@@ -73,19 +73,8 @@ class DespositController {
   }
 
   void _onCompletePayment(Record record) {
-    Record remainingRecord = generateRemainingRecord(record);
+    // Record remainingRecord = generateRemainingRecord(record);
 
-    Map<ServicesData, dynamic> messageData = {
-      ServicesData.instance: remainingRecord,
-    };
-
-    ServiceMessage<List<Record>> message = ServiceMessage(
-      service: AppServices.database,
-      event: DatabaseEvent.insertRemainingRecord,
-      data: messageData,
-    );
-
-    ServicesStore.instance.sendMessage(message);
   }
 
   Record generateRemainingRecord(Record deposit) {

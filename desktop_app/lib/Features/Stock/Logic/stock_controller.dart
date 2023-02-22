@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Features/Stock/i_stock.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
@@ -295,23 +294,8 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
   @override
   void quickSearch(BuildContext context, AppJson query) {
-    void onResult(List<ProductFamily> famillies) {
-      Navigator.pop(context);
-    }
 
     _showLoadingAlert(context);
 
-    Map<ServicesData, dynamic> data = {
-      ServicesData.databaseSelector: query,
-    };
-
-    ServiceMessage<List<ProductFamily>> message = ServiceMessage(
-        service: AppServices.database,
-        event: DatabaseEvent.searchProductFamily,
-        data: data,
-        hasCallback: true,
-        callback: onResult);
-
-    ServicesStore.instance.sendMessage(message);
   }
 }

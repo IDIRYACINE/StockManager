@@ -1,22 +1,24 @@
 
   import 'package:stock_manager/Application/ServiceStore/service.dart';
   import 'package:stock_manager/Infrastructure/StockService/api.dart';
+  import 'package:stock_manager/Infrastructure/services.dart';
 
-  class RegisterProduct extends Command<EventData, RawEventData,
+  class RegisterProduct extends Command<RegisterProductEventData, RegisterProductRawEventData,
     RegisterProductResponse> {
   static final eventId = StockApi.registerProduct.index;
   static final eventName = StockApi.registerProduct.name;
+  static final serviceId = Services.stockService.index;
 
   RegisterProduct() : super(eventId, eventName);
 
   @override
-  Future<RegisterProductResponse> handleEvent(EventData eventData) {
+  Future<RegisterProductResponse> handleEvent(RegisterProductEventData eventData) {
     throw UnimplementedError();
   }
 
   @override
   Future<RegisterProductResponse> handleRawEvent(
-      RawEventData eventData) {
+      RegisterProductRawEventData eventData) {
     throw UnimplementedError();
   }
   }
@@ -25,17 +27,23 @@
   RegisterProductResponse(super.messageId, super.responseType);
   }
 
-  class RawEventData extends RawServiceEventData {
-  RawEventData({required int messageId, required String requesterId})
+  class RegisterProductRawEventData extends RawServiceEventData {
+  RegisterProductRawEventData({required int messageId, required String requesterId})
       : super(messageId, requesterId, RegisterProduct.eventId);
   }
 
-  class EventData extends ServiceEventData<RawEventData> {
-  EventData(super.requesterId);
+  class RegisterProductEventData extends ServiceEventData<RegisterProductRawEventData> {
+  RegisterProductEventData(super.requesterId);
 
   @override
-  RawEventData toRawServiceEventData() {
-    return RawEventData(messageId: messageId, requesterId: requesterId);
+  RegisterProductRawEventData toRawServiceEventData() {
+    return RegisterProductRawEventData(messageId: messageId, requesterId: requesterId);
   }
   }
+
+
+class RegisterProductEvent extends ServiceEvent<RegisterProductResponse> {
+  RegisterProductEvent({required super.eventData, super.callback})
+      : super(RegisterProduct.eventId, RegisterProduct.eventName, RegisterProduct.serviceId);
+}
   

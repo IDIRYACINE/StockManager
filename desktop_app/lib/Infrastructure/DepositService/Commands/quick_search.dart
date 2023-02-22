@@ -1,22 +1,24 @@
 
   import 'package:stock_manager/Application/ServiceStore/service.dart';
   import 'package:stock_manager/Infrastructure/DepositService/api.dart';
+  import 'package:stock_manager/Infrastructure/services.dart';
 
-  class QuickSearchDeposit extends Command<EventData, RawEventData,
+  class QuickSearchDeposit extends Command<QuickSearchDepositEventData, QuickSearchDepositRawEventData,
     QuickSearchDepositResponse> {
   static final eventId = DepositApi.quickSearchDeposit.index;
   static final eventName = DepositApi.quickSearchDeposit.name;
+  static final serviceId = Services.depositService.index;
 
   QuickSearchDeposit() : super(eventId, eventName);
 
   @override
-  Future<QuickSearchDepositResponse> handleEvent(EventData eventData) {
+  Future<QuickSearchDepositResponse> handleEvent(QuickSearchDepositEventData eventData) {
     throw UnimplementedError();
   }
 
   @override
   Future<QuickSearchDepositResponse> handleRawEvent(
-      RawEventData eventData) {
+      QuickSearchDepositRawEventData eventData) {
     throw UnimplementedError();
   }
   }
@@ -25,17 +27,25 @@
   QuickSearchDepositResponse(super.messageId, super.responseType);
   }
 
-  class RawEventData extends RawServiceEventData {
-  RawEventData({required int messageId, required String requesterId})
+  class QuickSearchDepositRawEventData extends RawServiceEventData {
+  QuickSearchDepositRawEventData({required int messageId, required String requesterId})
       : super(messageId, requesterId, QuickSearchDeposit.eventId);
   }
 
-  class EventData extends ServiceEventData<RawEventData> {
-  EventData(super.requesterId);
+  class QuickSearchDepositEventData extends ServiceEventData<QuickSearchDepositRawEventData> {
+    final String searchValue;
+  QuickSearchDepositEventData({required String requesterId, required this.searchValue})
+      : super(requesterId);
 
   @override
-  RawEventData toRawServiceEventData() {
-    return RawEventData(messageId: messageId, requesterId: requesterId);
+  QuickSearchDepositRawEventData toRawServiceEventData() {
+    return QuickSearchDepositRawEventData(messageId: messageId, requesterId: requesterId);
   }
   }
+
+
+class QuickSearchDepositEvent extends ServiceEvent<QuickSearchDepositResponse> {
+  QuickSearchDepositEvent({required super.eventData, super.callback})
+      : super(QuickSearchDeposit.eventId, QuickSearchDeposit.eventName, QuickSearchDeposit.serviceId);
+}
   

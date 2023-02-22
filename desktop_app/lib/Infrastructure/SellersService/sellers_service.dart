@@ -1,12 +1,12 @@
 import 'package:stock_manager/Application/ServiceStore/service_store.dart';
 import 'package:stock_manager/Infrastructure/helpers.dart';
 
-class DepositService extends Service {
-  DepositService._(super.searchAlgorithm);
+class SellersService extends Service {
+  SellersService._(super.searchAlgorithm);
 
-  factory DepositService.instance() {
+  factory SellersService.instance() {
     final searchAlgorithm = commandsBinarySearchAlgorithm();
-    final instance = DepositService._(searchAlgorithm);
+    final instance = SellersService._(searchAlgorithm);
     _registerBaseCommands(instance);
     return instance;
   }
@@ -32,5 +32,5 @@ class DepositService extends Service {
     throw UnimplementedError();
   }
 
-  static void _registerBaseCommands(DepositService instance) {}
+  static void _registerBaseCommands(SellersService instance) {}
 }

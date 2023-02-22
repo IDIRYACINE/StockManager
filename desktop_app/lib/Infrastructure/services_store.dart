@@ -5,7 +5,7 @@ class ServicesGateway extends ServiceStore {
 
   ServicesGateway._(super.searchAlgorithm);
 
-  factory ServicesGateway() {
+  factory ServicesGateway.instance() {
     if (_instance == null) {
       final searchAlgorithm = _searchAlgorithm();
       _instance = ServicesGateway._(searchAlgorithm);

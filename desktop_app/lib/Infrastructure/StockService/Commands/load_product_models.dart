@@ -1,22 +1,24 @@
 
   import 'package:stock_manager/Application/ServiceStore/service.dart';
   import 'package:stock_manager/Infrastructure/StockService/api.dart';
+  import 'package:stock_manager/Infrastructure/services.dart';
 
-  class LoadProductModels extends Command<EventData, RawEventData,
+  class LoadProductModels extends Command<LoadProductModelsEventData, LoadProductModelsRawEventData,
     LoadProductModelsResponse> {
   static final eventId = StockApi.loadProductModels.index;
   static final eventName = StockApi.loadProductModels.name;
+  static final serviceId = Services.stockService.index;
 
   LoadProductModels() : super(eventId, eventName);
 
   @override
-  Future<LoadProductModelsResponse> handleEvent(EventData eventData) {
+  Future<LoadProductModelsResponse> handleEvent(LoadProductModelsEventData eventData) {
     throw UnimplementedError();
   }
 
   @override
   Future<LoadProductModelsResponse> handleRawEvent(
-      RawEventData eventData) {
+      LoadProductModelsRawEventData eventData) {
     throw UnimplementedError();
   }
   }
@@ -25,17 +27,23 @@
   LoadProductModelsResponse(super.messageId, super.responseType);
   }
 
-  class RawEventData extends RawServiceEventData {
-  RawEventData({required int messageId, required String requesterId})
+  class LoadProductModelsRawEventData extends RawServiceEventData {
+  LoadProductModelsRawEventData({required int messageId, required String requesterId})
       : super(messageId, requesterId, LoadProductModels.eventId);
   }
 
-  class EventData extends ServiceEventData<RawEventData> {
-  EventData(super.requesterId);
+  class LoadProductModelsEventData extends ServiceEventData<LoadProductModelsRawEventData> {
+  LoadProductModelsEventData(super.requesterId);
 
   @override
-  RawEventData toRawServiceEventData() {
-    return RawEventData(messageId: messageId, requesterId: requesterId);
+  LoadProductModelsRawEventData toRawServiceEventData() {
+    return LoadProductModelsRawEventData(messageId: messageId, requesterId: requesterId);
   }
   }
+
+
+class LoadProductModelsEvent extends ServiceEvent<LoadProductModelsResponse> {
+  LoadProductModelsEvent({required super.eventData, super.callback})
+      : super(LoadProductModels.eventId, LoadProductModels.eventName, LoadProductModels.serviceId);
+}
   

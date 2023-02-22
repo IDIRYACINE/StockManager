@@ -6,9 +6,7 @@ import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Reports/report_orders.dart';
-import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
-import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Features/Orders/OrdersEditor/orders_customer.dart';
@@ -41,19 +39,8 @@ class OrdersController {
 
   void _onSearchProduct(
       String searchValue, OnEditorSearchResulCallback callback) {
-    Map<ServicesData, dynamic> data = {
-      ServicesData.databaseSelector:
-          SelectorBuilder().eq(ProductFields.reference.name, searchValue).map
-    };
-
-    ServiceMessage message = ServiceMessage<List<Product>>(
-        callback: callback,
-        hasCallback: true,
-        data: data,
-        event: DatabaseEvent.searchProduct,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
+  
+        //TODO : Implement search
   }
 
   void editCustomer(BuildContext context) {
@@ -74,22 +61,10 @@ class OrdersController {
   }
 
   void refresh(BuildContext context) {
-    void onResult(List<Order> order) {
-    }
 
     SelectorBuilder selector = SelectorBuilder();
     Utility.searchByTodayDate(selector);
 
-    ServiceMessage message = ServiceMessage<List<Order>>(
-        data: {
-          ServicesData.databaseSelector: selector.map,
-        },
-        hasCallback: true,
-        callback: onResult,
-        event: DatabaseEvent.searchOrders,
-        service: AppServices.database);
-
-    ServicesStore.instance.sendMessage(message);
   }
 
   void remove(BuildContext context, Order order, int index) {
@@ -110,25 +85,11 @@ class OrdersController {
   }
 
   void search(BuildContext context) {
-    void onResult(List<Order> orders) {
-      Navigator.pop(context);
-    }
 
     void onSearch(Map<String, dynamic> selector) {
       PopupsUtility.showLoadingAlert(context);
 
-      Map<ServicesData, dynamic> data = {
-        ServicesData.databaseSelector: selector,
-      };
 
-      ServiceMessage<List<Order>> message = ServiceMessage(
-          service: AppServices.database,
-          event: DatabaseEvent.searchOrders,
-          data: data,
-          hasCallback: true,
-          callback: onResult);
-
-      ServicesStore.instance.sendMessage(message);
     }
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
