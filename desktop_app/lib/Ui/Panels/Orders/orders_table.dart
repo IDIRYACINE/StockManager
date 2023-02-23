@@ -41,7 +41,8 @@ class OrdersTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrdersController controller =OrdersController();
+    final bloc = BlocProvider.of<OrdersBloc>(context);
+    OrdersController controller = OrdersController(bloc);
 
     List<String> ordersTableColumns = [
       Translations.of(context)!.date,
@@ -115,7 +116,8 @@ class OrderProductsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderProductsController controller =OrderProductsController();
+    final bloc = BlocProvider.of<OrdersBloc>(context);
+    OrderProductsController controller = OrderProductsController(bloc);
 
     List<String> orderProductsTableColumns = [
       Translations.of(context)!.productName,
@@ -231,9 +233,10 @@ class OrdersTableSpreaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderProductsController productsController =OrderProductsController();
+    final bloc = BlocProvider.of<OrdersBloc>(context);
+    OrderProductsController productsController =OrderProductsController(bloc);
 
-    OrdersController ordersController =OrdersController();
+    OrdersController ordersController =OrdersController(bloc);
 
 
     List<String> ordersTableColumns = [

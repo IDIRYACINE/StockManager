@@ -7,7 +7,7 @@
     UpdateSellerResponse> {
   static final eventId = SellersApi.updateSeller.index;
   static final eventName = SellersApi.updateSeller.name;
-  static final serviceId = Services.SellersService.index;
+  static final serviceId = Services.sellersService.index;
 
   UpdateSeller() : super(eventId, eventName);
 

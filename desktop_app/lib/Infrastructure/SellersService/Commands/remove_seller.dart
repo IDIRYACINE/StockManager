@@ -7,7 +7,7 @@
     RemoveSellerResponse> {
   static final eventId = SellersApi.removeSeller.index;
   static final eventName = SellersApi.removeSeller.name;
-  static final serviceId = Services.SellersService.index;
+  static final serviceId = Services.sellersService.index;
 
   RemoveSeller() : super(eventId, eventName);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Features/Orders/orders_feature.dart';
 import 'package:stock_manager/Types/i_database.dart';
@@ -36,7 +37,8 @@ class OrdersPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final OrdersController controller =OrdersController();
+    final bloc = BlocProvider.of<OrdersBloc>(context);
+    final OrdersController controller = OrdersController(bloc);
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),
@@ -45,8 +47,7 @@ class OrdersPanel extends StatelessWidget {
           onPrint: () => onPrint(context, controller),
           onAdd: () => onAdd(context, controller),
           onRefresh: () => onRefresh(context, controller),
-          title: Translations.of(context)!.
-orders,
+          title: Translations.of(context)!.orders,
         ),
         const SizedBox(height: Measures.large),
         QuickSearchDate(

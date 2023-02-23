@@ -16,7 +16,8 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class OrdersController {
-  OrdersController();
+  final OrdersBloc bloc;
+  OrdersController(this.bloc);
 
 
   void addSpreadedOrder(BuildContext context) {
@@ -40,7 +41,7 @@ class OrdersController {
   void _onSearchProduct(
       String searchValue, OnEditorSearchResulCallback callback) {
   
-        //TODO : Implement search
+        bloc.add(SearchProduct(searchValue));
   }
 
   void editCustomer(BuildContext context) {

@@ -2,43 +2,47 @@ import 'package:stock_manager/DataModels/models.dart';
 
 class OrderEvent{}
 
-class FetchOrderEvent extends OrderEvent{}
+class FetchOrder extends OrderEvent{}
 
-class AddOrderEvent extends OrderEvent{
+class AddOrder extends OrderEvent{
   final Order order;
-  AddOrderEvent(this.order);
+  AddOrder(this.order);
 }
 
-class UpdateOrderEvent extends OrderEvent{
+class UpdateOrder extends OrderEvent{
   final Order order;
-  UpdateOrderEvent(this.order);
+  UpdateOrder(this.order);
 }
 
-class DeleteOrderEvent extends OrderEvent{
+class DeleteOrder extends OrderEvent{
   final Order order;
-  DeleteOrderEvent(this.order);
+  DeleteOrder(this.order);
 }
 
-class SearchOrderEvent extends OrderEvent{
-  SearchOrderEvent();
+class SearchOrder extends OrderEvent{
+  SearchOrder();
 }
 
-class SearchQuickOrderEvent extends OrderEvent{
-  SearchQuickOrderEvent();
+class SearchQuickOrder extends OrderEvent{
+  SearchQuickOrder();
 }
 
-class AddOrderProductEvent extends OrderEvent{
-  AddOrderProductEvent();
+class AddOrderProduct extends OrderEvent{
+  AddOrderProduct();
 }
 
-class UpdateOrderProductEvent extends OrderEvent{
-  UpdateOrderProductEvent();
+class UpdateOrderProduct extends OrderEvent{
+  UpdateOrderProduct();
 }
 
-class DeleteOrderProductEvent extends OrderEvent{
-  DeleteOrderProductEvent();
+class DeleteOrderProduct extends OrderEvent{
+  DeleteOrderProduct();
 }
 
-class UpdateOrderCustomerEvent extends OrderEvent{
-  UpdateOrderCustomerEvent();
+class UpdateOrderCustomer extends OrderEvent{
+  UpdateOrderCustomer();
+}
+class SearchProduct extends OrderEvent{
+  final String searchValue;
+  SearchProduct(this.searchValue);
 }

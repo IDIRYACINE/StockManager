@@ -1,7 +1,7 @@
-
-
-enum Services{
+enum Services {
   stockService,
   depositService,
-  purchaseService, SellersService,
+  purchaseService,
+  sellersService,
+  authService,
 }

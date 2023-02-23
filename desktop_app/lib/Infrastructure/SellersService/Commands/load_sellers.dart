@@ -7,7 +7,7 @@
     LoadSellersResponse> {
   static final eventId = SellersApi.loadSellers.index;
   static final eventName = SellersApi.loadSellers.name;
-  static final serviceId = Services.SellersService.index;
+  static final serviceId = Services.sellersService.index;
 
   LoadSellers() : super(eventId, eventName);
 

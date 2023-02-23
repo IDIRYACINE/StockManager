@@ -7,7 +7,7 @@
     RegisterSellerResponse> {
   static final eventId = SellersApi.registerSeller.index;
   static final eventName = SellersApi.registerSeller.name;
-  static final serviceId = Services.SellersService.index;
+  static final serviceId = Services.sellersService.index;
 
   RegisterSeller() : super(eventId, eventName);
 
