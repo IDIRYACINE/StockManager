@@ -1,0 +1,130 @@
+
+
+datasource sqlite_db {
+  provider = "sqlite"
+  url      = env("SQLITE_URL")
+}
+
+model Sellers {
+    seller_id    Int            @id @default(autoincrement())
+    seller_name  String
+    seller_phone String
+    picture      String
+    Transactions Transactions[]
+}
+
+model TransactionTypes {
+    transaction_type_id Int            @id @default(autoincrement())
+    type_name           String
+    description         String
+    Transactions        Transactions[]
+}
+
+model City {
+    city_id      Int            @id
+    city_name    String
+    Transactions Transactions[]
+}
+
+model TransactionStatus {
+    transaction_status_id Int            @id @default(autoincrement())
+    name                  String
+    description           String
+    Transactions          Transactions[]
+}
+
+model TransactionProduct {
+    transaction_id Int    @id @default(autoincrement())
+    product_id     Int
+    quantity       Int
+    price          Float
+    product_name   String
+
+    product Products @relation(fields: [product_id], references: [product_id])
+}
+
+model Payements {
+    payement_id    Int
+    transaction_id Int
+    payement       Float
+
+    transaction Transactions @relation(fields: [transaction_id], references: [transaction_id])
+
+    @@id([transaction_id, payement_id])
+}
+
+model Transactions {
+    transaction_id Int @id
+    seller_id      Int
+    product_id     Int
+
+    customer_name  String
+    customer_phone String
+
+    city_id Int
+    address String
+
+    quantity Int
+    date     DateTime
+
+    remainingPayement Float
+    totalPayement     Float
+
+    seller Sellers @relation(fields: [seller_id], references: [seller_id])
+
+    city City @relation(fields: [city_id], references: [city_id])
+
+    transaction_type_id Int
+    transaction_type    TransactionTypes @relation(fields: [transaction_type_id], references: [transaction_type_id])
+
+    status_id Int               @default(1)
+    status    TransactionStatus @relation(fields: [status_id], references: [transaction_status_id])
+    Payements Payements[]
+}
+
+model ProductFamily {
+    id       Int        @id @default(autoincrement())
+    name     String
+    Products Products[]
+}
+
+model Products {
+    product_id   Int    @id @default(autoincrement())
+    reference    Int
+    name         String
+    buyingPrice  Float
+    sellingPrice Float
+    description  String
+    picture      String
+    family_id    Int
+
+    family ProductFamily @relation(fields: [family_id], references: [id])
+
+    ProductModel       ProductModel[]
+    TransactionProduct TransactionProduct[]
+}
+
+model ProductModel {
+    product_id Int
+    color_id   Int
+    size_id    Int
+    quantity   Int
+
+    product Products @relation(fields: [product_id], references: [product_id])
+    size    Sizes    @relation(fields: [size_id], references: [id])
+    color   Colors   @relation(fields: [color_id], references: [id])
+
+    @@id([product_id, color_id, size_id])
+}
+
+model Colors {
+    id           Int            @id
+    color        String
+    ProductModel ProductModel[]
+}
+
+model Sizes {
+    id           Int            @id
+    size         String
+    ProductModel ProductModel[]
+}
