@@ -6,22 +6,30 @@
   "scripts": {
     "build": "tsc",
     "start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "prisma-gen:sqlite" : "npx prisma migrate dev --name init"
+    "prisma-gen:sqlite": "npx prisma migrate dev --name init",
+    "prisma-gen:graphql": "npx prisma generate"
   },
   "dependencies": {
     "@apollo/server": "^4.4.0",
+    "@generated/graphql": "file:prisma/generated",
     "@prisma/client": "^4.10.1",
+    "@types/graphql-fields": "^1.3.4",
+    "class-validator": "^0.14.0",
     "cors": "^2.8.5",
-    "express": "^4.18.2",
     "graphql": "^16.6.0",
+    "graphql-fields": "^2.0.3",
+    "graphql-scalars": "^1.20.1",
     "prisma": "^4.10.1",
-    "sqlite3": "^5.1.4"
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.1.4",
+    "tslib": "^2.5.0",
+    "type-graphql": "^2.0.0-beta"
   },
   "devDependencies": {
-    "@types/express": "^4.17.17",
     "@types/node": "^18.14.1",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
+    "typegraphql-prisma": "^0.24.0",
     "typescript": "^4.9.5"
   }
 }

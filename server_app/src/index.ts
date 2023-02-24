@@ -1,11 +1,8 @@
 
-import express from "express";
-
-const app = express();
-const port = 3000 || process.env.PORT;
+import { bootstrapGraphQl   } from "./router";
 
 
+bootstrapGraphQl().then((url) => {
+    console.log(`Apollo is running on ${url.url}`);
+})
 
-app.listen(port, () => {
-    console.log("Server is running on port 3000")
-});

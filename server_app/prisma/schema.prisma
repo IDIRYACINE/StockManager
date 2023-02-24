@@ -1,8 +1,17 @@
-
-
 datasource sqlite_db {
-  provider = "sqlite"
-  url      = env("SQLITE_URL")
+    provider = "sqlite"
+    url      = env("SQLITE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "./generated/client"
+}
+
+generator typegraphql {
+    provider           = "typegraphql-prisma"
+    output             = "./generated/type-graphql"
+    emitTranspiledCode = true
 }
 
 model Sellers {
