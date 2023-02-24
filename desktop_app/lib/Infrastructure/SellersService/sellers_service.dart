@@ -1,5 +1,8 @@
 import 'package:stock_manager/Application/ServiceStore/service_store.dart';
+import 'package:stock_manager/Infrastructure/GraphQlService/graphql.dart';
 import 'package:stock_manager/Infrastructure/helpers.dart';
+
+import 'Commands/commands.dart';
 
 class SellersService extends Service {
   SellersService._(super.searchAlgorithm);
@@ -32,5 +35,15 @@ class SellersService extends Service {
     throw UnimplementedError();
   }
 
-  static void _registerBaseCommands(SellersService instance) {}
+  static void _registerBaseCommands(SellersService instance) {
+    final graphQL = getGraphQlClient();
+
+    instance.registerCommandAtIndex(LoadSellers(graphQL));
+
+    instance.registerCommandAtIndex(RegisterSeller(graphQL));
+
+    instance.registerCommandAtIndex(UpdateSeller(graphQL));
+
+    instance.registerCommandAtIndex(DeleteSeller(graphQL));
+  }
 }

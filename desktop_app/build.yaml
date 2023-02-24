@@ -1,0 +1,13 @@
+# build.yaml
+
+targets:
+  $default:
+    builders:
+      graphql_codegen:
+        options:
+          query : true
+          trace : true
+          clients:
+            - graphql
+          outputDirectory : ../Infrastructure/GraphQlService/Generated
+          

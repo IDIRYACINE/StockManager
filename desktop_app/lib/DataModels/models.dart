@@ -73,40 +73,6 @@ class Product {
   }
 }
 
-class Seller {
-  int sellerCode;
-  String name;
-  int phone;
-  String imageUrl;
-
-  Seller(
-      {required this.sellerCode,
-      required this.name,
-      required this.phone,
-      required this.imageUrl});
-
-  Seller copyWith({
-    String? name,
-    int? phone,
-    String? imageUrl,
-  }) {
-    return Seller(
-      sellerCode: sellerCode,
-      name: name ?? this.name,
-      phone: phone ?? this.phone,
-      imageUrl: imageUrl ?? this.imageUrl,
-    );
-  }
-
-  static Seller defaultInstance() {
-    return Seller(
-      sellerCode: Utility.getTimeStamp(),
-      name: '',
-      phone: 0,
-      imageUrl: '',
-    );
-  }
-}
 
 class ProductFamily {
   String name;
