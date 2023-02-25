@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 
 abstract class SaleEditorMode<T> {
   final TextEditingController nameController = TextEditingController(text: '');

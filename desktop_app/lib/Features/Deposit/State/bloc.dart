@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 import 'package:stock_manager/Features/Deposit/State/helpers/state_helpers.dart';
-import 'package:stock_manager/DataModels/models.dart';
 
 import 'deposit.dart';
 import 'helpers/events_helpers.dart';

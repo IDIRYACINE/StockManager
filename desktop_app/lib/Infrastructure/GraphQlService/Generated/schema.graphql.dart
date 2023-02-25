@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, avoid_as, unnecessary_this, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, avoid_print, avoid_redundant_argument_values, avoid_unused_constructor_parameters, unnecessary_this, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, avoid_print, avoid_redundant_argument_values, avoid_unused_constructor_parameters, avoid_unused_constructor_parameters, av
+
 class Input$CityWhereInput {
   factory Input$CityWhereInput({
     List<Input$CityWhereInput>? AND,

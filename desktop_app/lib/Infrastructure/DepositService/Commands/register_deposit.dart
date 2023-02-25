@@ -1,5 +1,5 @@
 import 'package:stock_manager/Application/ServiceStore/service.dart';
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 import 'package:stock_manager/Infrastructure/DepositService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 

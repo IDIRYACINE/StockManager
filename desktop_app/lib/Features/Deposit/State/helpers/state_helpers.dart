@@ -1,5 +1,5 @@
 
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 
 Record updateRecordAmounts(Record record , bool isAdd , RecordProduct product){
   final newDepositRecord = record.copyWith(

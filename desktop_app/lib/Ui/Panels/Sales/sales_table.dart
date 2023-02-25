@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 import 'package:stock_manager/Features/Purchase/State/bloc.dart';
 import 'package:stock_manager/Features/Purchase/State/state.dart';
 
 import 'package:stock_manager/Features/Purchase/Logic/sales_controller.dart';
-import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';

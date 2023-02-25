@@ -3,6 +3,7 @@ import 'package:stock_manager/Application/Utility/Adapters/dropdown_adapter.dart
 import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/seller.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 import 'package:stock_manager/Types/i_delegates.dart';
 import 'package:stock_manager/Application/Editors/record_product_mode.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';

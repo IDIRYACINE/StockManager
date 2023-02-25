@@ -1,4 +1,4 @@
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Infrastructure/PurchaseService/service.dart' as purchase_service; 
 

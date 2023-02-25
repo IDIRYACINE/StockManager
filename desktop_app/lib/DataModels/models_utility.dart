@@ -1,3 +1,5 @@
+import 'package:stock_manager/Domain/Models/transaction.dart';
+
 import 'models.dart';
 import 'models_stats.dart';
 import 'type_defs.dart';
