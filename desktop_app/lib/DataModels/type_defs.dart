@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:stock_manager/Domain/Models/product.dart';
 
-import 'models.dart';
 
 typedef ValidationFunction<T> = String? Function(T? value);
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/product.dart';
 
 class ProductFormEditor {
   final TextEditingController productNameController =
@@ -29,6 +29,6 @@ class ProductFormEditor {
     minSellingPriceController.text = product.sellingPrice.toString();
     sellingPriceController.text = product.sellingPrice.toString();
     remainingQuantity.text = product.totalQuantity.toString();
-    imageUrlNotifier.value = product.imageUrl??"";
+    imageUrlNotifier.value = product.imageUrl ?? "";
   }
 }

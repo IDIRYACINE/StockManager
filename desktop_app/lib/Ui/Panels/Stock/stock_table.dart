@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Domain/Models/product.dart';
 
 import 'package:stock_manager/Features/Stock/State/stock.dart';
 import 'package:stock_manager/Features/Stock/Logic/stock_controller.dart';
-import 'package:stock_manager/DataModels/models.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
+
 
 class StockTable extends StatelessWidget {
   const StockTable({Key? key}) : super(key: key);

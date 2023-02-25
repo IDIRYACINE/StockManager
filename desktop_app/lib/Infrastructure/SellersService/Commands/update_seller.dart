@@ -6,7 +6,6 @@ import 'package:stock_manager/Infrastructure/services.dart';
 import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
     as graphql_service;
 
-
 class UpdateSeller extends Command<UpdateSellerEventData,
     UpdateSellerRawEventData, UpdateSellerResponse> {
   static final eventId = SellersApi.updateSeller.index;
@@ -18,7 +17,8 @@ class UpdateSeller extends Command<UpdateSellerEventData,
   UpdateSeller(this.graphQl) : super(eventId, eventName);
 
   @override
-  Future<UpdateSellerResponse> handleEvent(UpdateSellerEventData eventData) async{
+  Future<UpdateSellerResponse> handleEvent(
+      UpdateSellerEventData eventData) async {
     const mutationDoc = r"""
             mutation UpdateOneSellers($data: SellersUpdateInput!, $where: SellersWhereUniqueInput!) {
   updateOneSellers(data: $data, where: $where) {
@@ -27,35 +27,32 @@ class UpdateSeller extends Command<UpdateSellerEventData,
 }
     """;
 
-
-    
     final seller = eventData.seller;
 
     final where = graphql_service.Input$SellersWhereUniqueInput(
         seller_id: seller.sellerCode);
 
     final input = graphql_service.Input$SellersUpdateInput(
-        seller_name: graphql_service.Input$StringFieldUpdateOperationsInput(
-            $set: seller.name),
-        seller_phone: graphql_service.Input$StringFieldUpdateOperationsInput(
-            $set: seller.phone.toString()),
+      seller_name: graphql_service.Input$StringFieldUpdateOperationsInput(
+          $set: seller.name),
+      seller_phone: graphql_service.Input$StringFieldUpdateOperationsInput(
+          $set: seller.phone.toString()),
     );
 
     final MutationOptions options = MutationOptions(
       document: gql(mutationDoc),
-      variables: {"data": input,
-      "where": where},
+      variables: {"data": input, "where": where},
     );
 
     final result = await graphQl.mutate(options);
 
     if (result.hasException) {
       return UpdateSellerResponse(
-          messageId: eventData.messageId, status: ServiceEventResponseStatus.error);
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
     }
 
     return UpdateSellerResponse(messageId: eventData.messageId);
-
   }
 
   @override
@@ -66,7 +63,8 @@ class UpdateSeller extends Command<UpdateSellerEventData,
 }
 
 class UpdateSellerResponse extends ServiceEventResponse {
-  UpdateSellerResponse({required int messageId,
+  UpdateSellerResponse(
+      {required int messageId,
       ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
       : super(messageId, status);
 }
@@ -79,7 +77,8 @@ class UpdateSellerRawEventData extends RawServiceEventData {
 
 class UpdateSellerEventData extends ServiceEventData<UpdateSellerRawEventData> {
   final Seller seller;
-  UpdateSellerEventData({required String requesterId, required this.seller}) : super(requesterId);
+  UpdateSellerEventData({required String requesterId, required this.seller})
+      : super(requesterId);
 
   @override
   UpdateSellerRawEventData toRawServiceEventData() {
