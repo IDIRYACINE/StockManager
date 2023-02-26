@@ -1,0 +1,80 @@
+mutation CreateOneProductModel($data: ProductModelCreateInput!) {
+  createOneProductModel(data: $data) {
+    size_id
+    color_id
+    product_id
+  }
+}
+
+mutation CreateOneProducts($data: ProductsCreateInput!) {
+  createOneProducts(data: $data) {
+    product_id
+  }
+}
+
+mutation DeleteOneProductModel($where: ProductModelWhereUniqueInput!) {
+  deleteOneProductModel(where: $where) {
+    product_id
+  }
+}
+
+mutation DeleteOneProducts($where: ProductsWhereUniqueInput!) {
+  deleteOneProducts(where: $where) {
+    product_id
+  }
+}
+
+
+query FindManyProducts($where: ProductsWhereInput) {
+  findManyProducts(where: $where) {
+    buyingPrice
+    description
+    name
+    picture
+    product_id
+    reference
+    sellingPrice
+    family_id
+    ProductModel {
+      size_id
+      color_id
+      quantity
+      color {
+        color
+      }
+      size {
+        size
+      }
+    }
+  }
+}
+
+query FindFirstProducts($where: ProductsWhereInput) {
+  findFirstProducts(where: $where) {
+    picture
+    product_id
+    reference
+    sellingPrice
+    name
+    family_id
+    description
+    buyingPrice
+    family {
+      name
+    }
+  }
+}
+
+mutation UpdateOneProducts($data: ProductsUpdateInput!, $where: ProductsWhereUniqueInput!) {
+  updateOneProducts(data: $data, where: $where) {
+    product_id
+  }
+}
+
+mutation UpdateOneProductModel($data: ProductModelUpdateInput!, $where: ProductModelWhereUniqueInput!) {
+  updateOneProductModel(data: $data, where: $where) {
+    product_id
+    color_id
+    size_id
+  }
+}

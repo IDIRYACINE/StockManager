@@ -3,7 +3,6 @@ import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
-
 import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
     as graphql_service;
 
@@ -22,7 +21,7 @@ class LoadProducts extends Command<LoadProductsEventData,
       LoadProductsEventData eventData) async {
     
 
-    final QueryOptions options = graphql_service.Options$Query$LoadAllProducts();
+    final QueryOptions options = graphql_service.Options$Query$FindManyProducts();
 
     final result = await graphQl.query(options);
 

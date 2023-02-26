@@ -1,0 +1,30 @@
+
+query LoadAllTransactions {
+  findManyTransactions {
+    address
+    customer_name
+    customer_phone
+    date
+    product_id
+    quantity
+    remainingPayement
+    transaction_id
+    transaction_type {
+      transaction_type_id
+      type_name
+    }
+    city {
+      city_id
+      city_name
+    }
+    seller {
+      seller_id
+      seller_name
+    }
+    totalPayement
+    status {
+      transaction_status_id
+      name
+    }
+  }
+}

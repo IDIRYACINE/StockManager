@@ -19,20 +19,6 @@ class UpdateProduct extends Command<UpdateProductEventData,
   @override
   Future<UpdateProductResponse> handleEvent(
       UpdateProductEventData eventData) async {
-    const mutationDoc = r"""
-            mutation UpdateOneProducts($data: ProductsUpdateInput!, $where: ProductsWhereUniqueInput!) {
-  updateOneProducts(data: $data, where: $where) {
-    buyingPrice
-    description
-    family_id
-    name
-    picture
-    reference
-    sellingPrice
-  }
-}
-    """;
-
     final product = eventData.product;
 
     final where = graphql_service.Input$ProductsWhereUniqueInput(
@@ -53,10 +39,10 @@ class UpdateProduct extends Command<UpdateProductEventData,
           $set: product.imageUrl),
     );
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutationDoc),
-      variables: {"data": input, "where": where},
-    );
+    final MutationOptions options =
+        graphql_service.Options$Mutation$UpdateOneProducts(
+            variables: graphql_service.Variables$Mutation$UpdateOneProducts(
+                where: where, data: input));
 
     final result = await graphQl.mutate(options);
 

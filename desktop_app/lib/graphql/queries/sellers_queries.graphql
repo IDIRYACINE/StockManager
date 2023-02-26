@@ -1,0 +1,32 @@
+
+
+ mutation DeleteOneSellers($where: SellersWhereUniqueInput!) {
+  deleteOneSellers(where: $where) {
+    seller_id
+  }
+}
+
+query LoadAllSellers {
+  findManySellers {
+    picture
+    seller_id
+    seller_name
+    seller_phone
+  }
+}
+
+mutation CreateOneSellers($data: SellersCreateInput!) {
+  createOneSellers(data: $data) {
+    picture
+    seller_id
+    seller_name
+    seller_phone
+  }
+}
+
+
+mutation UpdateOneSellers($data: SellersUpdateInput!, $where: SellersWhereUniqueInput!) {
+  updateOneSellers(data: $data, where: $where) {
+    seller_id
+  }
+}

@@ -1,7 +1,6 @@
 import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
-
 import 'package:graphql/client.dart';
 import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
     as graphql_service;
@@ -19,19 +18,6 @@ class UpdateProductModel extends Command<UpdateProductModelEventData,
   @override
   Future<UpdateProductModelResponse> handleEvent(
       UpdateProductModelEventData eventData) async {
-    const mutationDoc = r"""
-            mutation UpdateOneProducts($data: ProductsUpdateInput!, $where: ProductsWhereUniqueInput!) {
-  updateOneProducts(data: $data, where: $where) {
-    buyingPrice
-    description
-    family_id
-    name
-    picture
-    reference
-    sellingPrice
-  }
-}
-    """;
 
     final compoundKey = graphql_service
         .Input$ProductModelProduct_idColor_idSize_idCompoundUniqueInput(
@@ -43,17 +29,17 @@ class UpdateProductModel extends Command<UpdateProductModelEventData,
     final where = graphql_service.Input$ProductModelWhereUniqueInput(
         product_id_color_id_size_id: compoundKey);
 
-    //  Input$IntFieldUpdateOperationsInput? quantity,
-    // Input$ProductsUpdateOneRequiredWithoutProductModelNestedInput? product,
-    // Input$SizesUpdateOneRequiredWithoutProductModelNestedInput? size,
-    // Input$ColorsUpdateOneRequiredWithoutProductModelNestedInput? color,
 
-    final input = graphql_service.Input$ProductModelUpdateInput();
+    final input = graphql_service.Input$ProductModelUpdateInput(
+      quantity: graphql_service.Input$IntFieldUpdateOperationsInput(
+        $set : eventData.quantity,
+      ),
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutationDoc),
-      variables: {"data": input, "where": where},
     );
+
+    final MutationOptions options = graphql_service.Options$Mutation$UpdateOneProductModel(
+        variables: graphql_service.Variables$Mutation$UpdateOneProductModel(
+            data: input, where: where));
 
     final result = await graphQl.mutate(options);
 
@@ -91,9 +77,14 @@ class UpdateProductModelEventData
   final int productId;
   final int colorId;
   final int sizeId;
+  final int? quantity;
+
+
+
   UpdateProductModelEventData(
       {required String requesterId,
       required this.productId,
+      this.quantity, 
       required this.colorId,
       required this.sizeId})
       : super(requesterId);
@@ -110,3 +101,4 @@ class UpdateProductModelEvent extends ServiceEvent<UpdateProductModelResponse> {
       : super(UpdateProductModel.eventId, UpdateProductModel.eventName,
             UpdateProductModel.serviceId);
 }
+
