@@ -20,7 +20,7 @@ class LoadTransactions extends Command<LoadTransactionsEventData,
       LoadTransactionsEventData eventData) async{
     
 
-    final QueryOptions options = graphql_service.Options$Query$LoadAllTransactions();
+    final QueryOptions options = graphql_service.Options$Query$FindManyTransactions();
 
     final result = await graphQl.query(options);
 

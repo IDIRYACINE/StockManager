@@ -4,5 +4,5 @@ enum TransactionApi{
   loadTransactions,
   addTransaction,
   updateTransaction,
-  deleteTransaction, registerTransaction, searchTransaction,
+  deleteTransaction, registerTransaction, searchTransaction, quickSearch,
 }

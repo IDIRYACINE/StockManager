@@ -1,6 +1,6 @@
 
-query LoadAllTransactions {
-  findManyTransactions {
+query FindManyTransactions($where: TransactionsWhereInput) {
+  findManyTransactions(where: $where) {
     address
     customer_name
     customer_phone
@@ -25,6 +25,42 @@ query LoadAllTransactions {
     status {
       transaction_status_id
       name
+    }
+  }
+}
+
+mutation CreateOneTransactions($data: TransactionsCreateInput!) {
+  createOneTransactions(data: $data) {
+    transaction_id
+  }
+}
+
+query FindFirstTransactions($where: TransactionsWhereInput) {
+  findFirstTransactions(where: $where) {
+    address
+    city_id
+    customer_name
+    customer_phone
+    date
+    product_id
+    quantity
+    remainingPayement
+    seller {
+      seller_name
+    }
+    seller_id
+    status {
+      name
+    }
+    status_id
+    totalPayement
+    transaction_id
+    transaction_type_id
+    transaction_type {
+      type_name
+    }
+    city {
+      city_name
     }
   }
 }

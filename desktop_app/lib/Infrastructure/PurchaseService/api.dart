@@ -1,4 +1,0 @@
-
-enum PurchaseApi{
-  registerPurchase,
-}
