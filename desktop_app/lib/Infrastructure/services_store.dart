@@ -1,4 +1,7 @@
 import 'package:stock_manager/Application/ServiceStore/service.dart';
+import 'package:stock_manager/Infrastructure/SellersService/service.dart';
+import 'package:stock_manager/Infrastructure/StockService/service.dart';
+import 'package:stock_manager/Infrastructure/TransactionService/service.dart';
 
 class ServicesGateway extends ServiceStore {
   static ServicesGateway? _instance;
@@ -23,5 +26,14 @@ class ServicesGateway extends ServiceStore {
     );
   }
 
-  static void _registerBaseServices(ServicesGateway gateway) {}
+  static void _registerBaseServices(ServicesGateway gateway) {
+    final sellersService = SellersService.instance();
+    gateway.registerService(sellersService);
+
+    final stockService = StockService.instance();
+    gateway.registerService(stockService);
+
+    final transactionService = TransactionsService.instance();
+    gateway.registerService(transactionService);
+  }
 }

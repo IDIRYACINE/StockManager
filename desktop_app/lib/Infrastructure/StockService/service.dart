@@ -1,3 +1,3 @@
 
-export 'Commands/quick_search_product.dart';
-export 'Commands/search_product.dart';
+export 'Commands/commands.dart';
+export "stock_service.dart";

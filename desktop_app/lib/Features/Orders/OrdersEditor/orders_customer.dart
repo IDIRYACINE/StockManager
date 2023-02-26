@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/order.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Ui/Generics/default_decorator.dart';
 import 'package:stock_manager/Application/Editors/order_mode.dart';

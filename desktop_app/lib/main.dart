@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Features/Deposit/State/bloc.dart';
-import 'package:stock_manager/Features/History/History/State/history.dart';
+import 'package:stock_manager/Features/History/State/history.dart';
 import 'package:stock_manager/Features/Orders/State/bloc.dart';
 import 'package:stock_manager/Features/Sellers/State/sellers.dart';
 import 'package:stock_manager/Features/Statistiques/State/statistiques.dart';

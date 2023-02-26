@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
 import 'package:stock_manager/Application/Utility/utility_wrappers.dart';
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/order.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Domain/Models/transaction.dart';

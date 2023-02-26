@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
@@ -14,6 +13,8 @@ class LoginController {
   void login(BuildContext context) {
     if (username == _harcodedUsername && password == _harcodedPassword) {
       PopupsUtility.displayGenericPopup(context, const Splash());
+
+
     } else {
       showDialog(
         context: context,
@@ -24,4 +25,5 @@ class LoginController {
       );
     }
   }
+  
 }

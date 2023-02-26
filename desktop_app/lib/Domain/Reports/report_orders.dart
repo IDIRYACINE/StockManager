@@ -3,7 +3,7 @@ import 'package:pdf/widgets.dart' as pdf;
 import 'package:stock_manager/Application/Utility/Printer/printer.dart';
 import 'package:stock_manager/Application/Utility/Printer/widgets.dart';
 import 'package:stock_manager/Application/Utility/utility.dart';
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/order.dart';
 import 'package:stock_manager/DataModels/models_utility.dart';
 import 'package:stock_manager/Domain/Models/transaction.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';

@@ -1,4 +1,4 @@
-import 'package:stock_manager/DataModels/models.dart';
+import 'package:stock_manager/Domain/Models/customer.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Domain/Models/transaction.dart';
 

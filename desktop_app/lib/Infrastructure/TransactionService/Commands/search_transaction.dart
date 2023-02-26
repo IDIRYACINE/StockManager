@@ -1,4 +1,5 @@
 import 'package:stock_manager/Application/ServiceStore/service.dart';
+import 'package:stock_manager/Domain/Models/transaction.dart';
 import 'package:stock_manager/Infrastructure/TransactionService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 import 'package:graphql/client.dart';
@@ -18,7 +19,25 @@ class SearchTransaction extends Command<SearchTransactionEventData,
   @override
   Future<SearchTransactionResponse> handleEvent(
       SearchTransactionEventData eventData) async {
-    throw UnimplementedError();
+    final QueryOptions options =
+        graphql_service.Options$Query$FindManyProducts();
+
+    final result = await graphQl.query(options);
+
+    if (result.hasException) {
+      return SearchTransactionResponse(
+        messageId: eventData.messageId,
+        status: ServiceEventResponseStatus.error,
+        transactions: [],
+      );
+    }
+
+    final json = result.data!['findManyProducts'] as List<dynamic>;
+
+    final List<Record> transactions = recordsFromJsonList(json);
+
+    return SearchTransactionResponse(
+        messageId: eventData.messageId, transactions: transactions);
   }
 
   @override
@@ -29,7 +48,12 @@ class SearchTransaction extends Command<SearchTransactionEventData,
 }
 
 class SearchTransactionResponse extends ServiceEventResponse {
-  SearchTransactionResponse(super.messageId, super.responseType);
+  final List<Record> transactions;
+  SearchTransactionResponse(
+      {required int messageId,
+      required this.transactions,
+      ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
+      : super(messageId, status);
 }
 
 class SearchTransactionRawEventData extends RawServiceEventData {
