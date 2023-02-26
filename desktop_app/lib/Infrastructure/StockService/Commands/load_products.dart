@@ -4,6 +4,9 @@ import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 
+import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
+    as graphql_service;
+
 class LoadProducts extends Command<LoadProductsEventData,
     LoadProductsRawEventData, LoadProductsResponse> {
   static final eventId = StockApi.loadProducts.index;
@@ -17,42 +20,9 @@ class LoadProducts extends Command<LoadProductsEventData,
   @override
   Future<LoadProductsResponse> handleEvent(
       LoadProductsEventData eventData) async {
-    const String readAllProducts = r"""
-      query FindManySellers {
-  findManySellers {
-    picture
-    seller_id
-    seller_name
-    seller_phone
-  }
-}query FindManyProducts {
-  findManyProducts {
-    buyingPrice
-    description
-    name
-    picture
-    product_id
-    reference
-    sellingPrice
-    family_id
-    ProductModel {
-      size_id
-      color_id
-      quantity
-      color {
-        color
-      }
-      size {
-        size
-      }
-    }
-  }
-}
-    """;
+    
 
-    final QueryOptions options = QueryOptions(
-      document: gql(readAllProducts),
-    );
+    final QueryOptions options = graphql_service.Options$Query$LoadAllProducts();
 
     final result = await graphQl.query(options);
 

@@ -1,0 +1,502 @@
+type Query {
+  aggregateCity(where: CityWhereInput, orderBy: [CityOrderByWithRelationInput!], cursor: CityWhereUniqueInput, take: Int, skip: Int): AggregateCity!
+  findFirstCity(where: CityWhereInput, orderBy: [CityOrderByWithRelationInput!], cursor: CityWhereUniqueInput, take: Int, skip: Int, distinct: [CityScalarFieldEnum!]): City
+  findFirstCityOrThrow(where: CityWhereInput, orderBy: [CityOrderByWithRelationInput!], cursor: CityWhereUniqueInput, take: Int, skip: Int, distinct: [CityScalarFieldEnum!]): City
+  cities(where: CityWhereInput, orderBy: [CityOrderByWithRelationInput!], cursor: CityWhereUniqueInput, take: Int, skip: Int, distinct: [CityScalarFieldEnum!]): [City!]!
+  city(where: CityWhereUniqueInput!): City
+  getCity(where: CityWhereUniqueInput!): City
+  groupByCity(where: CityWhereInput, orderBy: [CityOrderByWithAggregationInput!], by: [CityScalarFieldEnum!]!, having: CityScalarWhereWithAggregatesInput, take: Int, skip: Int): [CityGroupBy!]!
+  aggregateColors(where: ColorsWhereInput, orderBy: [ColorsOrderByWithRelationInput!], cursor: ColorsWhereUniqueInput, take: Int, skip: Int): AggregateColors!
+  findFirstColors(where: ColorsWhereInput, orderBy: [ColorsOrderByWithRelationInput!], cursor: ColorsWhereUniqueInput, take: Int, skip: Int, distinct: [ColorsScalarFieldEnum!]): Colors
+  findFirstColorsOrThrow(where: ColorsWhereInput, orderBy: [ColorsOrderByWithRelationInput!], cursor: ColorsWhereUniqueInput, take: Int, skip: Int, distinct: [ColorsScalarFieldEnum!]): Colors
+  findManyColors(where: ColorsWhereInput, orderBy: [ColorsOrderByWithRelationInput!], cursor: ColorsWhereUniqueInput, take: Int, skip: Int, distinct: [ColorsScalarFieldEnum!]): [Colors!]!
+  findUniqueColors(where: ColorsWhereUniqueInput!): Colors
+  findUniqueColorsOrThrow(where: ColorsWhereUniqueInput!): Colors
+  groupByColors(where: ColorsWhereInput, orderBy: [ColorsOrderByWithAggregationInput!], by: [ColorsScalarFieldEnum!]!, having: ColorsScalarWhereWithAggregatesInput, take: Int, skip: Int): [ColorsGroupBy!]!
+  aggregatePayements(where: PayementsWhereInput, orderBy: [PayementsOrderByWithRelationInput!], cursor: PayementsWhereUniqueInput, take: Int, skip: Int): AggregatePayements!
+  findFirstPayements(where: PayementsWhereInput, orderBy: [PayementsOrderByWithRelationInput!], cursor: PayementsWhereUniqueInput, take: Int, skip: Int, distinct: [PayementsScalarFieldEnum!]): Payements
+  findFirstPayementsOrThrow(where: PayementsWhereInput, orderBy: [PayementsOrderByWithRelationInput!], cursor: PayementsWhereUniqueInput, take: Int, skip: Int, distinct: [PayementsScalarFieldEnum!]): Payements
+  findManyPayements(where: PayementsWhereInput, orderBy: [PayementsOrderByWithRelationInput!], cursor: PayementsWhereUniqueInput, take: Int, skip: Int, distinct: [PayementsScalarFieldEnum!]): [Payements!]!
+  findUniquePayements(where: PayementsWhereUniqueInput!): Payements
+  findUniquePayementsOrThrow(where: PayementsWhereUniqueInput!): Payements
+  groupByPayements(where: PayementsWhereInput, orderBy: [PayementsOrderByWithAggregationInput!], by: [PayementsScalarFieldEnum!]!, having: PayementsScalarWhereWithAggregatesInput, take: Int, skip: Int): [PayementsGroupBy!]!
+  aggregateProductFamily(where: ProductFamilyWhereInput, orderBy: [ProductFamilyOrderByWithRelationInput!], cursor: ProductFamilyWhereUniqueInput, take: Int, skip: Int): AggregateProductFamily!
+  findFirstProductFamily(where: ProductFamilyWhereInput, orderBy: [ProductFamilyOrderByWithRelationInput!], cursor: ProductFamilyWhereUniqueInput, take: Int, skip: Int, distinct: [ProductFamilyScalarFieldEnum!]): ProductFamily
+  findFirstProductFamilyOrThrow(where: ProductFamilyWhereInput, orderBy: [ProductFamilyOrderByWithRelationInput!], cursor: ProductFamilyWhereUniqueInput, take: Int, skip: Int, distinct: [ProductFamilyScalarFieldEnum!]): ProductFamily
+  productFamilies(where: ProductFamilyWhereInput, orderBy: [ProductFamilyOrderByWithRelationInput!], cursor: ProductFamilyWhereUniqueInput, take: Int, skip: Int, distinct: [ProductFamilyScalarFieldEnum!]): [ProductFamily!]!
+  productFamily(where: ProductFamilyWhereUniqueInput!): ProductFamily
+  getProductFamily(where: ProductFamilyWhereUniqueInput!): ProductFamily
+  groupByProductFamily(where: ProductFamilyWhereInput, orderBy: [ProductFamilyOrderByWithAggregationInput!], by: [ProductFamilyScalarFieldEnum!]!, having: ProductFamilyScalarWhereWithAggregatesInput, take: Int, skip: Int): [ProductFamilyGroupBy!]!
+  aggregateProductModel(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithRelationInput!], cursor: ProductModelWhereUniqueInput, take: Int, skip: Int): AggregateProductModel!
+  findFirstProductModel(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithRelationInput!], cursor: ProductModelWhereUniqueInput, take: Int, skip: Int, distinct: [ProductModelScalarFieldEnum!]): ProductModel
+  findFirstProductModelOrThrow(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithRelationInput!], cursor: ProductModelWhereUniqueInput, take: Int, skip: Int, distinct: [ProductModelScalarFieldEnum!]): ProductModel
+  productModels(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithRelationInput!], cursor: ProductModelWhereUniqueInput, take: Int, skip: Int, distinct: [ProductModelScalarFieldEnum!]): [ProductModel!]!
+  productModel(where: ProductModelWhereUniqueInput!): ProductModel
+  getProductModel(where: ProductModelWhereUniqueInput!): ProductModel
+  groupByProductModel(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithAggregationInput!], by: [ProductModelScalarFieldEnum!]!, having: ProductModelScalarWhereWithAggregatesInput, take: Int, skip: Int): [ProductModelGroupBy!]!
+  aggregateProducts(where: ProductsWhereInput, orderBy: [ProductsOrderByWithRelationInput!], cursor: ProductsWhereUniqueInput, take: Int, skip: Int): AggregateProducts!
+  findFirstProducts(where: ProductsWhereInput, orderBy: [ProductsOrderByWithRelationInput!], cursor: ProductsWhereUniqueInput, take: Int, skip: Int, distinct: [ProductsScalarFieldEnum!]): Products
+  findFirstProductsOrThrow(where: ProductsWhereInput, orderBy: [ProductsOrderByWithRelationInput!], cursor: ProductsWhereUniqueInput, take: Int, skip: Int, distinct: [ProductsScalarFieldEnum!]): Products
+  findManyProducts(where: ProductsWhereInput, orderBy: [ProductsOrderByWithRelationInput!], cursor: ProductsWhereUniqueInput, take: Int, skip: Int, distinct: [ProductsScalarFieldEnum!]): [Products!]!
+  findUniqueProducts(where: ProductsWhereUniqueInput!): Products
+  findUniqueProductsOrThrow(where: ProductsWhereUniqueInput!): Products
+  groupByProducts(where: ProductsWhereInput, orderBy: [ProductsOrderByWithAggregationInput!], by: [ProductsScalarFieldEnum!]!, having: ProductsScalarWhereWithAggregatesInput, take: Int, skip: Int): [ProductsGroupBy!]!
+  aggregateSellers(where: SellersWhereInput, orderBy: [SellersOrderByWithRelationInput!], cursor: SellersWhereUniqueInput, take: Int, skip: Int): AggregateSellers!
+  findFirstSellers(where: SellersWhereInput, orderBy: [SellersOrderByWithRelationInput!], cursor: SellersWhereUniqueInput, take: Int, skip: Int, distinct: [SellersScalarFieldEnum!]): Sellers
+  findFirstSellersOrThrow(where: SellersWhereInput, orderBy: [SellersOrderByWithRelationInput!], cursor: SellersWhereUniqueInput, take: Int, skip: Int, distinct: [SellersScalarFieldEnum!]): Sellers
+  findManySellers(where: SellersWhereInput, orderBy: [SellersOrderByWithRelationInput!], cursor: SellersWhereUniqueInput, take: Int, skip: Int, distinct: [SellersScalarFieldEnum!]): [Sellers!]!
+  findUniqueSellers(where: SellersWhereUniqueInput!): Sellers
+  findUniqueSellersOrThrow(where: SellersWhereUniqueInput!): Sellers
+  groupBySellers(where: SellersWhereInput, orderBy: [SellersOrderByWithAggregationInput!], by: [SellersScalarFieldEnum!]!, having: SellersScalarWhereWithAggregatesInput, take: Int, skip: Int): [SellersGroupBy!]!
+  aggregateSizes(where: SizesWhereInput, orderBy: [SizesOrderByWithRelationInput!], cursor: SizesWhereUniqueInput, take: Int, skip: Int): AggregateSizes!
+  findFirstSizes(where: SizesWhereInput, orderBy: [SizesOrderByWithRelationInput!], cursor: SizesWhereUniqueInput, take: Int, skip: Int, distinct: [SizesScalarFieldEnum!]): Sizes
+  findFirstSizesOrThrow(where: SizesWhereInput, orderBy: [SizesOrderByWithRelationInput!], cursor: SizesWhereUniqueInput, take: Int, skip: Int, distinct: [SizesScalarFieldEnum!]): Sizes
+  findManySizes(where: SizesWhereInput, orderBy: [SizesOrderByWithRelationInput!], cursor: SizesWhereUniqueInput, take: Int, skip: Int, distinct: [SizesScalarFieldEnum!]): [Sizes!]!
+  findUniqueSizes(where: SizesWhereUniqueInput!): Sizes
+  findUniqueSizesOrThrow(where: SizesWhereUniqueInput!): Sizes
+  groupBySizes(where: SizesWhereInput, orderBy: [SizesOrderByWithAggregationInput!], by: [SizesScalarFieldEnum!]!, having: SizesScalarWhereWithAggregatesInput, take: Int, skip: Int): [SizesGroupBy!]!
+  aggregateTransactionProduct(where: TransactionProductWhereInput, orderBy: [TransactionProductOrderByWithRelationInput!], cursor: TransactionProductWhereUniqueInput, take: Int, skip: Int): AggregateTransactionProduct!
+  findFirstTransactionProduct(where: TransactionProductWhereInput, orderBy: [TransactionProductOrderByWithRelationInput!], cursor: TransactionProductWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionProductScalarFieldEnum!]): TransactionProduct
+  findFirstTransactionProductOrThrow(where: TransactionProductWhereInput, orderBy: [TransactionProductOrderByWithRelationInput!], cursor: TransactionProductWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionProductScalarFieldEnum!]): TransactionProduct
+  transactionProducts(where: TransactionProductWhereInput, orderBy: [TransactionProductOrderByWithRelationInput!], cursor: TransactionProductWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionProductScalarFieldEnum!]): [TransactionProduct!]!
+  transactionProduct(where: TransactionProductWhereUniqueInput!): TransactionProduct
+  getTransactionProduct(where: TransactionProductWhereUniqueInput!): TransactionProduct
+  groupByTransactionProduct(where: TransactionProductWhereInput, orderBy: [TransactionProductOrderByWithAggregationInput!], by: [TransactionProductScalarFieldEnum!]!, having: TransactionProductScalarWhereWithAggregatesInput, take: Int, skip: Int): [TransactionProductGroupBy!]!
+  aggregateTransactionStatus(where: TransactionStatusWhereInput, orderBy: [TransactionStatusOrderByWithRelationInput!], cursor: TransactionStatusWhereUniqueInput, take: Int, skip: Int): AggregateTransactionStatus!
+  findFirstTransactionStatus(where: TransactionStatusWhereInput, orderBy: [TransactionStatusOrderByWithRelationInput!], cursor: TransactionStatusWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionStatusScalarFieldEnum!]): TransactionStatus
+  findFirstTransactionStatusOrThrow(where: TransactionStatusWhereInput, orderBy: [TransactionStatusOrderByWithRelationInput!], cursor: TransactionStatusWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionStatusScalarFieldEnum!]): TransactionStatus
+  transactionStatuses(where: TransactionStatusWhereInput, orderBy: [TransactionStatusOrderByWithRelationInput!], cursor: TransactionStatusWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionStatusScalarFieldEnum!]): [TransactionStatus!]!
+  transactionStatus(where: TransactionStatusWhereUniqueInput!): TransactionStatus
+  getTransactionStatus(where: TransactionStatusWhereUniqueInput!): TransactionStatus
+  groupByTransactionStatus(where: TransactionStatusWhereInput, orderBy: [TransactionStatusOrderByWithAggregationInput!], by: [TransactionStatusScalarFieldEnum!]!, having: TransactionStatusScalarWhereWithAggregatesInput, take: Int, skip: Int): [TransactionStatusGroupBy!]!
+  aggregateTransactionTypes(where: TransactionTypesWhereInput, orderBy: [TransactionTypesOrderByWithRelationInput!], cursor: TransactionTypesWhereUniqueInput, take: Int, skip: Int): AggregateTransactionTypes!
+  findFirstTransactionTypes(where: TransactionTypesWhereInput, orderBy: [TransactionTypesOrderByWithRelationInput!], cursor: TransactionTypesWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionTypesScalarFieldEnum!]): TransactionTypes
+  findFirstTransactionTypesOrThrow(where: TransactionTypesWhereInput, orderBy: [TransactionTypesOrderByWithRelationInput!], cursor: TransactionTypesWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionTypesScalarFieldEnum!]): TransactionTypes
+  findManyTransactionTypes(where: TransactionTypesWhereInput, orderBy: [TransactionTypesOrderByWithRelationInput!], cursor: TransactionTypesWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionTypesScalarFieldEnum!]): [TransactionTypes!]!
+  findUniqueTransactionTypes(where: TransactionTypesWhereUniqueInput!): TransactionTypes
+  findUniqueTransactionTypesOrThrow(where: TransactionTypesWhereUniqueInput!): TransactionTypes
+  groupByTransactionTypes(where: TransactionTypesWhereInput, orderBy: [TransactionTypesOrderByWithAggregationInput!], by: [TransactionTypesScalarFieldEnum!]!, having: TransactionTypesScalarWhereWithAggregatesInput, take: Int, skip: Int): [TransactionTypesGroupBy!]!
+  aggregateTransactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int): AggregateTransactions!
+  findFirstTransactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionsScalarFieldEnum!]): Transactions
+  findFirstTransactionsOrThrow(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionsScalarFieldEnum!]): Transactions
+  findManyTransactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionsScalarFieldEnum!]): [Transactions!]!
+  findUniqueTransactions(where: TransactionsWhereUniqueInput!): Transactions
+  findUniqueTransactionsOrThrow(where: TransactionsWhereUniqueInput!): Transactions
+  groupByTransactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithAggregationInput!], by: [TransactionsScalarFieldEnum!]!, having: TransactionsScalarWhereWithAggregatesInput, take: Int, skip: Int): [TransactionsGroupBy!]!
+}
+
+type AggregateCity {
+  _count: CityCountAggregate
+  _avg: CityAvgAggregate
+  _sum: CitySumAggregate
+  _min: CityMinAggregate
+  _max: CityMaxAggregate
+}
+
+type CityCountAggregate {
+  city_id: Int!
+  city_name: Int!
+  _all: Int!
+}
+
+type CityAvgAggregate {
+  city_id: Float
+}
+
+type CitySumAggregate {
+  city_id: Int
+}
+
+type CityMinAggregate {
+  city_id: Int
+  city_name: String
+}
+
+type CityMaxAggregate {
+  city_id: Int
+  city_name: String
+}
+
+input CityWhereInput {
+  AND: [CityWhereInput!]
+  OR: [CityWhereInput!]
+  NOT: [CityWhereInput!]
+  city_id: IntFilter
+  city_name: StringFilter
+  Transactions: TransactionsListRelationFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input TransactionsListRelationFilter {
+  every: TransactionsWhereInput
+  some: TransactionsWhereInput
+  none: TransactionsWhereInput
+}
+
+input TransactionsWhereInput {
+  AND: [TransactionsWhereInput!]
+  OR: [TransactionsWhereInput!]
+  NOT: [TransactionsWhereInput!]
+  transaction_id: IntFilter
+  seller_id: IntFilter
+  product_id: IntFilter
+  customer_name: StringFilter
+  customer_phone: StringFilter
+  city_id: IntFilter
+  address: StringFilter
+  quantity: IntFilter
+  date: DateTimeFilter
+  remainingPayement: FloatFilter
+  totalPayement: FloatFilter
+  seller: SellersRelationFilter
+  city: CityRelationFilter
+  transaction_type_id: IntFilter
+  transaction_type: TransactionTypesRelationFilter
+  status_id: IntFilter
+  status: TransactionStatusRelationFilter
+  Payements: PayementsListRelationFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input FloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+input NestedFloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+input SellersRelationFilter {
+  is: SellersWhereInput
+  isNot: SellersWhereInput
+}
+
+input SellersWhereInput {
+  AND: [SellersWhereInput!]
+  OR: [SellersWhereInput!]
+  NOT: [SellersWhereInput!]
+  seller_id: IntFilter
+  seller_name: StringFilter
+  seller_phone: StringFilter
+  picture: StringFilter
+  Transactions: TransactionsListRelationFilter
+}
+
+input CityRelationFilter {
+  is: CityWhereInput
+  isNot: CityWhereInput
+}
+
+input TransactionTypesRelationFilter {
+  is: TransactionTypesWhereInput
+  isNot: TransactionTypesWhereInput
+}
+
+input TransactionTypesWhereInput {
+  AND: [TransactionTypesWhereInput!]
+  OR: [TransactionTypesWhereInput!]
+  NOT: [TransactionTypesWhereInput!]
+  transaction_type_id: IntFilter
+  type_name: StringFilter
+  description: StringFilter
+  Transactions: TransactionsListRelationFilter
+}
+
+input TransactionStatusRelationFilter {
+  is: TransactionStatusWhereInput
+  isNot: TransactionStatusWhereInput
+}
+
+input TransactionStatusWhereInput {
+  AND: [TransactionStatusWhereInput!]
+  OR: [TransactionStatusWhereInput!]
+  NOT: [TransactionStatusWhereInput!]
+  transaction_status_id: IntFilter
+  name: StringFilter
+  description: StringFilter
+  Transactions: TransactionsListRelationFilter
+}
+
+input PayementsListRelationFilter {
+  every: PayementsWhereInput
+  some: PayementsWhereInput
+  none: PayementsWhereInput
+}
+
+input PayementsWhereInput {
+  AND: [PayementsWhereInput!]
+  OR: [PayementsWhereInput!]
+  NOT: [PayementsWhereInput!]
+  payement_id: IntFilter
+  transaction_id: IntFilter
+  payement: FloatFilter
+  transaction: TransactionsRelationFilter
+}
+
+input TransactionsRelationFilter {
+  is: TransactionsWhereInput
+  isNot: TransactionsWhereInput
+}
+
+input CityOrderByWithRelationInput {
+  city_id: SortOrder
+  city_name: SortOrder
+  Transactions: TransactionsOrderByRelationAggregateInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input TransactionsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input CityWhereUniqueInput {
+  city_id: Int
+}
+
+type City {
+  city_id: Int!
+  city_name: String!
+  _count: CityCount
+  Transactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionsScalarFieldEnum!]): [Transactions!]!
+}
+
+type CityCount {
+  Transactions: Int!
+}
+
+type Transactions {
+  transaction_id: Int!
+  seller_id: Int!
+  product_id: Int!
+  customer_name: String!
+  customer_phone: String!
+  city_id: Int!
+  address: String!
+  quantity: Int!
+  date: DateTime!
+  remainingPayement: Float!
+  totalPayement: Float!
+  transaction_type_id: Int!
+  status_id: Int!
+  _count: TransactionsCount
+  seller: Sellers!
+  city: City!
+  transaction_type: TransactionTypes!
+  status: TransactionStatus!
+  Payements(where: PayementsWhereInput, orderBy: [PayementsOrderByWithRelationInput!], cursor: PayementsWhereUniqueInput, take: Int, skip: Int, distinct: [PayementsScalarFieldEnum!]): [Payements!]!
+}
+
+type TransactionsCount {
+  Payements: Int!
+}
+
+type Sellers {
+  seller_id: Int!
+  seller_name: String!
+  seller_phone: String!
+  picture: String!
+  _count: SellersCount
+  Transactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionsScalarFieldEnum!]): [Transactions!]!
+}
+
+type SellersCount {
+  Transactions: Int!
+}
+
+input TransactionsOrderByWithRelationInput {
+  transaction_id: SortOrder
+  seller_id: SortOrder
+  product_id: SortOrder
+  customer_name: SortOrder
+  customer_phone: SortOrder
+  city_id: SortOrder
+  address: SortOrder
+  quantity: SortOrder
+  date: SortOrder
+  remainingPayement: SortOrder
+  totalPayement: SortOrder
+  seller: SellersOrderByWithRelationInput
+  city: CityOrderByWithRelationInput
+  transaction_type_id: SortOrder
+  transaction_type: TransactionTypesOrderByWithRelationInput
+  status_id: SortOrder
+  status: TransactionStatusOrderByWithRelationInput
+  Payements: PayementsOrderByRelationAggregateInput
+}
+
+input SellersOrderByWithRelationInput {
+  seller_id: SortOrder
+  seller_name: SortOrder
+  seller_phone: SortOrder
+  picture: SortOrder
+  Transactions: TransactionsOrderByRelationAggregateInput
+}
+
+input TransactionTypesOrderByWithRelationInput {
+  transaction_type_id: SortOrder
+  type_name: SortOrder
+  description: SortOrder
+  Transactions: TransactionsOrderByRelationAggregateInput
+}
+
+input TransactionStatusOrderByWithRelationInput {
+  transaction_status_id: SortOrder
+  name: SortOrder
+  description: SortOrder
+  Transactions: TransactionsOrderByRelationAggregateInput
+}
+
+input PayementsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TransactionsWhereUniqueInput {
+  transaction_id: Int
+}
+
+enum TransactionsScalarFieldEnum {
+  transaction_id
+  seller_id
+  product_id
+  customer_name
+  customer_phone
+  city_id
+  address
+  quantity
+  date
+  remainingPayement
+  totalPayement
+  transaction_type_id
+  status_id
+}
+
+type TransactionTypes {
+  transaction_type_id: Int!
+  type_name: String!
+  description: String!
+  _count: TransactionTypesCount
+  Transactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionsScalarFieldEnum!]): [Transactions!]!
+}
+
+type TransactionTypesCount {
+  Transactions: Int!
+}
+
+type TransactionStatus {
+  transaction_status_id: Int!
+  name: String!
+  description: String!
+  _count: TransactionStatusCount
+  Transactions(where: TransactionsWhereInput, orderBy: [TransactionsOrderByWithRelationInput!], cursor: TransactionsWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionsScalarFieldEnum!]): [Transactions!]!
+}
+
+type TransactionStatusCount {
+  Transactions: Int!
+}
+
+type Payements {
+  payement_id: Int!
+  transaction_id: Int!
+  payement: Float!
+  transaction: Transactions!
+}
+
+input PayementsOrderByWithRelationInput {
+  payement_id: SortOrder
+  transaction_id: SortOrder
+  payement: SortOrder
+  transaction: TransactionsOrderByWithRelationInput
+}

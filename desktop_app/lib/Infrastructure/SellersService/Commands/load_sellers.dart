@@ -3,6 +3,8 @@ import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Domain/Models/seller.dart';
 import 'package:stock_manager/Infrastructure/SellersService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
+import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
+    as graphql_service;
 
 class LoadSellers extends Command<LoadSellersEventData, LoadSellersRawEventData,
     LoadSellersResponse> {
@@ -15,35 +17,24 @@ class LoadSellers extends Command<LoadSellersEventData, LoadSellersRawEventData,
   LoadSellers(this.graphQl) : super(eventId, eventName);
 
   @override
-  Future<LoadSellersResponse> handleEvent(LoadSellersEventData eventData) async{
-    const String readAllSellers = r"""
-      query FindManySellers {
-  findManySellers {
-    picture
-    seller_id
-    seller_name
-    seller_phone
-  }
-}
-    """;
+  Future<LoadSellersResponse> handleEvent(
+      LoadSellersEventData eventData) async {
+    final QueryOptions options = graphql_service.Options$Query$LoadAllSellers();
 
-    final QueryOptions options = QueryOptions(
-      document: gql(readAllSellers),
-    );
-
-    final result = await  graphQl.query(options);
+    final result = await graphQl.query(options);
 
     if (result.hasException) {
       return LoadSellersResponse(
-          messageId: eventData.messageId, status: ServiceEventResponseStatus.error);
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
     }
 
     final json = result.data!['findManySellers'] as List<dynamic>;
 
     final List<Seller> sellers = sellersFromJsonList(json);
 
-    return LoadSellersResponse(messageId: eventData.messageId, sellers: sellers);
-
+    return LoadSellersResponse(
+        messageId: eventData.messageId, sellers: sellers);
   }
 
   @override
@@ -57,7 +48,7 @@ class LoadSellersResponse extends ServiceEventResponse {
   final List<Seller> sellers;
   LoadSellersResponse(
       {required int messageId,
-       this.sellers = const [], 
+      this.sellers = const [],
       ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
       : super(messageId, status);
 }
@@ -68,7 +59,7 @@ class LoadSellersRawEventData extends RawServiceEventData {
 }
 
 class LoadSellersEventData extends ServiceEventData<LoadSellersRawEventData> {
-  LoadSellersEventData({required String requesterId } ): super(requesterId);
+  LoadSellersEventData({required String requesterId}) : super(requesterId);
 
   @override
   LoadSellersRawEventData toRawServiceEventData() {

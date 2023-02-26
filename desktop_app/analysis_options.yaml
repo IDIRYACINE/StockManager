@@ -10,7 +10,7 @@
 include: package:flutter_lints/flutter.yaml
 analyzer:
   exclude: 
-    - lib/Infrastructure/GraphQlService/Generated/schema.graphql.dart
+    - lib/Infrastructure/GraphQlService/Generated/*.graphql.dart
 
 linter:
   # The lint rules applied to this project can be customized in the

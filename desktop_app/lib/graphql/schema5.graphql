@@ -1,0 +1,500 @@
+type AggregateSellers {
+  _count: SellersCountAggregate
+  _avg: SellersAvgAggregate
+  _sum: SellersSumAggregate
+  _min: SellersMinAggregate
+  _max: SellersMaxAggregate
+}
+
+type SellersCountAggregate {
+  seller_id: Int!
+  seller_name: Int!
+  seller_phone: Int!
+  picture: Int!
+  _all: Int!
+}
+
+type SellersAvgAggregate {
+  seller_id: Float
+}
+
+type SellersSumAggregate {
+  seller_id: Int
+}
+
+type SellersMinAggregate {
+  seller_id: Int
+  seller_name: String
+  seller_phone: String
+  picture: String
+}
+
+type SellersMaxAggregate {
+  seller_id: Int
+  seller_name: String
+  seller_phone: String
+  picture: String
+}
+
+input SellersWhereUniqueInput {
+  seller_id: Int
+}
+
+enum SellersScalarFieldEnum {
+  seller_id
+  seller_name
+  seller_phone
+  picture
+}
+
+type SellersGroupBy {
+  seller_id: Int!
+  seller_name: String!
+  seller_phone: String!
+  picture: String!
+  _count: SellersCountAggregate
+  _avg: SellersAvgAggregate
+  _sum: SellersSumAggregate
+  _min: SellersMinAggregate
+  _max: SellersMaxAggregate
+}
+
+input SellersOrderByWithAggregationInput {
+  seller_id: SortOrder
+  seller_name: SortOrder
+  seller_phone: SortOrder
+  picture: SortOrder
+  _count: SellersCountOrderByAggregateInput
+  _avg: SellersAvgOrderByAggregateInput
+  _max: SellersMaxOrderByAggregateInput
+  _min: SellersMinOrderByAggregateInput
+  _sum: SellersSumOrderByAggregateInput
+}
+
+input SellersCountOrderByAggregateInput {
+  seller_id: SortOrder
+  seller_name: SortOrder
+  seller_phone: SortOrder
+  picture: SortOrder
+}
+
+input SellersAvgOrderByAggregateInput {
+  seller_id: SortOrder
+}
+
+input SellersMaxOrderByAggregateInput {
+  seller_id: SortOrder
+  seller_name: SortOrder
+  seller_phone: SortOrder
+  picture: SortOrder
+}
+
+input SellersMinOrderByAggregateInput {
+  seller_id: SortOrder
+  seller_name: SortOrder
+  seller_phone: SortOrder
+  picture: SortOrder
+}
+
+input SellersSumOrderByAggregateInput {
+  seller_id: SortOrder
+}
+
+input SellersScalarWhereWithAggregatesInput {
+  AND: [SellersScalarWhereWithAggregatesInput!]
+  OR: [SellersScalarWhereWithAggregatesInput!]
+  NOT: [SellersScalarWhereWithAggregatesInput!]
+  seller_id: IntWithAggregatesFilter
+  seller_name: StringWithAggregatesFilter
+  seller_phone: StringWithAggregatesFilter
+  picture: StringWithAggregatesFilter
+}
+
+type AggregateSizes {
+  _count: SizesCountAggregate
+  _avg: SizesAvgAggregate
+  _sum: SizesSumAggregate
+  _min: SizesMinAggregate
+  _max: SizesMaxAggregate
+}
+
+type SizesCountAggregate {
+  id: Int!
+  size: Int!
+  _all: Int!
+}
+
+type SizesAvgAggregate {
+  id: Float
+}
+
+type SizesSumAggregate {
+  id: Int
+}
+
+type SizesMinAggregate {
+  id: Int
+  size: String
+}
+
+type SizesMaxAggregate {
+  id: Int
+  size: String
+}
+
+input SizesWhereUniqueInput {
+  id: Int
+}
+
+enum SizesScalarFieldEnum {
+  id
+  size
+}
+
+type SizesGroupBy {
+  id: Int!
+  size: String!
+  _count: SizesCountAggregate
+  _avg: SizesAvgAggregate
+  _sum: SizesSumAggregate
+  _min: SizesMinAggregate
+  _max: SizesMaxAggregate
+}
+
+input SizesOrderByWithAggregationInput {
+  id: SortOrder
+  size: SortOrder
+  _count: SizesCountOrderByAggregateInput
+  _avg: SizesAvgOrderByAggregateInput
+  _max: SizesMaxOrderByAggregateInput
+  _min: SizesMinOrderByAggregateInput
+  _sum: SizesSumOrderByAggregateInput
+}
+
+input SizesCountOrderByAggregateInput {
+  id: SortOrder
+  size: SortOrder
+}
+
+input SizesAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+input SizesMaxOrderByAggregateInput {
+  id: SortOrder
+  size: SortOrder
+}
+
+input SizesMinOrderByAggregateInput {
+  id: SortOrder
+  size: SortOrder
+}
+
+input SizesSumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input SizesScalarWhereWithAggregatesInput {
+  AND: [SizesScalarWhereWithAggregatesInput!]
+  OR: [SizesScalarWhereWithAggregatesInput!]
+  NOT: [SizesScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  size: StringWithAggregatesFilter
+}
+
+type AggregateTransactionProduct {
+  _count: TransactionProductCountAggregate
+  _avg: TransactionProductAvgAggregate
+  _sum: TransactionProductSumAggregate
+  _min: TransactionProductMinAggregate
+  _max: TransactionProductMaxAggregate
+}
+
+type TransactionProductCountAggregate {
+  transaction_id: Int!
+  product_id: Int!
+  quantity: Int!
+  price: Int!
+  product_name: Int!
+  _all: Int!
+}
+
+type TransactionProductAvgAggregate {
+  transaction_id: Float
+  product_id: Float
+  quantity: Float
+  price: Float
+}
+
+type TransactionProductSumAggregate {
+  transaction_id: Int
+  product_id: Int
+  quantity: Int
+  price: Float
+}
+
+type TransactionProductMinAggregate {
+  transaction_id: Int
+  product_id: Int
+  quantity: Int
+  price: Float
+  product_name: String
+}
+
+type TransactionProductMaxAggregate {
+  transaction_id: Int
+  product_id: Int
+  quantity: Int
+  price: Float
+  product_name: String
+}
+
+type TransactionProductGroupBy {
+  transaction_id: Int!
+  product_id: Int!
+  quantity: Int!
+  price: Float!
+  product_name: String!
+  _count: TransactionProductCountAggregate
+  _avg: TransactionProductAvgAggregate
+  _sum: TransactionProductSumAggregate
+  _min: TransactionProductMinAggregate
+  _max: TransactionProductMaxAggregate
+}
+
+input TransactionProductOrderByWithAggregationInput {
+  transaction_id: SortOrder
+  product_id: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+  product_name: SortOrder
+  _count: TransactionProductCountOrderByAggregateInput
+  _avg: TransactionProductAvgOrderByAggregateInput
+  _max: TransactionProductMaxOrderByAggregateInput
+  _min: TransactionProductMinOrderByAggregateInput
+  _sum: TransactionProductSumOrderByAggregateInput
+}
+
+input TransactionProductCountOrderByAggregateInput {
+  transaction_id: SortOrder
+  product_id: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+  product_name: SortOrder
+}
+
+input TransactionProductAvgOrderByAggregateInput {
+  transaction_id: SortOrder
+  product_id: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+}
+
+input TransactionProductMaxOrderByAggregateInput {
+  transaction_id: SortOrder
+  product_id: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+  product_name: SortOrder
+}
+
+input TransactionProductMinOrderByAggregateInput {
+  transaction_id: SortOrder
+  product_id: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+  product_name: SortOrder
+}
+
+input TransactionProductSumOrderByAggregateInput {
+  transaction_id: SortOrder
+  product_id: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+}
+
+input TransactionProductScalarWhereWithAggregatesInput {
+  AND: [TransactionProductScalarWhereWithAggregatesInput!]
+  OR: [TransactionProductScalarWhereWithAggregatesInput!]
+  NOT: [TransactionProductScalarWhereWithAggregatesInput!]
+  transaction_id: IntWithAggregatesFilter
+  product_id: IntWithAggregatesFilter
+  quantity: IntWithAggregatesFilter
+  price: FloatWithAggregatesFilter
+  product_name: StringWithAggregatesFilter
+}
+
+type AggregateTransactionStatus {
+  _count: TransactionStatusCountAggregate
+  _avg: TransactionStatusAvgAggregate
+  _sum: TransactionStatusSumAggregate
+  _min: TransactionStatusMinAggregate
+  _max: TransactionStatusMaxAggregate
+}
+
+type TransactionStatusCountAggregate {
+  transaction_status_id: Int!
+  name: Int!
+  description: Int!
+  _all: Int!
+}
+
+type TransactionStatusAvgAggregate {
+  transaction_status_id: Float
+}
+
+type TransactionStatusSumAggregate {
+  transaction_status_id: Int
+}
+
+type TransactionStatusMinAggregate {
+  transaction_status_id: Int
+  name: String
+  description: String
+}
+
+type TransactionStatusMaxAggregate {
+  transaction_status_id: Int
+  name: String
+  description: String
+}
+
+input TransactionStatusWhereUniqueInput {
+  transaction_status_id: Int
+}
+
+enum TransactionStatusScalarFieldEnum {
+  transaction_status_id
+  name
+  description
+}
+
+type TransactionStatusGroupBy {
+  transaction_status_id: Int!
+  name: String!
+  description: String!
+  _count: TransactionStatusCountAggregate
+  _avg: TransactionStatusAvgAggregate
+  _sum: TransactionStatusSumAggregate
+  _min: TransactionStatusMinAggregate
+  _max: TransactionStatusMaxAggregate
+}
+
+input TransactionStatusOrderByWithAggregationInput {
+  transaction_status_id: SortOrder
+  name: SortOrder
+  description: SortOrder
+  _count: TransactionStatusCountOrderByAggregateInput
+  _avg: TransactionStatusAvgOrderByAggregateInput
+  _max: TransactionStatusMaxOrderByAggregateInput
+  _min: TransactionStatusMinOrderByAggregateInput
+  _sum: TransactionStatusSumOrderByAggregateInput
+}
+
+input TransactionStatusCountOrderByAggregateInput {
+  transaction_status_id: SortOrder
+  name: SortOrder
+  description: SortOrder
+}
+
+input TransactionStatusAvgOrderByAggregateInput {
+  transaction_status_id: SortOrder
+}
+
+input TransactionStatusMaxOrderByAggregateInput {
+  transaction_status_id: SortOrder
+  name: SortOrder
+  description: SortOrder
+}
+
+input TransactionStatusMinOrderByAggregateInput {
+  transaction_status_id: SortOrder
+  name: SortOrder
+  description: SortOrder
+}
+
+input TransactionStatusSumOrderByAggregateInput {
+  transaction_status_id: SortOrder
+}
+
+input TransactionStatusScalarWhereWithAggregatesInput {
+  AND: [TransactionStatusScalarWhereWithAggregatesInput!]
+  OR: [TransactionStatusScalarWhereWithAggregatesInput!]
+  NOT: [TransactionStatusScalarWhereWithAggregatesInput!]
+  transaction_status_id: IntWithAggregatesFilter
+  name: StringWithAggregatesFilter
+  description: StringWithAggregatesFilter
+}
+
+type AggregateTransactionTypes {
+  _count: TransactionTypesCountAggregate
+  _avg: TransactionTypesAvgAggregate
+  _sum: TransactionTypesSumAggregate
+  _min: TransactionTypesMinAggregate
+  _max: TransactionTypesMaxAggregate
+}
+
+type TransactionTypesCountAggregate {
+  transaction_type_id: Int!
+  type_name: Int!
+  description: Int!
+  _all: Int!
+}
+
+type TransactionTypesAvgAggregate {
+  transaction_type_id: Float
+}
+
+type TransactionTypesSumAggregate {
+  transaction_type_id: Int
+}
+
+type TransactionTypesMinAggregate {
+  transaction_type_id: Int
+  type_name: String
+  description: String
+}
+
+type TransactionTypesMaxAggregate {
+  transaction_type_id: Int
+  type_name: String
+  description: String
+}
+
+input TransactionTypesWhereUniqueInput {
+  transaction_type_id: Int
+}
+
+enum TransactionTypesScalarFieldEnum {
+  transaction_type_id
+  type_name
+  description
+}
+
+type TransactionTypesGroupBy {
+  transaction_type_id: Int!
+  type_name: String!
+  description: String!
+  _count: TransactionTypesCountAggregate
+  _avg: TransactionTypesAvgAggregate
+  _sum: TransactionTypesSumAggregate
+  _min: TransactionTypesMinAggregate
+  _max: TransactionTypesMaxAggregate
+}
+
+input TransactionTypesOrderByWithAggregationInput {
+  transaction_type_id: SortOrder
+  type_name: SortOrder
+  description: SortOrder
+  _count: TransactionTypesCountOrderByAggregateInput
+  _avg: TransactionTypesAvgOrderByAggregateInput
+  _max: TransactionTypesMaxOrderByAggregateInput
+  _min: TransactionTypesMinOrderByAggregateInput
+  _sum: TransactionTypesSumOrderByAggregateInput
+}
+
+input TransactionTypesCountOrderByAggregateInput {
+  transaction_type_id: SortOrder
+  type_name: SortOrder
+  description: SortOrder
+}

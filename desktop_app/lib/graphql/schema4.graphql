@@ -1,0 +1,501 @@
+input ColorsSumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input ColorsScalarWhereWithAggregatesInput {
+  AND: [ColorsScalarWhereWithAggregatesInput!]
+  OR: [ColorsScalarWhereWithAggregatesInput!]
+  NOT: [ColorsScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  color: StringWithAggregatesFilter
+}
+
+type AggregatePayements {
+  _count: PayementsCountAggregate
+  _avg: PayementsAvgAggregate
+  _sum: PayementsSumAggregate
+  _min: PayementsMinAggregate
+  _max: PayementsMaxAggregate
+}
+
+type PayementsCountAggregate {
+  payement_id: Int!
+  transaction_id: Int!
+  payement: Int!
+  _all: Int!
+}
+
+type PayementsAvgAggregate {
+  payement_id: Float
+  transaction_id: Float
+  payement: Float
+}
+
+type PayementsSumAggregate {
+  payement_id: Int
+  transaction_id: Int
+  payement: Float
+}
+
+type PayementsMinAggregate {
+  payement_id: Int
+  transaction_id: Int
+  payement: Float
+}
+
+type PayementsMaxAggregate {
+  payement_id: Int
+  transaction_id: Int
+  payement: Float
+}
+
+type PayementsGroupBy {
+  payement_id: Int!
+  transaction_id: Int!
+  payement: Float!
+  _count: PayementsCountAggregate
+  _avg: PayementsAvgAggregate
+  _sum: PayementsSumAggregate
+  _min: PayementsMinAggregate
+  _max: PayementsMaxAggregate
+}
+
+input PayementsOrderByWithAggregationInput {
+  payement_id: SortOrder
+  transaction_id: SortOrder
+  payement: SortOrder
+  _count: PayementsCountOrderByAggregateInput
+  _avg: PayementsAvgOrderByAggregateInput
+  _max: PayementsMaxOrderByAggregateInput
+  _min: PayementsMinOrderByAggregateInput
+  _sum: PayementsSumOrderByAggregateInput
+}
+
+input PayementsCountOrderByAggregateInput {
+  payement_id: SortOrder
+  transaction_id: SortOrder
+  payement: SortOrder
+}
+
+input PayementsAvgOrderByAggregateInput {
+  payement_id: SortOrder
+  transaction_id: SortOrder
+  payement: SortOrder
+}
+
+input PayementsMaxOrderByAggregateInput {
+  payement_id: SortOrder
+  transaction_id: SortOrder
+  payement: SortOrder
+}
+
+input PayementsMinOrderByAggregateInput {
+  payement_id: SortOrder
+  transaction_id: SortOrder
+  payement: SortOrder
+}
+
+input PayementsSumOrderByAggregateInput {
+  payement_id: SortOrder
+  transaction_id: SortOrder
+  payement: SortOrder
+}
+
+input PayementsScalarWhereWithAggregatesInput {
+  AND: [PayementsScalarWhereWithAggregatesInput!]
+  OR: [PayementsScalarWhereWithAggregatesInput!]
+  NOT: [PayementsScalarWhereWithAggregatesInput!]
+  payement_id: IntWithAggregatesFilter
+  transaction_id: IntWithAggregatesFilter
+  payement: FloatWithAggregatesFilter
+}
+
+input FloatWithAggregatesFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedFloatFilter
+  _min: NestedFloatFilter
+  _max: NestedFloatFilter
+}
+
+input NestedFloatWithAggregatesFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedFloatFilter
+  _min: NestedFloatFilter
+  _max: NestedFloatFilter
+}
+
+type AggregateProductFamily {
+  _count: ProductFamilyCountAggregate
+  _avg: ProductFamilyAvgAggregate
+  _sum: ProductFamilySumAggregate
+  _min: ProductFamilyMinAggregate
+  _max: ProductFamilyMaxAggregate
+}
+
+type ProductFamilyCountAggregate {
+  id: Int!
+  name: Int!
+  _all: Int!
+}
+
+type ProductFamilyAvgAggregate {
+  id: Float
+}
+
+type ProductFamilySumAggregate {
+  id: Int
+}
+
+type ProductFamilyMinAggregate {
+  id: Int
+  name: String
+}
+
+type ProductFamilyMaxAggregate {
+  id: Int
+  name: String
+}
+
+input ProductFamilyWhereUniqueInput {
+  id: Int
+}
+
+enum ProductFamilyScalarFieldEnum {
+  id
+  name
+}
+
+type ProductFamilyGroupBy {
+  id: Int!
+  name: String!
+  _count: ProductFamilyCountAggregate
+  _avg: ProductFamilyAvgAggregate
+  _sum: ProductFamilySumAggregate
+  _min: ProductFamilyMinAggregate
+  _max: ProductFamilyMaxAggregate
+}
+
+input ProductFamilyOrderByWithAggregationInput {
+  id: SortOrder
+  name: SortOrder
+  _count: ProductFamilyCountOrderByAggregateInput
+  _avg: ProductFamilyAvgOrderByAggregateInput
+  _max: ProductFamilyMaxOrderByAggregateInput
+  _min: ProductFamilyMinOrderByAggregateInput
+  _sum: ProductFamilySumOrderByAggregateInput
+}
+
+input ProductFamilyCountOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+}
+
+input ProductFamilyAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+input ProductFamilyMaxOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+}
+
+input ProductFamilyMinOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+}
+
+input ProductFamilySumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input ProductFamilyScalarWhereWithAggregatesInput {
+  AND: [ProductFamilyScalarWhereWithAggregatesInput!]
+  OR: [ProductFamilyScalarWhereWithAggregatesInput!]
+  NOT: [ProductFamilyScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  name: StringWithAggregatesFilter
+}
+
+type AggregateProductModel {
+  _count: ProductModelCountAggregate
+  _avg: ProductModelAvgAggregate
+  _sum: ProductModelSumAggregate
+  _min: ProductModelMinAggregate
+  _max: ProductModelMaxAggregate
+}
+
+type ProductModelCountAggregate {
+  product_id: Int!
+  color_id: Int!
+  size_id: Int!
+  quantity: Int!
+  _all: Int!
+}
+
+type ProductModelAvgAggregate {
+  product_id: Float
+  color_id: Float
+  size_id: Float
+  quantity: Float
+}
+
+type ProductModelSumAggregate {
+  product_id: Int
+  color_id: Int
+  size_id: Int
+  quantity: Int
+}
+
+type ProductModelMinAggregate {
+  product_id: Int
+  color_id: Int
+  size_id: Int
+  quantity: Int
+}
+
+type ProductModelMaxAggregate {
+  product_id: Int
+  color_id: Int
+  size_id: Int
+  quantity: Int
+}
+
+type ProductModelGroupBy {
+  product_id: Int!
+  color_id: Int!
+  size_id: Int!
+  quantity: Int!
+  _count: ProductModelCountAggregate
+  _avg: ProductModelAvgAggregate
+  _sum: ProductModelSumAggregate
+  _min: ProductModelMinAggregate
+  _max: ProductModelMaxAggregate
+}
+
+input ProductModelOrderByWithAggregationInput {
+  product_id: SortOrder
+  color_id: SortOrder
+  size_id: SortOrder
+  quantity: SortOrder
+  _count: ProductModelCountOrderByAggregateInput
+  _avg: ProductModelAvgOrderByAggregateInput
+  _max: ProductModelMaxOrderByAggregateInput
+  _min: ProductModelMinOrderByAggregateInput
+  _sum: ProductModelSumOrderByAggregateInput
+}
+
+input ProductModelCountOrderByAggregateInput {
+  product_id: SortOrder
+  color_id: SortOrder
+  size_id: SortOrder
+  quantity: SortOrder
+}
+
+input ProductModelAvgOrderByAggregateInput {
+  product_id: SortOrder
+  color_id: SortOrder
+  size_id: SortOrder
+  quantity: SortOrder
+}
+
+input ProductModelMaxOrderByAggregateInput {
+  product_id: SortOrder
+  color_id: SortOrder
+  size_id: SortOrder
+  quantity: SortOrder
+}
+
+input ProductModelMinOrderByAggregateInput {
+  product_id: SortOrder
+  color_id: SortOrder
+  size_id: SortOrder
+  quantity: SortOrder
+}
+
+input ProductModelSumOrderByAggregateInput {
+  product_id: SortOrder
+  color_id: SortOrder
+  size_id: SortOrder
+  quantity: SortOrder
+}
+
+input ProductModelScalarWhereWithAggregatesInput {
+  AND: [ProductModelScalarWhereWithAggregatesInput!]
+  OR: [ProductModelScalarWhereWithAggregatesInput!]
+  NOT: [ProductModelScalarWhereWithAggregatesInput!]
+  product_id: IntWithAggregatesFilter
+  color_id: IntWithAggregatesFilter
+  size_id: IntWithAggregatesFilter
+  quantity: IntWithAggregatesFilter
+}
+
+type AggregateProducts {
+  _count: ProductsCountAggregate
+  _avg: ProductsAvgAggregate
+  _sum: ProductsSumAggregate
+  _min: ProductsMinAggregate
+  _max: ProductsMaxAggregate
+}
+
+type ProductsCountAggregate {
+  product_id: Int!
+  reference: Int!
+  name: Int!
+  buyingPrice: Int!
+  sellingPrice: Int!
+  description: Int!
+  picture: Int!
+  family_id: Int!
+  _all: Int!
+}
+
+type ProductsAvgAggregate {
+  product_id: Float
+  reference: Float
+  buyingPrice: Float
+  sellingPrice: Float
+  family_id: Float
+}
+
+type ProductsSumAggregate {
+  product_id: Int
+  reference: Int
+  buyingPrice: Float
+  sellingPrice: Float
+  family_id: Int
+}
+
+type ProductsMinAggregate {
+  product_id: Int
+  reference: Int
+  name: String
+  buyingPrice: Float
+  sellingPrice: Float
+  description: String
+  picture: String
+  family_id: Int
+}
+
+type ProductsMaxAggregate {
+  product_id: Int
+  reference: Int
+  name: String
+  buyingPrice: Float
+  sellingPrice: Float
+  description: String
+  picture: String
+  family_id: Int
+}
+
+type ProductsGroupBy {
+  product_id: Int!
+  reference: Int!
+  name: String!
+  buyingPrice: Float!
+  sellingPrice: Float!
+  description: String!
+  picture: String!
+  family_id: Int!
+  _count: ProductsCountAggregate
+  _avg: ProductsAvgAggregate
+  _sum: ProductsSumAggregate
+  _min: ProductsMinAggregate
+  _max: ProductsMaxAggregate
+}
+
+input ProductsOrderByWithAggregationInput {
+  product_id: SortOrder
+  reference: SortOrder
+  name: SortOrder
+  buyingPrice: SortOrder
+  sellingPrice: SortOrder
+  description: SortOrder
+  picture: SortOrder
+  family_id: SortOrder
+  _count: ProductsCountOrderByAggregateInput
+  _avg: ProductsAvgOrderByAggregateInput
+  _max: ProductsMaxOrderByAggregateInput
+  _min: ProductsMinOrderByAggregateInput
+  _sum: ProductsSumOrderByAggregateInput
+}
+
+input ProductsCountOrderByAggregateInput {
+  product_id: SortOrder
+  reference: SortOrder
+  name: SortOrder
+  buyingPrice: SortOrder
+  sellingPrice: SortOrder
+  description: SortOrder
+  picture: SortOrder
+  family_id: SortOrder
+}
+
+input ProductsAvgOrderByAggregateInput {
+  product_id: SortOrder
+  reference: SortOrder
+  buyingPrice: SortOrder
+  sellingPrice: SortOrder
+  family_id: SortOrder
+}
+
+input ProductsMaxOrderByAggregateInput {
+  product_id: SortOrder
+  reference: SortOrder
+  name: SortOrder
+  buyingPrice: SortOrder
+  sellingPrice: SortOrder
+  description: SortOrder
+  picture: SortOrder
+  family_id: SortOrder
+}
+
+input ProductsMinOrderByAggregateInput {
+  product_id: SortOrder
+  reference: SortOrder
+  name: SortOrder
+  buyingPrice: SortOrder
+  sellingPrice: SortOrder
+  description: SortOrder
+  picture: SortOrder
+  family_id: SortOrder
+}
+
+input ProductsSumOrderByAggregateInput {
+  product_id: SortOrder
+  reference: SortOrder
+  buyingPrice: SortOrder
+  sellingPrice: SortOrder
+  family_id: SortOrder
+}
+
+input ProductsScalarWhereWithAggregatesInput {
+  AND: [ProductsScalarWhereWithAggregatesInput!]
+  OR: [ProductsScalarWhereWithAggregatesInput!]
+  NOT: [ProductsScalarWhereWithAggregatesInput!]
+  product_id: IntWithAggregatesFilter
+  reference: IntWithAggregatesFilter
+  name: StringWithAggregatesFilter
+  buyingPrice: FloatWithAggregatesFilter
+  sellingPrice: FloatWithAggregatesFilter
+  description: StringWithAggregatesFilter
+  picture: StringWithAggregatesFilter
+  family_id: IntWithAggregatesFilter
+}

@@ -17,30 +17,26 @@ class DeleteSeller extends Command<DeleteSellerEventData,
   DeleteSeller(this.graphQl) : super(eventId, eventName);
 
   @override
-  Future<DeleteSellerResponse> handleEvent(DeleteSellerEventData eventData) async{
-    const mutationDoc = r""" 
-          mutation DeleteOneSellers($where: SellersWhereUniqueInput!) {
-  deleteOneSellers(where: $where) {
-    seller_id
-  }
-}
-    """;
-
+  Future<DeleteSellerResponse> handleEvent(
+      DeleteSellerEventData eventData) async {
     final seller = eventData.seller;
 
     final where = graphql_service.Input$SellersWhereUniqueInput(
         seller_id: seller.sellerCode);
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutationDoc),
-      variables: {"where": where},
-    );
+    final mutationVariables =
+        graphql_service.Variables$Mutation$DeleteOneSellers(where: where);
+
+    final MutationOptions options =
+        graphql_service.Options$Mutation$DeleteOneSellers(
+            variables: mutationVariables);
 
     final result = await graphQl.mutate(options);
 
     if (result.hasException) {
       return DeleteSellerResponse(
-          messageId: eventData.messageId, status: ServiceEventResponseStatus.error);
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
     }
 
     return DeleteSellerResponse(messageId: eventData.messageId);
@@ -54,7 +50,8 @@ class DeleteSeller extends Command<DeleteSellerEventData,
 }
 
 class DeleteSellerResponse extends ServiceEventResponse {
-  DeleteSellerResponse({required int messageId,
+  DeleteSellerResponse(
+      {required int messageId,
       ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
       : super(messageId, status);
 }
@@ -67,7 +64,8 @@ class DeleteSellerRawEventData extends RawServiceEventData {
 
 class DeleteSellerEventData extends ServiceEventData<DeleteSellerRawEventData> {
   final Seller seller;
-  DeleteSellerEventData({required String requesterId, required this.seller}) : super(requesterId);
+  DeleteSellerEventData({required String requesterId, required this.seller})
+      : super(requesterId);
 
   @override
   DeleteSellerRawEventData toRawServiceEventData() {

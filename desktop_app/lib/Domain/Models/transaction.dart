@@ -206,3 +206,28 @@ class RecordProduct {
     );
   }
 }
+
+Record recordFromJson(Map<String,dynamic> json){
+  return Record(
+    payementType: json['payementType'],
+    payementTypeIndex: json['payementTypeIndex'],
+    timeStamp: json['timeStamp'],
+    date: DateTime.parse(json['date']),
+    remainingPayement: json['remainingPayement'],
+    totalQuantity: json['totalQuantity'],
+    totalPrice: json['totalPrice'],
+    products: json['products'],
+    sellerName: json['sellerName'],
+    totalDeposit: json['totalDeposit'],
+    customer: json['customer'],
+    sellerId: json['sellerId'],
+    cityId: json['cityId'],
+    city: json['city'],
+    address: json['address'],
+    phoneNumber: json['phoneNumber'],
+  );
+}
+
+List<Record> recordsFromJsonList(List<dynamic> json){
+  return json.map((e) => recordFromJson(e)).toList();
+}

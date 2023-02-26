@@ -1,0 +1,502 @@
+input PayementsWhereUniqueInput {
+  transaction_id_payement_id: PayementsTransaction_idPayement_idCompoundUniqueInput
+}
+
+input PayementsTransaction_idPayement_idCompoundUniqueInput {
+  transaction_id: Int!
+  payement_id: Int!
+}
+
+enum PayementsScalarFieldEnum {
+  payement_id
+  transaction_id
+  payement
+}
+
+enum CityScalarFieldEnum {
+  city_id
+  city_name
+}
+
+type CityGroupBy {
+  city_id: Int!
+  city_name: String!
+  _count: CityCountAggregate
+  _avg: CityAvgAggregate
+  _sum: CitySumAggregate
+  _min: CityMinAggregate
+  _max: CityMaxAggregate
+}
+
+input CityOrderByWithAggregationInput {
+  city_id: SortOrder
+  city_name: SortOrder
+  _count: CityCountOrderByAggregateInput
+  _avg: CityAvgOrderByAggregateInput
+  _max: CityMaxOrderByAggregateInput
+  _min: CityMinOrderByAggregateInput
+  _sum: CitySumOrderByAggregateInput
+}
+
+input CityCountOrderByAggregateInput {
+  city_id: SortOrder
+  city_name: SortOrder
+}
+
+input CityAvgOrderByAggregateInput {
+  city_id: SortOrder
+}
+
+input CityMaxOrderByAggregateInput {
+  city_id: SortOrder
+  city_name: SortOrder
+}
+
+input CityMinOrderByAggregateInput {
+  city_id: SortOrder
+  city_name: SortOrder
+}
+
+input CitySumOrderByAggregateInput {
+  city_id: SortOrder
+}
+
+input CityScalarWhereWithAggregatesInput {
+  AND: [CityScalarWhereWithAggregatesInput!]
+  OR: [CityScalarWhereWithAggregatesInput!]
+  NOT: [CityScalarWhereWithAggregatesInput!]
+  city_id: IntWithAggregatesFilter
+  city_name: StringWithAggregatesFilter
+}
+
+input IntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+input NestedIntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+input StringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+input NestedStringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+type AggregateColors {
+  _count: ColorsCountAggregate
+  _avg: ColorsAvgAggregate
+  _sum: ColorsSumAggregate
+  _min: ColorsMinAggregate
+  _max: ColorsMaxAggregate
+}
+
+type ColorsCountAggregate {
+  id: Int!
+  color: Int!
+  _all: Int!
+}
+
+type ColorsAvgAggregate {
+  id: Float
+}
+
+type ColorsSumAggregate {
+  id: Int
+}
+
+type ColorsMinAggregate {
+  id: Int
+  color: String
+}
+
+type ColorsMaxAggregate {
+  id: Int
+  color: String
+}
+
+input ColorsWhereInput {
+  AND: [ColorsWhereInput!]
+  OR: [ColorsWhereInput!]
+  NOT: [ColorsWhereInput!]
+  id: IntFilter
+  color: StringFilter
+  ProductModel: ProductModelListRelationFilter
+}
+
+input ProductModelListRelationFilter {
+  every: ProductModelWhereInput
+  some: ProductModelWhereInput
+  none: ProductModelWhereInput
+}
+
+input ProductModelWhereInput {
+  AND: [ProductModelWhereInput!]
+  OR: [ProductModelWhereInput!]
+  NOT: [ProductModelWhereInput!]
+  product_id: IntFilter
+  color_id: IntFilter
+  size_id: IntFilter
+  quantity: IntFilter
+  product: ProductsRelationFilter
+  size: SizesRelationFilter
+  color: ColorsRelationFilter
+}
+
+input ProductsRelationFilter {
+  is: ProductsWhereInput
+  isNot: ProductsWhereInput
+}
+
+input ProductsWhereInput {
+  AND: [ProductsWhereInput!]
+  OR: [ProductsWhereInput!]
+  NOT: [ProductsWhereInput!]
+  product_id: IntFilter
+  reference: IntFilter
+  name: StringFilter
+  buyingPrice: FloatFilter
+  sellingPrice: FloatFilter
+  description: StringFilter
+  picture: StringFilter
+  family_id: IntFilter
+  family: ProductFamilyRelationFilter
+  ProductModel: ProductModelListRelationFilter
+  TransactionProduct: TransactionProductListRelationFilter
+}
+
+input ProductFamilyRelationFilter {
+  is: ProductFamilyWhereInput
+  isNot: ProductFamilyWhereInput
+}
+
+input ProductFamilyWhereInput {
+  AND: [ProductFamilyWhereInput!]
+  OR: [ProductFamilyWhereInput!]
+  NOT: [ProductFamilyWhereInput!]
+  id: IntFilter
+  name: StringFilter
+  Products: ProductsListRelationFilter
+}
+
+input ProductsListRelationFilter {
+  every: ProductsWhereInput
+  some: ProductsWhereInput
+  none: ProductsWhereInput
+}
+
+input TransactionProductListRelationFilter {
+  every: TransactionProductWhereInput
+  some: TransactionProductWhereInput
+  none: TransactionProductWhereInput
+}
+
+input TransactionProductWhereInput {
+  AND: [TransactionProductWhereInput!]
+  OR: [TransactionProductWhereInput!]
+  NOT: [TransactionProductWhereInput!]
+  transaction_id: IntFilter
+  product_id: IntFilter
+  quantity: IntFilter
+  price: FloatFilter
+  product_name: StringFilter
+  product: ProductsRelationFilter
+}
+
+input SizesRelationFilter {
+  is: SizesWhereInput
+  isNot: SizesWhereInput
+}
+
+input SizesWhereInput {
+  AND: [SizesWhereInput!]
+  OR: [SizesWhereInput!]
+  NOT: [SizesWhereInput!]
+  id: IntFilter
+  size: StringFilter
+  ProductModel: ProductModelListRelationFilter
+}
+
+input ColorsRelationFilter {
+  is: ColorsWhereInput
+  isNot: ColorsWhereInput
+}
+
+input ColorsOrderByWithRelationInput {
+  id: SortOrder
+  color: SortOrder
+  ProductModel: ProductModelOrderByRelationAggregateInput
+}
+
+input ProductModelOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ColorsWhereUniqueInput {
+  id: Int
+}
+
+type Colors {
+  id: Int!
+  color: String!
+  _count: ColorsCount
+  ProductModel(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithRelationInput!], cursor: ProductModelWhereUniqueInput, take: Int, skip: Int, distinct: [ProductModelScalarFieldEnum!]): [ProductModel!]!
+}
+
+type ColorsCount {
+  ProductModel: Int!
+}
+
+type ProductModel {
+  product_id: Int!
+  color_id: Int!
+  size_id: Int!
+  quantity: Int!
+  product: Products!
+  size: Sizes!
+  color: Colors!
+}
+
+type Products {
+  product_id: Int!
+  reference: Int!
+  name: String!
+  buyingPrice: Float!
+  sellingPrice: Float!
+  description: String!
+  picture: String!
+  family_id: Int!
+  _count: ProductsCount
+  family: ProductFamily!
+  ProductModel(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithRelationInput!], cursor: ProductModelWhereUniqueInput, take: Int, skip: Int, distinct: [ProductModelScalarFieldEnum!]): [ProductModel!]!
+  TransactionProduct(where: TransactionProductWhereInput, orderBy: [TransactionProductOrderByWithRelationInput!], cursor: TransactionProductWhereUniqueInput, take: Int, skip: Int, distinct: [TransactionProductScalarFieldEnum!]): [TransactionProduct!]!
+}
+
+type ProductsCount {
+  ProductModel: Int!
+  TransactionProduct: Int!
+}
+
+type ProductFamily {
+  id: Int!
+  name: String!
+  _count: ProductFamilyCount
+  Products(where: ProductsWhereInput, orderBy: [ProductsOrderByWithRelationInput!], cursor: ProductsWhereUniqueInput, take: Int, skip: Int, distinct: [ProductsScalarFieldEnum!]): [Products!]!
+}
+
+type ProductFamilyCount {
+  Products: Int!
+}
+
+input ProductsOrderByWithRelationInput {
+  product_id: SortOrder
+  reference: SortOrder
+  name: SortOrder
+  buyingPrice: SortOrder
+  sellingPrice: SortOrder
+  description: SortOrder
+  picture: SortOrder
+  family_id: SortOrder
+  family: ProductFamilyOrderByWithRelationInput
+  ProductModel: ProductModelOrderByRelationAggregateInput
+  TransactionProduct: TransactionProductOrderByRelationAggregateInput
+}
+
+input ProductFamilyOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  Products: ProductsOrderByRelationAggregateInput
+}
+
+input ProductsOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TransactionProductOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ProductsWhereUniqueInput {
+  product_id: Int
+}
+
+enum ProductsScalarFieldEnum {
+  product_id
+  reference
+  name
+  buyingPrice
+  sellingPrice
+  description
+  picture
+  family_id
+}
+
+input ProductModelOrderByWithRelationInput {
+  product_id: SortOrder
+  color_id: SortOrder
+  size_id: SortOrder
+  quantity: SortOrder
+  product: ProductsOrderByWithRelationInput
+  size: SizesOrderByWithRelationInput
+  color: ColorsOrderByWithRelationInput
+}
+
+input SizesOrderByWithRelationInput {
+  id: SortOrder
+  size: SortOrder
+  ProductModel: ProductModelOrderByRelationAggregateInput
+}
+
+input ProductModelWhereUniqueInput {
+  product_id_color_id_size_id: ProductModelProduct_idColor_idSize_idCompoundUniqueInput
+}
+
+input ProductModelProduct_idColor_idSize_idCompoundUniqueInput {
+  product_id: Int!
+  color_id: Int!
+  size_id: Int!
+}
+
+enum ProductModelScalarFieldEnum {
+  product_id
+  color_id
+  size_id
+  quantity
+}
+
+type TransactionProduct {
+  transaction_id: Int!
+  product_id: Int!
+  quantity: Int!
+  price: Float!
+  product_name: String!
+  product: Products!
+}
+
+input TransactionProductOrderByWithRelationInput {
+  transaction_id: SortOrder
+  product_id: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+  product_name: SortOrder
+  product: ProductsOrderByWithRelationInput
+}
+
+input TransactionProductWhereUniqueInput {
+  transaction_id: Int
+}
+
+enum TransactionProductScalarFieldEnum {
+  transaction_id
+  product_id
+  quantity
+  price
+  product_name
+}
+
+type Sizes {
+  id: Int!
+  size: String!
+  _count: SizesCount
+  ProductModel(where: ProductModelWhereInput, orderBy: [ProductModelOrderByWithRelationInput!], cursor: ProductModelWhereUniqueInput, take: Int, skip: Int, distinct: [ProductModelScalarFieldEnum!]): [ProductModel!]!
+}
+
+type SizesCount {
+  ProductModel: Int!
+}
+
+enum ColorsScalarFieldEnum {
+  id
+  color
+}
+
+type ColorsGroupBy {
+  id: Int!
+  color: String!
+  _count: ColorsCountAggregate
+  _avg: ColorsAvgAggregate
+  _sum: ColorsSumAggregate
+  _min: ColorsMinAggregate
+  _max: ColorsMaxAggregate
+}
+
+input ColorsOrderByWithAggregationInput {
+  id: SortOrder
+  color: SortOrder
+  _count: ColorsCountOrderByAggregateInput
+  _avg: ColorsAvgOrderByAggregateInput
+  _max: ColorsMaxOrderByAggregateInput
+  _min: ColorsMinOrderByAggregateInput
+  _sum: ColorsSumOrderByAggregateInput
+}
+
+input ColorsCountOrderByAggregateInput {
+  id: SortOrder
+  color: SortOrder
+}
+
+input ColorsAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+input ColorsMaxOrderByAggregateInput {
+  id: SortOrder
+  color: SortOrder
+}
+
+input ColorsMinOrderByAggregateInput {
+  id: SortOrder
+  color: SortOrder
+}

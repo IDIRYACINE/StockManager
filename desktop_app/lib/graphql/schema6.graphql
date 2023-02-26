@@ -1,0 +1,517 @@
+input TransactionTypesAvgOrderByAggregateInput {
+  transaction_type_id: SortOrder
+}
+
+input TransactionTypesMaxOrderByAggregateInput {
+  transaction_type_id: SortOrder
+  type_name: SortOrder
+  description: SortOrder
+}
+
+input TransactionTypesMinOrderByAggregateInput {
+  transaction_type_id: SortOrder
+  type_name: SortOrder
+  description: SortOrder
+}
+
+input TransactionTypesSumOrderByAggregateInput {
+  transaction_type_id: SortOrder
+}
+
+input TransactionTypesScalarWhereWithAggregatesInput {
+  AND: [TransactionTypesScalarWhereWithAggregatesInput!]
+  OR: [TransactionTypesScalarWhereWithAggregatesInput!]
+  NOT: [TransactionTypesScalarWhereWithAggregatesInput!]
+  transaction_type_id: IntWithAggregatesFilter
+  type_name: StringWithAggregatesFilter
+  description: StringWithAggregatesFilter
+}
+
+type AggregateTransactions {
+  _count: TransactionsCountAggregate
+  _avg: TransactionsAvgAggregate
+  _sum: TransactionsSumAggregate
+  _min: TransactionsMinAggregate
+  _max: TransactionsMaxAggregate
+}
+
+type TransactionsCountAggregate {
+  transaction_id: Int!
+  seller_id: Int!
+  product_id: Int!
+  customer_name: Int!
+  customer_phone: Int!
+  city_id: Int!
+  address: Int!
+  quantity: Int!
+  date: Int!
+  remainingPayement: Int!
+  totalPayement: Int!
+  transaction_type_id: Int!
+  status_id: Int!
+  _all: Int!
+}
+
+type TransactionsAvgAggregate {
+  transaction_id: Float
+  seller_id: Float
+  product_id: Float
+  city_id: Float
+  quantity: Float
+  remainingPayement: Float
+  totalPayement: Float
+  transaction_type_id: Float
+  status_id: Float
+}
+
+type TransactionsSumAggregate {
+  transaction_id: Int
+  seller_id: Int
+  product_id: Int
+  city_id: Int
+  quantity: Int
+  remainingPayement: Float
+  totalPayement: Float
+  transaction_type_id: Int
+  status_id: Int
+}
+
+type TransactionsMinAggregate {
+  transaction_id: Int
+  seller_id: Int
+  product_id: Int
+  customer_name: String
+  customer_phone: String
+  city_id: Int
+  address: String
+  quantity: Int
+  date: DateTime
+  remainingPayement: Float
+  totalPayement: Float
+  transaction_type_id: Int
+  status_id: Int
+}
+
+type TransactionsMaxAggregate {
+  transaction_id: Int
+  seller_id: Int
+  product_id: Int
+  customer_name: String
+  customer_phone: String
+  city_id: Int
+  address: String
+  quantity: Int
+  date: DateTime
+  remainingPayement: Float
+  totalPayement: Float
+  transaction_type_id: Int
+  status_id: Int
+}
+
+type TransactionsGroupBy {
+  transaction_id: Int!
+  seller_id: Int!
+  product_id: Int!
+  customer_name: String!
+  customer_phone: String!
+  city_id: Int!
+  address: String!
+  quantity: Int!
+  date: DateTime!
+  remainingPayement: Float!
+  totalPayement: Float!
+  transaction_type_id: Int!
+  status_id: Int!
+  _count: TransactionsCountAggregate
+  _avg: TransactionsAvgAggregate
+  _sum: TransactionsSumAggregate
+  _min: TransactionsMinAggregate
+  _max: TransactionsMaxAggregate
+}
+
+input TransactionsOrderByWithAggregationInput {
+  transaction_id: SortOrder
+  seller_id: SortOrder
+  product_id: SortOrder
+  customer_name: SortOrder
+  customer_phone: SortOrder
+  city_id: SortOrder
+  address: SortOrder
+  quantity: SortOrder
+  date: SortOrder
+  remainingPayement: SortOrder
+  totalPayement: SortOrder
+  transaction_type_id: SortOrder
+  status_id: SortOrder
+  _count: TransactionsCountOrderByAggregateInput
+  _avg: TransactionsAvgOrderByAggregateInput
+  _max: TransactionsMaxOrderByAggregateInput
+  _min: TransactionsMinOrderByAggregateInput
+  _sum: TransactionsSumOrderByAggregateInput
+}
+
+input TransactionsCountOrderByAggregateInput {
+  transaction_id: SortOrder
+  seller_id: SortOrder
+  product_id: SortOrder
+  customer_name: SortOrder
+  customer_phone: SortOrder
+  city_id: SortOrder
+  address: SortOrder
+  quantity: SortOrder
+  date: SortOrder
+  remainingPayement: SortOrder
+  totalPayement: SortOrder
+  transaction_type_id: SortOrder
+  status_id: SortOrder
+}
+
+input TransactionsAvgOrderByAggregateInput {
+  transaction_id: SortOrder
+  seller_id: SortOrder
+  product_id: SortOrder
+  city_id: SortOrder
+  quantity: SortOrder
+  remainingPayement: SortOrder
+  totalPayement: SortOrder
+  transaction_type_id: SortOrder
+  status_id: SortOrder
+}
+
+input TransactionsMaxOrderByAggregateInput {
+  transaction_id: SortOrder
+  seller_id: SortOrder
+  product_id: SortOrder
+  customer_name: SortOrder
+  customer_phone: SortOrder
+  city_id: SortOrder
+  address: SortOrder
+  quantity: SortOrder
+  date: SortOrder
+  remainingPayement: SortOrder
+  totalPayement: SortOrder
+  transaction_type_id: SortOrder
+  status_id: SortOrder
+}
+
+input TransactionsMinOrderByAggregateInput {
+  transaction_id: SortOrder
+  seller_id: SortOrder
+  product_id: SortOrder
+  customer_name: SortOrder
+  customer_phone: SortOrder
+  city_id: SortOrder
+  address: SortOrder
+  quantity: SortOrder
+  date: SortOrder
+  remainingPayement: SortOrder
+  totalPayement: SortOrder
+  transaction_type_id: SortOrder
+  status_id: SortOrder
+}
+
+input TransactionsSumOrderByAggregateInput {
+  transaction_id: SortOrder
+  seller_id: SortOrder
+  product_id: SortOrder
+  city_id: SortOrder
+  quantity: SortOrder
+  remainingPayement: SortOrder
+  totalPayement: SortOrder
+  transaction_type_id: SortOrder
+  status_id: SortOrder
+}
+
+input TransactionsScalarWhereWithAggregatesInput {
+  AND: [TransactionsScalarWhereWithAggregatesInput!]
+  OR: [TransactionsScalarWhereWithAggregatesInput!]
+  NOT: [TransactionsScalarWhereWithAggregatesInput!]
+  transaction_id: IntWithAggregatesFilter
+  seller_id: IntWithAggregatesFilter
+  product_id: IntWithAggregatesFilter
+  customer_name: StringWithAggregatesFilter
+  customer_phone: StringWithAggregatesFilter
+  city_id: IntWithAggregatesFilter
+  address: StringWithAggregatesFilter
+  quantity: IntWithAggregatesFilter
+  date: DateTimeWithAggregatesFilter
+  remainingPayement: FloatWithAggregatesFilter
+  totalPayement: FloatWithAggregatesFilter
+  transaction_type_id: IntWithAggregatesFilter
+  status_id: IntWithAggregatesFilter
+}
+
+input DateTimeWithAggregatesFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedDateTimeFilter
+  _max: NestedDateTimeFilter
+}
+
+input NestedDateTimeWithAggregatesFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedDateTimeFilter
+  _max: NestedDateTimeFilter
+}
+
+type Mutation {
+  createOneCity(data: CityCreateInput!): City!
+  deleteManyCity(where: CityWhereInput): AffectedRowsOutput!
+  deleteOneCity(where: CityWhereUniqueInput!): City
+  updateManyCity(data: CityUpdateManyMutationInput!, where: CityWhereInput): AffectedRowsOutput!
+  updateOneCity(data: CityUpdateInput!, where: CityWhereUniqueInput!): City
+  upsertOneCity(where: CityWhereUniqueInput!, create: CityCreateInput!, update: CityUpdateInput!): City!
+  createOneColors(data: ColorsCreateInput!): Colors!
+  deleteManyColors(where: ColorsWhereInput): AffectedRowsOutput!
+  deleteOneColors(where: ColorsWhereUniqueInput!): Colors
+  updateManyColors(data: ColorsUpdateManyMutationInput!, where: ColorsWhereInput): AffectedRowsOutput!
+  updateOneColors(data: ColorsUpdateInput!, where: ColorsWhereUniqueInput!): Colors
+  upsertOneColors(where: ColorsWhereUniqueInput!, create: ColorsCreateInput!, update: ColorsUpdateInput!): Colors!
+  createOnePayements(data: PayementsCreateInput!): Payements!
+  deleteManyPayements(where: PayementsWhereInput): AffectedRowsOutput!
+  deleteOnePayements(where: PayementsWhereUniqueInput!): Payements
+  updateManyPayements(data: PayementsUpdateManyMutationInput!, where: PayementsWhereInput): AffectedRowsOutput!
+  updateOnePayements(data: PayementsUpdateInput!, where: PayementsWhereUniqueInput!): Payements
+  upsertOnePayements(where: PayementsWhereUniqueInput!, create: PayementsCreateInput!, update: PayementsUpdateInput!): Payements!
+  createOneProductFamily(data: ProductFamilyCreateInput!): ProductFamily!
+  deleteManyProductFamily(where: ProductFamilyWhereInput): AffectedRowsOutput!
+  deleteOneProductFamily(where: ProductFamilyWhereUniqueInput!): ProductFamily
+  updateManyProductFamily(data: ProductFamilyUpdateManyMutationInput!, where: ProductFamilyWhereInput): AffectedRowsOutput!
+  updateOneProductFamily(data: ProductFamilyUpdateInput!, where: ProductFamilyWhereUniqueInput!): ProductFamily
+  upsertOneProductFamily(where: ProductFamilyWhereUniqueInput!, create: ProductFamilyCreateInput!, update: ProductFamilyUpdateInput!): ProductFamily!
+  createOneProductModel(data: ProductModelCreateInput!): ProductModel!
+  deleteManyProductModel(where: ProductModelWhereInput): AffectedRowsOutput!
+  deleteOneProductModel(where: ProductModelWhereUniqueInput!): ProductModel
+  updateManyProductModel(data: ProductModelUpdateManyMutationInput!, where: ProductModelWhereInput): AffectedRowsOutput!
+  updateOneProductModel(data: ProductModelUpdateInput!, where: ProductModelWhereUniqueInput!): ProductModel
+  upsertOneProductModel(where: ProductModelWhereUniqueInput!, create: ProductModelCreateInput!, update: ProductModelUpdateInput!): ProductModel!
+  createOneProducts(data: ProductsCreateInput!): Products!
+  deleteManyProducts(where: ProductsWhereInput): AffectedRowsOutput!
+  deleteOneProducts(where: ProductsWhereUniqueInput!): Products
+  updateManyProducts(data: ProductsUpdateManyMutationInput!, where: ProductsWhereInput): AffectedRowsOutput!
+  updateOneProducts(data: ProductsUpdateInput!, where: ProductsWhereUniqueInput!): Products
+  upsertOneProducts(where: ProductsWhereUniqueInput!, create: ProductsCreateInput!, update: ProductsUpdateInput!): Products!
+  createOneSellers(data: SellersCreateInput!): Sellers!
+  deleteManySellers(where: SellersWhereInput): AffectedRowsOutput!
+  deleteOneSellers(where: SellersWhereUniqueInput!): Sellers
+  updateManySellers(data: SellersUpdateManyMutationInput!, where: SellersWhereInput): AffectedRowsOutput!
+  updateOneSellers(data: SellersUpdateInput!, where: SellersWhereUniqueInput!): Sellers
+  upsertOneSellers(where: SellersWhereUniqueInput!, create: SellersCreateInput!, update: SellersUpdateInput!): Sellers!
+  createOneSizes(data: SizesCreateInput!): Sizes!
+  deleteManySizes(where: SizesWhereInput): AffectedRowsOutput!
+  deleteOneSizes(where: SizesWhereUniqueInput!): Sizes
+  updateManySizes(data: SizesUpdateManyMutationInput!, where: SizesWhereInput): AffectedRowsOutput!
+  updateOneSizes(data: SizesUpdateInput!, where: SizesWhereUniqueInput!): Sizes
+  upsertOneSizes(where: SizesWhereUniqueInput!, create: SizesCreateInput!, update: SizesUpdateInput!): Sizes!
+  createOneTransactionProduct(data: TransactionProductCreateInput!): TransactionProduct!
+  deleteManyTransactionProduct(where: TransactionProductWhereInput): AffectedRowsOutput!
+  deleteOneTransactionProduct(where: TransactionProductWhereUniqueInput!): TransactionProduct
+  updateManyTransactionProduct(data: TransactionProductUpdateManyMutationInput!, where: TransactionProductWhereInput): AffectedRowsOutput!
+  updateOneTransactionProduct(data: TransactionProductUpdateInput!, where: TransactionProductWhereUniqueInput!): TransactionProduct
+  upsertOneTransactionProduct(where: TransactionProductWhereUniqueInput!, create: TransactionProductCreateInput!, update: TransactionProductUpdateInput!): TransactionProduct!
+  createOneTransactionStatus(data: TransactionStatusCreateInput!): TransactionStatus!
+  deleteManyTransactionStatus(where: TransactionStatusWhereInput): AffectedRowsOutput!
+  deleteOneTransactionStatus(where: TransactionStatusWhereUniqueInput!): TransactionStatus
+  updateManyTransactionStatus(data: TransactionStatusUpdateManyMutationInput!, where: TransactionStatusWhereInput): AffectedRowsOutput!
+  updateOneTransactionStatus(data: TransactionStatusUpdateInput!, where: TransactionStatusWhereUniqueInput!): TransactionStatus
+  upsertOneTransactionStatus(where: TransactionStatusWhereUniqueInput!, create: TransactionStatusCreateInput!, update: TransactionStatusUpdateInput!): TransactionStatus!
+  createOneTransactionTypes(data: TransactionTypesCreateInput!): TransactionTypes!
+  deleteManyTransactionTypes(where: TransactionTypesWhereInput): AffectedRowsOutput!
+  deleteOneTransactionTypes(where: TransactionTypesWhereUniqueInput!): TransactionTypes
+  updateManyTransactionTypes(data: TransactionTypesUpdateManyMutationInput!, where: TransactionTypesWhereInput): AffectedRowsOutput!
+  updateOneTransactionTypes(data: TransactionTypesUpdateInput!, where: TransactionTypesWhereUniqueInput!): TransactionTypes
+  upsertOneTransactionTypes(where: TransactionTypesWhereUniqueInput!, create: TransactionTypesCreateInput!, update: TransactionTypesUpdateInput!): TransactionTypes!
+  createOneTransactions(data: TransactionsCreateInput!): Transactions!
+  deleteManyTransactions(where: TransactionsWhereInput): AffectedRowsOutput!
+  deleteOneTransactions(where: TransactionsWhereUniqueInput!): Transactions
+  updateManyTransactions(data: TransactionsUpdateManyMutationInput!, where: TransactionsWhereInput): AffectedRowsOutput!
+  updateOneTransactions(data: TransactionsUpdateInput!, where: TransactionsWhereUniqueInput!): Transactions
+  upsertOneTransactions(where: TransactionsWhereUniqueInput!, create: TransactionsCreateInput!, update: TransactionsUpdateInput!): Transactions!
+}
+
+input CityCreateInput {
+  city_id: Int!
+  city_name: String!
+  Transactions: TransactionsCreateNestedManyWithoutCityInput
+}
+
+input TransactionsCreateNestedManyWithoutCityInput {
+  create: [TransactionsCreateWithoutCityInput!]
+  connectOrCreate: [TransactionsCreateOrConnectWithoutCityInput!]
+  connect: [TransactionsWhereUniqueInput!]
+}
+
+input TransactionsCreateWithoutCityInput {
+  transaction_id: Int!
+  product_id: Int!
+  customer_name: String!
+  customer_phone: String!
+  address: String!
+  quantity: Int!
+  date: DateTime!
+  remainingPayement: Float!
+  totalPayement: Float!
+  seller: SellersCreateNestedOneWithoutTransactionsInput!
+  transaction_type: TransactionTypesCreateNestedOneWithoutTransactionsInput!
+  status: TransactionStatusCreateNestedOneWithoutTransactionsInput
+  Payements: PayementsCreateNestedManyWithoutTransactionInput
+}
+
+input SellersCreateNestedOneWithoutTransactionsInput {
+  create: SellersCreateWithoutTransactionsInput
+  connectOrCreate: SellersCreateOrConnectWithoutTransactionsInput
+  connect: SellersWhereUniqueInput
+}
+
+input SellersCreateWithoutTransactionsInput {
+  seller_name: String!
+  seller_phone: String!
+  picture: String!
+}
+
+input SellersCreateOrConnectWithoutTransactionsInput {
+  where: SellersWhereUniqueInput!
+  create: SellersCreateWithoutTransactionsInput!
+}
+
+input TransactionTypesCreateNestedOneWithoutTransactionsInput {
+  create: TransactionTypesCreateWithoutTransactionsInput
+  connectOrCreate: TransactionTypesCreateOrConnectWithoutTransactionsInput
+  connect: TransactionTypesWhereUniqueInput
+}
+
+input TransactionTypesCreateWithoutTransactionsInput {
+  type_name: String!
+  description: String!
+}
+
+input TransactionTypesCreateOrConnectWithoutTransactionsInput {
+  where: TransactionTypesWhereUniqueInput!
+  create: TransactionTypesCreateWithoutTransactionsInput!
+}
+
+input TransactionStatusCreateNestedOneWithoutTransactionsInput {
+  create: TransactionStatusCreateWithoutTransactionsInput
+  connectOrCreate: TransactionStatusCreateOrConnectWithoutTransactionsInput
+  connect: TransactionStatusWhereUniqueInput
+}
+
+input TransactionStatusCreateWithoutTransactionsInput {
+  name: String!
+  description: String!
+}
+
+input TransactionStatusCreateOrConnectWithoutTransactionsInput {
+  where: TransactionStatusWhereUniqueInput!
+  create: TransactionStatusCreateWithoutTransactionsInput!
+}
+
+input PayementsCreateNestedManyWithoutTransactionInput {
+  create: [PayementsCreateWithoutTransactionInput!]
+  connectOrCreate: [PayementsCreateOrConnectWithoutTransactionInput!]
+  connect: [PayementsWhereUniqueInput!]
+}
+
+input PayementsCreateWithoutTransactionInput {
+  payement_id: Int!
+  payement: Float!
+}
+
+input PayementsCreateOrConnectWithoutTransactionInput {
+  where: PayementsWhereUniqueInput!
+  create: PayementsCreateWithoutTransactionInput!
+}
+
+input TransactionsCreateOrConnectWithoutCityInput {
+  where: TransactionsWhereUniqueInput!
+  create: TransactionsCreateWithoutCityInput!
+}
+
+type AffectedRowsOutput {
+  count: Int!
+}
+
+input CityUpdateManyMutationInput {
+  city_id: IntFieldUpdateOperationsInput
+  city_name: StringFieldUpdateOperationsInput
+}
+
+input IntFieldUpdateOperationsInput {
+  set: Int
+  increment: Int
+  decrement: Int
+  multiply: Int
+  divide: Int
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input CityUpdateInput {
+  city_id: IntFieldUpdateOperationsInput
+  city_name: StringFieldUpdateOperationsInput
+  Transactions: TransactionsUpdateManyWithoutCityNestedInput
+}
+
+input TransactionsUpdateManyWithoutCityNestedInput {
+  create: [TransactionsCreateWithoutCityInput!]
+  connectOrCreate: [TransactionsCreateOrConnectWithoutCityInput!]
+  upsert: [TransactionsUpsertWithWhereUniqueWithoutCityInput!]
+  set: [TransactionsWhereUniqueInput!]
+  disconnect: [TransactionsWhereUniqueInput!]
+  delete: [TransactionsWhereUniqueInput!]
+  connect: [TransactionsWhereUniqueInput!]
+  update: [TransactionsUpdateWithWhereUniqueWithoutCityInput!]
+  updateMany: [TransactionsUpdateManyWithWhereWithoutCityInput!]
+  deleteMany: [TransactionsScalarWhereInput!]
+}
+
+input TransactionsUpsertWithWhereUniqueWithoutCityInput {
+  where: TransactionsWhereUniqueInput!
+  update: TransactionsUpdateWithoutCityInput!
+  create: TransactionsCreateWithoutCityInput!
+}
+
+input TransactionsUpdateWithoutCityInput {
+  transaction_id: IntFieldUpdateOperationsInput
+  product_id: IntFieldUpdateOperationsInput
+  customer_name: StringFieldUpdateOperationsInput
+  customer_phone: StringFieldUpdateOperationsInput
+  address: StringFieldUpdateOperationsInput
+  quantity: IntFieldUpdateOperationsInput
+  date: DateTimeFieldUpdateOperationsInput
+  remainingPayement: FloatFieldUpdateOperationsInput
+  totalPayement: FloatFieldUpdateOperationsInput
+  seller: SellersUpdateOneRequiredWithoutTransactionsNestedInput
+  transaction_type: TransactionTypesUpdateOneRequiredWithoutTransactionsNestedInput
+  status: TransactionStatusUpdateOneRequiredWithoutTransactionsNestedInput
+  Payements: PayementsUpdateManyWithoutTransactionNestedInput
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input FloatFieldUpdateOperationsInput {
+  set: Float
+  increment: Float
+  decrement: Float
+  multiply: Float
+  divide: Float
+}

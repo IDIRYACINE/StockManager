@@ -17,30 +17,28 @@ class DeleteProduct extends Command<DeleteProductEventData,
   DeleteProduct(this.graphQl) : super(eventId, eventName);
 
   @override
-  Future<DeleteProductResponse> handleEvent(DeleteProductEventData eventData) async {
-    const mutationDoc = r""" 
-          mutation DeleteOneProducts($where: ProductsWhereUniqueInput!) {
-  deleteOneProducts(where: $where) {
-    product_id
-  }
-}
-    """;
-
+  Future<DeleteProductResponse> handleEvent(
+      DeleteProductEventData eventData) async {
     final product = eventData.product;
 
     final where = graphql_service.Input$ProductsWhereUniqueInput(
         product_id: product.barcode);
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutationDoc),
-      variables: {"where": where},
+    final mutationVariables =
+        graphql_service.Variables$Mutation$DeleteOneProducts(
+      where: where,
     );
+
+    final MutationOptions options =
+        graphql_service.Options$Mutation$DeleteOneProducts(
+            variables: mutationVariables);
 
     final result = await graphQl.mutate(options);
 
     if (result.hasException) {
       return DeleteProductResponse(
-          messageId: eventData.messageId, status: ServiceEventResponseStatus.error);
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
     }
 
     return DeleteProductResponse(messageId: eventData.messageId);
@@ -54,7 +52,8 @@ class DeleteProduct extends Command<DeleteProductEventData,
 }
 
 class DeleteProductResponse extends ServiceEventResponse {
-  DeleteProductResponse({required int messageId,
+  DeleteProductResponse(
+      {required int messageId,
       ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
       : super(messageId, status);
 }
@@ -68,11 +67,9 @@ class DeleteProductRawEventData extends RawServiceEventData {
 class DeleteProductEventData
     extends ServiceEventData<DeleteProductRawEventData> {
   final Product product;
-  
-  DeleteProductEventData({
-      required String requesterId,
-      required this.product})
-      : super( requesterId);
+
+  DeleteProductEventData({required String requesterId, required this.product})
+      : super(requesterId);
 
   @override
   DeleteProductRawEventData toRawServiceEventData() {

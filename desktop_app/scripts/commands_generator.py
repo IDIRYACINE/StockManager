@@ -52,6 +52,15 @@ sellersCommands = [
         "remove_seller", "RemoveSeller", "SellersApi", "removeSeller", "SellersService"),
 ]
 
+transacionCommands = [
+    command_generator.DataHolder(
+        "register_transaction", "RegisterTransaction", "TransactionApi", "registerTransaction", "TransactionService"),
+    command_generator.DataHolder(
+        "load_transactions", "LoadTransactions", "TransactionApi", "loadTransactions", "TransactionService"),
+    command_generator.DataHolder(
+        "search_transaction", "SearchTransaction", "TransactionApi", "searchTransaction", "TransactionService"), 
+]
+
 
 def generate_commands(data):
     for d in data:
@@ -61,3 +70,4 @@ def generate_commands(data):
 # generate_commands(purchaseCommands)
 # generate_commands(stockCommands)
 # generate_commands(sellersCommands)
+generate_commands(transacionCommands)

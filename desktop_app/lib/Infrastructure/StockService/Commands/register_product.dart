@@ -12,7 +12,7 @@
   RegisterProduct() : super(eventId, eventName);
 
   @override
-  Future<RegisterProductResponse> handleEvent(RegisterProductEventData eventData) {
+  Future<RegisterProductResponse> handleEvent(RegisterProductEventData eventData) async {
     throw UnimplementedError();
   }
 

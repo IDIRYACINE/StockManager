@@ -19,14 +19,6 @@ class UpdateSeller extends Command<UpdateSellerEventData,
   @override
   Future<UpdateSellerResponse> handleEvent(
       UpdateSellerEventData eventData) async {
-    const mutationDoc = r"""
-            mutation UpdateOneSellers($data: SellersUpdateInput!, $where: SellersWhereUniqueInput!) {
-  updateOneSellers(data: $data, where: $where) {
-    seller_id
-  }
-}
-    """;
-
     final seller = eventData.seller;
 
     final where = graphql_service.Input$SellersWhereUniqueInput(
@@ -39,10 +31,13 @@ class UpdateSeller extends Command<UpdateSellerEventData,
           $set: seller.phone.toString()),
     );
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutationDoc),
-      variables: {"data": input, "where": where},
-    );
+    final mutationVariables =
+        graphql_service.Variables$Mutation$UpdateOneSellers(
+            where: where, data: input);
+
+    final MutationOptions options =
+        graphql_service.Options$Mutation$UpdateOneSellers(
+            variables: mutationVariables);
 
     final result = await graphQl.mutate(options);
 

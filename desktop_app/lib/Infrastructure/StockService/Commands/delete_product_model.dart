@@ -17,13 +17,6 @@ class DeleteProductModel extends Command<DeleteProductModelEventData,
   @override
   Future<DeleteProductModelResponse> handleEvent(
       DeleteProductModelEventData eventData) async {
-    const mutationDoc = r""" 
-          mutation DeleteOneProductModel($where: ProductModelWhereUniqueInput!) {
-  deleteOneProductModel(where: $where) {
-    product_id
-  }
-}
-    """;
 
     final compoundKey = graphql_service
         .Input$ProductModelProduct_idColor_idSize_idCompoundUniqueInput(
@@ -35,10 +28,12 @@ class DeleteProductModel extends Command<DeleteProductModelEventData,
     final where = graphql_service.Input$ProductModelWhereUniqueInput(
         product_id_color_id_size_id: compoundKey);
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutationDoc),
-      variables: {"where": where},
-    );
+    final mutationVariables =
+        graphql_service.Variables$Mutation$DeleteOneProductModel(where: where);
+
+    final MutationOptions options =
+        graphql_service.Options$Mutation$DeleteOneProductModel(
+            variables: mutationVariables);
 
     final result = await graphQl.mutate(options);
 

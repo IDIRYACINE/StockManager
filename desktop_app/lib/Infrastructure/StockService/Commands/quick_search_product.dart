@@ -19,31 +19,19 @@ class QuickSearchProduct extends Command<QuickSearchProductEventData,
   @override
   Future<QuickSearchProductResponse> handleEvent(
       QuickSearchProductEventData eventData) async {
-    const quickSearchDoc =
-        r"""query FindFirstProducts($where: ProductsWhereInput) {
-  findFirstProducts(where: $where) {
-    picture
-    product_id
-    reference
-    sellingPrice
-    name
-    family_id
-    description
-    buyingPrice
-    family {
-      name
-    }
-  }
-} """;
-
-    final where = graphql_service.Input$ProductsWhereUniqueInput(
-        product_id: int.tryParse(eventData.searchValue)
+    final where = graphql_service.Input$ProductsWhereInput(
+      product_id: graphql_service.Input$IntFilter(
+        equals: int.tryParse(eventData.searchValue),
+      ),
     );
 
-    final QueryOptions options = QueryOptions(
-      document: gql(quickSearchDoc),
-      variables: {"where": where},
+    final mutationVariables = graphql_service.Variables$Query$FindFirstProducts(
+      where: where,
     );
+
+    final QueryOptions options =
+        graphql_service.Options$Query$FindFirstProducts(
+            variables: mutationVariables);
 
     final result = await graphQl.query(options);
 
@@ -73,7 +61,7 @@ class QuickSearchProductResponse extends ServiceEventResponse {
   final Product? product;
   QuickSearchProductResponse(
       {required int messageId,
-       this.product,
+      this.product,
       ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
       : super(messageId, status);
 }

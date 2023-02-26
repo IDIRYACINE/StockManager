@@ -1,0 +1,520 @@
+input SellersUpdateOneRequiredWithoutTransactionsNestedInput {
+  create: SellersCreateWithoutTransactionsInput
+  connectOrCreate: SellersCreateOrConnectWithoutTransactionsInput
+  upsert: SellersUpsertWithoutTransactionsInput
+  connect: SellersWhereUniqueInput
+  update: SellersUpdateWithoutTransactionsInput
+}
+
+input SellersUpsertWithoutTransactionsInput {
+  update: SellersUpdateWithoutTransactionsInput!
+  create: SellersCreateWithoutTransactionsInput!
+}
+
+input SellersUpdateWithoutTransactionsInput {
+  seller_name: StringFieldUpdateOperationsInput
+  seller_phone: StringFieldUpdateOperationsInput
+  picture: StringFieldUpdateOperationsInput
+}
+
+input TransactionTypesUpdateOneRequiredWithoutTransactionsNestedInput {
+  create: TransactionTypesCreateWithoutTransactionsInput
+  connectOrCreate: TransactionTypesCreateOrConnectWithoutTransactionsInput
+  upsert: TransactionTypesUpsertWithoutTransactionsInput
+  connect: TransactionTypesWhereUniqueInput
+  update: TransactionTypesUpdateWithoutTransactionsInput
+}
+
+input TransactionTypesUpsertWithoutTransactionsInput {
+  update: TransactionTypesUpdateWithoutTransactionsInput!
+  create: TransactionTypesCreateWithoutTransactionsInput!
+}
+
+input TransactionTypesUpdateWithoutTransactionsInput {
+  type_name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+}
+
+input TransactionStatusUpdateOneRequiredWithoutTransactionsNestedInput {
+  create: TransactionStatusCreateWithoutTransactionsInput
+  connectOrCreate: TransactionStatusCreateOrConnectWithoutTransactionsInput
+  upsert: TransactionStatusUpsertWithoutTransactionsInput
+  connect: TransactionStatusWhereUniqueInput
+  update: TransactionStatusUpdateWithoutTransactionsInput
+}
+
+input TransactionStatusUpsertWithoutTransactionsInput {
+  update: TransactionStatusUpdateWithoutTransactionsInput!
+  create: TransactionStatusCreateWithoutTransactionsInput!
+}
+
+input TransactionStatusUpdateWithoutTransactionsInput {
+  name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+}
+
+input PayementsUpdateManyWithoutTransactionNestedInput {
+  create: [PayementsCreateWithoutTransactionInput!]
+  connectOrCreate: [PayementsCreateOrConnectWithoutTransactionInput!]
+  upsert: [PayementsUpsertWithWhereUniqueWithoutTransactionInput!]
+  set: [PayementsWhereUniqueInput!]
+  disconnect: [PayementsWhereUniqueInput!]
+  delete: [PayementsWhereUniqueInput!]
+  connect: [PayementsWhereUniqueInput!]
+  update: [PayementsUpdateWithWhereUniqueWithoutTransactionInput!]
+  updateMany: [PayementsUpdateManyWithWhereWithoutTransactionInput!]
+  deleteMany: [PayementsScalarWhereInput!]
+}
+
+input PayementsUpsertWithWhereUniqueWithoutTransactionInput {
+  where: PayementsWhereUniqueInput!
+  update: PayementsUpdateWithoutTransactionInput!
+  create: PayementsCreateWithoutTransactionInput!
+}
+
+input PayementsUpdateWithoutTransactionInput {
+  payement_id: IntFieldUpdateOperationsInput
+  payement: FloatFieldUpdateOperationsInput
+}
+
+input PayementsUpdateWithWhereUniqueWithoutTransactionInput {
+  where: PayementsWhereUniqueInput!
+  data: PayementsUpdateWithoutTransactionInput!
+}
+
+input PayementsUpdateManyWithWhereWithoutTransactionInput {
+  where: PayementsScalarWhereInput!
+  data: PayementsUpdateManyMutationInput!
+}
+
+input PayementsScalarWhereInput {
+  AND: [PayementsScalarWhereInput!]
+  OR: [PayementsScalarWhereInput!]
+  NOT: [PayementsScalarWhereInput!]
+  payement_id: IntFilter
+  transaction_id: IntFilter
+  payement: FloatFilter
+}
+
+input PayementsUpdateManyMutationInput {
+  payement_id: IntFieldUpdateOperationsInput
+  payement: FloatFieldUpdateOperationsInput
+}
+
+input TransactionsUpdateWithWhereUniqueWithoutCityInput {
+  where: TransactionsWhereUniqueInput!
+  data: TransactionsUpdateWithoutCityInput!
+}
+
+input TransactionsUpdateManyWithWhereWithoutCityInput {
+  where: TransactionsScalarWhereInput!
+  data: TransactionsUpdateManyMutationInput!
+}
+
+input TransactionsScalarWhereInput {
+  AND: [TransactionsScalarWhereInput!]
+  OR: [TransactionsScalarWhereInput!]
+  NOT: [TransactionsScalarWhereInput!]
+  transaction_id: IntFilter
+  seller_id: IntFilter
+  product_id: IntFilter
+  customer_name: StringFilter
+  customer_phone: StringFilter
+  city_id: IntFilter
+  address: StringFilter
+  quantity: IntFilter
+  date: DateTimeFilter
+  remainingPayement: FloatFilter
+  totalPayement: FloatFilter
+  transaction_type_id: IntFilter
+  status_id: IntFilter
+}
+
+input TransactionsUpdateManyMutationInput {
+  transaction_id: IntFieldUpdateOperationsInput
+  product_id: IntFieldUpdateOperationsInput
+  customer_name: StringFieldUpdateOperationsInput
+  customer_phone: StringFieldUpdateOperationsInput
+  address: StringFieldUpdateOperationsInput
+  quantity: IntFieldUpdateOperationsInput
+  date: DateTimeFieldUpdateOperationsInput
+  remainingPayement: FloatFieldUpdateOperationsInput
+  totalPayement: FloatFieldUpdateOperationsInput
+}
+
+input ColorsCreateInput {
+  id: Int!
+  color: String!
+  ProductModel: ProductModelCreateNestedManyWithoutColorInput
+}
+
+input ProductModelCreateNestedManyWithoutColorInput {
+  create: [ProductModelCreateWithoutColorInput!]
+  connectOrCreate: [ProductModelCreateOrConnectWithoutColorInput!]
+  connect: [ProductModelWhereUniqueInput!]
+}
+
+input ProductModelCreateWithoutColorInput {
+  quantity: Int!
+  product: ProductsCreateNestedOneWithoutProductModelInput!
+  size: SizesCreateNestedOneWithoutProductModelInput!
+}
+
+input ProductsCreateNestedOneWithoutProductModelInput {
+  create: ProductsCreateWithoutProductModelInput
+  connectOrCreate: ProductsCreateOrConnectWithoutProductModelInput
+  connect: ProductsWhereUniqueInput
+}
+
+input ProductsCreateWithoutProductModelInput {
+  reference: Int!
+  name: String!
+  buyingPrice: Float!
+  sellingPrice: Float!
+  description: String!
+  picture: String!
+  family: ProductFamilyCreateNestedOneWithoutProductsInput!
+  TransactionProduct: TransactionProductCreateNestedManyWithoutProductInput
+}
+
+input ProductFamilyCreateNestedOneWithoutProductsInput {
+  create: ProductFamilyCreateWithoutProductsInput
+  connectOrCreate: ProductFamilyCreateOrConnectWithoutProductsInput
+  connect: ProductFamilyWhereUniqueInput
+}
+
+input ProductFamilyCreateWithoutProductsInput {
+  name: String!
+}
+
+input ProductFamilyCreateOrConnectWithoutProductsInput {
+  where: ProductFamilyWhereUniqueInput!
+  create: ProductFamilyCreateWithoutProductsInput!
+}
+
+input TransactionProductCreateNestedManyWithoutProductInput {
+  create: [TransactionProductCreateWithoutProductInput!]
+  connectOrCreate: [TransactionProductCreateOrConnectWithoutProductInput!]
+  connect: [TransactionProductWhereUniqueInput!]
+}
+
+input TransactionProductCreateWithoutProductInput {
+  quantity: Int!
+  price: Float!
+  product_name: String!
+}
+
+input TransactionProductCreateOrConnectWithoutProductInput {
+  where: TransactionProductWhereUniqueInput!
+  create: TransactionProductCreateWithoutProductInput!
+}
+
+input ProductsCreateOrConnectWithoutProductModelInput {
+  where: ProductsWhereUniqueInput!
+  create: ProductsCreateWithoutProductModelInput!
+}
+
+input SizesCreateNestedOneWithoutProductModelInput {
+  create: SizesCreateWithoutProductModelInput
+  connectOrCreate: SizesCreateOrConnectWithoutProductModelInput
+  connect: SizesWhereUniqueInput
+}
+
+input SizesCreateWithoutProductModelInput {
+  id: Int!
+  size: String!
+}
+
+input SizesCreateOrConnectWithoutProductModelInput {
+  where: SizesWhereUniqueInput!
+  create: SizesCreateWithoutProductModelInput!
+}
+
+input ProductModelCreateOrConnectWithoutColorInput {
+  where: ProductModelWhereUniqueInput!
+  create: ProductModelCreateWithoutColorInput!
+}
+
+input ColorsUpdateManyMutationInput {
+  id: IntFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+}
+
+input ColorsUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  ProductModel: ProductModelUpdateManyWithoutColorNestedInput
+}
+
+input ProductModelUpdateManyWithoutColorNestedInput {
+  create: [ProductModelCreateWithoutColorInput!]
+  connectOrCreate: [ProductModelCreateOrConnectWithoutColorInput!]
+  upsert: [ProductModelUpsertWithWhereUniqueWithoutColorInput!]
+  set: [ProductModelWhereUniqueInput!]
+  disconnect: [ProductModelWhereUniqueInput!]
+  delete: [ProductModelWhereUniqueInput!]
+  connect: [ProductModelWhereUniqueInput!]
+  update: [ProductModelUpdateWithWhereUniqueWithoutColorInput!]
+  updateMany: [ProductModelUpdateManyWithWhereWithoutColorInput!]
+  deleteMany: [ProductModelScalarWhereInput!]
+}
+
+input ProductModelUpsertWithWhereUniqueWithoutColorInput {
+  where: ProductModelWhereUniqueInput!
+  update: ProductModelUpdateWithoutColorInput!
+  create: ProductModelCreateWithoutColorInput!
+}
+
+input ProductModelUpdateWithoutColorInput {
+  quantity: IntFieldUpdateOperationsInput
+  product: ProductsUpdateOneRequiredWithoutProductModelNestedInput
+  size: SizesUpdateOneRequiredWithoutProductModelNestedInput
+}
+
+input ProductsUpdateOneRequiredWithoutProductModelNestedInput {
+  create: ProductsCreateWithoutProductModelInput
+  connectOrCreate: ProductsCreateOrConnectWithoutProductModelInput
+  upsert: ProductsUpsertWithoutProductModelInput
+  connect: ProductsWhereUniqueInput
+  update: ProductsUpdateWithoutProductModelInput
+}
+
+input ProductsUpsertWithoutProductModelInput {
+  update: ProductsUpdateWithoutProductModelInput!
+  create: ProductsCreateWithoutProductModelInput!
+}
+
+input ProductsUpdateWithoutProductModelInput {
+  reference: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  buyingPrice: FloatFieldUpdateOperationsInput
+  sellingPrice: FloatFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  picture: StringFieldUpdateOperationsInput
+  family: ProductFamilyUpdateOneRequiredWithoutProductsNestedInput
+  TransactionProduct: TransactionProductUpdateManyWithoutProductNestedInput
+}
+
+input ProductFamilyUpdateOneRequiredWithoutProductsNestedInput {
+  create: ProductFamilyCreateWithoutProductsInput
+  connectOrCreate: ProductFamilyCreateOrConnectWithoutProductsInput
+  upsert: ProductFamilyUpsertWithoutProductsInput
+  connect: ProductFamilyWhereUniqueInput
+  update: ProductFamilyUpdateWithoutProductsInput
+}
+
+input ProductFamilyUpsertWithoutProductsInput {
+  update: ProductFamilyUpdateWithoutProductsInput!
+  create: ProductFamilyCreateWithoutProductsInput!
+}
+
+input ProductFamilyUpdateWithoutProductsInput {
+  name: StringFieldUpdateOperationsInput
+}
+
+input TransactionProductUpdateManyWithoutProductNestedInput {
+  create: [TransactionProductCreateWithoutProductInput!]
+  connectOrCreate: [TransactionProductCreateOrConnectWithoutProductInput!]
+  upsert: [TransactionProductUpsertWithWhereUniqueWithoutProductInput!]
+  set: [TransactionProductWhereUniqueInput!]
+  disconnect: [TransactionProductWhereUniqueInput!]
+  delete: [TransactionProductWhereUniqueInput!]
+  connect: [TransactionProductWhereUniqueInput!]
+  update: [TransactionProductUpdateWithWhereUniqueWithoutProductInput!]
+  updateMany: [TransactionProductUpdateManyWithWhereWithoutProductInput!]
+  deleteMany: [TransactionProductScalarWhereInput!]
+}
+
+input TransactionProductUpsertWithWhereUniqueWithoutProductInput {
+  where: TransactionProductWhereUniqueInput!
+  update: TransactionProductUpdateWithoutProductInput!
+  create: TransactionProductCreateWithoutProductInput!
+}
+
+input TransactionProductUpdateWithoutProductInput {
+  quantity: IntFieldUpdateOperationsInput
+  price: FloatFieldUpdateOperationsInput
+  product_name: StringFieldUpdateOperationsInput
+}
+
+input TransactionProductUpdateWithWhereUniqueWithoutProductInput {
+  where: TransactionProductWhereUniqueInput!
+  data: TransactionProductUpdateWithoutProductInput!
+}
+
+input TransactionProductUpdateManyWithWhereWithoutProductInput {
+  where: TransactionProductScalarWhereInput!
+  data: TransactionProductUpdateManyMutationInput!
+}
+
+input TransactionProductScalarWhereInput {
+  AND: [TransactionProductScalarWhereInput!]
+  OR: [TransactionProductScalarWhereInput!]
+  NOT: [TransactionProductScalarWhereInput!]
+  transaction_id: IntFilter
+  product_id: IntFilter
+  quantity: IntFilter
+  price: FloatFilter
+  product_name: StringFilter
+}
+
+input TransactionProductUpdateManyMutationInput {
+  quantity: IntFieldUpdateOperationsInput
+  price: FloatFieldUpdateOperationsInput
+  product_name: StringFieldUpdateOperationsInput
+}
+
+input SizesUpdateOneRequiredWithoutProductModelNestedInput {
+  create: SizesCreateWithoutProductModelInput
+  connectOrCreate: SizesCreateOrConnectWithoutProductModelInput
+  upsert: SizesUpsertWithoutProductModelInput
+  connect: SizesWhereUniqueInput
+  update: SizesUpdateWithoutProductModelInput
+}
+
+input SizesUpsertWithoutProductModelInput {
+  update: SizesUpdateWithoutProductModelInput!
+  create: SizesCreateWithoutProductModelInput!
+}
+
+input SizesUpdateWithoutProductModelInput {
+  id: IntFieldUpdateOperationsInput
+  size: StringFieldUpdateOperationsInput
+}
+
+input ProductModelUpdateWithWhereUniqueWithoutColorInput {
+  where: ProductModelWhereUniqueInput!
+  data: ProductModelUpdateWithoutColorInput!
+}
+
+input ProductModelUpdateManyWithWhereWithoutColorInput {
+  where: ProductModelScalarWhereInput!
+  data: ProductModelUpdateManyMutationInput!
+}
+
+input ProductModelScalarWhereInput {
+  AND: [ProductModelScalarWhereInput!]
+  OR: [ProductModelScalarWhereInput!]
+  NOT: [ProductModelScalarWhereInput!]
+  product_id: IntFilter
+  color_id: IntFilter
+  size_id: IntFilter
+  quantity: IntFilter
+}
+
+input ProductModelUpdateManyMutationInput {
+  quantity: IntFieldUpdateOperationsInput
+}
+
+input PayementsCreateInput {
+  payement_id: Int!
+  payement: Float!
+  transaction: TransactionsCreateNestedOneWithoutPayementsInput!
+}
+
+input TransactionsCreateNestedOneWithoutPayementsInput {
+  create: TransactionsCreateWithoutPayementsInput
+  connectOrCreate: TransactionsCreateOrConnectWithoutPayementsInput
+  connect: TransactionsWhereUniqueInput
+}
+
+input TransactionsCreateWithoutPayementsInput {
+  transaction_id: Int!
+  product_id: Int!
+  customer_name: String!
+  customer_phone: String!
+  address: String!
+  quantity: Int!
+  date: DateTime!
+  remainingPayement: Float!
+  totalPayement: Float!
+  seller: SellersCreateNestedOneWithoutTransactionsInput!
+  city: CityCreateNestedOneWithoutTransactionsInput!
+  transaction_type: TransactionTypesCreateNestedOneWithoutTransactionsInput!
+  status: TransactionStatusCreateNestedOneWithoutTransactionsInput
+}
+
+input CityCreateNestedOneWithoutTransactionsInput {
+  create: CityCreateWithoutTransactionsInput
+  connectOrCreate: CityCreateOrConnectWithoutTransactionsInput
+  connect: CityWhereUniqueInput
+}
+
+input CityCreateWithoutTransactionsInput {
+  city_id: Int!
+  city_name: String!
+}
+
+input CityCreateOrConnectWithoutTransactionsInput {
+  where: CityWhereUniqueInput!
+  create: CityCreateWithoutTransactionsInput!
+}
+
+input TransactionsCreateOrConnectWithoutPayementsInput {
+  where: TransactionsWhereUniqueInput!
+  create: TransactionsCreateWithoutPayementsInput!
+}
+
+input PayementsUpdateInput {
+  payement_id: IntFieldUpdateOperationsInput
+  payement: FloatFieldUpdateOperationsInput
+  transaction: TransactionsUpdateOneRequiredWithoutPayementsNestedInput
+}
+
+input TransactionsUpdateOneRequiredWithoutPayementsNestedInput {
+  create: TransactionsCreateWithoutPayementsInput
+  connectOrCreate: TransactionsCreateOrConnectWithoutPayementsInput
+  upsert: TransactionsUpsertWithoutPayementsInput
+  connect: TransactionsWhereUniqueInput
+  update: TransactionsUpdateWithoutPayementsInput
+}
+
+input TransactionsUpsertWithoutPayementsInput {
+  update: TransactionsUpdateWithoutPayementsInput!
+  create: TransactionsCreateWithoutPayementsInput!
+}
+
+input TransactionsUpdateWithoutPayementsInput {
+  transaction_id: IntFieldUpdateOperationsInput
+  product_id: IntFieldUpdateOperationsInput
+  customer_name: StringFieldUpdateOperationsInput
+  customer_phone: StringFieldUpdateOperationsInput
+  address: StringFieldUpdateOperationsInput
+  quantity: IntFieldUpdateOperationsInput
+  date: DateTimeFieldUpdateOperationsInput
+  remainingPayement: FloatFieldUpdateOperationsInput
+  totalPayement: FloatFieldUpdateOperationsInput
+  seller: SellersUpdateOneRequiredWithoutTransactionsNestedInput
+  city: CityUpdateOneRequiredWithoutTransactionsNestedInput
+  transaction_type: TransactionTypesUpdateOneRequiredWithoutTransactionsNestedInput
+  status: TransactionStatusUpdateOneRequiredWithoutTransactionsNestedInput
+}
+
+input CityUpdateOneRequiredWithoutTransactionsNestedInput {
+  create: CityCreateWithoutTransactionsInput
+  connectOrCreate: CityCreateOrConnectWithoutTransactionsInput
+  upsert: CityUpsertWithoutTransactionsInput
+  connect: CityWhereUniqueInput
+  update: CityUpdateWithoutTransactionsInput
+}
+
+input CityUpsertWithoutTransactionsInput {
+  update: CityUpdateWithoutTransactionsInput!
+  create: CityCreateWithoutTransactionsInput!
+}
+
+input CityUpdateWithoutTransactionsInput {
+  city_id: IntFieldUpdateOperationsInput
+  city_name: StringFieldUpdateOperationsInput
+}
+
+input ProductFamilyCreateInput {
+  name: String!
+  Products: ProductsCreateNestedManyWithoutFamilyInput
+}
+
+input ProductsCreateNestedManyWithoutFamilyInput {
+  create: [ProductsCreateWithoutFamilyInput!]
+  connectOrCreate: [ProductsCreateOrConnectWithoutFamilyInput!]
+  connect: [ProductsWhereUniqueInput!]
+}

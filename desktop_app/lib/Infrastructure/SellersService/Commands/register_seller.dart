@@ -18,16 +18,7 @@ class RegisterSeller extends Command<RegisterSellerEventData,
 
   @override
   Future<RegisterSellerResponse> handleEvent(
-      RegisterSellerEventData eventData) async{
-    const mutationDoc =
-        r"""mutation CreateOneSellers($data: SellersCreateInput!) {
-  createOneSellers(data: $data) {
-    picture
-    seller_id
-    seller_name
-    seller_phone
-  }
-}""";
+      RegisterSellerEventData eventData) async {
     final seller = eventData.seller;
 
     final input = graphql_service.Input$SellersCreateInput(
@@ -35,20 +26,22 @@ class RegisterSeller extends Command<RegisterSellerEventData,
         seller_name: seller.name,
         seller_phone: seller.phone.toString());
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutationDoc),
-      variables: {"data": input},
-    );
+    final mutationVariables =
+        graphql_service.Variables$Mutation$CreateOneSellers(data: input);
+
+    final MutationOptions options =
+        graphql_service.Options$Mutation$CreateOneSellers(
+            variables: mutationVariables);
 
     final result = await graphQl.mutate(options);
 
     if (result.hasException) {
       return RegisterSellerResponse(
-          messageId: eventData.messageId, status: ServiceEventResponseStatus.error);
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
     }
 
     return RegisterSellerResponse(messageId: eventData.messageId);
-    
   }
 
   @override
