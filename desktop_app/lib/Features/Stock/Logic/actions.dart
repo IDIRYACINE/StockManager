@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
@@ -20,6 +23,22 @@ Future<void> removeProduct(Product product) async {
   final event = DeleteProductEvent(eventData: eventData);
 
   ServicesGateway.instance().sendEvent(event);
+}
+
+Future<List<Product>> loadProducts() async { 
+  final completer = Completer<List<Product>>();
+
+  void onResponse(ServiceEventResponse response) {
+      completer.complete((response as LoadProductsResponse).products);
+  }
+
+  final eventData = LoadProductsEventData(requesterId: _requesterId);
+
+  final event = LoadProductsEvent(eventData: eventData,callback: onResponse);
+
+  ServicesGateway.instance().sendEvent(event);
+
+  return completer.future;
 }
 
 Future<void> searchProducts(Map<ServicesData, dynamic> requestData) async {

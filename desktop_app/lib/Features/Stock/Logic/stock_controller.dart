@@ -1,23 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Features/Stock/i_stock.dart';
+import 'package:stock_manager/Features/Stock/stock_feature.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
-import 'package:stock_manager/Features/Stock/ProductEditor/product_editor.dart';
-import 'package:stock_manager/Features/Stock/ProductFamilyEditor/product_family_editor.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class StockController {
-  StockController() {
-    _productsDelegate = _ProductsDelegate();
-    _familliesDelegate = _FamilliesDelegate();
+  StockController(StockBloc bloc) {
+    _productsDelegate = _ProductsDelegate(bloc);
+    _familliesDelegate = _FamilliesDelegate(bloc);
     _stockDelegate = _productsDelegate;
   }
 
@@ -94,14 +95,15 @@ class StockController {
 }
 
 class _ProductsDelegate implements IStockDelegate<Product> {
-  _ProductsDelegate();
+  _ProductsDelegate(this.bloc);
 
-  
+  final StockBloc bloc;
 
   @override
   void add(BuildContext context) {
     void onConfirm(Product product) {
-      Navigator.of(context).pop();    
+      bloc.add(AddProduct(product));
+      AppNavigator.pop();
     }
 
     PopupsUtility.displayGenericPopup(
@@ -119,9 +121,14 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void edit(BuildContext context, Product product, int index) {
     void onEdit(Map<String, dynamic> updatedField, Product product) {
+      final updateWrapper = UpdateRequestWrapper<Product>(
+        product,
+        updatedField,
+      );
 
+      bloc.add(UpdateProduct(updateWrapper));
 
-      Navigator.of(context).pop();
+      AppNavigator.pop();
     }
 
     PopupsUtility.displayGenericPopup(
@@ -139,15 +146,20 @@ class _ProductsDelegate implements IStockDelegate<Product> {
 
   @override
   void refresh(BuildContext context) {
+    bloc.add(RefreshProducts());
   }
 
   @override
   void remove(BuildContext context, Product product) {
+    void onRemove() {
+      bloc.add(RemoveProduct(product));
+    }
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
-          onConfirm: () => {},
+          onConfirm: onRemove,
           message: Translations.of(context)!.messageDeleteElement,
         ),
       ),
@@ -157,11 +169,11 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   @override
   void search(BuildContext context) {
     void onSearch(Map<String, dynamic> selector) {
+      //TODO: implement search
     }
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
         RegisterSearchQueryBuilder onDeselect) {
-
       return [
         SearchFieldText<int>(
           label: Translations.of(context)!.barcode,
@@ -199,14 +211,13 @@ class _ProductsDelegate implements IStockDelegate<Product> {
   }
 
   @override
-  void quickSearch(BuildContext context, AppJson query) {
-  }
+  void quickSearch(BuildContext context, AppJson query) {}
 }
 
 class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
-  _FamilliesDelegate();
+  _FamilliesDelegate(this.bloc);
 
-  
+  final StockBloc bloc;
 
   @override
   void add(BuildContext context) {
@@ -230,8 +241,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
         content: FamilyEditor(
           family: family.copyWith(),
           editMode: true,
-          editCallback: (updatedValues, family) =>
-              {},
+          editCallback: (updatedValues, family) => {},
           confirmLabel: Translations.of(context)!.update,
         ),
       ),
@@ -239,8 +249,7 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
   }
 
   @override
-  void refresh(BuildContext context) {
-  }
+  void refresh(BuildContext context) {}
 
   @override
   void remove(BuildContext context, ProductFamily family) {
@@ -294,8 +303,6 @@ class _FamilliesDelegate implements IStockDelegate<ProductFamily> {
 
   @override
   void quickSearch(BuildContext context, AppJson query) {
-
     _showLoadingAlert(context);
-
   }
 }

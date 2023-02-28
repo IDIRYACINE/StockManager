@@ -1,4 +1,5 @@
 import 'package:stock_manager/Domain/Models/product.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 
 class StockEvent {}
 
@@ -8,9 +9,25 @@ class AddProduct extends StockEvent{
   AddProduct(this.product);
 }
 
-class RemoveProduct extends StockEvent{}
+class RemoveProduct extends StockEvent{
+  final Product product;
 
-class UpdateProduct extends StockEvent{}
+  RemoveProduct(this.product);
+}
+
+class UpdateProduct extends StockEvent{
+  final UpdateRequestWrapper<Product> updateWrapper;
+  
+  UpdateProduct(this.updateWrapper);
+}
+
+class LoadProducts extends StockEvent{
+  final List<Product> products;
+
+  LoadProducts(this.products);
+}
+
+class RefreshProducts extends StockEvent{}
 
 class AddProductModel extends StockEvent{}
 
@@ -27,7 +44,5 @@ class UpdateProductFamily extends  StockEvent{}
 class SearchProduct extends StockEvent{}
 
 class SearchProductFamily extends StockEvent{}
-
-class RefreshProduct extends StockEvent{}
 
 class RefreshProductFamily extends StockEvent{}

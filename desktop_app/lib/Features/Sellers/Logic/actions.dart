@@ -34,3 +34,23 @@ Future<void> deleteSeller(Seller seller) async {
   ServicesGateway.instance().sendEvent(event);
 
 }
+
+Future<void> addSeller(Seller seller) async {
+
+  final data = RegisterSellerEventData(requesterId: requesterId, seller: seller);
+
+  final event = RegisterSellerEvent(eventData: data );
+
+  ServicesGateway.instance().sendEvent(event);
+
+}
+
+Future<void> updateSeller(Seller seller) async {
+
+  final data = UpdateSellerEventData(requesterId: requesterId, seller: seller);
+
+  final event = UpdateSellerEvent(eventData: data );
+
+  ServicesGateway.instance().sendEvent(event);
+
+}

@@ -15,7 +15,8 @@ class StockTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StockController controller = StockController();
+    final bloc = BlocProvider.of<StockBloc>(context);
+    StockController controller = StockController(bloc);
 
     return SizedBox(
       width: double.infinity,
@@ -65,8 +66,8 @@ class _ProductsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StockController controller = StockController();
-
+    final bloc = BlocProvider.of<StockBloc>(context);
+    StockController controller = StockController(bloc);
     List<String> stockProductTableColumns = [
       Translations.of(context)!.barcode,
       Translations.of(context)!.productName,
@@ -134,8 +135,9 @@ class _FamilliesTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StockController controller = StockController();
-
+    final bloc = BlocProvider.of<StockBloc>(context);
+    StockController controller = StockController(bloc);
+    
     List<String> stockFamilliesTableColumns = [
       Translations.of(context)!.productFamily,
       Translations.of(context)!.reference,

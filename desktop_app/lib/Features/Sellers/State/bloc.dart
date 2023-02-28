@@ -21,14 +21,24 @@ class SellersBloc extends Bloc<SellersEvent, SellersState> {
     emit(newState);
   }
 
-  FutureOr<void> _addSeller(AddSellerEvent event, Emitter<SellersState> emit) {}
+  FutureOr<void> _addSeller(AddSellerEvent event, Emitter<SellersState> emit) {
+    addSeller(event.seller);
+    final sellers = state.addSeller(event.seller);
+    final newState = state.copyWith(sellers: sellers);
+    emit(newState);
+  }
 
   FutureOr<void> _updateSeller(
-      UpdateSellerEvent event, Emitter<SellersState> emit) {}
+      UpdateSellerEvent event, Emitter<SellersState> emit) {
+    updateSeller(event.seller);
+    final sellers = state.replaceSeller(event.seller);
+    final newState = state.copyWith(sellers: sellers);
+    emit(newState);
+  }
 
   FutureOr<void> _deleteSeller(
       DeleteSellerEvent event, Emitter<SellersState> emit) {
-        deleteSeller(event.seller);
+    deleteSeller(event.seller);
     final sellers = state.removeSeller(event.seller);
     final newState = state.copyWith(sellers: sellers);
     emit(newState);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Features/Stock/Logic/stock_controller.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
+import 'package:stock_manager/Features/Stock/stock_feature.dart';
 import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock_table.dart';
@@ -33,8 +33,8 @@ class StockPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StockController controller =
-        StockController();
+        final bloc = BlocProvider.of<StockBloc>(context);
+    StockController controller = StockController(bloc);
 
     // final stockTypes = StockTypes.values
     //     .map((e) => DropdownAdapters.enumDropDownMenuItemAdapter(e))

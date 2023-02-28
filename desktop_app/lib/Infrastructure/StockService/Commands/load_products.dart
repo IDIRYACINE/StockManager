@@ -63,7 +63,8 @@ class LoadProductsRawEventData extends RawServiceEventData {
 }
 
 class LoadProductsEventData extends ServiceEventData<LoadProductsRawEventData> {
-  LoadProductsEventData(super.requesterId);
+  LoadProductsEventData({required String requesterId})
+      : super(requesterId);
 
   @override
   LoadProductsRawEventData toRawServiceEventData() {

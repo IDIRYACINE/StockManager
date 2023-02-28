@@ -6,12 +6,12 @@ class UpdateRequestWrapper<T>{
   final int? index;
   final Map<String,dynamic> updatedField;
 
-  UpdateRequestWrapper(this.instance, this.updatedField,this.index);
+  UpdateRequestWrapper(this.instance, this.updatedField,[this.index]);
 }
 
 class RemoveRequestWrapper<T>{
   final T instance;
   final int? index;
 
-  RemoveRequestWrapper(this.instance,this.index);
+  RemoveRequestWrapper(this.instance,[this.index]);
 }

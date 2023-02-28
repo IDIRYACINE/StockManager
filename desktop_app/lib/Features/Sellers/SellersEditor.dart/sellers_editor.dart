@@ -38,41 +38,41 @@ class SellersEditor extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingNormal),
       child: Form(
-          key: formKey,
-          child: Column(
+        key: formKey,
+        child: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start, children: [
-            Flexible(
-                child: SellerForm(
-              seller: seller,
-              sellerEditorMode: sellerEditorMode,
-            )),
-            const SizedBox(height: Measures.small),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DefaultButton(
-                    label: Translations.of(context)!.
-cancel,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Flexible(
+                  child: SellerForm(
+                seller: seller,
+                sellerEditorMode: sellerEditorMode,
+              )),
+              const SizedBox(height: Measures.small),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DefaultButton(
+                      label: Translations.of(context)!.cancel,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                  DefaultButton(
+                    label: Translations.of(context)!.save,
                     onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                DefaultButton(
-                  label: Translations.of(context)!.
-save,
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      if (editMode) {
-                        sellerEditorMode.result(editCallback);
-                      } else {
-                        sellerEditorMode.result(createCallback);
+                      if (formKey.currentState!.validate()) {
+                        if (editMode) {
+                          sellerEditorMode.confirm(editCallback);
+                        } else {
+                          sellerEditorMode.confirm(createCallback);
+                        }
                       }
-                    }
-                  },
-                ),
-              ],
-            )
-          ])),
+                    },
+                  ),
+                ],
+              )
+            ]),
+      ),
     );
   }
 }

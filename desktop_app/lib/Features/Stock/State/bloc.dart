@@ -18,8 +18,10 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     on<UpdateProductFamily>(_updateProductFamily);
     on<SearchProduct>(_searchProduct);
     on<SearchProductFamily>(_searchProductFamily);
-    on<RefreshProduct>(_refreshProduct);
+    on<RefreshProducts>(_refreshProduct);
     on<RefreshProductFamily>(_refreshProductFamily);
+
+    on<LoadProducts>(_loadProducts);
   }
 
   factory StockBloc.initial() => StockBloc._();
@@ -29,16 +31,30 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     addProduct(event.product);
     
     final newState = state.copyWith(
-      products: state.products..add(event.product),
+      products: state.addProduct(event.product)
     );
 
     emit(newState);
   }
 
   FutureOr<void> _removeProduct(RemoveProduct event, Emitter<StockState> emit) {
+     removeProduct(event.product);
+    
+    final newState = state.copyWith(
+      products: state.removeProduct(event.product)
+    );
+
+    emit(newState);
   }
 
   FutureOr<void> _updateProduct(UpdateProduct event, Emitter<StockState> emit) {
+     updateProduct(event.updateWrapper);
+    
+    final newState = state.copyWith(
+      products: state.updateProduct(event.updateWrapper.instance)
+    );
+
+    emit(newState);
   }
 
   FutureOr<void> _addProductModel(AddProductModel event, Emitter<StockState> emit) {
@@ -53,7 +69,10 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   FutureOr<void> _removeProductFamily(RemoveProductFamily event, Emitter<StockState> emit) {
   }
 
-  FutureOr<void> _refreshProduct(RefreshProduct event, Emitter<StockState> emit) {
+  FutureOr<void> _refreshProduct(RefreshProducts event, Emitter<StockState> emit) {
+    loadProducts().then((products) {
+      add(LoadProducts(products));
+    });
   }
 
   FutureOr<void> _searchProductFamily(SearchProductFamily event, Emitter<StockState> emit) {
@@ -69,5 +88,13 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   FutureOr<void> _updateProductFamily(UpdateProductFamily event, Emitter<StockState> emit) {
+  }
+
+  FutureOr<void> _loadProducts(LoadProducts event, Emitter<StockState> emit) {
+    final newState = state.copyWith(
+      products: event.products
+    );
+
+    emit(newState);
   }
 }
