@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Features/Sellers/Logic/sellers_controller.dart';
+import 'package:stock_manager/Features/Sellers/feature.dart';
 
 import 'package:stock_manager/Ui/Generics/Cards/actions_card.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -17,20 +19,21 @@ class SellersPanel extends StatelessWidget {
     controller.add(context);
   }
 
-  void onRefresh(BuildContext context, SellersController controller) {
-    controller.refresh(context);
+  void onRefresh( SellersController controller) {
+    controller.refresh();
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = SellersController();
+    final bloc = BlocProvider.of<SellersBloc>(context);
+    final controller = SellersController(bloc);
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingLarge),
       child: Column(children: [
         ActionsCard(
           onAdd: () => onAdd(context, controller),
-          onRefresh: () => onRefresh(context, controller),
+          onRefresh: () => onRefresh(controller),
           title: Translations.of(context)!.sellers,
         ),
         const SizedBox(height: Measures.large),

@@ -1,6 +1,5 @@
 
 
-import 'package:stock_manager/Infrastructure/StockService/service.dart';
 import 'package:stock_manager/Infrastructure/services_store.dart';
 import 'package:stock_manager/Types/i_database.dart';
 

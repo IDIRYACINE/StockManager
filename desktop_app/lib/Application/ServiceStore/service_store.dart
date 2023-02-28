@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'search_algorithm.dart';
 
-
 typedef VoidCallback = void Function();
 typedef ServiceCallback<T> = void Function(T);
 
@@ -20,24 +19,67 @@ abstract class ServiceStore {
     _services.remove(service);
   }
 
+  void registerServiceAtIndex(Service service) {
+    _services[service.serviceId] = service;
+  }
+
   void sendEvent(ServiceEvent event) {
     Service? service = _searchAlgorithm.search(_services, event.serviceId);
     if (service != null) {
       service.onEventForCallback(event);
+      return;
     }
+    throw Exception('Service not found');
+  }
+
+  void initServices(int servicesCount) {
+    _services = List.filled(servicesCount, EmptyService());
   }
 }
 
-abstract class Service{
-  late int serviceId;
-  late String serviceName;
+class EmptyService extends Service {
+  static int counter = -1;
+
+  EmptyService()
+      : super(
+          searchAlgorithm: EmptySearchAlgorithm(),
+          serviceName: "EmptyService",
+          serviceId: EmptyService.counter,
+        ) {
+    EmptyService.counter++;
+  }
+
+  @override
+  void onEventForCallback(ServiceEvent<ServiceEventResponse> event) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ServiceEventResponse> onEventForResponse(
+      ServiceEvent<ServiceEventResponse> event) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ServiceEventResponse> onRawEvent(RawServiceEventData event) {
+    throw UnimplementedError();
+  }
+}
+
+abstract class Service {
+  final int serviceId;
+  final String serviceName;
   late Stream stream;
 
   late List<Command> commands;
 
   final SearchAlgorithm<Command, int, Comparator> searchAlgorithm;
 
-  Service(this.searchAlgorithm);
+  Service({
+    required this.searchAlgorithm,
+    required this.serviceName,
+    required this.serviceId,
+  });
 
   void registerCommand(Command command) {
     commands.add(command);
@@ -62,6 +104,10 @@ abstract class Service{
     }
   }
 
+  void initCommands(int commandsCount) {
+    commands = List.filled(commandsCount,EmptyCommand());
+  }
+
   void onEventForCallback(ServiceEvent event);
   Future<ServiceEventResponse> onEventForResponse(ServiceEvent event);
   Future<ServiceEventResponse> onRawEvent(RawServiceEventData event);
@@ -78,11 +124,15 @@ abstract class Command<A extends ServiceEventData,
   Future<O> handleRawEvent(B eventData);
 }
 
-class EmptyCommand extends Command{
-  EmptyCommand(int commandId) : super(commandId, "EmptyCommand");
+class EmptyCommand extends Command {
+  static int counter = -1;
+  EmptyCommand() : super(EmptyCommand.counter, "EmptyCommand"){
+    EmptyCommand.counter++;
+  }
 
   @override
-  Future<ServiceEventResponse> handleEvent(ServiceEventData<RawServiceEventData> eventData) {
+  Future<ServiceEventResponse> handleEvent(
+      ServiceEventData<RawServiceEventData> eventData) {
     throw UnimplementedError("EmptyCommand");
   }
 
@@ -90,7 +140,6 @@ class EmptyCommand extends Command{
   Future<ServiceEventResponse> handleRawEvent(RawServiceEventData eventData) {
     throw UnimplementedError("EmptyCommand");
   }
-
 }
 
 abstract class ServiceEvent<R extends ServiceEventResponse> {

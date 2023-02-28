@@ -1,11 +1,20 @@
-import 'package:stock_manager/Application/ServiceStore/service_store.dart';
+import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Infrastructure/GraphQlService/graphql.dart';
 import 'package:stock_manager/Infrastructure/helpers.dart';
-
+import 'package:stock_manager/Infrastructure/services.dart';
 import 'Commands/commands.dart';
+import 'api.dart';
+
+final _stockServiceId = Services.stockService.index;
+final _stockServiceName = Services.stockService.name;
 
 class StockService extends Service {
-  StockService._(super.searchAlgorithm);
+  StockService._(
+    SearchAlgorithm<Command, int, Comparator> searchAlgorithm,
+  ) : super(
+            searchAlgorithm: searchAlgorithm,
+            serviceId: _stockServiceId,
+            serviceName: _stockServiceName);
 
   factory StockService.instance() {
     final searchAlgorithm = commandsBinarySearchAlgorithm();
@@ -36,24 +45,26 @@ class StockService extends Service {
   }
 
   static void _registerBaseCommands(StockService instance) {
+    instance.initCommands(StockApi.values.length);
+
     final graphQl = getGraphQlClient();
 
-    instance.registerCommandAtIndex(RegisterProduct(graphQl));
+    instance.replaceCommandAtIndex(RegisterProduct(graphQl));
 
-    instance.registerCommandAtIndex(DeleteProduct(graphQl));
+    instance.replaceCommandAtIndex(DeleteProduct(graphQl));
 
-    instance.registerCommandAtIndex(QuickSearchProduct(graphQl));
+    instance.replaceCommandAtIndex(QuickSearchProduct(graphQl));
 
-    instance.registerCommandAtIndex(SearchProduct(graphQl));
+    instance.replaceCommandAtIndex(SearchProduct(graphQl));
 
-    instance.registerCommandAtIndex(UpdateProduct(graphQl));
+    instance.replaceCommandAtIndex(UpdateProduct(graphQl));
 
-    instance.registerCommandAtIndex(AddProductModel(graphQl));
+    instance.replaceCommandAtIndex(AddProductModel(graphQl));
 
-    instance.registerCommandAtIndex(UpdateProductModel(graphQl));
+    instance.replaceCommandAtIndex(UpdateProductModel(graphQl));
 
-    instance.registerCommandAtIndex(DeleteProductModel(graphQl));
+    instance.replaceCommandAtIndex(DeleteProductModel(graphQl));
 
-    instance.registerCommandAtIndex(LoadProducts(graphQl));
+    instance.replaceCommandAtIndex(LoadProducts(graphQl));
   }
 }

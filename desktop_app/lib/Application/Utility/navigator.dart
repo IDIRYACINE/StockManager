@@ -7,6 +7,7 @@ import 'package:stock_manager/Ui/Panels/Records/records.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
 import 'package:stock_manager/Ui/Panels/Settings/settings_panel.dart';
 import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
+import 'package:stock_manager/main.dart';
 
 abstract class AppNavigator {
   static final key = GlobalKey<NavigatorState>();
@@ -90,6 +91,11 @@ abstract class AppNavigator {
 
   static void navigateToPanel(int index) {
     _selectedPanelIndex.value = index;
+  }
+
+  static void pushMainAppRoute(){
+    final mainRoute = MaterialPageRoute(builder: (context) =>  const App());
+    key.currentState!.pushReplacement(mainRoute);
   }
 
   static IconData? getSelectedPanelIcon(int index) => _panelIcons[index];

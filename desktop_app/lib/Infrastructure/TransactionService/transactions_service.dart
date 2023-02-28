@@ -1,11 +1,20 @@
-import 'package:stock_manager/Application/ServiceStore/service_store.dart';
+import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Infrastructure/GraphQlService/graphql.dart';
 import 'package:stock_manager/Infrastructure/helpers.dart';
-
+import 'package:stock_manager/Infrastructure/services.dart';
+import 'api.dart';
 import 'Commands/commands.dart';
 
+final _transactionServiceId = Services.transactionService.index;
+final _transactionServiceName = Services.transactionService.name;
+
 class TransactionsService extends Service {
-  TransactionsService._(super.searchAlgorithm);
+  TransactionsService._(
+    SearchAlgorithm<Command, int, Comparator> searchAlgorithm,
+  ) : super(
+            searchAlgorithm: searchAlgorithm,
+            serviceId: _transactionServiceId,
+            serviceName: _transactionServiceName);
 
   factory TransactionsService.instance() {
     final searchAlgorithm = commandsBinarySearchAlgorithm();
@@ -36,14 +45,16 @@ class TransactionsService extends Service {
   }
 
   static void _registerBaseCommands(TransactionsService instance) {
+    instance.initCommands(TransactionApi.values.length);
+
     final graphQL = getGraphQlClient();
 
-    instance.registerCommandAtIndex(LoadTransactions(graphQL));
+    instance.replaceCommandAtIndex(LoadTransactions(graphQL));
 
-    instance.registerCommandAtIndex(RegisterTransaction(graphQL));
+    instance.replaceCommandAtIndex(RegisterTransaction(graphQL));
 
-    instance.registerCommandAtIndex(SearchTransaction(graphQL));
+    instance.replaceCommandAtIndex(SearchTransaction(graphQL));
 
-    instance.registerCommandAtIndex(QuickSearchTransactions(graphQL));
+    instance.replaceCommandAtIndex(QuickSearchTransactions(graphQL));
   }
 }

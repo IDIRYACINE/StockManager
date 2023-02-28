@@ -16,4 +16,15 @@ class SellersState {
   Seller seller(int index) {
     return _sellers[index].copyWith();
   }
+
+  SellersState copyWith({ List<Seller>? sellers}) {
+    return SellersState(
+      sellers: sellers ?? _sellers,
+    );
+  }
+
+  List<Seller> removeSeller(Seller seller) {
+    final sellers = _sellers.where((element) => element.sellerCode != seller.sellerCode).toList();
+    return sellers;
+  }
 }

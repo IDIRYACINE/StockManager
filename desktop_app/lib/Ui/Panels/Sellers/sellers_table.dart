@@ -34,9 +34,8 @@ class SellersTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SellersController controller =
-        SellersController();
-
+    final bloc = BlocProvider.of<SellersBloc>(context);
+    SellersController controller = SellersController(bloc);
 
     List<String> sellersTableColumns = [
       Translations.of(context)!.sellerName,
@@ -44,38 +43,42 @@ class SellersTable extends StatelessWidget {
     ];
 
     return SizedBox(
-        width: double.infinity,
-        child: Card(
-            elevation: Measures.small,
-            child: Column(
-              children: [
-                SelectableRow(
-                  textColor: Colors.grey,
-                  dataCellHelper: (index) => sellersTableColumns,
-                  index: -1,
-                  dataModel: 0,
-                ),
-                Expanded(
-                  child: BlocBuilder<SellersBloc,SellersState>(
-                      builder: (context, state,) {
-                        return ListView.builder(
-                            itemCount: state.sellersCount,
-                            itemBuilder: (context, index) {
-                              return SelectableRow<Seller>(
-                                dataCellHelper: sellerToCellsAdapter,
-                                onClick: (detaills) =>
-                                    handleContextMenu(detaills, controller),
-                                contextMenuItems: const [
-                                  ContextMenuOperation.edit,
-                                  ContextMenuOperation.remove
-                                ],
-                                index: index,
-                                dataModel: state.seller(index),
-                              );
-                            });
-                      }),
-                ),
-              ],
-            )));
+      width: double.infinity,
+      child: Card(
+        elevation: Measures.small,
+        child: Column(
+          children: [
+            SelectableRow(
+              textColor: Colors.grey,
+              dataCellHelper: (index) => sellersTableColumns,
+              index: -1,
+              dataModel: 0,
+            ),
+            Expanded(
+              child: BlocBuilder<SellersBloc, SellersState>(builder: (
+                context,
+                state,
+              ) {
+                return ListView.builder(
+                    itemCount: state.sellersCount,
+                    itemBuilder: (context, index) {
+                      return SelectableRow<Seller>(
+                        dataCellHelper: sellerToCellsAdapter,
+                        onClick: (detaills) =>
+                            handleContextMenu(detaills, controller),
+                        contextMenuItems: const [
+                          ContextMenuOperation.edit,
+                          ContextMenuOperation.remove
+                        ],
+                        index: index,
+                        dataModel: state.seller(index),
+                      );
+                    });
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

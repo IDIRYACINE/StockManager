@@ -1,11 +1,21 @@
-import 'package:stock_manager/Application/ServiceStore/service_store.dart';
+import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Infrastructure/GraphQlService/graphql.dart';
+import 'package:stock_manager/Infrastructure/SellersService/api.dart';
 import 'package:stock_manager/Infrastructure/helpers.dart';
+import 'package:stock_manager/Infrastructure/services.dart';
 
 import 'Commands/commands.dart';
 
+final _sellersServiceId = Services.sellersService.index;
+final _sellersServiceName = Services.sellersService.name;
+
 class SellersService extends Service {
-  SellersService._(super.searchAlgorithm);
+  SellersService._(
+    SearchAlgorithm<Command, int, Comparator> searchAlgorithm,
+  ) : super(
+            searchAlgorithm: searchAlgorithm,
+            serviceId: _sellersServiceId,
+            serviceName: _sellersServiceName);
 
   factory SellersService.instance() {
     final searchAlgorithm = commandsBinarySearchAlgorithm();
@@ -21,7 +31,9 @@ class SellersService extends Service {
       command.handleEvent(event.eventData).then((response) {
         event.callback?.call(response);
       });
+      return;
     }
+    throw UnimplementedError();
   }
 
   @override
@@ -36,14 +48,17 @@ class SellersService extends Service {
   }
 
   static void _registerBaseCommands(SellersService instance) {
+    final commandsCount = SellersApi.values.length;
+    instance.initCommands(commandsCount);
+
     final graphQL = getGraphQlClient();
 
-    instance.registerCommandAtIndex(LoadSellers(graphQL));
+    instance.replaceCommandAtIndex(LoadSellers(graphQL));
 
-    instance.registerCommandAtIndex(RegisterSeller(graphQL));
+    instance.replaceCommandAtIndex(RegisterSeller(graphQL));
 
-    instance.registerCommandAtIndex(UpdateSeller(graphQL));
+    instance.replaceCommandAtIndex(UpdateSeller(graphQL));
 
-    instance.registerCommandAtIndex(DeleteSeller(graphQL));
+    instance.replaceCommandAtIndex(DeleteSeller(graphQL));
   }
 }

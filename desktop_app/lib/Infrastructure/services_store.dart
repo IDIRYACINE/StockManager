@@ -2,6 +2,14 @@ import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Infrastructure/SellersService/service.dart';
 import 'package:stock_manager/Infrastructure/StockService/service.dart';
 import 'package:stock_manager/Infrastructure/TransactionService/service.dart';
+import 'package:stock_manager/Infrastructure/services.dart';
+
+
+export 'SellersService/service.dart';
+export 'StockService/service.dart';
+export 'TransactionService/service.dart';
+
+
 
 class ServicesGateway extends ServiceStore {
   static ServicesGateway? _instance;
@@ -27,13 +35,19 @@ class ServicesGateway extends ServiceStore {
   }
 
   static void _registerBaseServices(ServicesGateway gateway) {
+    gateway.initServices(Services.values.length);
+
+
     final sellersService = SellersService.instance();
-    gateway.registerService(sellersService);
+    gateway.registerServiceAtIndex(sellersService);
 
     final stockService = StockService.instance();
-    gateway.registerService(stockService);
+    gateway.registerServiceAtIndex(stockService);
 
     final transactionService = TransactionsService.instance();
-    gateway.registerService(transactionService);
+    gateway.registerServiceAtIndex(transactionService);
+
   }
+
+  
 }

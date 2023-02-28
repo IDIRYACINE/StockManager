@@ -23,4 +23,6 @@ class StockState{
   productAt(int index) {
     return productFamillies[index];
   }
+
+  copyWith({required List<Product> products}) {}
 }

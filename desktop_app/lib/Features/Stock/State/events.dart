@@ -1,6 +1,12 @@
+import 'package:stock_manager/Domain/Models/product.dart';
+
 class StockEvent {}
 
-class AddProduct extends StockEvent{}
+class AddProduct extends StockEvent{
+  final Product product;
+
+  AddProduct(this.product);
+}
 
 class RemoveProduct extends StockEvent{}
 
