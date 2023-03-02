@@ -1,40 +1,47 @@
 import 'package:stock_manager/Domain/Models/sizes_colors.dart';
 
-class SizeColorEvent{}
+class SizeColorEvent {}
 
-class AddModelSize extends SizeColorEvent{
+class AddModelSize extends SizeColorEvent {
   final ModelSize modelSize;
 
   AddModelSize(this.modelSize);
 }
 
-class AddModelColor extends SizeColorEvent{
+class AddModelColor extends SizeColorEvent {
   final ModelColor modelColor;
 
   AddModelColor(this.modelColor);
 }
 
-class RemoveModelSize extends SizeColorEvent{
+class DeleteModelSize extends SizeColorEvent {
   final ModelSize modelSize;
 
-  RemoveModelSize(this.modelSize);
+  DeleteModelSize(this.modelSize);
 }
 
-class RemoveModelColor extends SizeColorEvent{
+class DeleteModelColor extends SizeColorEvent {
   final ModelColor modelColor;
 
-  RemoveModelColor(this.modelColor);
+  DeleteModelColor(this.modelColor);
 }
 
-class EditModelSize extends SizeColorEvent{
+class UpdateModelSize extends SizeColorEvent {
   final ModelSize modelSize;
 
-  EditModelSize(this.modelSize);
+  UpdateModelSize(this.modelSize);
 }
 
-class EditModelColor extends SizeColorEvent{
+class UpdateModelColor extends SizeColorEvent {
   final ModelColor modelColor;
 
-  EditModelColor(this.modelColor);
+  UpdateModelColor(this.modelColor);
 }
 
+class RefreshModelColors extends SizeColorEvent {}
+
+class LoadModelColors extends SizeColorEvent {}
+
+class RefreshModelSizes extends SizeColorEvent {}
+
+class LoadModelSizes extends SizeColorEvent {}

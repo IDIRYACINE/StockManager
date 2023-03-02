@@ -52,13 +52,35 @@ sellersCommands = [
         "remove_seller", "RemoveSeller", "SellersApi", "removeSeller", "SellersService"),
 ]
 
-transacionCommands = [
+transactionCommands = [
     command_generator.DataHolder(
         "register_transaction", "RegisterTransaction", "TransactionApi", "registerTransaction", "TransactionService"),
     command_generator.DataHolder(
         "load_transactions", "LoadTransactions", "TransactionApi", "loadTransactions", "TransactionService"),
     command_generator.DataHolder(
-        "search_transaction", "SearchTransaction", "TransactionApi", "searchTransaction", "TransactionService"), 
+        "search_transaction", "SearchTransaction", "TransactionApi", "searchTransaction", "TransactionService"),
+]
+
+productModelsCommands = [
+    command_generator.DataHolder(
+        "register_color", "RegisterColor", "StockApi", "registerColor", "StockService"),
+    command_generator.DataHolder(
+        "delete_color", "DeleteColor", "StockApi", "deleteColor", "StockService"),
+    command_generator.DataHolder(
+        "load_all_colors", "LoadAllColors", "StockApi", "loadAllColors", "StockService"),
+    command_generator.DataHolder(
+        "update_color", "UpdateColor", "StockApi", "updateColor", "StockService"),
+
+    command_generator.DataHolder(
+        "register_size", "RegisterSize", "StockApi", "registerSize", "StockService"),
+    command_generator.DataHolder(
+        "delete_size", "DeleteSize", "StockApi", "deleteSize", "StockService"),
+    command_generator.DataHolder(
+        "load_all_sizes", "LoadAllSizes", "StockApi", "loadAllSizes", "StockService"),
+    command_generator.DataHolder(
+        "update_size", "UpdateSize", "StockApi", "updateSize", "StockService"),
+
+
 ]
 
 
@@ -66,8 +88,11 @@ def generate_commands(data):
     for d in data:
         command_generator.generate_command_file(d)
 
+
 # generate_commands(depositCommands)
 # generate_commands(purchaseCommands)
 # generate_commands(stockCommands)
 # generate_commands(sellersCommands)
-generate_commands(transacionCommands)
+# generate_commands(transactionCommands)
+
+generate_commands(productModelsCommands)

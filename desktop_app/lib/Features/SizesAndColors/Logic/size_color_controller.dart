@@ -46,15 +46,79 @@ class SizeColorController {
     );
   }
 
-  void editColor(BuildContext context, ModelColor data, int rowIndex) {}
+  void editColor(BuildContext context, ModelColor modelColor, int rowIndex) {
+    void onEdit(Map<String, dynamic> updatedField, ModelColor modelColor) {
+      bloc.add(UpdateModelColor(modelColor));
+      AppNavigator.pop(context);
+    }
 
-  void removeColor(BuildContext context, ModelColor data) {}
+    PopupsUtility.displayGenericPopup(
+      context,
+      ModelColorEditor(
+        modelColor: modelColor.copyWith(),
+        editMode: true,
+        editCallback: onEdit,
+        confirmLabel: Translations.of(context)!.update,
+      ),
+    );
+  }
 
-  void removeSize(BuildContext context, ModelSize data) {}
+  void removeColor(BuildContext context, ModelColor data) {
+    void onRemove() {
+      bloc.add(DeleteModelColor(data));
+    }
 
-  void editSize(BuildContext context, ModelSize data, int rowIndex) {}
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+          onConfirm: onRemove,
+          message: Translations.of(context)!.messageDeleteElement,
+        ),
+      ),
+    );
+  }
 
-  void refreshColors() {}
+  void removeSize(BuildContext context, ModelSize data) {
+    void onRemove() {
+      bloc.add(DeleteModelSize(data));
+    }
 
-  void refreshSizes() {}
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ConfirmDialog(
+          onConfirm: onRemove,
+          message: Translations.of(context)!.messageDeleteElement,
+        ),
+      ),
+    );
+
+  }
+
+  void editSize(BuildContext context, ModelSize data, int rowIndex) {
+
+    void onEdit(Map<String, dynamic> updatedField, ModelSize modelSize) {
+      bloc.add(UpdateModelSize(modelSize));
+      AppNavigator.pop(context);
+    }
+
+    PopupsUtility.displayGenericPopup(
+      context,
+      ModelSizeEditor(
+        modelSize: data.copyWith(),
+        editMode: true,
+        editCallback: onEdit,
+        confirmLabel: Translations.of(context)!.update,
+      ),
+    );
+  }
+
+  void refreshColors() {
+    bloc.add(RefreshModelColors());
+  }
+
+  void refreshSizes() {
+    bloc.add(RefreshModelSizes());
+  }
 }

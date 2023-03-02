@@ -66,5 +66,15 @@ class StockService extends Service {
     instance.replaceCommandAtIndex(DeleteProductModel(graphQl));
 
     instance.replaceCommandAtIndex(LoadProducts(graphQl));
+
+    instance.replaceCommandAtIndex(RegisterColor(graphQl));
+    instance.replaceCommandAtIndex(DeleteColor(graphQl));
+    instance.replaceCommandAtIndex(UpdateColor(graphQl));
+    instance.replaceCommandAtIndex(LoadAllColors(graphQl));
+
+    instance.replaceCommandAtIndex(RegisterSize(graphQl));
+    instance.replaceCommandAtIndex(DeleteSize(graphQl));
+    instance.replaceCommandAtIndex(UpdateSize(graphQl));
+    instance.replaceCommandAtIndex(LoadAllSizes(graphQl));
   }
 }
