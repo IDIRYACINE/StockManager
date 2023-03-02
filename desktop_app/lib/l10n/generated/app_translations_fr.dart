@@ -330,4 +330,10 @@ class TranslationsFr extends Translations {
 
   @override
   String get descriptionManageSizes => 'Gérer les tailles';
+
+  @override
+  String get productFamillies => 'Les familles des produits';
+
+  @override
+  String get descriptionManageProductFamillies => 'Gérer les familles des produits';
 }

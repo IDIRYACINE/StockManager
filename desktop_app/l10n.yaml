@@ -1,4 +1,4 @@
-arb-dir: assets/l10n
+arb-dir: l10n
 output-dir: lib/l10n/generated
 output-class: Translations
 template-arb-file: app_en.arb

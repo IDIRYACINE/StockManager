@@ -108,5 +108,7 @@
   "descriptionDeveloperContact" : "The developer contact informations ",
   "others" : "Others",
   "descriptionManageColors" : "Manage colors",
-  "descriptionManageSizes" : "Manage sizes"
+  "descriptionManageSizes" : "Manage sizes",
+  "productFamillies" : "Products famillies",
+  "descriptionManageProductFamillies" : "Manage Products famillies"
 }

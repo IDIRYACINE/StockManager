@@ -108,5 +108,9 @@
   "descriptionDeveloperContact" : "Contactez le développeur pour toute question ou suggestion",
   "others" : "Autres",
   "descriptionManageColors" : "Gérer les couleurs",
-  "descriptionManageSizes" : "Gérer les tailles"
+  "descriptionManageSizes" : "Gérer les tailles",
+  "productFamillies" : "Les familles des produits",
+  "descriptionManageProductFamillies" : "Gérer les familles des produits"
+
+
 }

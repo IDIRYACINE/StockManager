@@ -748,6 +748,18 @@ abstract class Translations {
   /// In en, this message translates to:
   /// **'Manage sizes'**
   String get descriptionManageSizes;
+
+  /// No description provided for @productFamillies.
+  ///
+  /// In en, this message translates to:
+  /// **'Products famillies'**
+  String get productFamillies;
+
+  /// No description provided for @descriptionManageProductFamillies.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Products famillies'**
+  String get descriptionManageProductFamillies;
 }
 
 class _TranslationsDelegate extends LocalizationsDelegate<Translations> {

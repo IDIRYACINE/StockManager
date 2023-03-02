@@ -6,7 +6,7 @@ import 'package:stock_manager/Ui/Panels/Orders/orders.dart';
 import 'package:stock_manager/Ui/Panels/Records/records.dart';
 import 'package:stock_manager/Ui/Panels/Sales/sales.dart';
 import 'package:stock_manager/Ui/Panels/Settings/settings_panel.dart';
-import 'package:stock_manager/Ui/Panels/Stock/stock.dart';
+import 'package:stock_manager/Features/Stock/Ui/stock.dart';
 import 'package:stock_manager/main.dart';
 
 abstract class AppNavigator {

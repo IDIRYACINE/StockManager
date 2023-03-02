@@ -330,4 +330,10 @@ class TranslationsAr extends Translations {
 
   @override
   String get descriptionManageSizes => 'إدارة المقاسات';
+
+  @override
+  String get productFamillies => 'عوائل البضائع';
+
+  @override
+  String get descriptionManageProductFamillies => 'إدارة عوائل البضائع';
 }

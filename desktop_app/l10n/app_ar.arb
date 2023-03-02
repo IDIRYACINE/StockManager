@@ -108,5 +108,7 @@
   "descriptionDeveloperContact" : "تواصل مع المطور للحصول على المساعدة",
   "others" : "أخرى",
   "descriptionManageColors" : "إدارة الألوان",
-  "descriptionManageSizes" : "إدارة المقاسات"
+  "descriptionManageSizes" : "إدارة المقاسات",
+  "productFamillies" : "عوائل البضائع",
+  "descriptionManageProductFamillies" : "إدارة عوائل البضائع"
 }

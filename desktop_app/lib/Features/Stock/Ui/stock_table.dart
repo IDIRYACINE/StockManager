@@ -3,39 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 
 import 'package:stock_manager/Features/Stock/State/stock.dart';
-import 'package:stock_manager/Features/Stock/Logic/stock_controller.dart';
+import 'package:stock_manager/Features/Stock/Logic/stock_product_controller.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';
-import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 
-class StockTable extends StatelessWidget {
-  const StockTable({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<StockBloc>(context);
-    StockController controller = StockController(bloc);
-
-    return SizedBox(
-      width: double.infinity,
-      child: Card(
-        elevation: Measures.small,
-        child: ValueListenableBuilder<StockTypes>(
-            valueListenable: controller.selectedStockType,
-            builder: (context, type, child) {
-              return (type == StockTypes.products)
-                  ? const _ProductsTable()
-                  : const _FamilliesTable();
-            }),
-      ),
-    );
-  }
-}
-
-class _ProductsTable extends StatelessWidget {
-  const _ProductsTable();
+class ProductsTable extends StatelessWidget {
+  const ProductsTable({super.key});
 
   List<String> productToCellsAdapter(Product product) {
     return [
@@ -49,7 +24,7 @@ class _ProductsTable extends StatelessWidget {
   }
 
   void handleContextMenu(
-      SelectableRowDetaills rowDetaills, StockController controller) {
+      SelectableRowDetaills rowDetaills, StockProductController controller) {
     switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data);
@@ -67,7 +42,7 @@ class _ProductsTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<StockBloc>(context);
-    StockController controller = StockController(bloc);
+    StockProductController controller = StockProductController(bloc);
     List<String> stockProductTableColumns = [
       Translations.of(context)!.barcode,
       Translations.of(context)!.productName,
@@ -110,15 +85,15 @@ class _ProductsTable extends StatelessWidget {
   }
 }
 
-class _FamilliesTable extends StatelessWidget {
-  const _FamilliesTable();
+class ProductFamilyTable extends StatelessWidget {
+  const ProductFamilyTable({super.key});
 
   List<String> familyToCellsAdapter(ProductFamily family) {
     return [family.name, family.reference];
   }
 
   void handleContextMenu(
-      SelectableRowDetaills rowDetaills, StockController controller) {
+      SelectableRowDetaills rowDetaills, StockProductController controller) {
     switch (rowDetaills.operation) {
       case ContextMenuOperation.remove:
         controller.remove(rowDetaills.context, rowDetaills.data);
@@ -136,7 +111,7 @@ class _FamilliesTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<StockBloc>(context);
-    StockController controller = StockController(bloc);
+    StockProductController controller = StockProductController(bloc);
     
     List<String> stockFamilliesTableColumns = [
       Translations.of(context)!.productFamily,
