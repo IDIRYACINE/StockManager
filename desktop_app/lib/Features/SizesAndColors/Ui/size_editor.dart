@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Editors/size_mode.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
-import 'package:stock_manager/Domain/Models/seller.dart';
-import 'package:stock_manager/Features/Sellers/SellersEditor.dart/seller_form.dart';
-import 'package:stock_manager/Application/Editors/seller_mode.dart';
+import 'package:stock_manager/Domain/Models/sizes_colors.dart';
+import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/default_button.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-class SellersEditor extends StatelessWidget {
-  const SellersEditor({
+class ModelSizeEditor extends StatelessWidget {
+  const ModelSizeEditor({
     Key? key,
     this.editMode = false,
-    required this.seller,
+    required this.modelSize,
     required String confirmLabel,
     this.createCallback,
     this.editCallback,
@@ -23,17 +23,17 @@ class SellersEditor extends StatelessWidget {
         super(key: key);
 
   final bool editMode;
-  final Seller seller;
+  final ModelSize modelSize;
 
-  final Callback<Seller>? createCallback;
-  final EditorCallback<AppJson, Seller>? editCallback;
+  final Callback<ModelSize>? createCallback;
+  final EditorCallback<AppJson, ModelSize>? editCallback;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final dynamic sellerEditorMode = editMode
-        ? SellerEditorMode.editModeInstance(seller)
-        : SellerEditorMode.createModeInstance(seller);
+    final dynamic sizeEditorMode = editMode
+        ? SizeEditorMode.editModeInstance(modelSize)
+        : SizeEditorMode.createModeInstance(modelSize);
 
     return Padding(
       padding: const EdgeInsets.all(Measures.paddingNormal),
@@ -44,9 +44,9 @@ class SellersEditor extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Flexible(
-                  child: SellerForm(
-                seller: seller,
-                sellerEditorMode: sellerEditorMode,
+                  child: _SizeForm(
+                modelSize: modelSize,
+                modelSizeEditorMode: sizeEditorMode,
               )),
               const SizedBox(height: Measures.small),
               Row(
@@ -62,9 +62,9 @@ class SellersEditor extends StatelessWidget {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         if (editMode) {
-                          sellerEditorMode.confirm(editCallback);
+                          sizeEditorMode.confirm(editCallback);
                         } else {
-                          sellerEditorMode.confirm(createCallback);
+                          sizeEditorMode.confirm(createCallback);
                         }
                       }
                     },
@@ -72,6 +72,33 @@ class SellersEditor extends StatelessWidget {
                 ],
               )
             ]),
+      ),
+    );
+  }
+}
+
+class _SizeForm extends StatelessWidget {
+  final ModelSize modelSize;
+  final SizeEditorMode modelSizeEditorMode;
+
+  const _SizeForm({required this.modelSize, required this.modelSizeEditorMode});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Measures.small),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: AttributeTextField(
+              initialValue: modelSize.size,
+              onChanged: modelSizeEditorMode.setName,
+              label: Translations.of(context)!.name,
+            ),
+          ),
+        ],
       ),
     );
   }

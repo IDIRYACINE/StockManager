@@ -5,6 +5,7 @@ import 'package:stock_manager/Features/Deposit/State/bloc.dart';
 import 'package:stock_manager/Features/History/State/history.dart';
 import 'package:stock_manager/Features/Orders/State/bloc.dart';
 import 'package:stock_manager/Features/Sellers/State/sellers.dart';
+import 'package:stock_manager/Features/SizesAndColors/feature.dart';
 import 'package:stock_manager/Features/Statistiques/State/statistiques.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Features/Settings/Models/settings.dart';
@@ -24,11 +25,10 @@ void main() async {
       BlocProvider(create: (context) => PurchaseBloc.initial()),
       BlocProvider(create: (context) => SellersBloc.initial()),
       BlocProvider(create: (context) => OrdersBloc.initial()),
+      BlocProvider(create: (context) => SizeColorBloc.initial()),
       BlocProvider(create: (context) => StatistiquesBloc.initial()),
-            BlocProvider(create: (context) => HistoryBloc.initial()),
-                        BlocProvider(create: (context) => StockBloc.initial()),
-
-
+      BlocProvider(create: (context) => HistoryBloc.initial()),
+      BlocProvider(create: (context) => StockBloc.initial()),
     ], child: const MyApp()),
   );
 }
@@ -43,7 +43,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-
     return AnimatedBuilder(
         animation: SettingsLiveDataModel.instance(),
         builder: (context, child) {
@@ -92,7 +91,6 @@ class _AppState extends State<App> {
   bool isInitialized = false;
 
   late ValueListenable<int> selectedPanel;
-
 
   void _init() {
     if (isInitialized) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/Domain/Models/seller.dart';
+import 'package:stock_manager/Features/Sellers/Ui/sellers_editor.dart';
 import 'package:stock_manager/Features/Sellers/feature.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
-import 'package:stock_manager/Features/Sellers/SellersEditor.dart/sellers_editor.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class SellersController {

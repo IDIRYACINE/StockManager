@@ -105,6 +105,10 @@ enum OrderFields {
 
 enum SellerFields { code, name, phone, imageUrl }
 
+enum ModelColorFields { color,colorId }
+
+enum ModelSizeFields { size, sizeId }
+
 enum ProductFamilyFields { name, reference, imageUrl }
 
 enum RecordProductFields {

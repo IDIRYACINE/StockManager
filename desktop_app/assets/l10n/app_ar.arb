@@ -105,5 +105,8 @@
   "messageInvalidNumber": "رقم غير صالح",
   "descriptionManageSellers" : "إدارة البائعين",
   "developerContact" : "تواصل مع المطور",
-  "descriptionDeveloperContact" : "تواصل مع المطور للحصول على المساعدة"
+  "descriptionDeveloperContact" : "تواصل مع المطور للحصول على المساعدة",
+  "others" : "أخرى",
+  "descriptionManageColors" : "إدارة الألوان",
+  "descriptionManageSizes" : "إدارة المقاسات"
 }

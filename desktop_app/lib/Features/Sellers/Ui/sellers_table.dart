@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Domain/Models/seller.dart';
 import 'package:stock_manager/Features/Sellers/State/sellers.dart';
-
 import 'package:stock_manager/Features/Sellers/Logic/sellers_controller.dart';
 import 'package:stock_manager/DataModels/special_enums.dart';
 import 'package:stock_manager/Ui/Generics/table_row.dart';

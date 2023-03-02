@@ -105,5 +105,8 @@
   "messageEmptyField": "Field cannot be empty",
   "messageInvalidNumber": "Invalid Number",
   "descriptionManageSellers" : "Manage autherised sellers",
-  "descriptionDeveloperContact" : "The developer contact informations "
+  "descriptionDeveloperContact" : "The developer contact informations ",
+  "others" : "Others",
+  "descriptionManageColors" : "Manage colors",
+  "descriptionManageSizes" : "Manage sizes"
 }

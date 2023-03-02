@@ -17,8 +17,6 @@ class SettingsPanel extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               Translations.of(context)!.settings,
@@ -27,41 +25,78 @@ class SettingsPanel extends StatelessWidget {
             const SizedBox(
               height: Measures.large,
             ),
-            SettingCard(
-              sectionTitle: Translations.of(context)!.general,
-              rowData: [
-                SettingRowData(
-                  title: Translations.of(context)!.sellers,
-                  subtitle: Translations.of(context)!.descriptionManageSellers,
-                  onClick: () {
-                    controller.manageSellers(context);
-                  },
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SettingCard(
+                      sectionTitle: Translations.of(context)!.general,
+                      rowData: [
+                        SettingRowData(
+                          title: Translations.of(context)!.displayLanguage,
+                          subtitle: Translations.of(context)!
+                              .descriptionDisplayLanguage,
+                          onClick: () {
+                            controller.changeDisplayLangauge(context);
+                          },
+                        ),
+                      ],
+                    ),
+                    SettingCard(
+                      sectionTitle: Translations.of(context)!.about,
+                      rowData: [
+                        SettingRowData(
+                          title: Translations.of(context)!.developerContact,
+                          subtitle: Translations.of(context)!
+                              .descriptionDeveloperContact,
+                          onClick: () {
+                            controller.displayAbout(context);
+                          },
+                        ),
+                        SettingRowData(
+                          title: Translations.of(context)!.appVersion,
+                          subtitle: 'v 0.0.1',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                SettingRowData(
-                  title: Translations.of(context)!.displayLanguage,
-                  subtitle:
-                      Translations.of(context)!.descriptionDisplayLanguage,
-                  onClick: () {
-                    controller.changeDisplayLangauge(context);
-                  },
-                ),
-              ],
-            ),
-            SettingCard(
-              sectionTitle: Translations.of(context)!.about,
-              rowData: [
-                SettingRowData(
-                  title: Translations.of(context)!.developerContact,
-                  subtitle:
-                      Translations.of(context)!.descriptionDeveloperContact,
-                  onClick: () {
-                    controller.displayAbout(context);
-                  },
-                ),
-                SettingRowData(
-                  title: Translations.of(context)!.appVersion,
-                  subtitle: 'v 0.0.1',
-                ),
+                Column(
+                  children: [
+                    SettingCard(
+                      sectionTitle: Translations.of(context)!.others,
+                      rowData: [
+                        SettingRowData(
+                          title: Translations.of(context)!.sellers,
+                          subtitle: Translations.of(context)!
+                              .descriptionManageSellers,
+                          onClick: () {
+                            controller.manageSellers(context);
+                          },
+                        ),
+                        SettingRowData(
+                          title: Translations.of(context)!.colors,
+                          subtitle:
+                              Translations.of(context)!.descriptionManageColors,
+                          onClick: () {
+                            controller.manageColors(context);
+                          },
+                        ),
+                        SettingRowData(
+                          title: Translations.of(context)!.sizes,
+                          subtitle:
+                              Translations.of(context)!.descriptionManageSizes,
+                          onClick: () {
+                            controller.manageSizes(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                )
               ],
             ),
           ],

@@ -7,7 +7,6 @@ import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 abstract class PopupsUtility {
-  
   static void displayGenericPopup(BuildContext context, Widget content,
       {List<Widget>? actions, double? width, double? height}) {
     showDialog(
@@ -54,11 +53,14 @@ abstract class PopupsUtility {
   }
 
   static void displayToast(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
         content: Text(
-      message,
-      style: Theme.of(context).textTheme.bodySmall!,
-    )));
+          message,
+          style: Theme.of(context).textTheme.bodySmall!,
+        ),
+      ),
+    );
   }
 }
 

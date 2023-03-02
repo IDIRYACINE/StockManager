@@ -730,6 +730,24 @@ abstract class Translations {
   /// In en, this message translates to:
   /// **'The developer contact informations '**
   String get descriptionDeveloperContact;
+
+  /// No description provided for @others.
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get others;
+
+  /// No description provided for @descriptionManageColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage colors'**
+  String get descriptionManageColors;
+
+  /// No description provided for @descriptionManageSizes.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage sizes'**
+  String get descriptionManageSizes;
 }
 
 class _TranslationsDelegate extends LocalizationsDelegate<Translations> {

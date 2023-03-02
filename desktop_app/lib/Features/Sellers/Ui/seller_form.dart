@@ -34,16 +34,14 @@ class SellerForm extends StatelessWidget {
               child: AttributeTextField(
             initialValue: seller.name,
             onChanged: sellerEditorMode.setName,
-            label: Translations.of(context)!.
-sellerName,
+            label: Translations.of(context)!.sellerName,
           )),
           const SizedBox(height: Measures.medium),
           Flexible(
               child: AttributeTextField(
             initialValue: seller.phone.toString(),
             onChanged: sellerEditorMode.setPhone,
-            label: Translations.of(context)!.
-phoneNumber,
+            label: Translations.of(context)!.phoneNumber,
           )),
         ],
       ),

@@ -321,4 +321,13 @@ class TranslationsFr extends Translations {
 
   @override
   String get descriptionDeveloperContact => 'Contactez le développeur pour toute question ou suggestion';
+
+  @override
+  String get others => 'Autres';
+
+  @override
+  String get descriptionManageColors => 'Gérer les couleurs';
+
+  @override
+  String get descriptionManageSizes => 'Gérer les tailles';
 }

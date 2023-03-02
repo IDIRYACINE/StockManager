@@ -105,5 +105,8 @@
   "messageInvalidNumber": "Numéro invalide",
   "descriptionManageSellers" : "Gérer les vendeurs",
   "developerContact" : "Contactez le développeur",
-  "descriptionDeveloperContact" : "Contactez le développeur pour toute question ou suggestion"
+  "descriptionDeveloperContact" : "Contactez le développeur pour toute question ou suggestion",
+  "others" : "Autres",
+  "descriptionManageColors" : "Gérer les couleurs",
+  "descriptionManageSizes" : "Gérer les tailles"
 }

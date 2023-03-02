@@ -321,4 +321,13 @@ class TranslationsAr extends Translations {
 
   @override
   String get descriptionDeveloperContact => 'تواصل مع المطور للحصول على المساعدة';
+
+  @override
+  String get others => 'أخرى';
+
+  @override
+  String get descriptionManageColors => 'إدارة الألوان';
+
+  @override
+  String get descriptionManageSizes => 'إدارة المقاسات';
 }

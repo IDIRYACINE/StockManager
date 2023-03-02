@@ -321,4 +321,13 @@ class TranslationsEn extends Translations {
 
   @override
   String get descriptionDeveloperContact => 'The developer contact informations ';
+
+  @override
+  String get others => 'Others';
+
+  @override
+  String get descriptionManageColors => 'Manage colors';
+
+  @override
+  String get descriptionManageSizes => 'Manage sizes';
 }

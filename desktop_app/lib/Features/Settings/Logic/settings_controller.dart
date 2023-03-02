@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stock_manager/Features/Settings/Models/settings.dart';
+import 'package:stock_manager/Features/SizesAndColors/Ui/size_color_panel.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Forms/developer_contacts.dart';
 import 'package:stock_manager/Ui/Components/Forms/display_language_selector.dart';
-import 'package:stock_manager/Ui/Panels/Sellers/sellers.dart';
+import 'package:stock_manager/Features/Sellers/Ui/sellers.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 
 class SettingsController {
@@ -38,6 +39,22 @@ class SettingsController {
       const DeveloperContacts(),
       width: Measures.containerWidthMeduim,
       height: Measures.containerHeightMeduim,
+    );
+  }
+
+  void manageColors(BuildContext context) {
+    PopupsUtility.displayGenericPopup(
+      context,
+      const ColorsPanel(),
+      width: Measures.containerWidthLarge,
+    );
+  }
+
+  void manageSizes(BuildContext context) {
+    PopupsUtility.displayGenericPopup(
+      context,
+      const SizesPanel(),
+      width: Measures.containerWidthLarge,
     );
   }
 }
