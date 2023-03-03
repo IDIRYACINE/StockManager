@@ -3,4 +3,5 @@ enum Services {
   sellersService,
   authService,
   transactionService,
+  regionService,
 }

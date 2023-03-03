@@ -1,10 +1,10 @@
-import 'package:graphql/client.dart';
 import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Domain/Models/seller.dart';
 import 'package:stock_manager/Infrastructure/SellersService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
     as graphql_service;
+import 'package:graphql/client.dart';
 
 class DeleteSeller extends Command<DeleteSellerEventData,
     DeleteSellerRawEventData, DeleteSellerResponse> {

@@ -1,0 +1,24 @@
+mutation CreateOneCity($data: CityCreateInput!) {
+  createOneCity(data: $data) {
+    city_id
+  }
+}
+
+mutation UpdateOneCity($data: CityUpdateInput!, $where: CityWhereUniqueInput!) {
+  updateOneCity(data: $data, where: $where) {
+    city_id
+  }
+}
+
+mutation DeleteOneCity($where: CityWhereUniqueInput!) {
+  deleteOneCity(where: $where) {
+    city_id
+  }
+}
+
+query FindFirstCity {
+  findFirstCity {
+    city_id
+    city_name
+  }
+}

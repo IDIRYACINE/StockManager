@@ -10,3 +10,4 @@ export 'Generated/schema7.graphql.dart';
 export 'Generated/sellers_queries.graphql.dart';
 export 'Generated/stock_queries.graphql.dart';
 export 'Generated/transactions_queries.graphql.dart';
+export 'Generated/region_queries.graphql.dart';

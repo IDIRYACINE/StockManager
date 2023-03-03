@@ -79,10 +79,18 @@ productModelsCommands = [
         "load_all_sizes", "LoadAllSizes", "StockApi", "loadAllSizes", "StockService"),
     command_generator.DataHolder(
         "update_size", "UpdateSize", "StockApi", "updateSize", "StockService"),
-
-
 ]
 
+cityModelsCommands = [
+    command_generator.DataHolder(
+        "register_city", "RegisterCity", "RegionApi", "registerCity", "RegionService"),
+    command_generator.DataHolder(
+        "delete_city", "DeleteCity", "RegionApi", "deleteCity", "RegionService"),
+    command_generator.DataHolder(
+        "load_all_cities", "LoadAllCities", "RegionApi", "loadAllCities", "RegionService"),
+    command_generator.DataHolder(
+        "update_city", "UpdateCity", "RegionApi", "updateCity", "RegionService"),
+]
 
 def generate_commands(data):
     for d in data:
@@ -94,5 +102,6 @@ def generate_commands(data):
 # generate_commands(stockCommands)
 # generate_commands(sellersCommands)
 # generate_commands(transactionCommands)
+# generate_commands(productModelsCommands)
 
-generate_commands(productModelsCommands)
+generate_commands(cityModelsCommands)
