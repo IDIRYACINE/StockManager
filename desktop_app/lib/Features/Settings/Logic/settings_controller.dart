@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:stock_manager/Features/Cities/Ui/cities.dart';
 import 'package:stock_manager/Features/Settings/Models/settings.dart';
 import 'package:stock_manager/Features/SizesAndColors/Ui/size_color_panel.dart';
 import 'package:stock_manager/Features/Stock/Ui/stock.dart';
@@ -63,6 +64,14 @@ class SettingsController {
     PopupsUtility.displayGenericPopup(
       context,
       const ProductFamilyPanel(),
+      width: Measures.containerWidthLarge,
+    );
+  }
+
+  void manageCities(BuildContext context) {
+    PopupsUtility.displayGenericPopup(
+      context,
+      const CitiesPanel(),
       width: Measures.containerWidthLarge,
     );
   }

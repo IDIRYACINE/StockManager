@@ -110,7 +110,10 @@
   "descriptionManageColors" : "Gérer les couleurs",
   "descriptionManageSizes" : "Gérer les tailles",
   "productFamillies" : "Les familles des produits",
-  "descriptionManageProductFamillies" : "Gérer les familles des produits"
+  "descriptionManageProductFamillies" : "Gérer les familles des produits",
+  "cities" : "Villes",
+  "descriptionManageCities" : "Gérer les villes"
+
 
 
 }

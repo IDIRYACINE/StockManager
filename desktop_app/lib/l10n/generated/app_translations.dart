@@ -760,6 +760,18 @@ abstract class Translations {
   /// In en, this message translates to:
   /// **'Manage Products famillies'**
   String get descriptionManageProductFamillies;
+
+  /// No description provided for @cities.
+  ///
+  /// In en, this message translates to:
+  /// **'Cities'**
+  String get cities;
+
+  /// No description provided for @descriptionManageCities.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Cities'**
+  String get descriptionManageCities;
 }
 
 class _TranslationsDelegate extends LocalizationsDelegate<Translations> {

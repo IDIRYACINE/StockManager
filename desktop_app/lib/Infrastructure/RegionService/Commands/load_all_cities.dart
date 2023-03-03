@@ -31,10 +31,10 @@ class LoadAllCities extends Command<LoadAllCitiesEventData,
 
     final json = result.data!['findFirstCity'] as List<dynamic>;
 
-    final List<City> citties = cittiesFromJsonList(json);
+    final List<City> cities = citiesFromJsonList(json);
 
     return LoadAllCitiesResponse(
-        messageId: eventData.messageId, citties: citties);
+        messageId: eventData.messageId, cities: cities);
   }
 
   @override
@@ -45,10 +45,10 @@ class LoadAllCities extends Command<LoadAllCitiesEventData,
 }
 
 class LoadAllCitiesResponse extends ServiceEventResponse {
-  final List<City> citties;
+  final List<City> cities;
   LoadAllCitiesResponse(
       {required int messageId,
-      this.citties = const [],
+      this.cities = const [],
       ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
       : super(messageId, status);
 }
@@ -61,7 +61,9 @@ class LoadAllCitiesRawEventData extends RawServiceEventData {
 
 class LoadAllCitiesEventData
     extends ServiceEventData<LoadAllCitiesRawEventData> {
-  LoadAllCitiesEventData(super.requesterId);
+  LoadAllCitiesEventData(
+      { required String requesterId})
+      : super( requesterId);
 
   @override
   LoadAllCitiesRawEventData toRawServiceEventData() {

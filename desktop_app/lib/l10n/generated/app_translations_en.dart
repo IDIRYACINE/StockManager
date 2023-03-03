@@ -336,4 +336,10 @@ class TranslationsEn extends Translations {
 
   @override
   String get descriptionManageProductFamillies => 'Manage Products famillies';
+
+  @override
+  String get cities => 'Cities';
+
+  @override
+  String get descriptionManageCities => 'Manage Cities';
 }

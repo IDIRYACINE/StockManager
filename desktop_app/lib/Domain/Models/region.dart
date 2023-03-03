@@ -1,6 +1,6 @@
 class City {
-  final int cityId;
-  final String cityName;
+  int cityId;
+  String cityName;
 
   City({required this.cityId, required this.cityName});
 
@@ -8,8 +8,11 @@ class City {
     return City(
         cityId: cityId ?? this.cityId, cityName: cityName ?? this.cityName);
   }
-}
 
+  static City defaultInstance() {
+    return City(cityId: 0, cityName: '');
+  }
+}
 
 enum _CityFields {
   cityId,
@@ -34,6 +37,6 @@ City cityFromJson(Map<String, dynamic> json) {
   );
 }
 
-List<City> cittiesFromJsonList(List<dynamic> json) {
+List<City> citiesFromJsonList(List<dynamic> json) {
   return json.map((e) => cityFromJson(e)).toList();
 }

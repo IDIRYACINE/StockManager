@@ -101,6 +101,14 @@ class SettingsPanel extends StatelessWidget {
                             controller.manageProductFamillies(context);
                           },
                         ),
+                        SettingRowData(
+                          title: Translations.of(context)!.cities,
+                          subtitle:
+                              Translations.of(context)!.descriptionManageCities,
+                          onClick: () {
+                            controller.manageCities(context);
+                          },
+                        ),
                       ],
                     ),
                   ],

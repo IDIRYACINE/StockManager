@@ -336,4 +336,10 @@ class TranslationsAr extends Translations {
 
   @override
   String get descriptionManageProductFamillies => 'إدارة عوائل البضائع';
+
+  @override
+  String get cities => 'المدن';
+
+  @override
+  String get descriptionManageCities => 'إدارة المدن';
 }

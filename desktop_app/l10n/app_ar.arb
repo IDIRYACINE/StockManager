@@ -110,5 +110,8 @@
   "descriptionManageColors" : "إدارة الألوان",
   "descriptionManageSizes" : "إدارة المقاسات",
   "productFamillies" : "عوائل البضائع",
-  "descriptionManageProductFamillies" : "إدارة عوائل البضائع"
+  "descriptionManageProductFamillies" : "إدارة عوائل البضائع",
+  "cities" : "المدن",
+  "descriptionManageCities" : "إدارة المدن"
+
 }

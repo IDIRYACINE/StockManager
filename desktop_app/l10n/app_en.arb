@@ -110,5 +110,7 @@
   "descriptionManageColors" : "Manage colors",
   "descriptionManageSizes" : "Manage sizes",
   "productFamillies" : "Products famillies",
-  "descriptionManageProductFamillies" : "Manage Products famillies"
+  "descriptionManageProductFamillies" : "Manage Products famillies",
+  "cities" : "Cities",
+  "descriptionManageCities" : "Manage Cities"
 }

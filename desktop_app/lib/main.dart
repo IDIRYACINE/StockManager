@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_manager/Features/Cities/State/bloc.dart';
 import 'package:stock_manager/Features/Deposit/State/bloc.dart';
 import 'package:stock_manager/Features/History/State/history.dart';
 import 'package:stock_manager/Features/Orders/State/bloc.dart';
@@ -24,6 +25,7 @@ void main() async {
       BlocProvider(create: (context) => DepositBloc.initial()),
       BlocProvider(create: (context) => PurchaseBloc.initial()),
       BlocProvider(create: (context) => SellersBloc.initial()),
+      BlocProvider(create: (context) => RegionBloc.initial()),
       BlocProvider(create: (context) => OrdersBloc.initial()),
       BlocProvider(create: (context) => SizeColorBloc.initial()),
       BlocProvider(create: (context) => StatistiquesBloc.initial()),
