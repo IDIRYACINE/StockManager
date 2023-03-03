@@ -3,6 +3,8 @@ import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Domain/Models/sizes_colors.dart';
 import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
+import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
+    as graphql_service;
 
 class RegisterColor extends Command<RegisterColorEventData,
     RegisterColorRawEventData, RegisterColorResponse> {
@@ -15,8 +17,26 @@ class RegisterColor extends Command<RegisterColorEventData,
   RegisterColor(this.graphQl) : super(eventId, eventName);
 
   @override
-  Future<RegisterColorResponse> handleEvent(RegisterColorEventData eventData) {
-    throw UnimplementedError();
+  Future<RegisterColorResponse> handleEvent(
+      RegisterColorEventData eventData) async {
+    final variables = graphql_service.Variables$Mutation$CreateOneColors(
+        data: graphql_service.Input$ColorsCreateInput(
+            id: eventData.color.colorId, color: eventData.color.color));
+
+    final options =
+        graphql_service.Options$Mutation$CreateOneColors(variables: variables);
+
+    final result = await graphQl.mutate(options);
+
+    if (result.hasException) {
+      return RegisterColorResponse(
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
+    }
+
+    return RegisterColorResponse(
+        messageId: eventData.messageId,
+        status: ServiceEventResponseStatus.success);
   }
 
   @override
@@ -27,7 +47,10 @@ class RegisterColor extends Command<RegisterColorEventData,
 }
 
 class RegisterColorResponse extends ServiceEventResponse {
-  RegisterColorResponse(super.messageId, super.responseType);
+  RegisterColorResponse(
+      {required int messageId,
+      ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
+      : super(messageId, status);
 }
 
 class RegisterColorRawEventData extends RawServiceEventData {

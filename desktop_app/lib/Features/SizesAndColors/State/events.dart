@@ -1,4 +1,5 @@
 import 'package:stock_manager/Domain/Models/sizes_colors.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 
 class SizeColorEvent {}
 
@@ -27,21 +28,30 @@ class DeleteModelColor extends SizeColorEvent {
 }
 
 class UpdateModelSize extends SizeColorEvent {
-  final ModelSize modelSize;
+  final UpdateRequestWrapper<ModelSize> modelSize;
 
   UpdateModelSize(this.modelSize);
 }
 
 class UpdateModelColor extends SizeColorEvent {
-  final ModelColor modelColor;
+  final UpdateRequestWrapper<ModelColor> modelColor;
 
   UpdateModelColor(this.modelColor);
 }
 
 class RefreshModelColors extends SizeColorEvent {}
 
-class LoadModelColors extends SizeColorEvent {}
+class LoadModelColors extends SizeColorEvent {
+  final List<ModelColor> colors;
+
+  LoadModelColors(this.colors);
+}
 
 class RefreshModelSizes extends SizeColorEvent {}
 
-class LoadModelSizes extends SizeColorEvent {}
+class LoadModelSizes extends SizeColorEvent {
+  final List<ModelSize> sizes;
+
+  LoadModelSizes(this.sizes);
+
+}

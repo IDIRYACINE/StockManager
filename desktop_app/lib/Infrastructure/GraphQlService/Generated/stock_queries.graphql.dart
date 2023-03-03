@@ -3,6 +3,8 @@ import 'package:gql/ast.dart';
 import 'package:graphql/client.dart' as graphql;
 import 'schema2.graphql.dart';
 import 'schema3.graphql.dart';
+import 'schema5.graphql.dart';
+import 'schema7.graphql.dart';
 
 class Variables$Mutation$CreateOneProductModel {
   factory Variables$Mutation$CreateOneProductModel(
@@ -5665,6 +5667,4296 @@ class _CopyWithStubImpl$Mutation$UpdateOneProductModel$updateOneProductModel<
     int? product_id,
     int? color_id,
     int? size_id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Query$FindManySizes {
+  factory Variables$Query$FindManySizes({int? take}) =>
+      Variables$Query$FindManySizes._({
+        if (take != null) r'take': take,
+      });
+
+  Variables$Query$FindManySizes._(this._$data);
+
+  factory Variables$Query$FindManySizes.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('take')) {
+      final l$take = data['take'];
+      result$data['take'] = (l$take as int?);
+    }
+    return Variables$Query$FindManySizes._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  int? get take => (_$data['take'] as int?);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('take')) {
+      final l$take = take;
+      result$data['take'] = l$take;
+    }
+    return result$data;
+  }
+
+  CopyWith$Variables$Query$FindManySizes<Variables$Query$FindManySizes>
+      get copyWith => CopyWith$Variables$Query$FindManySizes(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Query$FindManySizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$take = take;
+    final lOther$take = other.take;
+    if (_$data.containsKey('take') != other._$data.containsKey('take')) {
+      return false;
+    }
+    if (l$take != lOther$take) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$take = take;
+    return Object.hashAll([_$data.containsKey('take') ? l$take : const {}]);
+  }
+}
+
+abstract class CopyWith$Variables$Query$FindManySizes<TRes> {
+  factory CopyWith$Variables$Query$FindManySizes(
+    Variables$Query$FindManySizes instance,
+    TRes Function(Variables$Query$FindManySizes) then,
+  ) = _CopyWithImpl$Variables$Query$FindManySizes;
+
+  factory CopyWith$Variables$Query$FindManySizes.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Query$FindManySizes;
+
+  TRes call({int? take});
+}
+
+class _CopyWithImpl$Variables$Query$FindManySizes<TRes>
+    implements CopyWith$Variables$Query$FindManySizes<TRes> {
+  _CopyWithImpl$Variables$Query$FindManySizes(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Query$FindManySizes _instance;
+
+  final TRes Function(Variables$Query$FindManySizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? take = _undefined}) =>
+      _then(Variables$Query$FindManySizes._({
+        ..._instance._$data,
+        if (take != _undefined) 'take': (take as int?),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Query$FindManySizes<TRes>
+    implements CopyWith$Variables$Query$FindManySizes<TRes> {
+  _CopyWithStubImpl$Variables$Query$FindManySizes(this._res);
+
+  TRes _res;
+
+  call({int? take}) => _res;
+}
+
+class Query$FindManySizes {
+  Query$FindManySizes({
+    required this.findManySizes,
+    this.$__typename = 'Query',
+  });
+
+  factory Query$FindManySizes.fromJson(Map<String, dynamic> json) {
+    final l$findManySizes = json['findManySizes'];
+    final l$$__typename = json['__typename'];
+    return Query$FindManySizes(
+      findManySizes: (l$findManySizes as List<dynamic>)
+          .map((e) => Query$FindManySizes$findManySizes.fromJson(
+              (e as Map<String, dynamic>)))
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Query$FindManySizes$findManySizes> findManySizes;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$findManySizes = findManySizes;
+    _resultData['findManySizes'] =
+        l$findManySizes.map((e) => e.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$findManySizes = findManySizes;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      Object.hashAll(l$findManySizes.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$FindManySizes) || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$findManySizes = findManySizes;
+    final lOther$findManySizes = other.findManySizes;
+    if (l$findManySizes.length != lOther$findManySizes.length) {
+      return false;
+    }
+    for (int i = 0; i < l$findManySizes.length; i++) {
+      final l$findManySizes$entry = l$findManySizes[i];
+      final lOther$findManySizes$entry = lOther$findManySizes[i];
+      if (l$findManySizes$entry != lOther$findManySizes$entry) {
+        return false;
+      }
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindManySizes on Query$FindManySizes {
+  CopyWith$Query$FindManySizes<Query$FindManySizes> get copyWith =>
+      CopyWith$Query$FindManySizes(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Query$FindManySizes<TRes> {
+  factory CopyWith$Query$FindManySizes(
+    Query$FindManySizes instance,
+    TRes Function(Query$FindManySizes) then,
+  ) = _CopyWithImpl$Query$FindManySizes;
+
+  factory CopyWith$Query$FindManySizes.stub(TRes res) =
+      _CopyWithStubImpl$Query$FindManySizes;
+
+  TRes call({
+    List<Query$FindManySizes$findManySizes>? findManySizes,
+    String? $__typename,
+  });
+  TRes findManySizes(
+      Iterable<Query$FindManySizes$findManySizes> Function(
+              Iterable<
+                  CopyWith$Query$FindManySizes$findManySizes<
+                      Query$FindManySizes$findManySizes>>)
+          _fn);
+}
+
+class _CopyWithImpl$Query$FindManySizes<TRes>
+    implements CopyWith$Query$FindManySizes<TRes> {
+  _CopyWithImpl$Query$FindManySizes(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindManySizes _instance;
+
+  final TRes Function(Query$FindManySizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? findManySizes = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindManySizes(
+        findManySizes: findManySizes == _undefined || findManySizes == null
+            ? _instance.findManySizes
+            : (findManySizes as List<Query$FindManySizes$findManySizes>),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  TRes findManySizes(
+          Iterable<Query$FindManySizes$findManySizes> Function(
+                  Iterable<
+                      CopyWith$Query$FindManySizes$findManySizes<
+                          Query$FindManySizes$findManySizes>>)
+              _fn) =>
+      call(
+          findManySizes: _fn(_instance.findManySizes
+              .map((e) => CopyWith$Query$FindManySizes$findManySizes(
+                    e,
+                    (i) => i,
+                  ))).toList());
+}
+
+class _CopyWithStubImpl$Query$FindManySizes<TRes>
+    implements CopyWith$Query$FindManySizes<TRes> {
+  _CopyWithStubImpl$Query$FindManySizes(this._res);
+
+  TRes _res;
+
+  call({
+    List<Query$FindManySizes$findManySizes>? findManySizes,
+    String? $__typename,
+  }) =>
+      _res;
+  findManySizes(_fn) => _res;
+}
+
+const documentNodeQueryFindManySizes = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'FindManySizes'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'take')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'findManySizes'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'take'),
+            value: VariableNode(name: NameNode(value: 'take')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'size'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Query$FindManySizes _parserFn$Query$FindManySizes(Map<String, dynamic> data) =>
+    Query$FindManySizes.fromJson(data);
+
+class Options$Query$FindManySizes
+    extends graphql.QueryOptions<Query$FindManySizes> {
+  Options$Query$FindManySizes({
+    String? operationName,
+    Variables$Query$FindManySizes? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    Duration? pollInterval,
+    graphql.Context? context,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          pollInterval: pollInterval,
+          context: context,
+          document: documentNodeQueryFindManySizes,
+          parserFn: _parserFn$Query$FindManySizes,
+        );
+}
+
+class WatchOptions$Query$FindManySizes
+    extends graphql.WatchQueryOptions<Query$FindManySizes> {
+  WatchOptions$Query$FindManySizes({
+    String? operationName,
+    Variables$Query$FindManySizes? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeQueryFindManySizes,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Query$FindManySizes,
+        );
+}
+
+class FetchMoreOptions$Query$FindManySizes extends graphql.FetchMoreOptions {
+  FetchMoreOptions$Query$FindManySizes({
+    required graphql.UpdateQuery updateQuery,
+    Variables$Query$FindManySizes? variables,
+  }) : super(
+          updateQuery: updateQuery,
+          variables: variables?.toJson() ?? {},
+          document: documentNodeQueryFindManySizes,
+        );
+}
+
+extension ClientExtension$Query$FindManySizes on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Query$FindManySizes>> query$FindManySizes(
+          [Options$Query$FindManySizes? options]) async =>
+      await this.query(options ?? Options$Query$FindManySizes());
+  graphql.ObservableQuery<Query$FindManySizes> watchQuery$FindManySizes(
+          [WatchOptions$Query$FindManySizes? options]) =>
+      this.watchQuery(options ?? WatchOptions$Query$FindManySizes());
+  void writeQuery$FindManySizes({
+    required Query$FindManySizes data,
+    Variables$Query$FindManySizes? variables,
+    bool broadcast = true,
+  }) =>
+      this.writeQuery(
+        graphql.Request(
+          operation:
+              graphql.Operation(document: documentNodeQueryFindManySizes),
+          variables: variables?.toJson() ?? const {},
+        ),
+        data: data.toJson(),
+        broadcast: broadcast,
+      );
+  Query$FindManySizes? readQuery$FindManySizes({
+    Variables$Query$FindManySizes? variables,
+    bool optimistic = true,
+  }) {
+    final result = this.readQuery(
+      graphql.Request(
+        operation: graphql.Operation(document: documentNodeQueryFindManySizes),
+        variables: variables?.toJson() ?? const {},
+      ),
+      optimistic: optimistic,
+    );
+    return result == null ? null : Query$FindManySizes.fromJson(result);
+  }
+}
+
+class Query$FindManySizes$findManySizes {
+  Query$FindManySizes$findManySizes({
+    required this.id,
+    required this.size,
+    this.$__typename = 'Sizes',
+  });
+
+  factory Query$FindManySizes$findManySizes.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$size = json['size'];
+    final l$$__typename = json['__typename'];
+    return Query$FindManySizes$findManySizes(
+      id: (l$id as int),
+      size: (l$size as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String size;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$size = size;
+    _resultData['size'] = l$size;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$size = size;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$size,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$FindManySizes$findManySizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$size = size;
+    final lOther$size = other.size;
+    if (l$size != lOther$size) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindManySizes$findManySizes
+    on Query$FindManySizes$findManySizes {
+  CopyWith$Query$FindManySizes$findManySizes<Query$FindManySizes$findManySizes>
+      get copyWith => CopyWith$Query$FindManySizes$findManySizes(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$FindManySizes$findManySizes<TRes> {
+  factory CopyWith$Query$FindManySizes$findManySizes(
+    Query$FindManySizes$findManySizes instance,
+    TRes Function(Query$FindManySizes$findManySizes) then,
+  ) = _CopyWithImpl$Query$FindManySizes$findManySizes;
+
+  factory CopyWith$Query$FindManySizes$findManySizes.stub(TRes res) =
+      _CopyWithStubImpl$Query$FindManySizes$findManySizes;
+
+  TRes call({
+    int? id,
+    String? size,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$FindManySizes$findManySizes<TRes>
+    implements CopyWith$Query$FindManySizes$findManySizes<TRes> {
+  _CopyWithImpl$Query$FindManySizes$findManySizes(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindManySizes$findManySizes _instance;
+
+  final TRes Function(Query$FindManySizes$findManySizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? size = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindManySizes$findManySizes(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        size: size == _undefined || size == null
+            ? _instance.size
+            : (size as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$FindManySizes$findManySizes<TRes>
+    implements CopyWith$Query$FindManySizes$findManySizes<TRes> {
+  _CopyWithStubImpl$Query$FindManySizes$findManySizes(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? size,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$CreateOneSizes {
+  factory Variables$Mutation$CreateOneSizes(
+          {required Input$SizesCreateInput data}) =>
+      Variables$Mutation$CreateOneSizes._({
+        r'data': data,
+      });
+
+  Variables$Mutation$CreateOneSizes._(this._$data);
+
+  factory Variables$Mutation$CreateOneSizes.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$data = data['data'];
+    result$data['data'] =
+        Input$SizesCreateInput.fromJson((l$data as Map<String, dynamic>));
+    return Variables$Mutation$CreateOneSizes._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$SizesCreateInput get data => (_$data['data'] as Input$SizesCreateInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$data = data;
+    result$data['data'] = l$data.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$CreateOneSizes<Variables$Mutation$CreateOneSizes>
+      get copyWith => CopyWith$Variables$Mutation$CreateOneSizes(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$CreateOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$data = data;
+    final lOther$data = other.data;
+    if (l$data != lOther$data) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$data = data;
+    return Object.hashAll([l$data]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$CreateOneSizes<TRes> {
+  factory CopyWith$Variables$Mutation$CreateOneSizes(
+    Variables$Mutation$CreateOneSizes instance,
+    TRes Function(Variables$Mutation$CreateOneSizes) then,
+  ) = _CopyWithImpl$Variables$Mutation$CreateOneSizes;
+
+  factory CopyWith$Variables$Mutation$CreateOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$CreateOneSizes;
+
+  TRes call({Input$SizesCreateInput? data});
+}
+
+class _CopyWithImpl$Variables$Mutation$CreateOneSizes<TRes>
+    implements CopyWith$Variables$Mutation$CreateOneSizes<TRes> {
+  _CopyWithImpl$Variables$Mutation$CreateOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$CreateOneSizes _instance;
+
+  final TRes Function(Variables$Mutation$CreateOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? data = _undefined}) =>
+      _then(Variables$Mutation$CreateOneSizes._({
+        ..._instance._$data,
+        if (data != _undefined && data != null)
+          'data': (data as Input$SizesCreateInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$CreateOneSizes<TRes>
+    implements CopyWith$Variables$Mutation$CreateOneSizes<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$CreateOneSizes(this._res);
+
+  TRes _res;
+
+  call({Input$SizesCreateInput? data}) => _res;
+}
+
+class Mutation$CreateOneSizes {
+  Mutation$CreateOneSizes({
+    required this.createOneSizes,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$CreateOneSizes.fromJson(Map<String, dynamic> json) {
+    final l$createOneSizes = json['createOneSizes'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateOneSizes(
+      createOneSizes: Mutation$CreateOneSizes$createOneSizes.fromJson(
+          (l$createOneSizes as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$CreateOneSizes$createOneSizes createOneSizes;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$createOneSizes = createOneSizes;
+    _resultData['createOneSizes'] = l$createOneSizes.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$createOneSizes = createOneSizes;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$createOneSizes,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$CreateOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$createOneSizes = createOneSizes;
+    final lOther$createOneSizes = other.createOneSizes;
+    if (l$createOneSizes != lOther$createOneSizes) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateOneSizes on Mutation$CreateOneSizes {
+  CopyWith$Mutation$CreateOneSizes<Mutation$CreateOneSizes> get copyWith =>
+      CopyWith$Mutation$CreateOneSizes(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$CreateOneSizes<TRes> {
+  factory CopyWith$Mutation$CreateOneSizes(
+    Mutation$CreateOneSizes instance,
+    TRes Function(Mutation$CreateOneSizes) then,
+  ) = _CopyWithImpl$Mutation$CreateOneSizes;
+
+  factory CopyWith$Mutation$CreateOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$CreateOneSizes;
+
+  TRes call({
+    Mutation$CreateOneSizes$createOneSizes? createOneSizes,
+    String? $__typename,
+  });
+  CopyWith$Mutation$CreateOneSizes$createOneSizes<TRes> get createOneSizes;
+}
+
+class _CopyWithImpl$Mutation$CreateOneSizes<TRes>
+    implements CopyWith$Mutation$CreateOneSizes<TRes> {
+  _CopyWithImpl$Mutation$CreateOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateOneSizes _instance;
+
+  final TRes Function(Mutation$CreateOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? createOneSizes = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$CreateOneSizes(
+        createOneSizes: createOneSizes == _undefined || createOneSizes == null
+            ? _instance.createOneSizes
+            : (createOneSizes as Mutation$CreateOneSizes$createOneSizes),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$CreateOneSizes$createOneSizes<TRes> get createOneSizes {
+    final local$createOneSizes = _instance.createOneSizes;
+    return CopyWith$Mutation$CreateOneSizes$createOneSizes(
+        local$createOneSizes, (e) => call(createOneSizes: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$CreateOneSizes<TRes>
+    implements CopyWith$Mutation$CreateOneSizes<TRes> {
+  _CopyWithStubImpl$Mutation$CreateOneSizes(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$CreateOneSizes$createOneSizes? createOneSizes,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$CreateOneSizes$createOneSizes<TRes> get createOneSizes =>
+      CopyWith$Mutation$CreateOneSizes$createOneSizes.stub(_res);
+}
+
+const documentNodeMutationCreateOneSizes = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'CreateOneSizes'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'data')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'SizesCreateInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'createOneSizes'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'data'),
+            value: VariableNode(name: NameNode(value: 'data')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$CreateOneSizes _parserFn$Mutation$CreateOneSizes(
+        Map<String, dynamic> data) =>
+    Mutation$CreateOneSizes.fromJson(data);
+typedef OnMutationCompleted$Mutation$CreateOneSizes = FutureOr<void> Function(
+  dynamic,
+  Mutation$CreateOneSizes?,
+);
+
+class Options$Mutation$CreateOneSizes
+    extends graphql.MutationOptions<Mutation$CreateOneSizes> {
+  Options$Mutation$CreateOneSizes({
+    String? operationName,
+    required Variables$Mutation$CreateOneSizes variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$CreateOneSizes? onCompleted,
+    graphql.OnMutationUpdate<Mutation$CreateOneSizes>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$CreateOneSizes(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationCreateOneSizes,
+          parserFn: _parserFn$Mutation$CreateOneSizes,
+        );
+
+  final OnMutationCompleted$Mutation$CreateOneSizes? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$CreateOneSizes
+    extends graphql.WatchQueryOptions<Mutation$CreateOneSizes> {
+  WatchOptions$Mutation$CreateOneSizes({
+    String? operationName,
+    required Variables$Mutation$CreateOneSizes variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationCreateOneSizes,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$CreateOneSizes,
+        );
+}
+
+extension ClientExtension$Mutation$CreateOneSizes on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$CreateOneSizes>> mutate$CreateOneSizes(
+          Options$Mutation$CreateOneSizes options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<Mutation$CreateOneSizes> watchMutation$CreateOneSizes(
+          WatchOptions$Mutation$CreateOneSizes options) =>
+      this.watchMutation(options);
+}
+
+class Mutation$CreateOneSizes$createOneSizes {
+  Mutation$CreateOneSizes$createOneSizes({
+    required this.id,
+    this.$__typename = 'Sizes',
+  });
+
+  factory Mutation$CreateOneSizes$createOneSizes.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateOneSizes$createOneSizes(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$CreateOneSizes$createOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateOneSizes$createOneSizes
+    on Mutation$CreateOneSizes$createOneSizes {
+  CopyWith$Mutation$CreateOneSizes$createOneSizes<
+          Mutation$CreateOneSizes$createOneSizes>
+      get copyWith => CopyWith$Mutation$CreateOneSizes$createOneSizes(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$CreateOneSizes$createOneSizes<TRes> {
+  factory CopyWith$Mutation$CreateOneSizes$createOneSizes(
+    Mutation$CreateOneSizes$createOneSizes instance,
+    TRes Function(Mutation$CreateOneSizes$createOneSizes) then,
+  ) = _CopyWithImpl$Mutation$CreateOneSizes$createOneSizes;
+
+  factory CopyWith$Mutation$CreateOneSizes$createOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$CreateOneSizes$createOneSizes;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$CreateOneSizes$createOneSizes<TRes>
+    implements CopyWith$Mutation$CreateOneSizes$createOneSizes<TRes> {
+  _CopyWithImpl$Mutation$CreateOneSizes$createOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateOneSizes$createOneSizes _instance;
+
+  final TRes Function(Mutation$CreateOneSizes$createOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$CreateOneSizes$createOneSizes(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$CreateOneSizes$createOneSizes<TRes>
+    implements CopyWith$Mutation$CreateOneSizes$createOneSizes<TRes> {
+  _CopyWithStubImpl$Mutation$CreateOneSizes$createOneSizes(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$UpdateOneSizes {
+  factory Variables$Mutation$UpdateOneSizes({
+    required Input$SizesUpdateInput data,
+    required Input$SizesWhereUniqueInput where,
+  }) =>
+      Variables$Mutation$UpdateOneSizes._({
+        r'data': data,
+        r'where': where,
+      });
+
+  Variables$Mutation$UpdateOneSizes._(this._$data);
+
+  factory Variables$Mutation$UpdateOneSizes.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$data = data['data'];
+    result$data['data'] =
+        Input$SizesUpdateInput.fromJson((l$data as Map<String, dynamic>));
+    final l$where = data['where'];
+    result$data['where'] =
+        Input$SizesWhereUniqueInput.fromJson((l$where as Map<String, dynamic>));
+    return Variables$Mutation$UpdateOneSizes._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$SizesUpdateInput get data => (_$data['data'] as Input$SizesUpdateInput);
+  Input$SizesWhereUniqueInput get where =>
+      (_$data['where'] as Input$SizesWhereUniqueInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$data = data;
+    result$data['data'] = l$data.toJson();
+    final l$where = where;
+    result$data['where'] = l$where.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$UpdateOneSizes<Variables$Mutation$UpdateOneSizes>
+      get copyWith => CopyWith$Variables$Mutation$UpdateOneSizes(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$UpdateOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$data = data;
+    final lOther$data = other.data;
+    if (l$data != lOther$data) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$data = data;
+    final l$where = where;
+    return Object.hashAll([
+      l$data,
+      l$where,
+    ]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$UpdateOneSizes<TRes> {
+  factory CopyWith$Variables$Mutation$UpdateOneSizes(
+    Variables$Mutation$UpdateOneSizes instance,
+    TRes Function(Variables$Mutation$UpdateOneSizes) then,
+  ) = _CopyWithImpl$Variables$Mutation$UpdateOneSizes;
+
+  factory CopyWith$Variables$Mutation$UpdateOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$UpdateOneSizes;
+
+  TRes call({
+    Input$SizesUpdateInput? data,
+    Input$SizesWhereUniqueInput? where,
+  });
+}
+
+class _CopyWithImpl$Variables$Mutation$UpdateOneSizes<TRes>
+    implements CopyWith$Variables$Mutation$UpdateOneSizes<TRes> {
+  _CopyWithImpl$Variables$Mutation$UpdateOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$UpdateOneSizes _instance;
+
+  final TRes Function(Variables$Mutation$UpdateOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? data = _undefined,
+    Object? where = _undefined,
+  }) =>
+      _then(Variables$Mutation$UpdateOneSizes._({
+        ..._instance._$data,
+        if (data != _undefined && data != null)
+          'data': (data as Input$SizesUpdateInput),
+        if (where != _undefined && where != null)
+          'where': (where as Input$SizesWhereUniqueInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$UpdateOneSizes<TRes>
+    implements CopyWith$Variables$Mutation$UpdateOneSizes<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$UpdateOneSizes(this._res);
+
+  TRes _res;
+
+  call({
+    Input$SizesUpdateInput? data,
+    Input$SizesWhereUniqueInput? where,
+  }) =>
+      _res;
+}
+
+class Mutation$UpdateOneSizes {
+  Mutation$UpdateOneSizes({
+    this.updateOneSizes,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$UpdateOneSizes.fromJson(Map<String, dynamic> json) {
+    final l$updateOneSizes = json['updateOneSizes'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateOneSizes(
+      updateOneSizes: l$updateOneSizes == null
+          ? null
+          : Mutation$UpdateOneSizes$updateOneSizes.fromJson(
+              (l$updateOneSizes as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$UpdateOneSizes$updateOneSizes? updateOneSizes;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$updateOneSizes = updateOneSizes;
+    _resultData['updateOneSizes'] = l$updateOneSizes?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$updateOneSizes = updateOneSizes;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$updateOneSizes,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$UpdateOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$updateOneSizes = updateOneSizes;
+    final lOther$updateOneSizes = other.updateOneSizes;
+    if (l$updateOneSizes != lOther$updateOneSizes) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateOneSizes on Mutation$UpdateOneSizes {
+  CopyWith$Mutation$UpdateOneSizes<Mutation$UpdateOneSizes> get copyWith =>
+      CopyWith$Mutation$UpdateOneSizes(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$UpdateOneSizes<TRes> {
+  factory CopyWith$Mutation$UpdateOneSizes(
+    Mutation$UpdateOneSizes instance,
+    TRes Function(Mutation$UpdateOneSizes) then,
+  ) = _CopyWithImpl$Mutation$UpdateOneSizes;
+
+  factory CopyWith$Mutation$UpdateOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$UpdateOneSizes;
+
+  TRes call({
+    Mutation$UpdateOneSizes$updateOneSizes? updateOneSizes,
+    String? $__typename,
+  });
+  CopyWith$Mutation$UpdateOneSizes$updateOneSizes<TRes> get updateOneSizes;
+}
+
+class _CopyWithImpl$Mutation$UpdateOneSizes<TRes>
+    implements CopyWith$Mutation$UpdateOneSizes<TRes> {
+  _CopyWithImpl$Mutation$UpdateOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateOneSizes _instance;
+
+  final TRes Function(Mutation$UpdateOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? updateOneSizes = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$UpdateOneSizes(
+        updateOneSizes: updateOneSizes == _undefined
+            ? _instance.updateOneSizes
+            : (updateOneSizes as Mutation$UpdateOneSizes$updateOneSizes?),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$UpdateOneSizes$updateOneSizes<TRes> get updateOneSizes {
+    final local$updateOneSizes = _instance.updateOneSizes;
+    return local$updateOneSizes == null
+        ? CopyWith$Mutation$UpdateOneSizes$updateOneSizes.stub(_then(_instance))
+        : CopyWith$Mutation$UpdateOneSizes$updateOneSizes(
+            local$updateOneSizes, (e) => call(updateOneSizes: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$UpdateOneSizes<TRes>
+    implements CopyWith$Mutation$UpdateOneSizes<TRes> {
+  _CopyWithStubImpl$Mutation$UpdateOneSizes(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$UpdateOneSizes$updateOneSizes? updateOneSizes,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$UpdateOneSizes$updateOneSizes<TRes> get updateOneSizes =>
+      CopyWith$Mutation$UpdateOneSizes$updateOneSizes.stub(_res);
+}
+
+const documentNodeMutationUpdateOneSizes = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'UpdateOneSizes'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'data')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'SizesUpdateInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'SizesWhereUniqueInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateOneSizes'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'data'),
+            value: VariableNode(name: NameNode(value: 'data')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$UpdateOneSizes _parserFn$Mutation$UpdateOneSizes(
+        Map<String, dynamic> data) =>
+    Mutation$UpdateOneSizes.fromJson(data);
+typedef OnMutationCompleted$Mutation$UpdateOneSizes = FutureOr<void> Function(
+  dynamic,
+  Mutation$UpdateOneSizes?,
+);
+
+class Options$Mutation$UpdateOneSizes
+    extends graphql.MutationOptions<Mutation$UpdateOneSizes> {
+  Options$Mutation$UpdateOneSizes({
+    String? operationName,
+    required Variables$Mutation$UpdateOneSizes variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$UpdateOneSizes? onCompleted,
+    graphql.OnMutationUpdate<Mutation$UpdateOneSizes>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$UpdateOneSizes(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationUpdateOneSizes,
+          parserFn: _parserFn$Mutation$UpdateOneSizes,
+        );
+
+  final OnMutationCompleted$Mutation$UpdateOneSizes? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$UpdateOneSizes
+    extends graphql.WatchQueryOptions<Mutation$UpdateOneSizes> {
+  WatchOptions$Mutation$UpdateOneSizes({
+    String? operationName,
+    required Variables$Mutation$UpdateOneSizes variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationUpdateOneSizes,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$UpdateOneSizes,
+        );
+}
+
+extension ClientExtension$Mutation$UpdateOneSizes on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$UpdateOneSizes>> mutate$UpdateOneSizes(
+          Options$Mutation$UpdateOneSizes options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<Mutation$UpdateOneSizes> watchMutation$UpdateOneSizes(
+          WatchOptions$Mutation$UpdateOneSizes options) =>
+      this.watchMutation(options);
+}
+
+class Mutation$UpdateOneSizes$updateOneSizes {
+  Mutation$UpdateOneSizes$updateOneSizes({
+    required this.id,
+    this.$__typename = 'Sizes',
+  });
+
+  factory Mutation$UpdateOneSizes$updateOneSizes.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateOneSizes$updateOneSizes(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$UpdateOneSizes$updateOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateOneSizes$updateOneSizes
+    on Mutation$UpdateOneSizes$updateOneSizes {
+  CopyWith$Mutation$UpdateOneSizes$updateOneSizes<
+          Mutation$UpdateOneSizes$updateOneSizes>
+      get copyWith => CopyWith$Mutation$UpdateOneSizes$updateOneSizes(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$UpdateOneSizes$updateOneSizes<TRes> {
+  factory CopyWith$Mutation$UpdateOneSizes$updateOneSizes(
+    Mutation$UpdateOneSizes$updateOneSizes instance,
+    TRes Function(Mutation$UpdateOneSizes$updateOneSizes) then,
+  ) = _CopyWithImpl$Mutation$UpdateOneSizes$updateOneSizes;
+
+  factory CopyWith$Mutation$UpdateOneSizes$updateOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$UpdateOneSizes$updateOneSizes;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$UpdateOneSizes$updateOneSizes<TRes>
+    implements CopyWith$Mutation$UpdateOneSizes$updateOneSizes<TRes> {
+  _CopyWithImpl$Mutation$UpdateOneSizes$updateOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateOneSizes$updateOneSizes _instance;
+
+  final TRes Function(Mutation$UpdateOneSizes$updateOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$UpdateOneSizes$updateOneSizes(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$UpdateOneSizes$updateOneSizes<TRes>
+    implements CopyWith$Mutation$UpdateOneSizes$updateOneSizes<TRes> {
+  _CopyWithStubImpl$Mutation$UpdateOneSizes$updateOneSizes(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$DeleteOneSizes {
+  factory Variables$Mutation$DeleteOneSizes(
+          {required Input$SizesWhereUniqueInput where}) =>
+      Variables$Mutation$DeleteOneSizes._({
+        r'where': where,
+      });
+
+  Variables$Mutation$DeleteOneSizes._(this._$data);
+
+  factory Variables$Mutation$DeleteOneSizes.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$where = data['where'];
+    result$data['where'] =
+        Input$SizesWhereUniqueInput.fromJson((l$where as Map<String, dynamic>));
+    return Variables$Mutation$DeleteOneSizes._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$SizesWhereUniqueInput get where =>
+      (_$data['where'] as Input$SizesWhereUniqueInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$where = where;
+    result$data['where'] = l$where.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$DeleteOneSizes<Variables$Mutation$DeleteOneSizes>
+      get copyWith => CopyWith$Variables$Mutation$DeleteOneSizes(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$DeleteOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$where = where;
+    return Object.hashAll([l$where]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$DeleteOneSizes<TRes> {
+  factory CopyWith$Variables$Mutation$DeleteOneSizes(
+    Variables$Mutation$DeleteOneSizes instance,
+    TRes Function(Variables$Mutation$DeleteOneSizes) then,
+  ) = _CopyWithImpl$Variables$Mutation$DeleteOneSizes;
+
+  factory CopyWith$Variables$Mutation$DeleteOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$DeleteOneSizes;
+
+  TRes call({Input$SizesWhereUniqueInput? where});
+}
+
+class _CopyWithImpl$Variables$Mutation$DeleteOneSizes<TRes>
+    implements CopyWith$Variables$Mutation$DeleteOneSizes<TRes> {
+  _CopyWithImpl$Variables$Mutation$DeleteOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$DeleteOneSizes _instance;
+
+  final TRes Function(Variables$Mutation$DeleteOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? where = _undefined}) =>
+      _then(Variables$Mutation$DeleteOneSizes._({
+        ..._instance._$data,
+        if (where != _undefined && where != null)
+          'where': (where as Input$SizesWhereUniqueInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$DeleteOneSizes<TRes>
+    implements CopyWith$Variables$Mutation$DeleteOneSizes<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$DeleteOneSizes(this._res);
+
+  TRes _res;
+
+  call({Input$SizesWhereUniqueInput? where}) => _res;
+}
+
+class Mutation$DeleteOneSizes {
+  Mutation$DeleteOneSizes({
+    this.deleteOneSizes,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$DeleteOneSizes.fromJson(Map<String, dynamic> json) {
+    final l$deleteOneSizes = json['deleteOneSizes'];
+    final l$$__typename = json['__typename'];
+    return Mutation$DeleteOneSizes(
+      deleteOneSizes: l$deleteOneSizes == null
+          ? null
+          : Mutation$DeleteOneSizes$deleteOneSizes.fromJson(
+              (l$deleteOneSizes as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$DeleteOneSizes$deleteOneSizes? deleteOneSizes;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$deleteOneSizes = deleteOneSizes;
+    _resultData['deleteOneSizes'] = l$deleteOneSizes?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$deleteOneSizes = deleteOneSizes;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$deleteOneSizes,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$DeleteOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$deleteOneSizes = deleteOneSizes;
+    final lOther$deleteOneSizes = other.deleteOneSizes;
+    if (l$deleteOneSizes != lOther$deleteOneSizes) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$DeleteOneSizes on Mutation$DeleteOneSizes {
+  CopyWith$Mutation$DeleteOneSizes<Mutation$DeleteOneSizes> get copyWith =>
+      CopyWith$Mutation$DeleteOneSizes(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$DeleteOneSizes<TRes> {
+  factory CopyWith$Mutation$DeleteOneSizes(
+    Mutation$DeleteOneSizes instance,
+    TRes Function(Mutation$DeleteOneSizes) then,
+  ) = _CopyWithImpl$Mutation$DeleteOneSizes;
+
+  factory CopyWith$Mutation$DeleteOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$DeleteOneSizes;
+
+  TRes call({
+    Mutation$DeleteOneSizes$deleteOneSizes? deleteOneSizes,
+    String? $__typename,
+  });
+  CopyWith$Mutation$DeleteOneSizes$deleteOneSizes<TRes> get deleteOneSizes;
+}
+
+class _CopyWithImpl$Mutation$DeleteOneSizes<TRes>
+    implements CopyWith$Mutation$DeleteOneSizes<TRes> {
+  _CopyWithImpl$Mutation$DeleteOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$DeleteOneSizes _instance;
+
+  final TRes Function(Mutation$DeleteOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? deleteOneSizes = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$DeleteOneSizes(
+        deleteOneSizes: deleteOneSizes == _undefined
+            ? _instance.deleteOneSizes
+            : (deleteOneSizes as Mutation$DeleteOneSizes$deleteOneSizes?),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$DeleteOneSizes$deleteOneSizes<TRes> get deleteOneSizes {
+    final local$deleteOneSizes = _instance.deleteOneSizes;
+    return local$deleteOneSizes == null
+        ? CopyWith$Mutation$DeleteOneSizes$deleteOneSizes.stub(_then(_instance))
+        : CopyWith$Mutation$DeleteOneSizes$deleteOneSizes(
+            local$deleteOneSizes, (e) => call(deleteOneSizes: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$DeleteOneSizes<TRes>
+    implements CopyWith$Mutation$DeleteOneSizes<TRes> {
+  _CopyWithStubImpl$Mutation$DeleteOneSizes(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$DeleteOneSizes$deleteOneSizes? deleteOneSizes,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$DeleteOneSizes$deleteOneSizes<TRes> get deleteOneSizes =>
+      CopyWith$Mutation$DeleteOneSizes$deleteOneSizes.stub(_res);
+}
+
+const documentNodeMutationDeleteOneSizes = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'DeleteOneSizes'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'SizesWhereUniqueInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'deleteOneSizes'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$DeleteOneSizes _parserFn$Mutation$DeleteOneSizes(
+        Map<String, dynamic> data) =>
+    Mutation$DeleteOneSizes.fromJson(data);
+typedef OnMutationCompleted$Mutation$DeleteOneSizes = FutureOr<void> Function(
+  dynamic,
+  Mutation$DeleteOneSizes?,
+);
+
+class Options$Mutation$DeleteOneSizes
+    extends graphql.MutationOptions<Mutation$DeleteOneSizes> {
+  Options$Mutation$DeleteOneSizes({
+    String? operationName,
+    required Variables$Mutation$DeleteOneSizes variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$DeleteOneSizes? onCompleted,
+    graphql.OnMutationUpdate<Mutation$DeleteOneSizes>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$DeleteOneSizes(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationDeleteOneSizes,
+          parserFn: _parserFn$Mutation$DeleteOneSizes,
+        );
+
+  final OnMutationCompleted$Mutation$DeleteOneSizes? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$DeleteOneSizes
+    extends graphql.WatchQueryOptions<Mutation$DeleteOneSizes> {
+  WatchOptions$Mutation$DeleteOneSizes({
+    String? operationName,
+    required Variables$Mutation$DeleteOneSizes variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationDeleteOneSizes,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$DeleteOneSizes,
+        );
+}
+
+extension ClientExtension$Mutation$DeleteOneSizes on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$DeleteOneSizes>> mutate$DeleteOneSizes(
+          Options$Mutation$DeleteOneSizes options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<Mutation$DeleteOneSizes> watchMutation$DeleteOneSizes(
+          WatchOptions$Mutation$DeleteOneSizes options) =>
+      this.watchMutation(options);
+}
+
+class Mutation$DeleteOneSizes$deleteOneSizes {
+  Mutation$DeleteOneSizes$deleteOneSizes({
+    required this.id,
+    this.$__typename = 'Sizes',
+  });
+
+  factory Mutation$DeleteOneSizes$deleteOneSizes.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$DeleteOneSizes$deleteOneSizes(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$DeleteOneSizes$deleteOneSizes) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$DeleteOneSizes$deleteOneSizes
+    on Mutation$DeleteOneSizes$deleteOneSizes {
+  CopyWith$Mutation$DeleteOneSizes$deleteOneSizes<
+          Mutation$DeleteOneSizes$deleteOneSizes>
+      get copyWith => CopyWith$Mutation$DeleteOneSizes$deleteOneSizes(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$DeleteOneSizes$deleteOneSizes<TRes> {
+  factory CopyWith$Mutation$DeleteOneSizes$deleteOneSizes(
+    Mutation$DeleteOneSizes$deleteOneSizes instance,
+    TRes Function(Mutation$DeleteOneSizes$deleteOneSizes) then,
+  ) = _CopyWithImpl$Mutation$DeleteOneSizes$deleteOneSizes;
+
+  factory CopyWith$Mutation$DeleteOneSizes$deleteOneSizes.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$DeleteOneSizes$deleteOneSizes;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$DeleteOneSizes$deleteOneSizes<TRes>
+    implements CopyWith$Mutation$DeleteOneSizes$deleteOneSizes<TRes> {
+  _CopyWithImpl$Mutation$DeleteOneSizes$deleteOneSizes(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$DeleteOneSizes$deleteOneSizes _instance;
+
+  final TRes Function(Mutation$DeleteOneSizes$deleteOneSizes) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$DeleteOneSizes$deleteOneSizes(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$DeleteOneSizes$deleteOneSizes<TRes>
+    implements CopyWith$Mutation$DeleteOneSizes$deleteOneSizes<TRes> {
+  _CopyWithStubImpl$Mutation$DeleteOneSizes$deleteOneSizes(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Query$FindManyColors {
+  factory Variables$Query$FindManyColors({int? take}) =>
+      Variables$Query$FindManyColors._({
+        if (take != null) r'take': take,
+      });
+
+  Variables$Query$FindManyColors._(this._$data);
+
+  factory Variables$Query$FindManyColors.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('take')) {
+      final l$take = data['take'];
+      result$data['take'] = (l$take as int?);
+    }
+    return Variables$Query$FindManyColors._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  int? get take => (_$data['take'] as int?);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('take')) {
+      final l$take = take;
+      result$data['take'] = l$take;
+    }
+    return result$data;
+  }
+
+  CopyWith$Variables$Query$FindManyColors<Variables$Query$FindManyColors>
+      get copyWith => CopyWith$Variables$Query$FindManyColors(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Query$FindManyColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$take = take;
+    final lOther$take = other.take;
+    if (_$data.containsKey('take') != other._$data.containsKey('take')) {
+      return false;
+    }
+    if (l$take != lOther$take) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$take = take;
+    return Object.hashAll([_$data.containsKey('take') ? l$take : const {}]);
+  }
+}
+
+abstract class CopyWith$Variables$Query$FindManyColors<TRes> {
+  factory CopyWith$Variables$Query$FindManyColors(
+    Variables$Query$FindManyColors instance,
+    TRes Function(Variables$Query$FindManyColors) then,
+  ) = _CopyWithImpl$Variables$Query$FindManyColors;
+
+  factory CopyWith$Variables$Query$FindManyColors.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Query$FindManyColors;
+
+  TRes call({int? take});
+}
+
+class _CopyWithImpl$Variables$Query$FindManyColors<TRes>
+    implements CopyWith$Variables$Query$FindManyColors<TRes> {
+  _CopyWithImpl$Variables$Query$FindManyColors(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Query$FindManyColors _instance;
+
+  final TRes Function(Variables$Query$FindManyColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? take = _undefined}) =>
+      _then(Variables$Query$FindManyColors._({
+        ..._instance._$data,
+        if (take != _undefined) 'take': (take as int?),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Query$FindManyColors<TRes>
+    implements CopyWith$Variables$Query$FindManyColors<TRes> {
+  _CopyWithStubImpl$Variables$Query$FindManyColors(this._res);
+
+  TRes _res;
+
+  call({int? take}) => _res;
+}
+
+class Query$FindManyColors {
+  Query$FindManyColors({
+    required this.findManyColors,
+    this.$__typename = 'Query',
+  });
+
+  factory Query$FindManyColors.fromJson(Map<String, dynamic> json) {
+    final l$findManyColors = json['findManyColors'];
+    final l$$__typename = json['__typename'];
+    return Query$FindManyColors(
+      findManyColors: (l$findManyColors as List<dynamic>)
+          .map((e) => Query$FindManyColors$findManyColors.fromJson(
+              (e as Map<String, dynamic>)))
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Query$FindManyColors$findManyColors> findManyColors;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$findManyColors = findManyColors;
+    _resultData['findManyColors'] =
+        l$findManyColors.map((e) => e.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$findManyColors = findManyColors;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      Object.hashAll(l$findManyColors.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$FindManyColors) || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$findManyColors = findManyColors;
+    final lOther$findManyColors = other.findManyColors;
+    if (l$findManyColors.length != lOther$findManyColors.length) {
+      return false;
+    }
+    for (int i = 0; i < l$findManyColors.length; i++) {
+      final l$findManyColors$entry = l$findManyColors[i];
+      final lOther$findManyColors$entry = lOther$findManyColors[i];
+      if (l$findManyColors$entry != lOther$findManyColors$entry) {
+        return false;
+      }
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindManyColors on Query$FindManyColors {
+  CopyWith$Query$FindManyColors<Query$FindManyColors> get copyWith =>
+      CopyWith$Query$FindManyColors(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Query$FindManyColors<TRes> {
+  factory CopyWith$Query$FindManyColors(
+    Query$FindManyColors instance,
+    TRes Function(Query$FindManyColors) then,
+  ) = _CopyWithImpl$Query$FindManyColors;
+
+  factory CopyWith$Query$FindManyColors.stub(TRes res) =
+      _CopyWithStubImpl$Query$FindManyColors;
+
+  TRes call({
+    List<Query$FindManyColors$findManyColors>? findManyColors,
+    String? $__typename,
+  });
+  TRes findManyColors(
+      Iterable<Query$FindManyColors$findManyColors> Function(
+              Iterable<
+                  CopyWith$Query$FindManyColors$findManyColors<
+                      Query$FindManyColors$findManyColors>>)
+          _fn);
+}
+
+class _CopyWithImpl$Query$FindManyColors<TRes>
+    implements CopyWith$Query$FindManyColors<TRes> {
+  _CopyWithImpl$Query$FindManyColors(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindManyColors _instance;
+
+  final TRes Function(Query$FindManyColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? findManyColors = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindManyColors(
+        findManyColors: findManyColors == _undefined || findManyColors == null
+            ? _instance.findManyColors
+            : (findManyColors as List<Query$FindManyColors$findManyColors>),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  TRes findManyColors(
+          Iterable<Query$FindManyColors$findManyColors> Function(
+                  Iterable<
+                      CopyWith$Query$FindManyColors$findManyColors<
+                          Query$FindManyColors$findManyColors>>)
+              _fn) =>
+      call(
+          findManyColors: _fn(_instance.findManyColors
+              .map((e) => CopyWith$Query$FindManyColors$findManyColors(
+                    e,
+                    (i) => i,
+                  ))).toList());
+}
+
+class _CopyWithStubImpl$Query$FindManyColors<TRes>
+    implements CopyWith$Query$FindManyColors<TRes> {
+  _CopyWithStubImpl$Query$FindManyColors(this._res);
+
+  TRes _res;
+
+  call({
+    List<Query$FindManyColors$findManyColors>? findManyColors,
+    String? $__typename,
+  }) =>
+      _res;
+  findManyColors(_fn) => _res;
+}
+
+const documentNodeQueryFindManyColors = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'FindManyColors'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'take')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'findManyColors'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'take'),
+            value: VariableNode(name: NameNode(value: 'take')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'color'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Query$FindManyColors _parserFn$Query$FindManyColors(
+        Map<String, dynamic> data) =>
+    Query$FindManyColors.fromJson(data);
+
+class Options$Query$FindManyColors
+    extends graphql.QueryOptions<Query$FindManyColors> {
+  Options$Query$FindManyColors({
+    String? operationName,
+    Variables$Query$FindManyColors? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    Duration? pollInterval,
+    graphql.Context? context,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          pollInterval: pollInterval,
+          context: context,
+          document: documentNodeQueryFindManyColors,
+          parserFn: _parserFn$Query$FindManyColors,
+        );
+}
+
+class WatchOptions$Query$FindManyColors
+    extends graphql.WatchQueryOptions<Query$FindManyColors> {
+  WatchOptions$Query$FindManyColors({
+    String? operationName,
+    Variables$Query$FindManyColors? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeQueryFindManyColors,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Query$FindManyColors,
+        );
+}
+
+class FetchMoreOptions$Query$FindManyColors extends graphql.FetchMoreOptions {
+  FetchMoreOptions$Query$FindManyColors({
+    required graphql.UpdateQuery updateQuery,
+    Variables$Query$FindManyColors? variables,
+  }) : super(
+          updateQuery: updateQuery,
+          variables: variables?.toJson() ?? {},
+          document: documentNodeQueryFindManyColors,
+        );
+}
+
+extension ClientExtension$Query$FindManyColors on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Query$FindManyColors>> query$FindManyColors(
+          [Options$Query$FindManyColors? options]) async =>
+      await this.query(options ?? Options$Query$FindManyColors());
+  graphql.ObservableQuery<Query$FindManyColors> watchQuery$FindManyColors(
+          [WatchOptions$Query$FindManyColors? options]) =>
+      this.watchQuery(options ?? WatchOptions$Query$FindManyColors());
+  void writeQuery$FindManyColors({
+    required Query$FindManyColors data,
+    Variables$Query$FindManyColors? variables,
+    bool broadcast = true,
+  }) =>
+      this.writeQuery(
+        graphql.Request(
+          operation:
+              graphql.Operation(document: documentNodeQueryFindManyColors),
+          variables: variables?.toJson() ?? const {},
+        ),
+        data: data.toJson(),
+        broadcast: broadcast,
+      );
+  Query$FindManyColors? readQuery$FindManyColors({
+    Variables$Query$FindManyColors? variables,
+    bool optimistic = true,
+  }) {
+    final result = this.readQuery(
+      graphql.Request(
+        operation: graphql.Operation(document: documentNodeQueryFindManyColors),
+        variables: variables?.toJson() ?? const {},
+      ),
+      optimistic: optimistic,
+    );
+    return result == null ? null : Query$FindManyColors.fromJson(result);
+  }
+}
+
+class Query$FindManyColors$findManyColors {
+  Query$FindManyColors$findManyColors({
+    required this.id,
+    required this.color,
+    this.$__typename = 'Colors',
+  });
+
+  factory Query$FindManyColors$findManyColors.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$color = json['color'];
+    final l$$__typename = json['__typename'];
+    return Query$FindManyColors$findManyColors(
+      id: (l$id as int),
+      color: (l$color as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String color;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$color = color;
+    _resultData['color'] = l$color;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$color = color;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$color,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$FindManyColors$findManyColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$color = color;
+    final lOther$color = other.color;
+    if (l$color != lOther$color) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindManyColors$findManyColors
+    on Query$FindManyColors$findManyColors {
+  CopyWith$Query$FindManyColors$findManyColors<
+          Query$FindManyColors$findManyColors>
+      get copyWith => CopyWith$Query$FindManyColors$findManyColors(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$FindManyColors$findManyColors<TRes> {
+  factory CopyWith$Query$FindManyColors$findManyColors(
+    Query$FindManyColors$findManyColors instance,
+    TRes Function(Query$FindManyColors$findManyColors) then,
+  ) = _CopyWithImpl$Query$FindManyColors$findManyColors;
+
+  factory CopyWith$Query$FindManyColors$findManyColors.stub(TRes res) =
+      _CopyWithStubImpl$Query$FindManyColors$findManyColors;
+
+  TRes call({
+    int? id,
+    String? color,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$FindManyColors$findManyColors<TRes>
+    implements CopyWith$Query$FindManyColors$findManyColors<TRes> {
+  _CopyWithImpl$Query$FindManyColors$findManyColors(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindManyColors$findManyColors _instance;
+
+  final TRes Function(Query$FindManyColors$findManyColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? color = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindManyColors$findManyColors(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        color: color == _undefined || color == null
+            ? _instance.color
+            : (color as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$FindManyColors$findManyColors<TRes>
+    implements CopyWith$Query$FindManyColors$findManyColors<TRes> {
+  _CopyWithStubImpl$Query$FindManyColors$findManyColors(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? color,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$UpdateOneColors {
+  factory Variables$Mutation$UpdateOneColors({
+    required Input$ColorsUpdateInput data,
+    required Input$ColorsWhereUniqueInput where,
+  }) =>
+      Variables$Mutation$UpdateOneColors._({
+        r'data': data,
+        r'where': where,
+      });
+
+  Variables$Mutation$UpdateOneColors._(this._$data);
+
+  factory Variables$Mutation$UpdateOneColors.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$data = data['data'];
+    result$data['data'] =
+        Input$ColorsUpdateInput.fromJson((l$data as Map<String, dynamic>));
+    final l$where = data['where'];
+    result$data['where'] = Input$ColorsWhereUniqueInput.fromJson(
+        (l$where as Map<String, dynamic>));
+    return Variables$Mutation$UpdateOneColors._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$ColorsUpdateInput get data =>
+      (_$data['data'] as Input$ColorsUpdateInput);
+  Input$ColorsWhereUniqueInput get where =>
+      (_$data['where'] as Input$ColorsWhereUniqueInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$data = data;
+    result$data['data'] = l$data.toJson();
+    final l$where = where;
+    result$data['where'] = l$where.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$UpdateOneColors<
+          Variables$Mutation$UpdateOneColors>
+      get copyWith => CopyWith$Variables$Mutation$UpdateOneColors(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$UpdateOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$data = data;
+    final lOther$data = other.data;
+    if (l$data != lOther$data) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$data = data;
+    final l$where = where;
+    return Object.hashAll([
+      l$data,
+      l$where,
+    ]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$UpdateOneColors<TRes> {
+  factory CopyWith$Variables$Mutation$UpdateOneColors(
+    Variables$Mutation$UpdateOneColors instance,
+    TRes Function(Variables$Mutation$UpdateOneColors) then,
+  ) = _CopyWithImpl$Variables$Mutation$UpdateOneColors;
+
+  factory CopyWith$Variables$Mutation$UpdateOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$UpdateOneColors;
+
+  TRes call({
+    Input$ColorsUpdateInput? data,
+    Input$ColorsWhereUniqueInput? where,
+  });
+}
+
+class _CopyWithImpl$Variables$Mutation$UpdateOneColors<TRes>
+    implements CopyWith$Variables$Mutation$UpdateOneColors<TRes> {
+  _CopyWithImpl$Variables$Mutation$UpdateOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$UpdateOneColors _instance;
+
+  final TRes Function(Variables$Mutation$UpdateOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? data = _undefined,
+    Object? where = _undefined,
+  }) =>
+      _then(Variables$Mutation$UpdateOneColors._({
+        ..._instance._$data,
+        if (data != _undefined && data != null)
+          'data': (data as Input$ColorsUpdateInput),
+        if (where != _undefined && where != null)
+          'where': (where as Input$ColorsWhereUniqueInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$UpdateOneColors<TRes>
+    implements CopyWith$Variables$Mutation$UpdateOneColors<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$UpdateOneColors(this._res);
+
+  TRes _res;
+
+  call({
+    Input$ColorsUpdateInput? data,
+    Input$ColorsWhereUniqueInput? where,
+  }) =>
+      _res;
+}
+
+class Mutation$UpdateOneColors {
+  Mutation$UpdateOneColors({
+    this.updateOneColors,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$UpdateOneColors.fromJson(Map<String, dynamic> json) {
+    final l$updateOneColors = json['updateOneColors'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateOneColors(
+      updateOneColors: l$updateOneColors == null
+          ? null
+          : Mutation$UpdateOneColors$updateOneColors.fromJson(
+              (l$updateOneColors as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$UpdateOneColors$updateOneColors? updateOneColors;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$updateOneColors = updateOneColors;
+    _resultData['updateOneColors'] = l$updateOneColors?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$updateOneColors = updateOneColors;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$updateOneColors,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$UpdateOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$updateOneColors = updateOneColors;
+    final lOther$updateOneColors = other.updateOneColors;
+    if (l$updateOneColors != lOther$updateOneColors) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateOneColors
+    on Mutation$UpdateOneColors {
+  CopyWith$Mutation$UpdateOneColors<Mutation$UpdateOneColors> get copyWith =>
+      CopyWith$Mutation$UpdateOneColors(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$UpdateOneColors<TRes> {
+  factory CopyWith$Mutation$UpdateOneColors(
+    Mutation$UpdateOneColors instance,
+    TRes Function(Mutation$UpdateOneColors) then,
+  ) = _CopyWithImpl$Mutation$UpdateOneColors;
+
+  factory CopyWith$Mutation$UpdateOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$UpdateOneColors;
+
+  TRes call({
+    Mutation$UpdateOneColors$updateOneColors? updateOneColors,
+    String? $__typename,
+  });
+  CopyWith$Mutation$UpdateOneColors$updateOneColors<TRes> get updateOneColors;
+}
+
+class _CopyWithImpl$Mutation$UpdateOneColors<TRes>
+    implements CopyWith$Mutation$UpdateOneColors<TRes> {
+  _CopyWithImpl$Mutation$UpdateOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateOneColors _instance;
+
+  final TRes Function(Mutation$UpdateOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? updateOneColors = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$UpdateOneColors(
+        updateOneColors: updateOneColors == _undefined
+            ? _instance.updateOneColors
+            : (updateOneColors as Mutation$UpdateOneColors$updateOneColors?),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$UpdateOneColors$updateOneColors<TRes> get updateOneColors {
+    final local$updateOneColors = _instance.updateOneColors;
+    return local$updateOneColors == null
+        ? CopyWith$Mutation$UpdateOneColors$updateOneColors.stub(
+            _then(_instance))
+        : CopyWith$Mutation$UpdateOneColors$updateOneColors(
+            local$updateOneColors, (e) => call(updateOneColors: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$UpdateOneColors<TRes>
+    implements CopyWith$Mutation$UpdateOneColors<TRes> {
+  _CopyWithStubImpl$Mutation$UpdateOneColors(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$UpdateOneColors$updateOneColors? updateOneColors,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$UpdateOneColors$updateOneColors<TRes> get updateOneColors =>
+      CopyWith$Mutation$UpdateOneColors$updateOneColors.stub(_res);
+}
+
+const documentNodeMutationUpdateOneColors = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'UpdateOneColors'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'data')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ColorsUpdateInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ColorsWhereUniqueInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateOneColors'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'data'),
+            value: VariableNode(name: NameNode(value: 'data')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$UpdateOneColors _parserFn$Mutation$UpdateOneColors(
+        Map<String, dynamic> data) =>
+    Mutation$UpdateOneColors.fromJson(data);
+typedef OnMutationCompleted$Mutation$UpdateOneColors = FutureOr<void> Function(
+  dynamic,
+  Mutation$UpdateOneColors?,
+);
+
+class Options$Mutation$UpdateOneColors
+    extends graphql.MutationOptions<Mutation$UpdateOneColors> {
+  Options$Mutation$UpdateOneColors({
+    String? operationName,
+    required Variables$Mutation$UpdateOneColors variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$UpdateOneColors? onCompleted,
+    graphql.OnMutationUpdate<Mutation$UpdateOneColors>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$UpdateOneColors(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationUpdateOneColors,
+          parserFn: _parserFn$Mutation$UpdateOneColors,
+        );
+
+  final OnMutationCompleted$Mutation$UpdateOneColors? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$UpdateOneColors
+    extends graphql.WatchQueryOptions<Mutation$UpdateOneColors> {
+  WatchOptions$Mutation$UpdateOneColors({
+    String? operationName,
+    required Variables$Mutation$UpdateOneColors variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationUpdateOneColors,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$UpdateOneColors,
+        );
+}
+
+extension ClientExtension$Mutation$UpdateOneColors on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$UpdateOneColors>> mutate$UpdateOneColors(
+          Options$Mutation$UpdateOneColors options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<Mutation$UpdateOneColors>
+      watchMutation$UpdateOneColors(
+              WatchOptions$Mutation$UpdateOneColors options) =>
+          this.watchMutation(options);
+}
+
+class Mutation$UpdateOneColors$updateOneColors {
+  Mutation$UpdateOneColors$updateOneColors({
+    required this.id,
+    this.$__typename = 'Colors',
+  });
+
+  factory Mutation$UpdateOneColors$updateOneColors.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateOneColors$updateOneColors(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$UpdateOneColors$updateOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateOneColors$updateOneColors
+    on Mutation$UpdateOneColors$updateOneColors {
+  CopyWith$Mutation$UpdateOneColors$updateOneColors<
+          Mutation$UpdateOneColors$updateOneColors>
+      get copyWith => CopyWith$Mutation$UpdateOneColors$updateOneColors(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$UpdateOneColors$updateOneColors<TRes> {
+  factory CopyWith$Mutation$UpdateOneColors$updateOneColors(
+    Mutation$UpdateOneColors$updateOneColors instance,
+    TRes Function(Mutation$UpdateOneColors$updateOneColors) then,
+  ) = _CopyWithImpl$Mutation$UpdateOneColors$updateOneColors;
+
+  factory CopyWith$Mutation$UpdateOneColors$updateOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$UpdateOneColors$updateOneColors;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$UpdateOneColors$updateOneColors<TRes>
+    implements CopyWith$Mutation$UpdateOneColors$updateOneColors<TRes> {
+  _CopyWithImpl$Mutation$UpdateOneColors$updateOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateOneColors$updateOneColors _instance;
+
+  final TRes Function(Mutation$UpdateOneColors$updateOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$UpdateOneColors$updateOneColors(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$UpdateOneColors$updateOneColors<TRes>
+    implements CopyWith$Mutation$UpdateOneColors$updateOneColors<TRes> {
+  _CopyWithStubImpl$Mutation$UpdateOneColors$updateOneColors(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$CreateOneColors {
+  factory Variables$Mutation$CreateOneColors(
+          {required Input$ColorsCreateInput data}) =>
+      Variables$Mutation$CreateOneColors._({
+        r'data': data,
+      });
+
+  Variables$Mutation$CreateOneColors._(this._$data);
+
+  factory Variables$Mutation$CreateOneColors.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$data = data['data'];
+    result$data['data'] =
+        Input$ColorsCreateInput.fromJson((l$data as Map<String, dynamic>));
+    return Variables$Mutation$CreateOneColors._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$ColorsCreateInput get data =>
+      (_$data['data'] as Input$ColorsCreateInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$data = data;
+    result$data['data'] = l$data.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$CreateOneColors<
+          Variables$Mutation$CreateOneColors>
+      get copyWith => CopyWith$Variables$Mutation$CreateOneColors(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$CreateOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$data = data;
+    final lOther$data = other.data;
+    if (l$data != lOther$data) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$data = data;
+    return Object.hashAll([l$data]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$CreateOneColors<TRes> {
+  factory CopyWith$Variables$Mutation$CreateOneColors(
+    Variables$Mutation$CreateOneColors instance,
+    TRes Function(Variables$Mutation$CreateOneColors) then,
+  ) = _CopyWithImpl$Variables$Mutation$CreateOneColors;
+
+  factory CopyWith$Variables$Mutation$CreateOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$CreateOneColors;
+
+  TRes call({Input$ColorsCreateInput? data});
+}
+
+class _CopyWithImpl$Variables$Mutation$CreateOneColors<TRes>
+    implements CopyWith$Variables$Mutation$CreateOneColors<TRes> {
+  _CopyWithImpl$Variables$Mutation$CreateOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$CreateOneColors _instance;
+
+  final TRes Function(Variables$Mutation$CreateOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? data = _undefined}) =>
+      _then(Variables$Mutation$CreateOneColors._({
+        ..._instance._$data,
+        if (data != _undefined && data != null)
+          'data': (data as Input$ColorsCreateInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$CreateOneColors<TRes>
+    implements CopyWith$Variables$Mutation$CreateOneColors<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$CreateOneColors(this._res);
+
+  TRes _res;
+
+  call({Input$ColorsCreateInput? data}) => _res;
+}
+
+class Mutation$CreateOneColors {
+  Mutation$CreateOneColors({
+    required this.createOneColors,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$CreateOneColors.fromJson(Map<String, dynamic> json) {
+    final l$createOneColors = json['createOneColors'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateOneColors(
+      createOneColors: Mutation$CreateOneColors$createOneColors.fromJson(
+          (l$createOneColors as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$CreateOneColors$createOneColors createOneColors;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$createOneColors = createOneColors;
+    _resultData['createOneColors'] = l$createOneColors.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$createOneColors = createOneColors;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$createOneColors,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$CreateOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$createOneColors = createOneColors;
+    final lOther$createOneColors = other.createOneColors;
+    if (l$createOneColors != lOther$createOneColors) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateOneColors
+    on Mutation$CreateOneColors {
+  CopyWith$Mutation$CreateOneColors<Mutation$CreateOneColors> get copyWith =>
+      CopyWith$Mutation$CreateOneColors(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$CreateOneColors<TRes> {
+  factory CopyWith$Mutation$CreateOneColors(
+    Mutation$CreateOneColors instance,
+    TRes Function(Mutation$CreateOneColors) then,
+  ) = _CopyWithImpl$Mutation$CreateOneColors;
+
+  factory CopyWith$Mutation$CreateOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$CreateOneColors;
+
+  TRes call({
+    Mutation$CreateOneColors$createOneColors? createOneColors,
+    String? $__typename,
+  });
+  CopyWith$Mutation$CreateOneColors$createOneColors<TRes> get createOneColors;
+}
+
+class _CopyWithImpl$Mutation$CreateOneColors<TRes>
+    implements CopyWith$Mutation$CreateOneColors<TRes> {
+  _CopyWithImpl$Mutation$CreateOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateOneColors _instance;
+
+  final TRes Function(Mutation$CreateOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? createOneColors = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$CreateOneColors(
+        createOneColors:
+            createOneColors == _undefined || createOneColors == null
+                ? _instance.createOneColors
+                : (createOneColors as Mutation$CreateOneColors$createOneColors),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$CreateOneColors$createOneColors<TRes> get createOneColors {
+    final local$createOneColors = _instance.createOneColors;
+    return CopyWith$Mutation$CreateOneColors$createOneColors(
+        local$createOneColors, (e) => call(createOneColors: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$CreateOneColors<TRes>
+    implements CopyWith$Mutation$CreateOneColors<TRes> {
+  _CopyWithStubImpl$Mutation$CreateOneColors(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$CreateOneColors$createOneColors? createOneColors,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$CreateOneColors$createOneColors<TRes> get createOneColors =>
+      CopyWith$Mutation$CreateOneColors$createOneColors.stub(_res);
+}
+
+const documentNodeMutationCreateOneColors = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'CreateOneColors'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'data')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ColorsCreateInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'createOneColors'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'data'),
+            value: VariableNode(name: NameNode(value: 'data')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$CreateOneColors _parserFn$Mutation$CreateOneColors(
+        Map<String, dynamic> data) =>
+    Mutation$CreateOneColors.fromJson(data);
+typedef OnMutationCompleted$Mutation$CreateOneColors = FutureOr<void> Function(
+  dynamic,
+  Mutation$CreateOneColors?,
+);
+
+class Options$Mutation$CreateOneColors
+    extends graphql.MutationOptions<Mutation$CreateOneColors> {
+  Options$Mutation$CreateOneColors({
+    String? operationName,
+    required Variables$Mutation$CreateOneColors variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$CreateOneColors? onCompleted,
+    graphql.OnMutationUpdate<Mutation$CreateOneColors>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$CreateOneColors(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationCreateOneColors,
+          parserFn: _parserFn$Mutation$CreateOneColors,
+        );
+
+  final OnMutationCompleted$Mutation$CreateOneColors? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$CreateOneColors
+    extends graphql.WatchQueryOptions<Mutation$CreateOneColors> {
+  WatchOptions$Mutation$CreateOneColors({
+    String? operationName,
+    required Variables$Mutation$CreateOneColors variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationCreateOneColors,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$CreateOneColors,
+        );
+}
+
+extension ClientExtension$Mutation$CreateOneColors on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$CreateOneColors>> mutate$CreateOneColors(
+          Options$Mutation$CreateOneColors options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<Mutation$CreateOneColors>
+      watchMutation$CreateOneColors(
+              WatchOptions$Mutation$CreateOneColors options) =>
+          this.watchMutation(options);
+}
+
+class Mutation$CreateOneColors$createOneColors {
+  Mutation$CreateOneColors$createOneColors({
+    required this.id,
+    this.$__typename = 'Colors',
+  });
+
+  factory Mutation$CreateOneColors$createOneColors.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateOneColors$createOneColors(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$CreateOneColors$createOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateOneColors$createOneColors
+    on Mutation$CreateOneColors$createOneColors {
+  CopyWith$Mutation$CreateOneColors$createOneColors<
+          Mutation$CreateOneColors$createOneColors>
+      get copyWith => CopyWith$Mutation$CreateOneColors$createOneColors(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$CreateOneColors$createOneColors<TRes> {
+  factory CopyWith$Mutation$CreateOneColors$createOneColors(
+    Mutation$CreateOneColors$createOneColors instance,
+    TRes Function(Mutation$CreateOneColors$createOneColors) then,
+  ) = _CopyWithImpl$Mutation$CreateOneColors$createOneColors;
+
+  factory CopyWith$Mutation$CreateOneColors$createOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$CreateOneColors$createOneColors;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$CreateOneColors$createOneColors<TRes>
+    implements CopyWith$Mutation$CreateOneColors$createOneColors<TRes> {
+  _CopyWithImpl$Mutation$CreateOneColors$createOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateOneColors$createOneColors _instance;
+
+  final TRes Function(Mutation$CreateOneColors$createOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$CreateOneColors$createOneColors(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$CreateOneColors$createOneColors<TRes>
+    implements CopyWith$Mutation$CreateOneColors$createOneColors<TRes> {
+  _CopyWithStubImpl$Mutation$CreateOneColors$createOneColors(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$DeleteOneColors {
+  factory Variables$Mutation$DeleteOneColors(
+          {required Input$ColorsWhereUniqueInput where}) =>
+      Variables$Mutation$DeleteOneColors._({
+        r'where': where,
+      });
+
+  Variables$Mutation$DeleteOneColors._(this._$data);
+
+  factory Variables$Mutation$DeleteOneColors.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$where = data['where'];
+    result$data['where'] = Input$ColorsWhereUniqueInput.fromJson(
+        (l$where as Map<String, dynamic>));
+    return Variables$Mutation$DeleteOneColors._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$ColorsWhereUniqueInput get where =>
+      (_$data['where'] as Input$ColorsWhereUniqueInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$where = where;
+    result$data['where'] = l$where.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$DeleteOneColors<
+          Variables$Mutation$DeleteOneColors>
+      get copyWith => CopyWith$Variables$Mutation$DeleteOneColors(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$DeleteOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$where = where;
+    return Object.hashAll([l$where]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$DeleteOneColors<TRes> {
+  factory CopyWith$Variables$Mutation$DeleteOneColors(
+    Variables$Mutation$DeleteOneColors instance,
+    TRes Function(Variables$Mutation$DeleteOneColors) then,
+  ) = _CopyWithImpl$Variables$Mutation$DeleteOneColors;
+
+  factory CopyWith$Variables$Mutation$DeleteOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$DeleteOneColors;
+
+  TRes call({Input$ColorsWhereUniqueInput? where});
+}
+
+class _CopyWithImpl$Variables$Mutation$DeleteOneColors<TRes>
+    implements CopyWith$Variables$Mutation$DeleteOneColors<TRes> {
+  _CopyWithImpl$Variables$Mutation$DeleteOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$DeleteOneColors _instance;
+
+  final TRes Function(Variables$Mutation$DeleteOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? where = _undefined}) =>
+      _then(Variables$Mutation$DeleteOneColors._({
+        ..._instance._$data,
+        if (where != _undefined && where != null)
+          'where': (where as Input$ColorsWhereUniqueInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$DeleteOneColors<TRes>
+    implements CopyWith$Variables$Mutation$DeleteOneColors<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$DeleteOneColors(this._res);
+
+  TRes _res;
+
+  call({Input$ColorsWhereUniqueInput? where}) => _res;
+}
+
+class Mutation$DeleteOneColors {
+  Mutation$DeleteOneColors({
+    this.deleteOneColors,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$DeleteOneColors.fromJson(Map<String, dynamic> json) {
+    final l$deleteOneColors = json['deleteOneColors'];
+    final l$$__typename = json['__typename'];
+    return Mutation$DeleteOneColors(
+      deleteOneColors: l$deleteOneColors == null
+          ? null
+          : Mutation$DeleteOneColors$deleteOneColors.fromJson(
+              (l$deleteOneColors as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$DeleteOneColors$deleteOneColors? deleteOneColors;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$deleteOneColors = deleteOneColors;
+    _resultData['deleteOneColors'] = l$deleteOneColors?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$deleteOneColors = deleteOneColors;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$deleteOneColors,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$DeleteOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$deleteOneColors = deleteOneColors;
+    final lOther$deleteOneColors = other.deleteOneColors;
+    if (l$deleteOneColors != lOther$deleteOneColors) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$DeleteOneColors
+    on Mutation$DeleteOneColors {
+  CopyWith$Mutation$DeleteOneColors<Mutation$DeleteOneColors> get copyWith =>
+      CopyWith$Mutation$DeleteOneColors(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Mutation$DeleteOneColors<TRes> {
+  factory CopyWith$Mutation$DeleteOneColors(
+    Mutation$DeleteOneColors instance,
+    TRes Function(Mutation$DeleteOneColors) then,
+  ) = _CopyWithImpl$Mutation$DeleteOneColors;
+
+  factory CopyWith$Mutation$DeleteOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$DeleteOneColors;
+
+  TRes call({
+    Mutation$DeleteOneColors$deleteOneColors? deleteOneColors,
+    String? $__typename,
+  });
+  CopyWith$Mutation$DeleteOneColors$deleteOneColors<TRes> get deleteOneColors;
+}
+
+class _CopyWithImpl$Mutation$DeleteOneColors<TRes>
+    implements CopyWith$Mutation$DeleteOneColors<TRes> {
+  _CopyWithImpl$Mutation$DeleteOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$DeleteOneColors _instance;
+
+  final TRes Function(Mutation$DeleteOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? deleteOneColors = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$DeleteOneColors(
+        deleteOneColors: deleteOneColors == _undefined
+            ? _instance.deleteOneColors
+            : (deleteOneColors as Mutation$DeleteOneColors$deleteOneColors?),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$DeleteOneColors$deleteOneColors<TRes> get deleteOneColors {
+    final local$deleteOneColors = _instance.deleteOneColors;
+    return local$deleteOneColors == null
+        ? CopyWith$Mutation$DeleteOneColors$deleteOneColors.stub(
+            _then(_instance))
+        : CopyWith$Mutation$DeleteOneColors$deleteOneColors(
+            local$deleteOneColors, (e) => call(deleteOneColors: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$DeleteOneColors<TRes>
+    implements CopyWith$Mutation$DeleteOneColors<TRes> {
+  _CopyWithStubImpl$Mutation$DeleteOneColors(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$DeleteOneColors$deleteOneColors? deleteOneColors,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$DeleteOneColors$deleteOneColors<TRes> get deleteOneColors =>
+      CopyWith$Mutation$DeleteOneColors$deleteOneColors.stub(_res);
+}
+
+const documentNodeMutationDeleteOneColors = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'DeleteOneColors'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ColorsWhereUniqueInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'deleteOneColors'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$DeleteOneColors _parserFn$Mutation$DeleteOneColors(
+        Map<String, dynamic> data) =>
+    Mutation$DeleteOneColors.fromJson(data);
+typedef OnMutationCompleted$Mutation$DeleteOneColors = FutureOr<void> Function(
+  dynamic,
+  Mutation$DeleteOneColors?,
+);
+
+class Options$Mutation$DeleteOneColors
+    extends graphql.MutationOptions<Mutation$DeleteOneColors> {
+  Options$Mutation$DeleteOneColors({
+    String? operationName,
+    required Variables$Mutation$DeleteOneColors variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$DeleteOneColors? onCompleted,
+    graphql.OnMutationUpdate<Mutation$DeleteOneColors>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$DeleteOneColors(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationDeleteOneColors,
+          parserFn: _parserFn$Mutation$DeleteOneColors,
+        );
+
+  final OnMutationCompleted$Mutation$DeleteOneColors? onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$DeleteOneColors
+    extends graphql.WatchQueryOptions<Mutation$DeleteOneColors> {
+  WatchOptions$Mutation$DeleteOneColors({
+    String? operationName,
+    required Variables$Mutation$DeleteOneColors variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationDeleteOneColors,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$DeleteOneColors,
+        );
+}
+
+extension ClientExtension$Mutation$DeleteOneColors on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$DeleteOneColors>> mutate$DeleteOneColors(
+          Options$Mutation$DeleteOneColors options) async =>
+      await this.mutate(options);
+  graphql.ObservableQuery<Mutation$DeleteOneColors>
+      watchMutation$DeleteOneColors(
+              WatchOptions$Mutation$DeleteOneColors options) =>
+          this.watchMutation(options);
+}
+
+class Mutation$DeleteOneColors$deleteOneColors {
+  Mutation$DeleteOneColors$deleteOneColors({
+    required this.id,
+    this.$__typename = 'Colors',
+  });
+
+  factory Mutation$DeleteOneColors$deleteOneColors.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$DeleteOneColors$deleteOneColors(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$DeleteOneColors$deleteOneColors) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$DeleteOneColors$deleteOneColors
+    on Mutation$DeleteOneColors$deleteOneColors {
+  CopyWith$Mutation$DeleteOneColors$deleteOneColors<
+          Mutation$DeleteOneColors$deleteOneColors>
+      get copyWith => CopyWith$Mutation$DeleteOneColors$deleteOneColors(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$DeleteOneColors$deleteOneColors<TRes> {
+  factory CopyWith$Mutation$DeleteOneColors$deleteOneColors(
+    Mutation$DeleteOneColors$deleteOneColors instance,
+    TRes Function(Mutation$DeleteOneColors$deleteOneColors) then,
+  ) = _CopyWithImpl$Mutation$DeleteOneColors$deleteOneColors;
+
+  factory CopyWith$Mutation$DeleteOneColors$deleteOneColors.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$DeleteOneColors$deleteOneColors;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$DeleteOneColors$deleteOneColors<TRes>
+    implements CopyWith$Mutation$DeleteOneColors$deleteOneColors<TRes> {
+  _CopyWithImpl$Mutation$DeleteOneColors$deleteOneColors(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$DeleteOneColors$deleteOneColors _instance;
+
+  final TRes Function(Mutation$DeleteOneColors$deleteOneColors) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$DeleteOneColors$deleteOneColors(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$DeleteOneColors$deleteOneColors<TRes>
+    implements CopyWith$Mutation$DeleteOneColors$deleteOneColors<TRes> {
+  _CopyWithStubImpl$Mutation$DeleteOneColors$deleteOneColors(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
     String? $__typename,
   }) =>
       _res;

@@ -1,6 +1,7 @@
 import 'package:graphql/client.dart';
 import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Domain/Models/sizes_colors.dart';
+import 'package:stock_manager/Infrastructure/GraphQlService/service.dart' as graphql_service;
 import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
@@ -15,8 +16,28 @@ class UpdateColor extends Command<UpdateColorEventData, UpdateColorRawEventData,
   UpdateColor(this.graphQl) : super(eventId, eventName);
 
   @override
-  Future<UpdateColorResponse> handleEvent(UpdateColorEventData eventData) {
-    throw UnimplementedError();
+  Future<UpdateColorResponse> handleEvent(
+      UpdateColorEventData eventData) async {
+    final variables = graphql_service.Variables$Mutation$UpdateOneColors(
+      where: graphql_service.Input$ColorsWhereUniqueInput(id: eventData.color.instance.colorId),
+      data: graphql_service.Input$ColorsUpdateInput(
+        color: graphql_service.Input$StringFieldUpdateOperationsInput(
+            $set: eventData.color.instance.color),
+      ),
+    );
+
+    final options = graphql_service.Options$Mutation$UpdateOneColors(variables: variables);
+    final result = await graphQl.mutate(options);
+
+    if (result.hasException) {
+      return UpdateColorResponse(
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
+    }
+
+    return UpdateColorResponse(
+        messageId: eventData.messageId,
+        status: ServiceEventResponseStatus.success);
   }
 
   @override
@@ -27,7 +48,10 @@ class UpdateColor extends Command<UpdateColorEventData, UpdateColorRawEventData,
 }
 
 class UpdateColorResponse extends ServiceEventResponse {
-  UpdateColorResponse(super.messageId, super.responseType);
+  UpdateColorResponse(
+      {required int messageId,
+      ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
+      : super(messageId, status);
 }
 
 class UpdateColorRawEventData extends RawServiceEventData {

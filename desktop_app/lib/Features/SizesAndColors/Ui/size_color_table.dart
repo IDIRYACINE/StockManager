@@ -132,8 +132,9 @@ class SizeTable extends StatelessWidget {
                 context,
                 state,
               ) {
+
                 return ListView.builder(
-                    itemCount: state.colorsCount,
+                    itemCount: state.sizesCount,
                     itemBuilder: (context, index) {
                       return SelectableRow<ModelSize>(
                         dataCellHelper: sizeToCellsAdapter,

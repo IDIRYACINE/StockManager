@@ -4,6 +4,7 @@ import 'package:stock_manager/Domain/Models/sizes_colors.dart';
 import 'package:stock_manager/Features/SizesAndColors/Ui/color_editor.dart';
 import 'package:stock_manager/Features/SizesAndColors/Ui/size_editor.dart';
 import 'package:stock_manager/Features/SizesAndColors/feature.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
@@ -48,7 +49,10 @@ class SizeColorController {
 
   void editColor(BuildContext context, ModelColor modelColor, int rowIndex) {
     void onEdit(Map<String, dynamic> updatedField, ModelColor modelColor) {
-      bloc.add(UpdateModelColor(modelColor));
+      final updateWrapper =
+          UpdateRequestWrapper(modelColor, updatedField, rowIndex);
+
+      bloc.add(UpdateModelColor(updateWrapper));
       AppNavigator.pop(context);
     }
 
@@ -93,13 +97,14 @@ class SizeColorController {
         ),
       ),
     );
-
   }
 
   void editSize(BuildContext context, ModelSize data, int rowIndex) {
-
     void onEdit(Map<String, dynamic> updatedField, ModelSize modelSize) {
-      bloc.add(UpdateModelSize(modelSize));
+      final updateWrapper =
+          UpdateRequestWrapper(modelSize, updatedField, rowIndex);
+
+      bloc.add(UpdateModelSize(updateWrapper));
       AppNavigator.pop(context);
     }
 

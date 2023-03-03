@@ -3,6 +3,8 @@ import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Domain/Models/sizes_colors.dart';
 import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
+import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
+    as graphql_service;
 
 class RegisterSize extends Command<RegisterSizeEventData,
     RegisterSizeRawEventData, RegisterSizeResponse> {
@@ -14,8 +16,29 @@ class RegisterSize extends Command<RegisterSizeEventData,
   RegisterSize(this.graphQl) : super(eventId, eventName);
 
   @override
-  Future<RegisterSizeResponse> handleEvent(RegisterSizeEventData eventData) {
-    throw UnimplementedError();
+  Future<RegisterSizeResponse> handleEvent(
+      RegisterSizeEventData eventData) async {
+        
+    final variables = graphql_service.Variables$Mutation$CreateOneSizes(
+        data: graphql_service.Input$SizesCreateInput(
+      id: eventData.size.sizeId,
+      size: eventData.size.size,
+    ));
+
+    final options =
+        graphql_service.Options$Mutation$CreateOneSizes(variables: variables);
+
+    final result = await graphQl.mutate(options);
+
+    if (result.hasException) {
+      return RegisterSizeResponse(
+          messageId: eventData.messageId,
+          status: ServiceEventResponseStatus.error);
+    }
+
+    return RegisterSizeResponse(
+        messageId: eventData.messageId,
+        status: ServiceEventResponseStatus.success);
   }
 
   @override
@@ -26,7 +49,10 @@ class RegisterSize extends Command<RegisterSizeEventData,
 }
 
 class RegisterSizeResponse extends ServiceEventResponse {
-  RegisterSizeResponse(super.messageId, super.responseType);
+  RegisterSizeResponse(
+      {required int messageId,
+      ServiceEventResponseStatus status = ServiceEventResponseStatus.success})
+      : super(messageId, status);
 }
 
 class RegisterSizeRawEventData extends RawServiceEventData {
@@ -37,7 +63,8 @@ class RegisterSizeRawEventData extends RawServiceEventData {
 
 class RegisterSizeEventData extends ServiceEventData<RegisterSizeRawEventData> {
   final ModelSize size;
-  RegisterSizeEventData({required this.size,required String requesterId}) : super(requesterId);
+  RegisterSizeEventData({required this.size, required String requesterId})
+      : super(requesterId);
 
   @override
   RegisterSizeRawEventData toRawServiceEventData() {

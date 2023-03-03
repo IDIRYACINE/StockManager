@@ -78,3 +78,53 @@ mutation UpdateOneProductModel($data: ProductModelUpdateInput!, $where: ProductM
     size_id
   }
 }
+
+query FindManySizes($take: Int) {
+  findManySizes(take: $take) {
+    id
+    size
+  }
+}
+
+mutation CreateOneSizes($data: SizesCreateInput!) {
+  createOneSizes(data: $data) {
+    id
+  }
+}
+
+mutation UpdateOneSizes($data: SizesUpdateInput!, $where: SizesWhereUniqueInput!) {
+  updateOneSizes(data: $data, where: $where) {
+    id
+  }
+}
+
+mutation DeleteOneSizes($where: SizesWhereUniqueInput!) {
+  deleteOneSizes(where: $where) {
+    id
+  }
+}
+
+query FindManyColors($take: Int) {
+  findManyColors(take: $take) {
+    id
+    color
+  }
+}
+
+mutation UpdateOneColors($data: ColorsUpdateInput!, $where: ColorsWhereUniqueInput!) {
+  updateOneColors(data: $data, where: $where) {
+    id
+  }
+}
+
+mutation CreateOneColors($data: ColorsCreateInput!) {
+  createOneColors(data: $data) {
+    id
+  }
+}
+
+mutation DeleteOneColors($where: ColorsWhereUniqueInput!) {
+  deleteOneColors(where: $where) {
+    id
+  }
+}
