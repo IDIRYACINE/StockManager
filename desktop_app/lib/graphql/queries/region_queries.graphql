@@ -22,3 +22,10 @@ query FindFirstCity {
     city_name
   }
 }
+
+query Cities($where: CityWhereInput) {
+  cities(where: $where) {
+    city_id
+    city_name
+  }
+}

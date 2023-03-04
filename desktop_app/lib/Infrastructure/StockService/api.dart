@@ -9,5 +9,5 @@ enum StockApi{
   updateProductModel,
   deleteProductModel,
   loadProducts,
-  loadProductModels, deleteColor, deleteSize, loadAllColors, updateSize, updateColor, registerSize, loadAllSizes, registerColor,
+  loadProductModels, deleteColor, deleteSize, loadAllColors, updateSize, updateColor, registerSize, loadAllSizes, registerColor, loadProductFamillies, registerProductFamily, updateProductFamily, deleteProductFamily,
 }

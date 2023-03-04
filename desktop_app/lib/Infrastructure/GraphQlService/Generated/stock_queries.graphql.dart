@@ -3,6 +3,7 @@ import 'package:gql/ast.dart';
 import 'package:graphql/client.dart' as graphql;
 import 'schema2.graphql.dart';
 import 'schema3.graphql.dart';
+import 'schema4.graphql.dart';
 import 'schema5.graphql.dart';
 import 'schema7.graphql.dart';
 
@@ -9957,6 +9958,2230 @@ class _CopyWithStubImpl$Mutation$DeleteOneColors$deleteOneColors<TRes>
 
   call({
     int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$CreateOneProductFamily {
+  factory Variables$Mutation$CreateOneProductFamily(
+          {required Input$ProductFamilyCreateInput data}) =>
+      Variables$Mutation$CreateOneProductFamily._({
+        r'data': data,
+      });
+
+  Variables$Mutation$CreateOneProductFamily._(this._$data);
+
+  factory Variables$Mutation$CreateOneProductFamily.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$data = data['data'];
+    result$data['data'] = Input$ProductFamilyCreateInput.fromJson(
+        (l$data as Map<String, dynamic>));
+    return Variables$Mutation$CreateOneProductFamily._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$ProductFamilyCreateInput get data =>
+      (_$data['data'] as Input$ProductFamilyCreateInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$data = data;
+    result$data['data'] = l$data.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$CreateOneProductFamily<
+          Variables$Mutation$CreateOneProductFamily>
+      get copyWith => CopyWith$Variables$Mutation$CreateOneProductFamily(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$CreateOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$data = data;
+    final lOther$data = other.data;
+    if (l$data != lOther$data) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$data = data;
+    return Object.hashAll([l$data]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$CreateOneProductFamily<TRes> {
+  factory CopyWith$Variables$Mutation$CreateOneProductFamily(
+    Variables$Mutation$CreateOneProductFamily instance,
+    TRes Function(Variables$Mutation$CreateOneProductFamily) then,
+  ) = _CopyWithImpl$Variables$Mutation$CreateOneProductFamily;
+
+  factory CopyWith$Variables$Mutation$CreateOneProductFamily.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$CreateOneProductFamily;
+
+  TRes call({Input$ProductFamilyCreateInput? data});
+}
+
+class _CopyWithImpl$Variables$Mutation$CreateOneProductFamily<TRes>
+    implements CopyWith$Variables$Mutation$CreateOneProductFamily<TRes> {
+  _CopyWithImpl$Variables$Mutation$CreateOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$CreateOneProductFamily _instance;
+
+  final TRes Function(Variables$Mutation$CreateOneProductFamily) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? data = _undefined}) =>
+      _then(Variables$Mutation$CreateOneProductFamily._({
+        ..._instance._$data,
+        if (data != _undefined && data != null)
+          'data': (data as Input$ProductFamilyCreateInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$CreateOneProductFamily<TRes>
+    implements CopyWith$Variables$Mutation$CreateOneProductFamily<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$CreateOneProductFamily(this._res);
+
+  TRes _res;
+
+  call({Input$ProductFamilyCreateInput? data}) => _res;
+}
+
+class Mutation$CreateOneProductFamily {
+  Mutation$CreateOneProductFamily({
+    required this.createOneProductFamily,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$CreateOneProductFamily.fromJson(Map<String, dynamic> json) {
+    final l$createOneProductFamily = json['createOneProductFamily'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateOneProductFamily(
+      createOneProductFamily:
+          Mutation$CreateOneProductFamily$createOneProductFamily.fromJson(
+              (l$createOneProductFamily as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$CreateOneProductFamily$createOneProductFamily
+      createOneProductFamily;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$createOneProductFamily = createOneProductFamily;
+    _resultData['createOneProductFamily'] = l$createOneProductFamily.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$createOneProductFamily = createOneProductFamily;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$createOneProductFamily,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$CreateOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$createOneProductFamily = createOneProductFamily;
+    final lOther$createOneProductFamily = other.createOneProductFamily;
+    if (l$createOneProductFamily != lOther$createOneProductFamily) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateOneProductFamily
+    on Mutation$CreateOneProductFamily {
+  CopyWith$Mutation$CreateOneProductFamily<Mutation$CreateOneProductFamily>
+      get copyWith => CopyWith$Mutation$CreateOneProductFamily(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$CreateOneProductFamily<TRes> {
+  factory CopyWith$Mutation$CreateOneProductFamily(
+    Mutation$CreateOneProductFamily instance,
+    TRes Function(Mutation$CreateOneProductFamily) then,
+  ) = _CopyWithImpl$Mutation$CreateOneProductFamily;
+
+  factory CopyWith$Mutation$CreateOneProductFamily.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$CreateOneProductFamily;
+
+  TRes call({
+    Mutation$CreateOneProductFamily$createOneProductFamily?
+        createOneProductFamily,
+    String? $__typename,
+  });
+  CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily<TRes>
+      get createOneProductFamily;
+}
+
+class _CopyWithImpl$Mutation$CreateOneProductFamily<TRes>
+    implements CopyWith$Mutation$CreateOneProductFamily<TRes> {
+  _CopyWithImpl$Mutation$CreateOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateOneProductFamily _instance;
+
+  final TRes Function(Mutation$CreateOneProductFamily) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? createOneProductFamily = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$CreateOneProductFamily(
+        createOneProductFamily: createOneProductFamily == _undefined ||
+                createOneProductFamily == null
+            ? _instance.createOneProductFamily
+            : (createOneProductFamily
+                as Mutation$CreateOneProductFamily$createOneProductFamily),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily<TRes>
+      get createOneProductFamily {
+    final local$createOneProductFamily = _instance.createOneProductFamily;
+    return CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily(
+        local$createOneProductFamily, (e) => call(createOneProductFamily: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$CreateOneProductFamily<TRes>
+    implements CopyWith$Mutation$CreateOneProductFamily<TRes> {
+  _CopyWithStubImpl$Mutation$CreateOneProductFamily(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$CreateOneProductFamily$createOneProductFamily?
+        createOneProductFamily,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily<TRes>
+      get createOneProductFamily =>
+          CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily.stub(
+              _res);
+}
+
+const documentNodeMutationCreateOneProductFamily = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'CreateOneProductFamily'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'data')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ProductFamilyCreateInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'createOneProductFamily'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'data'),
+            value: VariableNode(name: NameNode(value: 'data')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$CreateOneProductFamily _parserFn$Mutation$CreateOneProductFamily(
+        Map<String, dynamic> data) =>
+    Mutation$CreateOneProductFamily.fromJson(data);
+typedef OnMutationCompleted$Mutation$CreateOneProductFamily = FutureOr<void>
+    Function(
+  dynamic,
+  Mutation$CreateOneProductFamily?,
+);
+
+class Options$Mutation$CreateOneProductFamily
+    extends graphql.MutationOptions<Mutation$CreateOneProductFamily> {
+  Options$Mutation$CreateOneProductFamily({
+    String? operationName,
+    required Variables$Mutation$CreateOneProductFamily variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$CreateOneProductFamily? onCompleted,
+    graphql.OnMutationUpdate<Mutation$CreateOneProductFamily>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$CreateOneProductFamily(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationCreateOneProductFamily,
+          parserFn: _parserFn$Mutation$CreateOneProductFamily,
+        );
+
+  final OnMutationCompleted$Mutation$CreateOneProductFamily?
+      onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$CreateOneProductFamily
+    extends graphql.WatchQueryOptions<Mutation$CreateOneProductFamily> {
+  WatchOptions$Mutation$CreateOneProductFamily({
+    String? operationName,
+    required Variables$Mutation$CreateOneProductFamily variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationCreateOneProductFamily,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$CreateOneProductFamily,
+        );
+}
+
+extension ClientExtension$Mutation$CreateOneProductFamily
+    on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$CreateOneProductFamily>>
+      mutate$CreateOneProductFamily(
+              Options$Mutation$CreateOneProductFamily options) async =>
+          await this.mutate(options);
+  graphql.ObservableQuery<Mutation$CreateOneProductFamily>
+      watchMutation$CreateOneProductFamily(
+              WatchOptions$Mutation$CreateOneProductFamily options) =>
+          this.watchMutation(options);
+}
+
+class Mutation$CreateOneProductFamily$createOneProductFamily {
+  Mutation$CreateOneProductFamily$createOneProductFamily({
+    required this.id,
+    this.$__typename = 'ProductFamily',
+  });
+
+  factory Mutation$CreateOneProductFamily$createOneProductFamily.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$CreateOneProductFamily$createOneProductFamily(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$CreateOneProductFamily$createOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$CreateOneProductFamily$createOneProductFamily
+    on Mutation$CreateOneProductFamily$createOneProductFamily {
+  CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily<
+          Mutation$CreateOneProductFamily$createOneProductFamily>
+      get copyWith =>
+          CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily<
+    TRes> {
+  factory CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily(
+    Mutation$CreateOneProductFamily$createOneProductFamily instance,
+    TRes Function(Mutation$CreateOneProductFamily$createOneProductFamily) then,
+  ) = _CopyWithImpl$Mutation$CreateOneProductFamily$createOneProductFamily;
+
+  factory CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily.stub(
+          TRes res) =
+      _CopyWithStubImpl$Mutation$CreateOneProductFamily$createOneProductFamily;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$CreateOneProductFamily$createOneProductFamily<TRes>
+    implements
+        CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily<TRes> {
+  _CopyWithImpl$Mutation$CreateOneProductFamily$createOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$CreateOneProductFamily$createOneProductFamily _instance;
+
+  final TRes Function(Mutation$CreateOneProductFamily$createOneProductFamily)
+      _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$CreateOneProductFamily$createOneProductFamily(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$CreateOneProductFamily$createOneProductFamily<
+        TRes>
+    implements
+        CopyWith$Mutation$CreateOneProductFamily$createOneProductFamily<TRes> {
+  _CopyWithStubImpl$Mutation$CreateOneProductFamily$createOneProductFamily(
+      this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$DeleteOneProductFamily {
+  factory Variables$Mutation$DeleteOneProductFamily(
+          {required Input$ProductFamilyWhereUniqueInput where}) =>
+      Variables$Mutation$DeleteOneProductFamily._({
+        r'where': where,
+      });
+
+  Variables$Mutation$DeleteOneProductFamily._(this._$data);
+
+  factory Variables$Mutation$DeleteOneProductFamily.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$where = data['where'];
+    result$data['where'] = Input$ProductFamilyWhereUniqueInput.fromJson(
+        (l$where as Map<String, dynamic>));
+    return Variables$Mutation$DeleteOneProductFamily._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$ProductFamilyWhereUniqueInput get where =>
+      (_$data['where'] as Input$ProductFamilyWhereUniqueInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$where = where;
+    result$data['where'] = l$where.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$DeleteOneProductFamily<
+          Variables$Mutation$DeleteOneProductFamily>
+      get copyWith => CopyWith$Variables$Mutation$DeleteOneProductFamily(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$DeleteOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$where = where;
+    return Object.hashAll([l$where]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$DeleteOneProductFamily<TRes> {
+  factory CopyWith$Variables$Mutation$DeleteOneProductFamily(
+    Variables$Mutation$DeleteOneProductFamily instance,
+    TRes Function(Variables$Mutation$DeleteOneProductFamily) then,
+  ) = _CopyWithImpl$Variables$Mutation$DeleteOneProductFamily;
+
+  factory CopyWith$Variables$Mutation$DeleteOneProductFamily.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$DeleteOneProductFamily;
+
+  TRes call({Input$ProductFamilyWhereUniqueInput? where});
+}
+
+class _CopyWithImpl$Variables$Mutation$DeleteOneProductFamily<TRes>
+    implements CopyWith$Variables$Mutation$DeleteOneProductFamily<TRes> {
+  _CopyWithImpl$Variables$Mutation$DeleteOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$DeleteOneProductFamily _instance;
+
+  final TRes Function(Variables$Mutation$DeleteOneProductFamily) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? where = _undefined}) =>
+      _then(Variables$Mutation$DeleteOneProductFamily._({
+        ..._instance._$data,
+        if (where != _undefined && where != null)
+          'where': (where as Input$ProductFamilyWhereUniqueInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$DeleteOneProductFamily<TRes>
+    implements CopyWith$Variables$Mutation$DeleteOneProductFamily<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$DeleteOneProductFamily(this._res);
+
+  TRes _res;
+
+  call({Input$ProductFamilyWhereUniqueInput? where}) => _res;
+}
+
+class Mutation$DeleteOneProductFamily {
+  Mutation$DeleteOneProductFamily({
+    this.deleteOneProductFamily,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$DeleteOneProductFamily.fromJson(Map<String, dynamic> json) {
+    final l$deleteOneProductFamily = json['deleteOneProductFamily'];
+    final l$$__typename = json['__typename'];
+    return Mutation$DeleteOneProductFamily(
+      deleteOneProductFamily: l$deleteOneProductFamily == null
+          ? null
+          : Mutation$DeleteOneProductFamily$deleteOneProductFamily.fromJson(
+              (l$deleteOneProductFamily as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$DeleteOneProductFamily$deleteOneProductFamily?
+      deleteOneProductFamily;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$deleteOneProductFamily = deleteOneProductFamily;
+    _resultData['deleteOneProductFamily'] = l$deleteOneProductFamily?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$deleteOneProductFamily = deleteOneProductFamily;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$deleteOneProductFamily,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$DeleteOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$deleteOneProductFamily = deleteOneProductFamily;
+    final lOther$deleteOneProductFamily = other.deleteOneProductFamily;
+    if (l$deleteOneProductFamily != lOther$deleteOneProductFamily) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$DeleteOneProductFamily
+    on Mutation$DeleteOneProductFamily {
+  CopyWith$Mutation$DeleteOneProductFamily<Mutation$DeleteOneProductFamily>
+      get copyWith => CopyWith$Mutation$DeleteOneProductFamily(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$DeleteOneProductFamily<TRes> {
+  factory CopyWith$Mutation$DeleteOneProductFamily(
+    Mutation$DeleteOneProductFamily instance,
+    TRes Function(Mutation$DeleteOneProductFamily) then,
+  ) = _CopyWithImpl$Mutation$DeleteOneProductFamily;
+
+  factory CopyWith$Mutation$DeleteOneProductFamily.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$DeleteOneProductFamily;
+
+  TRes call({
+    Mutation$DeleteOneProductFamily$deleteOneProductFamily?
+        deleteOneProductFamily,
+    String? $__typename,
+  });
+  CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily<TRes>
+      get deleteOneProductFamily;
+}
+
+class _CopyWithImpl$Mutation$DeleteOneProductFamily<TRes>
+    implements CopyWith$Mutation$DeleteOneProductFamily<TRes> {
+  _CopyWithImpl$Mutation$DeleteOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$DeleteOneProductFamily _instance;
+
+  final TRes Function(Mutation$DeleteOneProductFamily) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? deleteOneProductFamily = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$DeleteOneProductFamily(
+        deleteOneProductFamily: deleteOneProductFamily == _undefined
+            ? _instance.deleteOneProductFamily
+            : (deleteOneProductFamily
+                as Mutation$DeleteOneProductFamily$deleteOneProductFamily?),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily<TRes>
+      get deleteOneProductFamily {
+    final local$deleteOneProductFamily = _instance.deleteOneProductFamily;
+    return local$deleteOneProductFamily == null
+        ? CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily.stub(
+            _then(_instance))
+        : CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily(
+            local$deleteOneProductFamily,
+            (e) => call(deleteOneProductFamily: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$DeleteOneProductFamily<TRes>
+    implements CopyWith$Mutation$DeleteOneProductFamily<TRes> {
+  _CopyWithStubImpl$Mutation$DeleteOneProductFamily(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$DeleteOneProductFamily$deleteOneProductFamily?
+        deleteOneProductFamily,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily<TRes>
+      get deleteOneProductFamily =>
+          CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily.stub(
+              _res);
+}
+
+const documentNodeMutationDeleteOneProductFamily = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'DeleteOneProductFamily'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ProductFamilyWhereUniqueInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'deleteOneProductFamily'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$DeleteOneProductFamily _parserFn$Mutation$DeleteOneProductFamily(
+        Map<String, dynamic> data) =>
+    Mutation$DeleteOneProductFamily.fromJson(data);
+typedef OnMutationCompleted$Mutation$DeleteOneProductFamily = FutureOr<void>
+    Function(
+  dynamic,
+  Mutation$DeleteOneProductFamily?,
+);
+
+class Options$Mutation$DeleteOneProductFamily
+    extends graphql.MutationOptions<Mutation$DeleteOneProductFamily> {
+  Options$Mutation$DeleteOneProductFamily({
+    String? operationName,
+    required Variables$Mutation$DeleteOneProductFamily variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$DeleteOneProductFamily? onCompleted,
+    graphql.OnMutationUpdate<Mutation$DeleteOneProductFamily>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$DeleteOneProductFamily(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationDeleteOneProductFamily,
+          parserFn: _parserFn$Mutation$DeleteOneProductFamily,
+        );
+
+  final OnMutationCompleted$Mutation$DeleteOneProductFamily?
+      onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$DeleteOneProductFamily
+    extends graphql.WatchQueryOptions<Mutation$DeleteOneProductFamily> {
+  WatchOptions$Mutation$DeleteOneProductFamily({
+    String? operationName,
+    required Variables$Mutation$DeleteOneProductFamily variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationDeleteOneProductFamily,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$DeleteOneProductFamily,
+        );
+}
+
+extension ClientExtension$Mutation$DeleteOneProductFamily
+    on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$DeleteOneProductFamily>>
+      mutate$DeleteOneProductFamily(
+              Options$Mutation$DeleteOneProductFamily options) async =>
+          await this.mutate(options);
+  graphql.ObservableQuery<Mutation$DeleteOneProductFamily>
+      watchMutation$DeleteOneProductFamily(
+              WatchOptions$Mutation$DeleteOneProductFamily options) =>
+          this.watchMutation(options);
+}
+
+class Mutation$DeleteOneProductFamily$deleteOneProductFamily {
+  Mutation$DeleteOneProductFamily$deleteOneProductFamily({
+    required this.id,
+    this.$__typename = 'ProductFamily',
+  });
+
+  factory Mutation$DeleteOneProductFamily$deleteOneProductFamily.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$DeleteOneProductFamily$deleteOneProductFamily(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$DeleteOneProductFamily$deleteOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$DeleteOneProductFamily$deleteOneProductFamily
+    on Mutation$DeleteOneProductFamily$deleteOneProductFamily {
+  CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily<
+          Mutation$DeleteOneProductFamily$deleteOneProductFamily>
+      get copyWith =>
+          CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily<
+    TRes> {
+  factory CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily(
+    Mutation$DeleteOneProductFamily$deleteOneProductFamily instance,
+    TRes Function(Mutation$DeleteOneProductFamily$deleteOneProductFamily) then,
+  ) = _CopyWithImpl$Mutation$DeleteOneProductFamily$deleteOneProductFamily;
+
+  factory CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily.stub(
+          TRes res) =
+      _CopyWithStubImpl$Mutation$DeleteOneProductFamily$deleteOneProductFamily;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$DeleteOneProductFamily$deleteOneProductFamily<TRes>
+    implements
+        CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily<TRes> {
+  _CopyWithImpl$Mutation$DeleteOneProductFamily$deleteOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$DeleteOneProductFamily$deleteOneProductFamily _instance;
+
+  final TRes Function(Mutation$DeleteOneProductFamily$deleteOneProductFamily)
+      _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$DeleteOneProductFamily$deleteOneProductFamily(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$DeleteOneProductFamily$deleteOneProductFamily<
+        TRes>
+    implements
+        CopyWith$Mutation$DeleteOneProductFamily$deleteOneProductFamily<TRes> {
+  _CopyWithStubImpl$Mutation$DeleteOneProductFamily$deleteOneProductFamily(
+      this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Mutation$UpdateOneProductFamily {
+  factory Variables$Mutation$UpdateOneProductFamily({
+    required Input$ProductFamilyUpdateInput data,
+    required Input$ProductFamilyWhereUniqueInput where,
+  }) =>
+      Variables$Mutation$UpdateOneProductFamily._({
+        r'data': data,
+        r'where': where,
+      });
+
+  Variables$Mutation$UpdateOneProductFamily._(this._$data);
+
+  factory Variables$Mutation$UpdateOneProductFamily.fromJson(
+      Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    final l$data = data['data'];
+    result$data['data'] = Input$ProductFamilyUpdateInput.fromJson(
+        (l$data as Map<String, dynamic>));
+    final l$where = data['where'];
+    result$data['where'] = Input$ProductFamilyWhereUniqueInput.fromJson(
+        (l$where as Map<String, dynamic>));
+    return Variables$Mutation$UpdateOneProductFamily._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$ProductFamilyUpdateInput get data =>
+      (_$data['data'] as Input$ProductFamilyUpdateInput);
+  Input$ProductFamilyWhereUniqueInput get where =>
+      (_$data['where'] as Input$ProductFamilyWhereUniqueInput);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    final l$data = data;
+    result$data['data'] = l$data.toJson();
+    final l$where = where;
+    result$data['where'] = l$where.toJson();
+    return result$data;
+  }
+
+  CopyWith$Variables$Mutation$UpdateOneProductFamily<
+          Variables$Mutation$UpdateOneProductFamily>
+      get copyWith => CopyWith$Variables$Mutation$UpdateOneProductFamily(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Mutation$UpdateOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$data = data;
+    final lOther$data = other.data;
+    if (l$data != lOther$data) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$data = data;
+    final l$where = where;
+    return Object.hashAll([
+      l$data,
+      l$where,
+    ]);
+  }
+}
+
+abstract class CopyWith$Variables$Mutation$UpdateOneProductFamily<TRes> {
+  factory CopyWith$Variables$Mutation$UpdateOneProductFamily(
+    Variables$Mutation$UpdateOneProductFamily instance,
+    TRes Function(Variables$Mutation$UpdateOneProductFamily) then,
+  ) = _CopyWithImpl$Variables$Mutation$UpdateOneProductFamily;
+
+  factory CopyWith$Variables$Mutation$UpdateOneProductFamily.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$UpdateOneProductFamily;
+
+  TRes call({
+    Input$ProductFamilyUpdateInput? data,
+    Input$ProductFamilyWhereUniqueInput? where,
+  });
+}
+
+class _CopyWithImpl$Variables$Mutation$UpdateOneProductFamily<TRes>
+    implements CopyWith$Variables$Mutation$UpdateOneProductFamily<TRes> {
+  _CopyWithImpl$Variables$Mutation$UpdateOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Mutation$UpdateOneProductFamily _instance;
+
+  final TRes Function(Variables$Mutation$UpdateOneProductFamily) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? data = _undefined,
+    Object? where = _undefined,
+  }) =>
+      _then(Variables$Mutation$UpdateOneProductFamily._({
+        ..._instance._$data,
+        if (data != _undefined && data != null)
+          'data': (data as Input$ProductFamilyUpdateInput),
+        if (where != _undefined && where != null)
+          'where': (where as Input$ProductFamilyWhereUniqueInput),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Mutation$UpdateOneProductFamily<TRes>
+    implements CopyWith$Variables$Mutation$UpdateOneProductFamily<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$UpdateOneProductFamily(this._res);
+
+  TRes _res;
+
+  call({
+    Input$ProductFamilyUpdateInput? data,
+    Input$ProductFamilyWhereUniqueInput? where,
+  }) =>
+      _res;
+}
+
+class Mutation$UpdateOneProductFamily {
+  Mutation$UpdateOneProductFamily({
+    this.updateOneProductFamily,
+    this.$__typename = 'Mutation',
+  });
+
+  factory Mutation$UpdateOneProductFamily.fromJson(Map<String, dynamic> json) {
+    final l$updateOneProductFamily = json['updateOneProductFamily'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateOneProductFamily(
+      updateOneProductFamily: l$updateOneProductFamily == null
+          ? null
+          : Mutation$UpdateOneProductFamily$updateOneProductFamily.fromJson(
+              (l$updateOneProductFamily as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final Mutation$UpdateOneProductFamily$updateOneProductFamily?
+      updateOneProductFamily;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$updateOneProductFamily = updateOneProductFamily;
+    _resultData['updateOneProductFamily'] = l$updateOneProductFamily?.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$updateOneProductFamily = updateOneProductFamily;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$updateOneProductFamily,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$UpdateOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$updateOneProductFamily = updateOneProductFamily;
+    final lOther$updateOneProductFamily = other.updateOneProductFamily;
+    if (l$updateOneProductFamily != lOther$updateOneProductFamily) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateOneProductFamily
+    on Mutation$UpdateOneProductFamily {
+  CopyWith$Mutation$UpdateOneProductFamily<Mutation$UpdateOneProductFamily>
+      get copyWith => CopyWith$Mutation$UpdateOneProductFamily(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$UpdateOneProductFamily<TRes> {
+  factory CopyWith$Mutation$UpdateOneProductFamily(
+    Mutation$UpdateOneProductFamily instance,
+    TRes Function(Mutation$UpdateOneProductFamily) then,
+  ) = _CopyWithImpl$Mutation$UpdateOneProductFamily;
+
+  factory CopyWith$Mutation$UpdateOneProductFamily.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$UpdateOneProductFamily;
+
+  TRes call({
+    Mutation$UpdateOneProductFamily$updateOneProductFamily?
+        updateOneProductFamily,
+    String? $__typename,
+  });
+  CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily<TRes>
+      get updateOneProductFamily;
+}
+
+class _CopyWithImpl$Mutation$UpdateOneProductFamily<TRes>
+    implements CopyWith$Mutation$UpdateOneProductFamily<TRes> {
+  _CopyWithImpl$Mutation$UpdateOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateOneProductFamily _instance;
+
+  final TRes Function(Mutation$UpdateOneProductFamily) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? updateOneProductFamily = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$UpdateOneProductFamily(
+        updateOneProductFamily: updateOneProductFamily == _undefined
+            ? _instance.updateOneProductFamily
+            : (updateOneProductFamily
+                as Mutation$UpdateOneProductFamily$updateOneProductFamily?),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily<TRes>
+      get updateOneProductFamily {
+    final local$updateOneProductFamily = _instance.updateOneProductFamily;
+    return local$updateOneProductFamily == null
+        ? CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily.stub(
+            _then(_instance))
+        : CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily(
+            local$updateOneProductFamily,
+            (e) => call(updateOneProductFamily: e));
+  }
+}
+
+class _CopyWithStubImpl$Mutation$UpdateOneProductFamily<TRes>
+    implements CopyWith$Mutation$UpdateOneProductFamily<TRes> {
+  _CopyWithStubImpl$Mutation$UpdateOneProductFamily(this._res);
+
+  TRes _res;
+
+  call({
+    Mutation$UpdateOneProductFamily$updateOneProductFamily?
+        updateOneProductFamily,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily<TRes>
+      get updateOneProductFamily =>
+          CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily.stub(
+              _res);
+}
+
+const documentNodeMutationUpdateOneProductFamily = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'UpdateOneProductFamily'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'data')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ProductFamilyUpdateInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ProductFamilyWhereUniqueInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateOneProductFamily'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'data'),
+            value: VariableNode(name: NameNode(value: 'data')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Mutation$UpdateOneProductFamily _parserFn$Mutation$UpdateOneProductFamily(
+        Map<String, dynamic> data) =>
+    Mutation$UpdateOneProductFamily.fromJson(data);
+typedef OnMutationCompleted$Mutation$UpdateOneProductFamily = FutureOr<void>
+    Function(
+  dynamic,
+  Mutation$UpdateOneProductFamily?,
+);
+
+class Options$Mutation$UpdateOneProductFamily
+    extends graphql.MutationOptions<Mutation$UpdateOneProductFamily> {
+  Options$Mutation$UpdateOneProductFamily({
+    String? operationName,
+    required Variables$Mutation$UpdateOneProductFamily variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    OnMutationCompleted$Mutation$UpdateOneProductFamily? onCompleted,
+    graphql.OnMutationUpdate<Mutation$UpdateOneProductFamily>? update,
+    graphql.OnError? onError,
+  })  : onCompletedWithParsed = onCompleted,
+        super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          onCompleted: onCompleted == null
+              ? null
+              : (data) => onCompleted(
+                    data,
+                    data == null
+                        ? null
+                        : _parserFn$Mutation$UpdateOneProductFamily(data),
+                  ),
+          update: update,
+          onError: onError,
+          document: documentNodeMutationUpdateOneProductFamily,
+          parserFn: _parserFn$Mutation$UpdateOneProductFamily,
+        );
+
+  final OnMutationCompleted$Mutation$UpdateOneProductFamily?
+      onCompletedWithParsed;
+
+  @override
+  List<Object?> get properties => [
+        ...super.onCompleted == null
+            ? super.properties
+            : super.properties.where((property) => property != onCompleted),
+        onCompletedWithParsed,
+      ];
+}
+
+class WatchOptions$Mutation$UpdateOneProductFamily
+    extends graphql.WatchQueryOptions<Mutation$UpdateOneProductFamily> {
+  WatchOptions$Mutation$UpdateOneProductFamily({
+    String? operationName,
+    required Variables$Mutation$UpdateOneProductFamily variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables.toJson(),
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeMutationUpdateOneProductFamily,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Mutation$UpdateOneProductFamily,
+        );
+}
+
+extension ClientExtension$Mutation$UpdateOneProductFamily
+    on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$UpdateOneProductFamily>>
+      mutate$UpdateOneProductFamily(
+              Options$Mutation$UpdateOneProductFamily options) async =>
+          await this.mutate(options);
+  graphql.ObservableQuery<Mutation$UpdateOneProductFamily>
+      watchMutation$UpdateOneProductFamily(
+              WatchOptions$Mutation$UpdateOneProductFamily options) =>
+          this.watchMutation(options);
+}
+
+class Mutation$UpdateOneProductFamily$updateOneProductFamily {
+  Mutation$UpdateOneProductFamily$updateOneProductFamily({
+    required this.id,
+    this.$__typename = 'ProductFamily',
+  });
+
+  factory Mutation$UpdateOneProductFamily$updateOneProductFamily.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Mutation$UpdateOneProductFamily$updateOneProductFamily(
+      id: (l$id as int),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Mutation$UpdateOneProductFamily$updateOneProductFamily) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Mutation$UpdateOneProductFamily$updateOneProductFamily
+    on Mutation$UpdateOneProductFamily$updateOneProductFamily {
+  CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily<
+          Mutation$UpdateOneProductFamily$updateOneProductFamily>
+      get copyWith =>
+          CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily<
+    TRes> {
+  factory CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily(
+    Mutation$UpdateOneProductFamily$updateOneProductFamily instance,
+    TRes Function(Mutation$UpdateOneProductFamily$updateOneProductFamily) then,
+  ) = _CopyWithImpl$Mutation$UpdateOneProductFamily$updateOneProductFamily;
+
+  factory CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily.stub(
+          TRes res) =
+      _CopyWithStubImpl$Mutation$UpdateOneProductFamily$updateOneProductFamily;
+
+  TRes call({
+    int? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Mutation$UpdateOneProductFamily$updateOneProductFamily<TRes>
+    implements
+        CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily<TRes> {
+  _CopyWithImpl$Mutation$UpdateOneProductFamily$updateOneProductFamily(
+    this._instance,
+    this._then,
+  );
+
+  final Mutation$UpdateOneProductFamily$updateOneProductFamily _instance;
+
+  final TRes Function(Mutation$UpdateOneProductFamily$updateOneProductFamily)
+      _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Mutation$UpdateOneProductFamily$updateOneProductFamily(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Mutation$UpdateOneProductFamily$updateOneProductFamily<
+        TRes>
+    implements
+        CopyWith$Mutation$UpdateOneProductFamily$updateOneProductFamily<TRes> {
+  _CopyWithStubImpl$Mutation$UpdateOneProductFamily$updateOneProductFamily(
+      this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Variables$Query$ProductFamilies {
+  factory Variables$Query$ProductFamilies(
+          {Input$ProductFamilyWhereInput? where}) =>
+      Variables$Query$ProductFamilies._({
+        if (where != null) r'where': where,
+      });
+
+  Variables$Query$ProductFamilies._(this._$data);
+
+  factory Variables$Query$ProductFamilies.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('where')) {
+      final l$where = data['where'];
+      result$data['where'] = l$where == null
+          ? null
+          : Input$ProductFamilyWhereInput.fromJson(
+              (l$where as Map<String, dynamic>));
+    }
+    return Variables$Query$ProductFamilies._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$ProductFamilyWhereInput? get where =>
+      (_$data['where'] as Input$ProductFamilyWhereInput?);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('where')) {
+      final l$where = where;
+      result$data['where'] = l$where?.toJson();
+    }
+    return result$data;
+  }
+
+  CopyWith$Variables$Query$ProductFamilies<Variables$Query$ProductFamilies>
+      get copyWith => CopyWith$Variables$Query$ProductFamilies(
+            this,
+            (i) => i,
+          );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Query$ProductFamilies) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (_$data.containsKey('where') != other._$data.containsKey('where')) {
+      return false;
+    }
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$where = where;
+    return Object.hashAll([_$data.containsKey('where') ? l$where : const {}]);
+  }
+}
+
+abstract class CopyWith$Variables$Query$ProductFamilies<TRes> {
+  factory CopyWith$Variables$Query$ProductFamilies(
+    Variables$Query$ProductFamilies instance,
+    TRes Function(Variables$Query$ProductFamilies) then,
+  ) = _CopyWithImpl$Variables$Query$ProductFamilies;
+
+  factory CopyWith$Variables$Query$ProductFamilies.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Query$ProductFamilies;
+
+  TRes call({Input$ProductFamilyWhereInput? where});
+}
+
+class _CopyWithImpl$Variables$Query$ProductFamilies<TRes>
+    implements CopyWith$Variables$Query$ProductFamilies<TRes> {
+  _CopyWithImpl$Variables$Query$ProductFamilies(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Query$ProductFamilies _instance;
+
+  final TRes Function(Variables$Query$ProductFamilies) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? where = _undefined}) =>
+      _then(Variables$Query$ProductFamilies._({
+        ..._instance._$data,
+        if (where != _undefined)
+          'where': (where as Input$ProductFamilyWhereInput?),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Query$ProductFamilies<TRes>
+    implements CopyWith$Variables$Query$ProductFamilies<TRes> {
+  _CopyWithStubImpl$Variables$Query$ProductFamilies(this._res);
+
+  TRes _res;
+
+  call({Input$ProductFamilyWhereInput? where}) => _res;
+}
+
+class Query$ProductFamilies {
+  Query$ProductFamilies({
+    required this.productFamilies,
+    this.$__typename = 'Query',
+  });
+
+  factory Query$ProductFamilies.fromJson(Map<String, dynamic> json) {
+    final l$productFamilies = json['productFamilies'];
+    final l$$__typename = json['__typename'];
+    return Query$ProductFamilies(
+      productFamilies: (l$productFamilies as List<dynamic>)
+          .map((e) => Query$ProductFamilies$productFamilies.fromJson(
+              (e as Map<String, dynamic>)))
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Query$ProductFamilies$productFamilies> productFamilies;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$productFamilies = productFamilies;
+    _resultData['productFamilies'] =
+        l$productFamilies.map((e) => e.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$productFamilies = productFamilies;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      Object.hashAll(l$productFamilies.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$ProductFamilies) || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$productFamilies = productFamilies;
+    final lOther$productFamilies = other.productFamilies;
+    if (l$productFamilies.length != lOther$productFamilies.length) {
+      return false;
+    }
+    for (int i = 0; i < l$productFamilies.length; i++) {
+      final l$productFamilies$entry = l$productFamilies[i];
+      final lOther$productFamilies$entry = lOther$productFamilies[i];
+      if (l$productFamilies$entry != lOther$productFamilies$entry) {
+        return false;
+      }
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$ProductFamilies on Query$ProductFamilies {
+  CopyWith$Query$ProductFamilies<Query$ProductFamilies> get copyWith =>
+      CopyWith$Query$ProductFamilies(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Query$ProductFamilies<TRes> {
+  factory CopyWith$Query$ProductFamilies(
+    Query$ProductFamilies instance,
+    TRes Function(Query$ProductFamilies) then,
+  ) = _CopyWithImpl$Query$ProductFamilies;
+
+  factory CopyWith$Query$ProductFamilies.stub(TRes res) =
+      _CopyWithStubImpl$Query$ProductFamilies;
+
+  TRes call({
+    List<Query$ProductFamilies$productFamilies>? productFamilies,
+    String? $__typename,
+  });
+  TRes productFamilies(
+      Iterable<Query$ProductFamilies$productFamilies> Function(
+              Iterable<
+                  CopyWith$Query$ProductFamilies$productFamilies<
+                      Query$ProductFamilies$productFamilies>>)
+          _fn);
+}
+
+class _CopyWithImpl$Query$ProductFamilies<TRes>
+    implements CopyWith$Query$ProductFamilies<TRes> {
+  _CopyWithImpl$Query$ProductFamilies(
+    this._instance,
+    this._then,
+  );
+
+  final Query$ProductFamilies _instance;
+
+  final TRes Function(Query$ProductFamilies) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? productFamilies = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$ProductFamilies(
+        productFamilies: productFamilies == _undefined ||
+                productFamilies == null
+            ? _instance.productFamilies
+            : (productFamilies as List<Query$ProductFamilies$productFamilies>),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  TRes productFamilies(
+          Iterable<Query$ProductFamilies$productFamilies> Function(
+                  Iterable<
+                      CopyWith$Query$ProductFamilies$productFamilies<
+                          Query$ProductFamilies$productFamilies>>)
+              _fn) =>
+      call(
+          productFamilies: _fn(_instance.productFamilies
+              .map((e) => CopyWith$Query$ProductFamilies$productFamilies(
+                    e,
+                    (i) => i,
+                  ))).toList());
+}
+
+class _CopyWithStubImpl$Query$ProductFamilies<TRes>
+    implements CopyWith$Query$ProductFamilies<TRes> {
+  _CopyWithStubImpl$Query$ProductFamilies(this._res);
+
+  TRes _res;
+
+  call({
+    List<Query$ProductFamilies$productFamilies>? productFamilies,
+    String? $__typename,
+  }) =>
+      _res;
+  productFamilies(_fn) => _res;
+}
+
+const documentNodeQueryProductFamilies = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'ProductFamilies'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ProductFamilyWhereInput'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'productFamilies'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Query$ProductFamilies _parserFn$Query$ProductFamilies(
+        Map<String, dynamic> data) =>
+    Query$ProductFamilies.fromJson(data);
+
+class Options$Query$ProductFamilies
+    extends graphql.QueryOptions<Query$ProductFamilies> {
+  Options$Query$ProductFamilies({
+    String? operationName,
+    Variables$Query$ProductFamilies? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    Duration? pollInterval,
+    graphql.Context? context,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          pollInterval: pollInterval,
+          context: context,
+          document: documentNodeQueryProductFamilies,
+          parserFn: _parserFn$Query$ProductFamilies,
+        );
+}
+
+class WatchOptions$Query$ProductFamilies
+    extends graphql.WatchQueryOptions<Query$ProductFamilies> {
+  WatchOptions$Query$ProductFamilies({
+    String? operationName,
+    Variables$Query$ProductFamilies? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeQueryProductFamilies,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Query$ProductFamilies,
+        );
+}
+
+class FetchMoreOptions$Query$ProductFamilies extends graphql.FetchMoreOptions {
+  FetchMoreOptions$Query$ProductFamilies({
+    required graphql.UpdateQuery updateQuery,
+    Variables$Query$ProductFamilies? variables,
+  }) : super(
+          updateQuery: updateQuery,
+          variables: variables?.toJson() ?? {},
+          document: documentNodeQueryProductFamilies,
+        );
+}
+
+extension ClientExtension$Query$ProductFamilies on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Query$ProductFamilies>> query$ProductFamilies(
+          [Options$Query$ProductFamilies? options]) async =>
+      await this.query(options ?? Options$Query$ProductFamilies());
+  graphql.ObservableQuery<Query$ProductFamilies> watchQuery$ProductFamilies(
+          [WatchOptions$Query$ProductFamilies? options]) =>
+      this.watchQuery(options ?? WatchOptions$Query$ProductFamilies());
+  void writeQuery$ProductFamilies({
+    required Query$ProductFamilies data,
+    Variables$Query$ProductFamilies? variables,
+    bool broadcast = true,
+  }) =>
+      this.writeQuery(
+        graphql.Request(
+          operation:
+              graphql.Operation(document: documentNodeQueryProductFamilies),
+          variables: variables?.toJson() ?? const {},
+        ),
+        data: data.toJson(),
+        broadcast: broadcast,
+      );
+  Query$ProductFamilies? readQuery$ProductFamilies({
+    Variables$Query$ProductFamilies? variables,
+    bool optimistic = true,
+  }) {
+    final result = this.readQuery(
+      graphql.Request(
+        operation:
+            graphql.Operation(document: documentNodeQueryProductFamilies),
+        variables: variables?.toJson() ?? const {},
+      ),
+      optimistic: optimistic,
+    );
+    return result == null ? null : Query$ProductFamilies.fromJson(result);
+  }
+}
+
+class Query$ProductFamilies$productFamilies {
+  Query$ProductFamilies$productFamilies({
+    required this.id,
+    required this.name,
+    this.$__typename = 'ProductFamily',
+  });
+
+  factory Query$ProductFamilies$productFamilies.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Query$ProductFamilies$productFamilies(
+      id: (l$id as int),
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int id;
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$name,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$ProductFamilies$productFamilies) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$ProductFamilies$productFamilies
+    on Query$ProductFamilies$productFamilies {
+  CopyWith$Query$ProductFamilies$productFamilies<
+          Query$ProductFamilies$productFamilies>
+      get copyWith => CopyWith$Query$ProductFamilies$productFamilies(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$ProductFamilies$productFamilies<TRes> {
+  factory CopyWith$Query$ProductFamilies$productFamilies(
+    Query$ProductFamilies$productFamilies instance,
+    TRes Function(Query$ProductFamilies$productFamilies) then,
+  ) = _CopyWithImpl$Query$ProductFamilies$productFamilies;
+
+  factory CopyWith$Query$ProductFamilies$productFamilies.stub(TRes res) =
+      _CopyWithStubImpl$Query$ProductFamilies$productFamilies;
+
+  TRes call({
+    int? id,
+    String? name,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$ProductFamilies$productFamilies<TRes>
+    implements CopyWith$Query$ProductFamilies$productFamilies<TRes> {
+  _CopyWithImpl$Query$ProductFamilies$productFamilies(
+    this._instance,
+    this._then,
+  );
+
+  final Query$ProductFamilies$productFamilies _instance;
+
+  final TRes Function(Query$ProductFamilies$productFamilies) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$ProductFamilies$productFamilies(
+        id: id == _undefined || id == null ? _instance.id : (id as int),
+        name: name == _undefined || name == null
+            ? _instance.name
+            : (name as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$ProductFamilies$productFamilies<TRes>
+    implements CopyWith$Query$ProductFamilies$productFamilies<TRes> {
+  _CopyWithStubImpl$Query$ProductFamilies$productFamilies(this._res);
+
+  TRes _res;
+
+  call({
+    int? id,
+    String? name,
     String? $__typename,
   }) =>
       _res;

@@ -35,14 +35,32 @@ class RemoveProductModel extends StockEvent{}
 
 class UpdateProductModel extends StockEvent{}
 
-class AddProductFamily extends StockEvent{}
+class AddProductFamily extends StockEvent{
+  final ProductFamily family;
 
-class RemoveProductFamily extends StockEvent{}
+  AddProductFamily(this.family);
+}
 
-class UpdateProductFamily extends  StockEvent{}
+class RemoveProductFamily extends StockEvent{
+  final ProductFamily family;
+
+  RemoveProductFamily(this.family);
+}
+
+class UpdateProductFamily extends  StockEvent{
+  final UpdateRequestWrapper<ProductFamily> updateWrapper;
+
+  UpdateProductFamily(this.updateWrapper);
+}
 
 class SearchProduct extends StockEvent{}
 
 class SearchProductFamily extends StockEvent{}
 
 class RefreshProductFamily extends StockEvent{}
+
+class LoadProductFamillies extends StockEvent{
+  final List<ProductFamily> productFamillies;
+
+  LoadProductFamillies(this.productFamillies);
+}

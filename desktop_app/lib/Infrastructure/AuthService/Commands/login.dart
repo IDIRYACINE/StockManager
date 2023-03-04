@@ -1,3 +1,4 @@
+import 'package:graphql/client.dart';
 import 'package:stock_manager/Application/ServiceStore/service.dart';
 import 'package:stock_manager/Infrastructure/AuthService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
@@ -8,7 +9,9 @@ class LoginEvent extends Command<LoginEventEventData, LoginEventRawEventData,
   static final eventName = AuthApi.login.name;
   static final serviceId = Services.authService.index;
 
-  LoginEvent() : super(eventId, eventName);
+  final GraphQLClient graphQL;
+
+  LoginEvent(this.graphQL) : super(eventId, eventName);
 
   @override
   Future<LoginEventResponse> handleEvent(LoginEventEventData eventData) {

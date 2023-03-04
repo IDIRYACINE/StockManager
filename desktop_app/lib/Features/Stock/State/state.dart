@@ -42,4 +42,8 @@ class StockState{
   List<Product> updateProduct(Product product) {
     return products.map((element) => element.barcode == product.barcode ? product : element).toList();
   }
+
+  List<ProductFamily> addProductFamily(ProductFamily family) {
+    return [...productFamillies, family];
+  }
 }

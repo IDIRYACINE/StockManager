@@ -9,8 +9,8 @@ import 'package:stock_manager/DataModels/special_enums.dart';
 const _requesterId = 'StockBloc';
 
 Future<void> addProduct(Product product) async {
-
-  final eventData = RegisterProductEventData(product: product, requesterId: _requesterId);
+  final eventData =
+      RegisterProductEventData(product: product, requesterId: _requesterId);
 
   final event = RegisterProductEvent(eventData: eventData);
 
@@ -18,49 +18,83 @@ Future<void> addProduct(Product product) async {
 }
 
 Future<void> removeProduct(Product product) async {
-  final eventData = DeleteProductEventData(product: product, requesterId: _requesterId);
+  final eventData =
+      DeleteProductEventData(product: product, requesterId: _requesterId);
 
   final event = DeleteProductEvent(eventData: eventData);
 
   ServicesGateway.instance().sendEvent(event);
 }
 
-Future<List<Product>> loadProducts() async { 
+Future<List<Product>> loadProducts() async {
   final completer = Completer<List<Product>>();
 
   void onResponse(ServiceEventResponse response) {
-      completer.complete((response as LoadProductsResponse).products);
+    completer.complete((response as LoadProductsResponse).products);
   }
 
   final eventData = LoadProductsEventData(requesterId: _requesterId);
 
-  final event = LoadProductsEvent(eventData: eventData,callback: onResponse);
+  final event = LoadProductsEvent(eventData: eventData, callback: onResponse);
 
   ServicesGateway.instance().sendEvent(event);
 
   return completer.future;
 }
 
-Future<void> searchProducts(Map<ServicesData, dynamic> requestData) async {
-  
-}
+Future<void> searchProducts(Map<ServicesData, dynamic> requestData) async {}
 
 Future<void> updateProduct(UpdateRequestWrapper<Product> wrapper) async {
-  
+  final eventData =
+      UpdateProductEventData(product: wrapper, requesterId: _requesterId);
+
+  final event = UpdateProductEvent(eventData: eventData);
+
+  ServicesGateway.instance().sendEvent(event);
 }
 
-Future<void> addCategory(ProductFamily family) async {
-  
+Future<void> addProductFamily(ProductFamily family) async {
+  final eventData =
+      RegisterProductFamilyEventData(family: family, requesterId: _requesterId);
+
+  final event = RegisterProductEvent(eventData: eventData);
+
+  ServicesGateway.instance().sendEvent(event);
 }
 
-Future<void> removeCategory(ProductFamily family) async {
-  
+Future<void> removeProductFamily(ProductFamily family) async {
+  final eventData =
+      DeleteProductFamilyEventData(family: family, requesterId: _requesterId);
+
+  final event = DeleteProductFamilyEvent(eventData: eventData);
+
+  ServicesGateway.instance().sendEvent(event);
 }
 
-Future<void> searchCategories(Map<ServicesData, dynamic> requestData) async {
-  
+Future<void> updateProductFamily(
+    UpdateRequestWrapper<ProductFamily> wrapper) async {
+
+  final eventData =
+      UpdateProductFamilyEventData(family: wrapper, requesterId: _requesterId);
+
+  final event = UpdateProductFamilyEvent(eventData: eventData);
+
+  ServicesGateway.instance().sendEvent(event);
 }
 
-Future<void> updateCategory(UpdateRequestWrapper<ProductFamily> wrapper) async {
-  
+Future<List<ProductFamily>> loadProductFamillies() async {
+  final completer = Completer<List<ProductFamily>>();
+
+  void onResponse(ServiceEventResponse response) {
+    completer.complete((response as LoadProductFamilliesResponse).famillies);
+  }
+
+  final eventData = LoadProductFamilliesEventData(requesterId: _requesterId);
+
+  final event =
+      LoadProductFamilliesEvent(eventData: eventData, callback: onResponse);
+
+  ServicesGateway.instance().sendEvent(event);
+
+  return completer.future;
 }

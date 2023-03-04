@@ -1,25 +1,26 @@
+
 import 'package:stock_manager/Application/ServiceStore/service.dart';
-import 'package:stock_manager/Infrastructure/GraphQlService/graphql.dart';
-import 'package:stock_manager/Infrastructure/RegionService/api.dart';
+import 'package:stock_manager/Infrastructure/GraphQlService/service.dart';
 import 'package:stock_manager/Infrastructure/helpers.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 
-import 'Commands/commands.dart';
+import 'Commands/login.dart';
+import 'api.dart';
 
-final _regionServiceId = Services.regionService.index;
-final _regionServiceName = Services.regionService.name;
+final _regionServiceId = Services.authService.index;
+final _regionServiceName = Services.authService.name;
 
-class RegionService extends Service {
-  RegionService._(
+class AuthService extends Service {
+  AuthService._(
     SearchAlgorithm<Command, int, Comparator> searchAlgorithm,
   ) : super(
             searchAlgorithm: searchAlgorithm,
             serviceId: _regionServiceId,
             serviceName: _regionServiceName);
 
-  factory RegionService.instance() {
+  factory AuthService.instance() {
     final searchAlgorithm = commandsBinarySearchAlgorithm();
-    final instance = RegionService._(searchAlgorithm);
+    final instance = AuthService._(searchAlgorithm);
     _registerBaseCommands(instance);
     return instance;
   }
@@ -47,18 +48,13 @@ class RegionService extends Service {
     throw UnimplementedError();
   }
 
-  static void _registerBaseCommands(RegionService instance) {
-    final commandsCount = RegionApi.values.length;
+  static void _registerBaseCommands(AuthService instance) {
+    final commandsCount = AuthApi.values.length;
     instance.initCommands(commandsCount);
 
     final graphQL = getGraphQlClient();
 
-    instance.replaceCommandAtIndex(LoadAllCities(graphQL));
+    instance.replaceCommandAtIndex(LoginEvent(graphQL));
 
-    instance.replaceCommandAtIndex(RegisterCity(graphQL));
-
-    instance.replaceCommandAtIndex(UpdateCity(graphQL));
-
-    instance.replaceCommandAtIndex(DeleteCity(graphQL));
   }
 }

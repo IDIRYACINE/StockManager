@@ -128,3 +128,28 @@ mutation DeleteOneColors($where: ColorsWhereUniqueInput!) {
     id
   }
 }
+
+mutation CreateOneProductFamily($data: ProductFamilyCreateInput!) {
+  createOneProductFamily(data: $data) {
+    id
+  }
+}
+
+mutation DeleteOneProductFamily($where: ProductFamilyWhereUniqueInput!) {
+  deleteOneProductFamily(where: $where) {
+    id
+  }
+}
+
+mutation UpdateOneProductFamily($data: ProductFamilyUpdateInput!, $where: ProductFamilyWhereUniqueInput!) {
+  updateOneProductFamily(data: $data, where: $where) {
+    id
+  }
+}
+
+query ProductFamilies($where: ProductFamilyWhereInput) {
+  productFamilies(where: $where) {
+    id
+    name
+  }
+}

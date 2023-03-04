@@ -19,7 +19,7 @@ class LoadAllCities extends Command<LoadAllCitiesEventData,
   @override
   Future<LoadAllCitiesResponse> handleEvent(
       LoadAllCitiesEventData eventData) async {
-    final QueryOptions options = graphql_service.Options$Query$FindFirstCity();
+    final QueryOptions options = graphql_service.Options$Query$Cities();
 
     final result = await graphQl.query(options);
 
@@ -29,7 +29,7 @@ class LoadAllCities extends Command<LoadAllCitiesEventData,
           status: ServiceEventResponseStatus.error);
     }
 
-    final json = result.data!['findFirstCity'] as List<dynamic>;
+    final json = result.data!['cities'] as List<dynamic>;
 
     final List<City> cities = citiesFromJsonList(json);
 

@@ -5,6 +5,8 @@ import 'package:stock_manager/Infrastructure/StockService/service.dart';
 import 'package:stock_manager/Infrastructure/TransactionService/service.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 
+import 'AuthService/service.dart';
+
 export 'RegionService/region_service.dart';
 export 'SellersService/service.dart';
 export 'StockService/service.dart';
@@ -49,6 +51,9 @@ class ServicesGateway extends ServiceStore {
 
     final regionService = RegionService.instance();
     gateway.registerServiceAtIndex(regionService);
+
+    final authService = AuthService.instance();
+    gateway.registerServiceAtIndex(authService);
 
   }
 

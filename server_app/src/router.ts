@@ -14,7 +14,6 @@ interface Url{
 }
 
 export async function bootstrapGraphQl() : Promise<Url>{
-
     const schema = await buildSchema({
         resolvers,
         validate: false,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:stock_manager/Application/Utility/navigator.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Features/Stock/i_stock.dart';
 import 'package:stock_manager/Features/Stock/stock_feature.dart';
 import 'package:stock_manager/Types/i_database.dart';
+import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
@@ -17,12 +19,17 @@ class ProductFamilyController implements IStockDelegate<ProductFamily> {
 
   @override
   void add(BuildContext context) {
+     void onConfirm(ProductFamily family) {
+      bloc.add(AddProductFamily(family));
+      AppNavigator.pop();
+    }
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         content: FamilyEditor(
-          family: ProductFamily(name: "", reference: ""),
-          createCallback: (family) => {},
+          family: ProductFamily(name: "", reference: 0),
+          createCallback: onConfirm,
           confirmLabel: Translations.of(context)!.add,
         ),
       ),
@@ -31,13 +38,25 @@ class ProductFamilyController implements IStockDelegate<ProductFamily> {
 
   @override
   void edit(BuildContext context, ProductFamily family, int index) {
+
+     void onEdit(Map<String, dynamic> updatedField, ProductFamily family) {
+      final updateWrapper = UpdateRequestWrapper<ProductFamily>(
+        family,
+        updatedField,
+      );
+
+      bloc.add(UpdateProductFamily(updateWrapper));
+
+      AppNavigator.pop();
+    }
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         content: FamilyEditor(
           family: family.copyWith(),
           editMode: true,
-          editCallback: (updatedValues, family) => {},
+          editCallback: onEdit,
           confirmLabel: Translations.of(context)!.update,
         ),
       ),
@@ -45,15 +64,23 @@ class ProductFamilyController implements IStockDelegate<ProductFamily> {
   }
 
   @override
-  void refresh(BuildContext context) {}
+  void refresh(BuildContext context) {
+    bloc.add(RefreshProductFamily());
+  }
 
   @override
   void remove(BuildContext context, ProductFamily family) {
+
+    void onRemove() {
+      bloc.add(RemoveProductFamily(family));
+      AppNavigator.pop();
+    }
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         content: ConfirmDialog(
-          onConfirm: () => {},
+          onConfirm: onRemove,
           message: Translations.of(context)!.messageDeleteElement,
         ),
       ),
@@ -69,7 +96,9 @@ class ProductFamilyController implements IStockDelegate<ProductFamily> {
           searchFieldBuilder: (onSelect, onDeselect) {
             return buildSearchFields(onSelect, onDeselect, context);
           },
-          searchCallback: (query) => {},
+          searchCallback: (query) => {
+            //TODO: Implement search
+          },
         ),
       ),
     );

@@ -109,7 +109,7 @@ class ProductFamilyPanel extends StatelessWidget {
         const SizedBox(height: Measures.large),
         Expanded(
           flex: lowerRowFlex,
-          child: const ProductsTable(),
+          child: const ProductFamilyTable(),
         ),
       ]),
     );

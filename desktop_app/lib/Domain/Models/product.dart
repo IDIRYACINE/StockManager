@@ -71,14 +71,14 @@ class Product {
 
 class ProductFamily {
   String name;
-  String reference;
+  int reference;
   String? imageUrl;
 
   ProductFamily({required this.name, required this.reference, this.imageUrl});
 
   ProductFamily copyWith({
     String? name,
-    String? reference,
+    int? reference,
     String? imageUrl,
   }) {
     return ProductFamily(
@@ -205,4 +205,15 @@ Product productFromJson(Map<String, dynamic> json) {
   );
 }
 
+
 List<Product> productsFromJsonList(List<dynamic> json) => json.map((e) => productFromJson(e)).toList();
+
+ProductFamily productFamilyFromJson(Map<String, dynamic> json) {
+  return ProductFamily(
+    name: json[_ProductFields.name.name],
+    reference: json[_ProductFields.reference.name],
+    imageUrl: json[_ProductFields.imageUrl.name],
+  );
+}
+
+List<ProductFamily> productFamiliesFromJsonList(List<dynamic> json) => json.map((e) => productFamilyFromJson(e)).toList();

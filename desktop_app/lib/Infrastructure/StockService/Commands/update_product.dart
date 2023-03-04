@@ -5,6 +5,7 @@ import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
 import 'package:stock_manager/Infrastructure/GraphQlService/service.dart'
     as graphql_service;
+import 'package:stock_manager/Types/i_wrappers.dart';
 
 class UpdateProduct extends Command<UpdateProductEventData,
     UpdateProductRawEventData, UpdateProductResponse> {
@@ -22,21 +23,21 @@ class UpdateProduct extends Command<UpdateProductEventData,
     final product = eventData.product;
 
     final where = graphql_service.Input$ProductsWhereUniqueInput(
-        product_id: product.barcode);
+        product_id: product.instance.barcode);
 
     final input = graphql_service.Input$ProductsUpdateInput(
       reference: graphql_service.Input$IntFieldUpdateOperationsInput(
-          $set: product.barcode),
+          $set: product.instance.barcode),
       name: graphql_service.Input$StringFieldUpdateOperationsInput(
-          $set: product.name),
+          $set: product.instance.name),
       buyingPrice: graphql_service.Input$FloatFieldUpdateOperationsInput(
-          $set: product.buyingPrice),
+          $set: product.instance.buyingPrice),
       sellingPrice: graphql_service.Input$FloatFieldUpdateOperationsInput(
-          $set: product.sellingPrice),
+          $set: product.instance.sellingPrice),
       description:
           graphql_service.Input$StringFieldUpdateOperationsInput($set: ""),
       picture: graphql_service.Input$StringFieldUpdateOperationsInput(
-          $set: product.imageUrl),
+          $set: product.instance.imageUrl),
     );
 
     final MutationOptions options =
@@ -77,7 +78,7 @@ class UpdateProductRawEventData extends RawServiceEventData {
 
 class UpdateProductEventData
     extends ServiceEventData<UpdateProductRawEventData> {
-  final Product product;
+  final UpdateRequestWrapper<Product> product;
 
   UpdateProductEventData({required String requesterId, required this.product})
       : super(requesterId);

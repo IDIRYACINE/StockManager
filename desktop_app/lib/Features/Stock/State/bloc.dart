@@ -79,9 +79,19 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   FutureOr<void> _addProductFamily(AddProductFamily event, Emitter<StockState> emit) {
+      AddProductFamily(event.family);
+    
+    final newState = state.copyWith(
+      productFamillies: state.addProductFamily(event.family)
+    );
+
+    emit(newState);
   }
 
   FutureOr<void> _refreshProductFamily(RefreshProductFamily event, Emitter<StockState> emit) {
+     loadProductFamillies().then((famillies) {
+      add(LoadProductFamillies(famillies));
+    });
   }
 
   FutureOr<void> _searchProduct(SearchProduct event, Emitter<StockState> emit) {

@@ -1,4 +1,3 @@
-
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
@@ -12,12 +11,14 @@ abstract class ProductFamilyEditorMode<T> {
   void setImage(String? imageUrl);
 
   void confirm(T callback);
-  
 
-  static ProductFamilyEditorMode<Callback<ProductFamily>> createModeInstance(ProductFamily family){
+  static ProductFamilyEditorMode<Callback<ProductFamily>> createModeInstance(
+      ProductFamily family) {
     return _ModeCreate(family);
   }
-  static ProductFamilyEditorMode<EditorCallback<AppJson,ProductFamily>> editModeInstance(ProductFamily family){
+
+  static ProductFamilyEditorMode<EditorCallback<AppJson, ProductFamily>>
+      editModeInstance(ProductFamily family) {
     return _ModeEdit(family);
   }
 }
@@ -36,11 +37,11 @@ class _ModeCreate implements ProductFamilyEditorMode<Callback<ProductFamily>> {
 
   @override
   void setReference(String? reference) {
-    if (reference != null) {
-      family.reference = reference;
+    int? ref = int.tryParse(reference!);
+    if (ref != null) {
+      family.reference = ref;
     }
   }
-
 
   @override
   void setImage(String? imageUrl) {
@@ -53,7 +54,6 @@ class _ModeCreate implements ProductFamilyEditorMode<Callback<ProductFamily>> {
   void confirm(Callback<ProductFamily> callback) {
     callback(family);
   }
-  
 }
 
 class _ModeEdit
@@ -74,12 +74,13 @@ class _ModeEdit
 
   @override
   void setReference(String? reference) {
-    if (reference != null) {
-      family.reference = reference;
+    int? ref = int.tryParse(reference!);
+    if (ref != null) {
+      family.reference = ref;
+
       updatedFields[ProductFamilyFields.reference] = reference;
     }
   }
-
 
   @override
   void setImage(String? imageUrl) {
@@ -90,7 +91,7 @@ class _ModeEdit
 
   @override
   void confirm(EditorCallback<AppJson, ProductFamily> callback) {
-      final ModifierBuilder modifierBuilder = ModifierBuilder();
+    final ModifierBuilder modifierBuilder = ModifierBuilder();
 
     updatedFields.forEach((key, value) {
       modifierBuilder.set(key.name, value);

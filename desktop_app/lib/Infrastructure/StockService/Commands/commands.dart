@@ -17,3 +17,8 @@ export "register_color.dart";
 export "register_size.dart";
 export "update_color.dart";
 export "update_size.dart";
+
+export "register_product_family.dart";
+export "delete_product_family.dart";
+export 'search_product_family.dart';
+export "update_product_family.dart";

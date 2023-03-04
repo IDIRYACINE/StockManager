@@ -1998,3 +1998,557 @@ class _CopyWithStubImpl$Query$FindFirstCity$findFirstCity<TRes>
   }) =>
       _res;
 }
+
+class Variables$Query$Cities {
+  factory Variables$Query$Cities({Input$CityWhereInput? where}) =>
+      Variables$Query$Cities._({
+        if (where != null) r'where': where,
+      });
+
+  Variables$Query$Cities._(this._$data);
+
+  factory Variables$Query$Cities.fromJson(Map<String, dynamic> data) {
+    final result$data = <String, dynamic>{};
+    if (data.containsKey('where')) {
+      final l$where = data['where'];
+      result$data['where'] = l$where == null
+          ? null
+          : Input$CityWhereInput.fromJson((l$where as Map<String, dynamic>));
+    }
+    return Variables$Query$Cities._(result$data);
+  }
+
+  Map<String, dynamic> _$data;
+
+  Input$CityWhereInput? get where => (_$data['where'] as Input$CityWhereInput?);
+  Map<String, dynamic> toJson() {
+    final result$data = <String, dynamic>{};
+    if (_$data.containsKey('where')) {
+      final l$where = where;
+      result$data['where'] = l$where?.toJson();
+    }
+    return result$data;
+  }
+
+  CopyWith$Variables$Query$Cities<Variables$Query$Cities> get copyWith =>
+      CopyWith$Variables$Query$Cities(
+        this,
+        (i) => i,
+      );
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Variables$Query$Cities) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$where = where;
+    final lOther$where = other.where;
+    if (_$data.containsKey('where') != other._$data.containsKey('where')) {
+      return false;
+    }
+    if (l$where != lOther$where) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    final l$where = where;
+    return Object.hashAll([_$data.containsKey('where') ? l$where : const {}]);
+  }
+}
+
+abstract class CopyWith$Variables$Query$Cities<TRes> {
+  factory CopyWith$Variables$Query$Cities(
+    Variables$Query$Cities instance,
+    TRes Function(Variables$Query$Cities) then,
+  ) = _CopyWithImpl$Variables$Query$Cities;
+
+  factory CopyWith$Variables$Query$Cities.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Query$Cities;
+
+  TRes call({Input$CityWhereInput? where});
+}
+
+class _CopyWithImpl$Variables$Query$Cities<TRes>
+    implements CopyWith$Variables$Query$Cities<TRes> {
+  _CopyWithImpl$Variables$Query$Cities(
+    this._instance,
+    this._then,
+  );
+
+  final Variables$Query$Cities _instance;
+
+  final TRes Function(Variables$Query$Cities) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({Object? where = _undefined}) => _then(Variables$Query$Cities._({
+        ..._instance._$data,
+        if (where != _undefined) 'where': (where as Input$CityWhereInput?),
+      }));
+}
+
+class _CopyWithStubImpl$Variables$Query$Cities<TRes>
+    implements CopyWith$Variables$Query$Cities<TRes> {
+  _CopyWithStubImpl$Variables$Query$Cities(this._res);
+
+  TRes _res;
+
+  call({Input$CityWhereInput? where}) => _res;
+}
+
+class Query$Cities {
+  Query$Cities({
+    required this.cities,
+    this.$__typename = 'Query',
+  });
+
+  factory Query$Cities.fromJson(Map<String, dynamic> json) {
+    final l$cities = json['cities'];
+    final l$$__typename = json['__typename'];
+    return Query$Cities(
+      cities: (l$cities as List<dynamic>)
+          .map((e) => Query$Cities$cities.fromJson((e as Map<String, dynamic>)))
+          .toList(),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final List<Query$Cities$cities> cities;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$cities = cities;
+    _resultData['cities'] = l$cities.map((e) => e.toJson()).toList();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$cities = cities;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      Object.hashAll(l$cities.map((v) => v)),
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$Cities) || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$cities = cities;
+    final lOther$cities = other.cities;
+    if (l$cities.length != lOther$cities.length) {
+      return false;
+    }
+    for (int i = 0; i < l$cities.length; i++) {
+      final l$cities$entry = l$cities[i];
+      final lOther$cities$entry = lOther$cities[i];
+      if (l$cities$entry != lOther$cities$entry) {
+        return false;
+      }
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$Cities on Query$Cities {
+  CopyWith$Query$Cities<Query$Cities> get copyWith => CopyWith$Query$Cities(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Query$Cities<TRes> {
+  factory CopyWith$Query$Cities(
+    Query$Cities instance,
+    TRes Function(Query$Cities) then,
+  ) = _CopyWithImpl$Query$Cities;
+
+  factory CopyWith$Query$Cities.stub(TRes res) = _CopyWithStubImpl$Query$Cities;
+
+  TRes call({
+    List<Query$Cities$cities>? cities,
+    String? $__typename,
+  });
+  TRes cities(
+      Iterable<Query$Cities$cities> Function(
+              Iterable<CopyWith$Query$Cities$cities<Query$Cities$cities>>)
+          _fn);
+}
+
+class _CopyWithImpl$Query$Cities<TRes> implements CopyWith$Query$Cities<TRes> {
+  _CopyWithImpl$Query$Cities(
+    this._instance,
+    this._then,
+  );
+
+  final Query$Cities _instance;
+
+  final TRes Function(Query$Cities) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? cities = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$Cities(
+        cities: cities == _undefined || cities == null
+            ? _instance.cities
+            : (cities as List<Query$Cities$cities>),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  TRes cities(
+          Iterable<Query$Cities$cities> Function(
+                  Iterable<CopyWith$Query$Cities$cities<Query$Cities$cities>>)
+              _fn) =>
+      call(
+          cities: _fn(_instance.cities.map((e) => CopyWith$Query$Cities$cities(
+                e,
+                (i) => i,
+              ))).toList());
+}
+
+class _CopyWithStubImpl$Query$Cities<TRes>
+    implements CopyWith$Query$Cities<TRes> {
+  _CopyWithStubImpl$Query$Cities(this._res);
+
+  TRes _res;
+
+  call({
+    List<Query$Cities$cities>? cities,
+    String? $__typename,
+  }) =>
+      _res;
+  cities(_fn) => _res;
+}
+
+const documentNodeQueryCities = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'Cities'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'where')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'CityWhereInput'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'cities'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'where'),
+            value: VariableNode(name: NameNode(value: 'where')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'city_id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'city_name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: '__typename'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+Query$Cities _parserFn$Query$Cities(Map<String, dynamic> data) =>
+    Query$Cities.fromJson(data);
+
+class Options$Query$Cities extends graphql.QueryOptions<Query$Cities> {
+  Options$Query$Cities({
+    String? operationName,
+    Variables$Query$Cities? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    Duration? pollInterval,
+    graphql.Context? context,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          pollInterval: pollInterval,
+          context: context,
+          document: documentNodeQueryCities,
+          parserFn: _parserFn$Query$Cities,
+        );
+}
+
+class WatchOptions$Query$Cities
+    extends graphql.WatchQueryOptions<Query$Cities> {
+  WatchOptions$Query$Cities({
+    String? operationName,
+    Variables$Query$Cities? variables,
+    graphql.FetchPolicy? fetchPolicy,
+    graphql.ErrorPolicy? errorPolicy,
+    graphql.CacheRereadPolicy? cacheRereadPolicy,
+    Object? optimisticResult,
+    graphql.Context? context,
+    Duration? pollInterval,
+    bool? eagerlyFetchResults,
+    bool carryForwardDataOnException = true,
+    bool fetchResults = false,
+  }) : super(
+          variables: variables?.toJson() ?? {},
+          operationName: operationName,
+          fetchPolicy: fetchPolicy,
+          errorPolicy: errorPolicy,
+          cacheRereadPolicy: cacheRereadPolicy,
+          optimisticResult: optimisticResult,
+          context: context,
+          document: documentNodeQueryCities,
+          pollInterval: pollInterval,
+          eagerlyFetchResults: eagerlyFetchResults,
+          carryForwardDataOnException: carryForwardDataOnException,
+          fetchResults: fetchResults,
+          parserFn: _parserFn$Query$Cities,
+        );
+}
+
+class FetchMoreOptions$Query$Cities extends graphql.FetchMoreOptions {
+  FetchMoreOptions$Query$Cities({
+    required graphql.UpdateQuery updateQuery,
+    Variables$Query$Cities? variables,
+  }) : super(
+          updateQuery: updateQuery,
+          variables: variables?.toJson() ?? {},
+          document: documentNodeQueryCities,
+        );
+}
+
+extension ClientExtension$Query$Cities on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Query$Cities>> query$Cities(
+          [Options$Query$Cities? options]) async =>
+      await this.query(options ?? Options$Query$Cities());
+  graphql.ObservableQuery<Query$Cities> watchQuery$Cities(
+          [WatchOptions$Query$Cities? options]) =>
+      this.watchQuery(options ?? WatchOptions$Query$Cities());
+  void writeQuery$Cities({
+    required Query$Cities data,
+    Variables$Query$Cities? variables,
+    bool broadcast = true,
+  }) =>
+      this.writeQuery(
+        graphql.Request(
+          operation: graphql.Operation(document: documentNodeQueryCities),
+          variables: variables?.toJson() ?? const {},
+        ),
+        data: data.toJson(),
+        broadcast: broadcast,
+      );
+  Query$Cities? readQuery$Cities({
+    Variables$Query$Cities? variables,
+    bool optimistic = true,
+  }) {
+    final result = this.readQuery(
+      graphql.Request(
+        operation: graphql.Operation(document: documentNodeQueryCities),
+        variables: variables?.toJson() ?? const {},
+      ),
+      optimistic: optimistic,
+    );
+    return result == null ? null : Query$Cities.fromJson(result);
+  }
+}
+
+class Query$Cities$cities {
+  Query$Cities$cities({
+    required this.city_id,
+    required this.city_name,
+    this.$__typename = 'City',
+  });
+
+  factory Query$Cities$cities.fromJson(Map<String, dynamic> json) {
+    final l$city_id = json['city_id'];
+    final l$city_name = json['city_name'];
+    final l$$__typename = json['__typename'];
+    return Query$Cities$cities(
+      city_id: (l$city_id as int),
+      city_name: (l$city_name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int city_id;
+
+  final String city_name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$city_id = city_id;
+    _resultData['city_id'] = l$city_id;
+    final l$city_name = city_name;
+    _resultData['city_name'] = l$city_name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$city_id = city_id;
+    final l$city_name = city_name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$city_id,
+      l$city_name,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$Cities$cities) || runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$city_id = city_id;
+    final lOther$city_id = other.city_id;
+    if (l$city_id != lOther$city_id) {
+      return false;
+    }
+    final l$city_name = city_name;
+    final lOther$city_name = other.city_name;
+    if (l$city_name != lOther$city_name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$Cities$cities on Query$Cities$cities {
+  CopyWith$Query$Cities$cities<Query$Cities$cities> get copyWith =>
+      CopyWith$Query$Cities$cities(
+        this,
+        (i) => i,
+      );
+}
+
+abstract class CopyWith$Query$Cities$cities<TRes> {
+  factory CopyWith$Query$Cities$cities(
+    Query$Cities$cities instance,
+    TRes Function(Query$Cities$cities) then,
+  ) = _CopyWithImpl$Query$Cities$cities;
+
+  factory CopyWith$Query$Cities$cities.stub(TRes res) =
+      _CopyWithStubImpl$Query$Cities$cities;
+
+  TRes call({
+    int? city_id,
+    String? city_name,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$Cities$cities<TRes>
+    implements CopyWith$Query$Cities$cities<TRes> {
+  _CopyWithImpl$Query$Cities$cities(
+    this._instance,
+    this._then,
+  );
+
+  final Query$Cities$cities _instance;
+
+  final TRes Function(Query$Cities$cities) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? city_id = _undefined,
+    Object? city_name = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$Cities$cities(
+        city_id: city_id == _undefined || city_id == null
+            ? _instance.city_id
+            : (city_id as int),
+        city_name: city_name == _undefined || city_name == null
+            ? _instance.city_name
+            : (city_name as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$Cities$cities<TRes>
+    implements CopyWith$Query$Cities$cities<TRes> {
+  _CopyWithStubImpl$Query$Cities$cities(this._res);
+
+  TRes _res;
+
+  call({
+    int? city_id,
+    String? city_name,
+    String? $__typename,
+  }) =>
+      _res;
+}
