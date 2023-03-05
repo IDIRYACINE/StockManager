@@ -2517,6 +2517,28 @@ const documentNodeQueryFindManyProducts = DocumentNode(definitions: [
             selectionSet: null,
           ),
           FieldNode(
+            name: NameNode(value: 'family'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'name'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: '__typename'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+          FieldNode(
             name: NameNode(value: 'ProductModel'),
             alias: null,
             arguments: [],
@@ -2733,6 +2755,7 @@ class Query$FindManyProducts$findManyProducts {
     required this.reference,
     required this.sellingPrice,
     required this.family_id,
+    required this.family,
     required this.ProductModel,
     this.$__typename = 'Products',
   });
@@ -2747,6 +2770,7 @@ class Query$FindManyProducts$findManyProducts {
     final l$reference = json['reference'];
     final l$sellingPrice = json['sellingPrice'];
     final l$family_id = json['family_id'];
+    final l$family = json['family'];
     final l$ProductModel = json['ProductModel'];
     final l$$__typename = json['__typename'];
     return Query$FindManyProducts$findManyProducts(
@@ -2758,6 +2782,8 @@ class Query$FindManyProducts$findManyProducts {
       reference: (l$reference as int),
       sellingPrice: (l$sellingPrice as num).toDouble(),
       family_id: (l$family_id as int),
+      family: Query$FindManyProducts$findManyProducts$family.fromJson(
+          (l$family as Map<String, dynamic>)),
       ProductModel: (l$ProductModel as List<dynamic>)
           .map((e) =>
               Query$FindManyProducts$findManyProducts$ProductModel.fromJson(
@@ -2783,6 +2809,8 @@ class Query$FindManyProducts$findManyProducts {
 
   final int family_id;
 
+  final Query$FindManyProducts$findManyProducts$family family;
+
   final List<Query$FindManyProducts$findManyProducts$ProductModel> ProductModel;
 
   final String $__typename;
@@ -2805,6 +2833,8 @@ class Query$FindManyProducts$findManyProducts {
     _resultData['sellingPrice'] = l$sellingPrice;
     final l$family_id = family_id;
     _resultData['family_id'] = l$family_id;
+    final l$family = family;
+    _resultData['family'] = l$family.toJson();
     final l$ProductModel = ProductModel;
     _resultData['ProductModel'] =
         l$ProductModel.map((e) => e.toJson()).toList();
@@ -2823,6 +2853,7 @@ class Query$FindManyProducts$findManyProducts {
     final l$reference = reference;
     final l$sellingPrice = sellingPrice;
     final l$family_id = family_id;
+    final l$family = family;
     final l$ProductModel = ProductModel;
     final l$$__typename = $__typename;
     return Object.hashAll([
@@ -2834,6 +2865,7 @@ class Query$FindManyProducts$findManyProducts {
       l$reference,
       l$sellingPrice,
       l$family_id,
+      l$family,
       Object.hashAll(l$ProductModel.map((v) => v)),
       l$$__typename,
     ]);
@@ -2888,6 +2920,11 @@ class Query$FindManyProducts$findManyProducts {
     if (l$family_id != lOther$family_id) {
       return false;
     }
+    final l$family = family;
+    final lOther$family = other.family;
+    if (l$family != lOther$family) {
+      return false;
+    }
     final l$ProductModel = ProductModel;
     final lOther$ProductModel = other.ProductModel;
     if (l$ProductModel.length != lOther$ProductModel.length) {
@@ -2937,9 +2974,11 @@ abstract class CopyWith$Query$FindManyProducts$findManyProducts<TRes> {
     int? reference,
     double? sellingPrice,
     int? family_id,
+    Query$FindManyProducts$findManyProducts$family? family,
     List<Query$FindManyProducts$findManyProducts$ProductModel>? ProductModel,
     String? $__typename,
   });
+  CopyWith$Query$FindManyProducts$findManyProducts$family<TRes> get family;
   TRes ProductModel(
       Iterable<Query$FindManyProducts$findManyProducts$ProductModel> Function(
               Iterable<
@@ -2970,6 +3009,7 @@ class _CopyWithImpl$Query$FindManyProducts$findManyProducts<TRes>
     Object? reference = _undefined,
     Object? sellingPrice = _undefined,
     Object? family_id = _undefined,
+    Object? family = _undefined,
     Object? ProductModel = _undefined,
     Object? $__typename = _undefined,
   }) =>
@@ -2998,6 +3038,9 @@ class _CopyWithImpl$Query$FindManyProducts$findManyProducts<TRes>
         family_id: family_id == _undefined || family_id == null
             ? _instance.family_id
             : (family_id as int),
+        family: family == _undefined || family == null
+            ? _instance.family
+            : (family as Query$FindManyProducts$findManyProducts$family),
         ProductModel: ProductModel == _undefined || ProductModel == null
             ? _instance.ProductModel
             : (ProductModel
@@ -3006,6 +3049,12 @@ class _CopyWithImpl$Query$FindManyProducts$findManyProducts<TRes>
             ? _instance.$__typename
             : ($__typename as String),
       ));
+  CopyWith$Query$FindManyProducts$findManyProducts$family<TRes> get family {
+    final local$family = _instance.family;
+    return CopyWith$Query$FindManyProducts$findManyProducts$family(
+        local$family, (e) => call(family: e));
+  }
+
   TRes ProductModel(
           Iterable<Query$FindManyProducts$findManyProducts$ProductModel> Function(
                   Iterable<
@@ -3035,11 +3084,142 @@ class _CopyWithStubImpl$Query$FindManyProducts$findManyProducts<TRes>
     int? reference,
     double? sellingPrice,
     int? family_id,
+    Query$FindManyProducts$findManyProducts$family? family,
     List<Query$FindManyProducts$findManyProducts$ProductModel>? ProductModel,
     String? $__typename,
   }) =>
       _res;
+  CopyWith$Query$FindManyProducts$findManyProducts$family<TRes> get family =>
+      CopyWith$Query$FindManyProducts$findManyProducts$family.stub(_res);
   ProductModel(_fn) => _res;
+}
+
+class Query$FindManyProducts$findManyProducts$family {
+  Query$FindManyProducts$findManyProducts$family({
+    required this.name,
+    this.$__typename = 'ProductFamily',
+  });
+
+  factory Query$FindManyProducts$findManyProducts$family.fromJson(
+      Map<String, dynamic> json) {
+    final l$name = json['name'];
+    final l$$__typename = json['__typename'];
+    return Query$FindManyProducts$findManyProducts$family(
+      name: (l$name as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String name;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$name = name;
+    _resultData['name'] = l$name;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$name = name;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$name,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$FindManyProducts$findManyProducts$family) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$name = name;
+    final lOther$name = other.name;
+    if (l$name != lOther$name) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindManyProducts$findManyProducts$family
+    on Query$FindManyProducts$findManyProducts$family {
+  CopyWith$Query$FindManyProducts$findManyProducts$family<
+          Query$FindManyProducts$findManyProducts$family>
+      get copyWith => CopyWith$Query$FindManyProducts$findManyProducts$family(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$FindManyProducts$findManyProducts$family<TRes> {
+  factory CopyWith$Query$FindManyProducts$findManyProducts$family(
+    Query$FindManyProducts$findManyProducts$family instance,
+    TRes Function(Query$FindManyProducts$findManyProducts$family) then,
+  ) = _CopyWithImpl$Query$FindManyProducts$findManyProducts$family;
+
+  factory CopyWith$Query$FindManyProducts$findManyProducts$family.stub(
+          TRes res) =
+      _CopyWithStubImpl$Query$FindManyProducts$findManyProducts$family;
+
+  TRes call({
+    String? name,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$FindManyProducts$findManyProducts$family<TRes>
+    implements CopyWith$Query$FindManyProducts$findManyProducts$family<TRes> {
+  _CopyWithImpl$Query$FindManyProducts$findManyProducts$family(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindManyProducts$findManyProducts$family _instance;
+
+  final TRes Function(Query$FindManyProducts$findManyProducts$family) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? name = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindManyProducts$findManyProducts$family(
+        name: name == _undefined || name == null
+            ? _instance.name
+            : (name as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$FindManyProducts$findManyProducts$family<TRes>
+    implements CopyWith$Query$FindManyProducts$findManyProducts$family<TRes> {
+  _CopyWithStubImpl$Query$FindManyProducts$findManyProducts$family(this._res);
+
+  TRes _res;
+
+  call({
+    String? name,
+    String? $__typename,
+  }) =>
+      _res;
 }
 
 class Query$FindManyProducts$findManyProducts$ProductModel {

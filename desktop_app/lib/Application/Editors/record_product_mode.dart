@@ -115,7 +115,7 @@ class _ModeCreate extends SaleEditorMode<Record> {
 
     final recordProduct = RecordProduct(
       product: product.name,
-      reference: product.reference,
+      barcode: product.barcode,
       sellingPrice: product.sellingPrice,
       deposit: 0,
       remainingPayement: product.sellingPrice,

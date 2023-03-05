@@ -145,7 +145,7 @@ class RecordProduct {
     required this.product,
     required this.color,
     required this.size,
-    required this.reference,
+    required this.barcode,
     required this.sellingPrice,
     required this.deposit,
     required this.sizeId,
@@ -154,7 +154,7 @@ class RecordProduct {
     required this.remainingPayement,
   });
 
-  String reference;
+  int barcode;
   double deposit;
   String product;
   String size;
@@ -170,7 +170,7 @@ class RecordProduct {
       product: '',
       color: '',
       size: '',
-      reference: '',
+      barcode: 0,
       sellingPrice: 0,
       deposit: 0,
       colorId: '',
@@ -184,7 +184,7 @@ class RecordProduct {
     String? product,
     String? productColor,
     String? productSize,
-    String? reference,
+    int? barcode,
     double? sellingPrice,
     double? deposit,
     double? remainingPayement,
@@ -196,7 +196,7 @@ class RecordProduct {
       product: product ?? this.product,
       color: productColor ?? color,
       size: productSize ?? size,
-      reference: reference ?? this.reference,
+      barcode: barcode ?? this.barcode,
       sellingPrice: sellingPrice ?? this.sellingPrice,
       deposit: deposit ?? this.deposit,
       colorId: productColorId ?? colorId,

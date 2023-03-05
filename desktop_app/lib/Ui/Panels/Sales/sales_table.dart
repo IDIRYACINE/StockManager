@@ -46,7 +46,7 @@ class _SalesSpreadedTableState extends State<SalesSpreadedTable> {
       Record record, RecordProduct product) {
     return [
       product.product,
-      product.reference,
+      product.barcode.toString(),
       record.sellerName,
       product.sellingPrice.toString(),
       product.deposit.toString(),

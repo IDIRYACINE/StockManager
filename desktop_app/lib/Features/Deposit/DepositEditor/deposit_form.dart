@@ -151,12 +151,6 @@ class ProductForm extends StatelessWidget {
             ),
             const SizedBox(height: Measures.medium),
             AttributeTextField(
-              initialValue: product.reference,
-              label: Translations.of(context)!.reference,
-              readOnly: true,
-            ),
-            const SizedBox(height: Measures.medium),
-            AttributeTextField(
               initialValue: product.productFamily,
               label: Translations.of(context)!.productFamily,
               readOnly: true,

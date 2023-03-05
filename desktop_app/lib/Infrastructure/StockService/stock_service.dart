@@ -50,22 +50,15 @@ class StockService extends Service {
     final graphQl = getGraphQlClient();
 
     instance.replaceCommandAtIndex(RegisterProduct(graphQl));
-
     instance.replaceCommandAtIndex(DeleteProduct(graphQl));
-
     instance.replaceCommandAtIndex(QuickSearchProduct(graphQl));
-
     instance.replaceCommandAtIndex(SearchProduct(graphQl));
-
     instance.replaceCommandAtIndex(UpdateProduct(graphQl));
+    instance.replaceCommandAtIndex(LoadProducts(graphQl));
 
     instance.replaceCommandAtIndex(AddProductModel(graphQl));
-
     instance.replaceCommandAtIndex(UpdateProductModel(graphQl));
-
     instance.replaceCommandAtIndex(DeleteProductModel(graphQl));
-
-    instance.replaceCommandAtIndex(LoadProducts(graphQl));
 
     instance.replaceCommandAtIndex(RegisterColor(graphQl));
     instance.replaceCommandAtIndex(DeleteColor(graphQl));
@@ -76,5 +69,10 @@ class StockService extends Service {
     instance.replaceCommandAtIndex(DeleteSize(graphQl));
     instance.replaceCommandAtIndex(UpdateSize(graphQl));
     instance.replaceCommandAtIndex(LoadAllSizes(graphQl));
+
+    instance.replaceCommandAtIndex(RegisterProductFamily(graphQl));
+    instance.replaceCommandAtIndex(DeleteProductFamily(graphQl));
+    instance.replaceCommandAtIndex(UpdateProductFamily(graphQl));
+    instance.replaceCommandAtIndex(LoadProductFamillies(graphQl));
   }
 }

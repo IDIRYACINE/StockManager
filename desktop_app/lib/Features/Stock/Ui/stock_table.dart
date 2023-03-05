@@ -17,7 +17,6 @@ class ProductsTable extends StatelessWidget {
     return [
       product.barcode.toString(),
       product.name,
-      product.reference,
       product.productFamily,
       product.buyingPrice.toString(),
       product.totalQuantity.toString(),
@@ -47,7 +46,6 @@ class ProductsTable extends StatelessWidget {
     List<String> stockProductTableColumns = [
       Translations.of(context)!.barcode,
       Translations.of(context)!.productName,
-      Translations.of(context)!.reference,
       Translations.of(context)!.productFamily,
       Translations.of(context)!.buyingPrice,
       Translations.of(context)!.quantity,

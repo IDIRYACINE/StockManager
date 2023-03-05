@@ -5,7 +5,7 @@ class ProductFormEditor {
   final TextEditingController productNameController =
       TextEditingController(text: '');
 
-  final TextEditingController referenceController =
+  final TextEditingController barcodeController =
       TextEditingController(text: '');
 
   final TextEditingController familyController =
@@ -24,7 +24,7 @@ class ProductFormEditor {
 
   void updateSelf(Product product) {
     productNameController.text = product.name;
-    referenceController.text = product.reference;
+    barcodeController.text = product.barcode.toString();
     familyController.text = product.productFamily;
     minSellingPriceController.text = product.sellingPrice.toString();
     sellingPriceController.text = product.sellingPrice.toString();

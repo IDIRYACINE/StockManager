@@ -36,16 +36,14 @@ class Product {
       required this.productFamily,
       required this.buyingPrice,
       required this.sellingPrice,
-      required this.reference,
       required this.totalQuantity,
       required this.models,
       required this.familyReference,
       required this.imageUrl});
 
-  String reference;
   int barcode;
   String name;
-  String familyReference;
+  int familyReference;
   double buyingPrice;
   String? imageUrl;
   double sellingPrice;
@@ -60,11 +58,10 @@ class Product {
       productFamily: '',
       buyingPrice: 0.0,
       sellingPrice: 0.0,
-      reference: '',
       totalQuantity: 0,
       models: {},
       imageUrl: null,
-      familyReference: '',
+      familyReference: 0,
     );
   }
 }
@@ -137,7 +134,7 @@ extension _ApiProductFields on _ProductFields {
       case _ProductFields.name:
         return "name";
       case _ProductFields.productFamily:
-        return "productFamily";
+        return "family";
       case _ProductFields.buyingPrice:
         return "buyingPrice";
       case _ProductFields.sellingPrice:
@@ -147,11 +144,30 @@ extension _ApiProductFields on _ProductFields {
       case _ProductFields.totalQuantity:
         return "totalQuantity";
       case _ProductFields.models:
-        return "models";
+        return "ProductModel";
       case _ProductFields.imageUrl:
         return "imageUrl";
       case _ProductFields.familyReference:
-        return "familyReference";
+        return "family_id";
+    }
+  }
+}
+
+enum _ProductFamilyFields {
+  name,
+  reference,
+  imageUrl,
+}
+
+extension _ApiProductFamilyFields on _ProductFamilyFields {
+  String get name {
+    switch (this) {
+      case _ProductFamilyFields.name:
+        return "name";
+      case _ProductFamilyFields.reference:
+        return "id";
+      case _ProductFamilyFields.imageUrl:
+        return "imageUrl";
     }
   }
 }
@@ -182,24 +198,26 @@ ModelSize _modelSizeFromJson(Map<String, dynamic> json) {
 }
 
 
-Map<String,ProductModel> _modelsFromJson(Map<String, dynamic> json) {
+Map<String,ProductModel> _modelsFromJsonList(List<Object?> json) {
   Map<String, ProductModel> models = {};
-  json.forEach((key, value) {
+  
+  for (var value in json) {
+    value = value as Map<String, dynamic>;
+    final key = value[_ProductModelFields.id.name];
     models[key] = _productModelFromJson(value);
-  });
+  }
   return models;
 }
 
 Product productFromJson(Map<String, dynamic> json) {
   return Product(
-    barcode: int.tryParse(json[_ProductFields.barcode.name]) ?? -1,
+    barcode: json[_ProductFields.reference.name] ?? -1,
     name: json[_ProductFields.name.name],
-    productFamily: json[_ProductFields.productFamily.name],
-    buyingPrice: double.tryParse(json[_ProductFields.buyingPrice.name]) ?? -1,
-    sellingPrice: double.tryParse(json[_ProductFields.sellingPrice.name]) ?? -1,
-    reference: json[_ProductFields.reference.name],
-    totalQuantity: int.tryParse(json[_ProductFields.totalQuantity.name]) ?? -1,
-    models: _modelsFromJson(json[_ProductFields.models.name]),
+    productFamily: json[_ProductFields.productFamily.name][_ProductFields.name.name],
+    buyingPrice: json[_ProductFields.buyingPrice.name].toDouble() ?? -1.0,
+    sellingPrice: json[_ProductFields.sellingPrice.name].toDouble() ?? -1.0,
+    totalQuantity: json[_ProductFields.totalQuantity.name] ?? -1,
+    models: _modelsFromJsonList(json[_ProductFields.models.name]),
     imageUrl: json[_ProductFields.imageUrl.name],
     familyReference: json[_ProductFields.familyReference.name],
   );
@@ -210,9 +228,9 @@ List<Product> productsFromJsonList(List<dynamic> json) => json.map((e) => produc
 
 ProductFamily productFamilyFromJson(Map<String, dynamic> json) {
   return ProductFamily(
-    name: json[_ProductFields.name.name],
-    reference: json[_ProductFields.reference.name],
-    imageUrl: json[_ProductFields.imageUrl.name],
+    name: json[_ProductFamilyFields.name.name] ,
+    reference: json[_ProductFamilyFields.reference.name],
+    imageUrl: json[_ProductFamilyFields.imageUrl.name],
   );
 }
 

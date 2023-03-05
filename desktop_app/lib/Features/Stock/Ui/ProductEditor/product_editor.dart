@@ -59,6 +59,7 @@ class ProductEditor extends StatelessWidget {
                             productEditorMode: modeDelegate,
                             editMode: editMode,
                             product: product,
+
                           ),
                         ),
                       ),

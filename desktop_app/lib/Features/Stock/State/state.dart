@@ -15,13 +15,13 @@ class StockState{
 
   get productsCount => products.length;
 
-  productFamilyAt(int index) {
+  ProductFamily productFamilyAt(int index) {
     return productFamillies[index];
   }
 
 
-  productAt(int index) {
-    return productFamillies[index];
+  Product productAt(int index) {
+    return products[index];
   }
 
   StockState copyWith({ List<Product>? products , List<ProductFamily>? productFamillies}) {
@@ -45,5 +45,9 @@ class StockState{
 
   List<ProductFamily> addProductFamily(ProductFamily family) {
     return [...productFamillies, family];
+  }
+
+  List<ProductFamily> updateProductFamily(ProductFamily family) {
+    return productFamillies.map((element) => element.reference == family.reference ? family : element).toList();
   }
 }

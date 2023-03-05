@@ -67,13 +67,13 @@ class OrderProductEditor extends StatelessWidget {
         productFormEditor.sellingPriceController.text =
             p.sellingPrice.toString();
         productFormEditor.familyController.text = p.productFamily;
-        productFormEditor.referenceController.text = p.reference;
+        productFormEditor.barcodeController.text = p.barcode.toString();
 
         orderProductEditorMode.sellingPriceController.text =
             p.sellingPrice.toString();
 
         orderProduct.product = p.name;
-        orderProduct.reference = p.reference;
+        orderProduct.barcode = p.barcode;
         orderProduct.sellingPrice = p.sellingPrice;
 
         orderProductEditorMode.setSellingPrice(p.sellingPrice.toString());

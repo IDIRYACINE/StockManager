@@ -35,6 +35,11 @@ query FindManyProducts($where: ProductsWhereInput) {
     reference
     sellingPrice
     family_id
+
+    family {
+      name
+    }
+
     ProductModel {
       size_id
       color_id

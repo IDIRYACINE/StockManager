@@ -9,7 +9,7 @@ void main() {
   Product mockProduct() {
     Product product = Product.defaultInstance();
     product.name = 'test';
-    product.reference = 'test';
+    product.barcode = 0;
     product.buyingPrice = 10;
     product.sellingPrice = 10;
     product.totalQuantity = 10;
@@ -22,7 +22,7 @@ void main() {
 
   RecordProduct mockOrderProduct(Product product){
     RecordProduct orderProduct = RecordProduct.defaultInstance();
-    orderProduct.reference = product.reference;
+    orderProduct.barcode = product.barcode;
     orderProduct.colorId = product.models.keys.first;
     orderProduct.sizeId = product.models.values.first.sizes.keys.first;
     orderProduct.sellingPrice = product.sellingPrice;

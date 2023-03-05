@@ -22,6 +22,7 @@ class StockBloc extends Bloc<StockEvent, StockState> {
     on<RefreshProductFamily>(_refreshProductFamily);
 
     on<LoadProducts>(_loadProducts);
+    on<LoadProductFamillies>(_loadProductFamilies);
   }
 
   factory StockBloc.initial() => StockBloc._();
@@ -98,11 +99,26 @@ class StockBloc extends Bloc<StockEvent, StockState> {
   }
 
   FutureOr<void> _updateProductFamily(UpdateProductFamily event, Emitter<StockState> emit) {
+      updateProductFamily(event.updateWrapper);
+      
+      final newState = state.copyWith(
+        productFamillies: state.updateProductFamily(event.updateWrapper.instance)
+      );
+  
+      emit(newState);
   }
 
   FutureOr<void> _loadProducts(LoadProducts event, Emitter<StockState> emit) {
     final newState = state.copyWith(
       products: event.products
+    );
+
+    emit(newState);
+  }
+
+  FutureOr<void> _loadProductFamilies(LoadProductFamillies event, Emitter<StockState> emit) {
+    final newState = state.copyWith(
+      productFamillies: event.productFamillies
     );
 
     emit(newState);

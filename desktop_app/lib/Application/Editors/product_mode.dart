@@ -9,8 +9,6 @@ abstract class ProductEditorMode<T> {
 
   void setName(String? name);
 
-  void setReference(String? reference);
-
   void setProductFamily(String productFamily,String familyReference);
 
   void setBuyingPrice(String? buyingPrice);
@@ -69,18 +67,11 @@ class _ModeEdit implements ProductEditorMode<EditorCallback<AppJson, Product>> {
     }
   }
 
-  @override
-  void setReference(String? reference) {
-    if (reference != null) {
-      product.reference = reference;
-      updatedField[ProductFields.reference] = reference;
-    }
-  }
 
   @override
   void setProductFamily(String productFamily,String familyReference) {
     product.productFamily = productFamily;
-    product.familyReference = familyReference;
+    product.familyReference = int.tryParse(familyReference) ?? 0;
     updatedField[ProductFields.family] = productFamily;
     updatedField[ProductFields.familyReference] = familyReference;
   }
@@ -215,17 +206,11 @@ class _ModeCreate implements ProductEditorMode<Callback<Product>> {
     }
   }
 
-  @override
-  void setReference(String? reference) {
-    if (reference != null) {
-      product.reference = reference;
-    }
-  }
 
   @override
   void setProductFamily(String productFamily,String familyReference) {
     product.productFamily = productFamily;
-    product.familyReference = familyReference;
+    product.familyReference = int.tryParse(familyReference) ?? 0;
   }
 
   @override

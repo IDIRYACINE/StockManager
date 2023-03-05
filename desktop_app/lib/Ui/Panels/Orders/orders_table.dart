@@ -96,7 +96,7 @@ class OrderProductsTable extends StatelessWidget {
   List<String> orderProductsToCellAdapter(RecordProduct orderProduct) {
     return [
       orderProduct.product,
-      orderProduct.reference,
+      orderProduct.barcode.toString(),
       orderProduct.color,
       orderProduct.size,
       orderProduct.sellingPrice.toString(),

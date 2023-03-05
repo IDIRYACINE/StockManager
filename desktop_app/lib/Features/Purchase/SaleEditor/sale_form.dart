@@ -95,7 +95,7 @@ class ProductForm extends StatelessWidget {
         ),
         const SizedBox(height: Measures.medium),
         AttributeTextField(
-          controller: productEditor.referenceController,
+          controller: productEditor.barcodeController,
           label: Translations.of(context)!.reference,
           readOnly: true,
         ),

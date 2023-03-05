@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stock_manager/Application/Editors/product_mode.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
+import 'package:stock_manager/Features/Stock/State/bloc.dart';
 import 'package:stock_manager/Ui/Generics/attribute_textfield.dart';
 import 'package:stock_manager/Ui/Generics/selector_dropdown.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
@@ -18,9 +20,18 @@ class ProductForm extends StatelessWidget {
   final bool editMode;
   final ProductEditorMode productEditorMode;
 
+  List<DropdownMenuItem<ProductFamily>> buildFamiliesDropDownItems(List<ProductFamily> productFamilies) =>
+      productFamilies
+          .map((family) => DropdownMenuItem<ProductFamily>(
+                value: family,
+                child: Text(family.name),
+              ))
+          .toList();
+
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<ProductFamily?> familyNotifier = ValueNotifier(null);
+    final productFamilies = BlocProvider.of<StockBloc>(context).state.productFamillies;
 
     return Padding(
       padding: const EdgeInsets.all(Measures.medium),
@@ -29,11 +40,12 @@ class ProductForm extends StatelessWidget {
           Flexible(
               child: SelectorDropDown<ProductFamily>(
             onSelect: (family) {
-              productEditorMode.setProductFamily(family.name, family.reference.toString());
+              productEditorMode.setProductFamily(
+                  family.name, family.reference.toString());
               familyNotifier.value = family;
             },
             initialSelection: familyNotifier,
-            items: const [],
+            items: buildFamiliesDropDownItems(productFamilies),
             label: Text(Translations.of(context)!.selectProductFamily),
           )),
           Expanded(
@@ -41,12 +53,6 @@ class ProductForm extends StatelessWidget {
             initialValue: product.name,
             label: Translations.of(context)!.name,
             onChanged: productEditorMode.setName,
-          )),
-          Expanded(
-              child: AttributeTextField(
-            initialValue: product.reference,
-            label: Translations.of(context)!.reference,
-            onChanged: productEditorMode.setReference,
           )),
           Expanded(
               child: AttributeTextField(
