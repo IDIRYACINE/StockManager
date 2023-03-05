@@ -10,7 +10,7 @@ const _requesterId = 'DepositBloc';
 
     final data = SearchProductEventData(
       requesterId: _requesterId,
-      searchParams: searchParams,
+      searchParams: {},
     );
 
     final event = SearchProductEvent(

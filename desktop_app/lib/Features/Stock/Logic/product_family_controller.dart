@@ -9,7 +9,6 @@ import 'package:stock_manager/Types/i_wrappers.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/generic_popup.dart';
 import 'package:stock_manager/Ui/Components/Dialogs/search_dialog.dart';
 import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
-import 'package:stock_manager/Ui/Panels/Splash/splash.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
 class ProductFamilyController implements IStockDelegate<ProductFamily> {
@@ -97,7 +96,6 @@ class ProductFamilyController implements IStockDelegate<ProductFamily> {
             return buildSearchFields(onSelect, onDeselect, context);
           },
           searchCallback: (query) => {
-            //TODO: Implement search
           },
         ),
       ),
@@ -120,14 +118,16 @@ class ProductFamilyController implements IStockDelegate<ProductFamily> {
     ];
   }
 
-  void _showLoadingAlert(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => const AlertDialog(content: Splash()));
-  }
+  // void _showLoadingAlert(BuildContext context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) => const AlertDialog(content: Splash()));
+  // }
 
   @override
   void quickSearch(BuildContext context, AppJson query) {
-    _showLoadingAlert(context);
+    // _showLoadingAlert(context);
+
+    bloc.add(SearchProductFamily(query));
   }
 }

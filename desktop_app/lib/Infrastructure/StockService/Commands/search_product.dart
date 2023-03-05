@@ -1,4 +1,5 @@
 import 'package:stock_manager/Application/ServiceStore/service.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Infrastructure/StockService/api.dart';
 import 'package:stock_manager/Infrastructure/services.dart';
@@ -20,8 +21,14 @@ class SearchProduct extends Command<SearchProductEventData,
   @override
   Future<SearchProductResponse> handleEvent(
       SearchProductEventData eventData) async {
-    final QueryOptions options =
-        graphql_service.Options$Query$FindManyProducts();
+    final barcode =
+        int.parse(eventData.searchParams[r'$query'][ProductFields.barcode.name]);
+    final QueryOptions options = graphql_service.Options$Query$FindManyProducts(
+        variables: graphql_service.Variables$Query$FindManyProducts(
+      where: graphql_service.Input$ProductsWhereInput(
+        reference: graphql_service.Input$IntFilter(equals: barcode),
+      ),
+    ));
 
     final result = await graphQl.query(options);
 
@@ -32,7 +39,7 @@ class SearchProduct extends Command<SearchProductEventData,
         products: [],
       );
     }
-    
+
     final json = result.data!['findManyProducts'] as List<dynamic>;
 
     final List<Product> products = productsFromJsonList(json);
@@ -65,7 +72,7 @@ class SearchProductRawEventData extends RawServiceEventData {
 
 class SearchProductEventData
     extends ServiceEventData<SearchProductRawEventData> {
-  final SearchWrapper searchParams;
+  final AppJson searchParams;
   SearchProductEventData(
       {required String requesterId, required this.searchParams})
       : super(requesterId);

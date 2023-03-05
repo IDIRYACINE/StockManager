@@ -20,7 +20,7 @@ class QuickSearchProduct extends Command<QuickSearchProductEventData,
   Future<QuickSearchProductResponse> handleEvent(
       QuickSearchProductEventData eventData) async {
     final where = graphql_service.Input$ProductsWhereInput(
-      product_id: graphql_service.Input$IntFilter(
+      reference: graphql_service.Input$IntFilter(
         equals: int.tryParse(eventData.searchValue),
       ),
     );

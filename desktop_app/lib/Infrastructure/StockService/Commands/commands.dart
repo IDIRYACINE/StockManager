@@ -20,5 +20,7 @@ export "update_size.dart";
 
 export "register_product_family.dart";
 export "delete_product_family.dart";
-export 'search_product_family.dart';
+export 'load_product_families.dart';
 export "update_product_family.dart";
+
+export 'search_product_families.dart';

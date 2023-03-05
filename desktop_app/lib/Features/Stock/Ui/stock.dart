@@ -49,7 +49,7 @@ class StockPanel extends StatelessWidget {
         const SizedBox(height: Measures.large),
         QuickSearchField<String>(
           label: Translations.of(context)!.reference,
-          valueIdentifier: ProductFields.reference.name,
+          valueIdentifier: ProductFields.barcode.name,
           onQuickSearch: (values) => onQuickSearch(context, values, controller),
         ),
         const SizedBox(height: Measures.large),

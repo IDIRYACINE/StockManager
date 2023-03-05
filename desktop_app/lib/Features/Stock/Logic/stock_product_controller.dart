@@ -13,7 +13,6 @@ import 'package:stock_manager/Ui/Generics/attribute_search_form.dart';
 import 'package:stock_manager/Ui/Themes/constants.dart';
 import 'package:stock_manager/l10n/generated/app_translations.dart';
 
-
 class StockProductController implements IStockDelegate<Product> {
   StockProductController(this.bloc);
 
@@ -89,7 +88,6 @@ class StockProductController implements IStockDelegate<Product> {
   @override
   void search(BuildContext context) {
     void onSearch(Map<String, dynamic> selector) {
-      //TODO: implement search
     }
 
     List<Widget> buildSearchFields(RegisterSearchQueryBuilder onSelect,
@@ -131,5 +129,24 @@ class StockProductController implements IStockDelegate<Product> {
   }
 
   @override
-  void quickSearch(BuildContext context, AppJson query) {}
+  void quickSearch(BuildContext context, AppJson query) {
+    // _showLoadingAlert(context);
+    bloc.add(SearchProducts(query));
+  }
+
+  // void _showLoadingAlert(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       content: BlocListener<StockBloc, StockState>(
+  //           listener: (context, state) {
+  //             AppNavigator.pop();
+  //           },
+  //           listenWhen: (previous, current) {
+  //             return true;
+  //           },
+  //           child: const Splash()),
+  //     ),
+  //   );
+  // }
 }

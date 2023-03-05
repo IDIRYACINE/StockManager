@@ -4102,6 +4102,86 @@ const documentNodeQueryFindFirstProducts = DocumentNode(definitions: [
             ]),
           ),
           FieldNode(
+            name: NameNode(value: 'ProductModel'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'size_id'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'color_id'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'quantity'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'color'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'color'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ]),
+              ),
+              FieldNode(
+                name: NameNode(value: 'size'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'size'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ]),
+              ),
+              FieldNode(
+                name: NameNode(value: '__typename'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+          FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
             arguments: [],
@@ -4240,6 +4320,7 @@ class Query$FindFirstProducts$findFirstProducts {
     required this.description,
     required this.buyingPrice,
     required this.family,
+    required this.ProductModel,
     this.$__typename = 'Products',
   });
 
@@ -4254,6 +4335,7 @@ class Query$FindFirstProducts$findFirstProducts {
     final l$description = json['description'];
     final l$buyingPrice = json['buyingPrice'];
     final l$family = json['family'];
+    final l$ProductModel = json['ProductModel'];
     final l$$__typename = json['__typename'];
     return Query$FindFirstProducts$findFirstProducts(
       picture: (l$picture as String),
@@ -4266,6 +4348,11 @@ class Query$FindFirstProducts$findFirstProducts {
       buyingPrice: (l$buyingPrice as num).toDouble(),
       family: Query$FindFirstProducts$findFirstProducts$family.fromJson(
           (l$family as Map<String, dynamic>)),
+      ProductModel: (l$ProductModel as List<dynamic>)
+          .map((e) =>
+              Query$FindFirstProducts$findFirstProducts$ProductModel.fromJson(
+                  (e as Map<String, dynamic>)))
+          .toList(),
       $__typename: (l$$__typename as String),
     );
   }
@@ -4287,6 +4374,9 @@ class Query$FindFirstProducts$findFirstProducts {
   final double buyingPrice;
 
   final Query$FindFirstProducts$findFirstProducts$family family;
+
+  final List<Query$FindFirstProducts$findFirstProducts$ProductModel>
+      ProductModel;
 
   final String $__typename;
 
@@ -4310,6 +4400,9 @@ class Query$FindFirstProducts$findFirstProducts {
     _resultData['buyingPrice'] = l$buyingPrice;
     final l$family = family;
     _resultData['family'] = l$family.toJson();
+    final l$ProductModel = ProductModel;
+    _resultData['ProductModel'] =
+        l$ProductModel.map((e) => e.toJson()).toList();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -4326,6 +4419,7 @@ class Query$FindFirstProducts$findFirstProducts {
     final l$description = description;
     final l$buyingPrice = buyingPrice;
     final l$family = family;
+    final l$ProductModel = ProductModel;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$picture,
@@ -4337,6 +4431,7 @@ class Query$FindFirstProducts$findFirstProducts {
       l$description,
       l$buyingPrice,
       l$family,
+      Object.hashAll(l$ProductModel.map((v) => v)),
       l$$__typename,
     ]);
   }
@@ -4395,6 +4490,18 @@ class Query$FindFirstProducts$findFirstProducts {
     if (l$family != lOther$family) {
       return false;
     }
+    final l$ProductModel = ProductModel;
+    final lOther$ProductModel = other.ProductModel;
+    if (l$ProductModel.length != lOther$ProductModel.length) {
+      return false;
+    }
+    for (int i = 0; i < l$ProductModel.length; i++) {
+      final l$ProductModel$entry = l$ProductModel[i];
+      final lOther$ProductModel$entry = lOther$ProductModel[i];
+      if (l$ProductModel$entry != lOther$ProductModel$entry) {
+        return false;
+      }
+    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -4433,9 +4540,16 @@ abstract class CopyWith$Query$FindFirstProducts$findFirstProducts<TRes> {
     String? description,
     double? buyingPrice,
     Query$FindFirstProducts$findFirstProducts$family? family,
+    List<Query$FindFirstProducts$findFirstProducts$ProductModel>? ProductModel,
     String? $__typename,
   });
   CopyWith$Query$FindFirstProducts$findFirstProducts$family<TRes> get family;
+  TRes ProductModel(
+      Iterable<Query$FindFirstProducts$findFirstProducts$ProductModel> Function(
+              Iterable<
+                  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel<
+                      Query$FindFirstProducts$findFirstProducts$ProductModel>>)
+          _fn);
 }
 
 class _CopyWithImpl$Query$FindFirstProducts$findFirstProducts<TRes>
@@ -4461,6 +4575,7 @@ class _CopyWithImpl$Query$FindFirstProducts$findFirstProducts<TRes>
     Object? description = _undefined,
     Object? buyingPrice = _undefined,
     Object? family = _undefined,
+    Object? ProductModel = _undefined,
     Object? $__typename = _undefined,
   }) =>
       _then(Query$FindFirstProducts$findFirstProducts(
@@ -4491,6 +4606,10 @@ class _CopyWithImpl$Query$FindFirstProducts$findFirstProducts<TRes>
         family: family == _undefined || family == null
             ? _instance.family
             : (family as Query$FindFirstProducts$findFirstProducts$family),
+        ProductModel: ProductModel == _undefined || ProductModel == null
+            ? _instance.ProductModel
+            : (ProductModel as List<
+                Query$FindFirstProducts$findFirstProducts$ProductModel>),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
@@ -4500,6 +4619,19 @@ class _CopyWithImpl$Query$FindFirstProducts$findFirstProducts<TRes>
     return CopyWith$Query$FindFirstProducts$findFirstProducts$family(
         local$family, (e) => call(family: e));
   }
+
+  TRes ProductModel(
+          Iterable<Query$FindFirstProducts$findFirstProducts$ProductModel> Function(
+                  Iterable<
+                      CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel<
+                          Query$FindFirstProducts$findFirstProducts$ProductModel>>)
+              _fn) =>
+      call(
+          ProductModel: _fn(_instance.ProductModel.map((e) =>
+              CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel(
+                e,
+                (i) => i,
+              ))).toList());
 }
 
 class _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts<TRes>
@@ -4518,11 +4650,13 @@ class _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts<TRes>
     String? description,
     double? buyingPrice,
     Query$FindFirstProducts$findFirstProducts$family? family,
+    List<Query$FindFirstProducts$findFirstProducts$ProductModel>? ProductModel,
     String? $__typename,
   }) =>
       _res;
   CopyWith$Query$FindFirstProducts$findFirstProducts$family<TRes> get family =>
       CopyWith$Query$FindFirstProducts$findFirstProducts$family.stub(_res);
+  ProductModel(_fn) => _res;
 }
 
 class Query$FindFirstProducts$findFirstProducts$family {
@@ -4648,6 +4782,532 @@ class _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$family<TRes>
 
   call({
     String? name,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Query$FindFirstProducts$findFirstProducts$ProductModel {
+  Query$FindFirstProducts$findFirstProducts$ProductModel({
+    required this.size_id,
+    required this.color_id,
+    required this.quantity,
+    required this.color,
+    required this.size,
+    this.$__typename = 'ProductModel',
+  });
+
+  factory Query$FindFirstProducts$findFirstProducts$ProductModel.fromJson(
+      Map<String, dynamic> json) {
+    final l$size_id = json['size_id'];
+    final l$color_id = json['color_id'];
+    final l$quantity = json['quantity'];
+    final l$color = json['color'];
+    final l$size = json['size'];
+    final l$$__typename = json['__typename'];
+    return Query$FindFirstProducts$findFirstProducts$ProductModel(
+      size_id: (l$size_id as int),
+      color_id: (l$color_id as int),
+      quantity: (l$quantity as int),
+      color:
+          Query$FindFirstProducts$findFirstProducts$ProductModel$color.fromJson(
+              (l$color as Map<String, dynamic>)),
+      size:
+          Query$FindFirstProducts$findFirstProducts$ProductModel$size.fromJson(
+              (l$size as Map<String, dynamic>)),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final int size_id;
+
+  final int color_id;
+
+  final int quantity;
+
+  final Query$FindFirstProducts$findFirstProducts$ProductModel$color color;
+
+  final Query$FindFirstProducts$findFirstProducts$ProductModel$size size;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$size_id = size_id;
+    _resultData['size_id'] = l$size_id;
+    final l$color_id = color_id;
+    _resultData['color_id'] = l$color_id;
+    final l$quantity = quantity;
+    _resultData['quantity'] = l$quantity;
+    final l$color = color;
+    _resultData['color'] = l$color.toJson();
+    final l$size = size;
+    _resultData['size'] = l$size.toJson();
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$size_id = size_id;
+    final l$color_id = color_id;
+    final l$quantity = quantity;
+    final l$color = color;
+    final l$size = size;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$size_id,
+      l$color_id,
+      l$quantity,
+      l$color,
+      l$size,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other is Query$FindFirstProducts$findFirstProducts$ProductModel) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$size_id = size_id;
+    final lOther$size_id = other.size_id;
+    if (l$size_id != lOther$size_id) {
+      return false;
+    }
+    final l$color_id = color_id;
+    final lOther$color_id = other.color_id;
+    if (l$color_id != lOther$color_id) {
+      return false;
+    }
+    final l$quantity = quantity;
+    final lOther$quantity = other.quantity;
+    if (l$quantity != lOther$quantity) {
+      return false;
+    }
+    final l$color = color;
+    final lOther$color = other.color;
+    if (l$color != lOther$color) {
+      return false;
+    }
+    final l$size = size;
+    final lOther$size = other.size;
+    if (l$size != lOther$size) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindFirstProducts$findFirstProducts$ProductModel
+    on Query$FindFirstProducts$findFirstProducts$ProductModel {
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel<
+          Query$FindFirstProducts$findFirstProducts$ProductModel>
+      get copyWith =>
+          CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel<
+    TRes> {
+  factory CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel(
+    Query$FindFirstProducts$findFirstProducts$ProductModel instance,
+    TRes Function(Query$FindFirstProducts$findFirstProducts$ProductModel) then,
+  ) = _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel;
+
+  factory CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel.stub(
+          TRes res) =
+      _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel;
+
+  TRes call({
+    int? size_id,
+    int? color_id,
+    int? quantity,
+    Query$FindFirstProducts$findFirstProducts$ProductModel$color? color,
+    Query$FindFirstProducts$findFirstProducts$ProductModel$size? size,
+    String? $__typename,
+  });
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color<TRes>
+      get color;
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size<TRes>
+      get size;
+}
+
+class _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel<TRes>
+    implements
+        CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel<TRes> {
+  _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindFirstProducts$findFirstProducts$ProductModel _instance;
+
+  final TRes Function(Query$FindFirstProducts$findFirstProducts$ProductModel)
+      _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? size_id = _undefined,
+    Object? color_id = _undefined,
+    Object? quantity = _undefined,
+    Object? color = _undefined,
+    Object? size = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindFirstProducts$findFirstProducts$ProductModel(
+        size_id: size_id == _undefined || size_id == null
+            ? _instance.size_id
+            : (size_id as int),
+        color_id: color_id == _undefined || color_id == null
+            ? _instance.color_id
+            : (color_id as int),
+        quantity: quantity == _undefined || quantity == null
+            ? _instance.quantity
+            : (quantity as int),
+        color: color == _undefined || color == null
+            ? _instance.color
+            : (color
+                as Query$FindFirstProducts$findFirstProducts$ProductModel$color),
+        size: size == _undefined || size == null
+            ? _instance.size
+            : (size
+                as Query$FindFirstProducts$findFirstProducts$ProductModel$size),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color<TRes>
+      get color {
+    final local$color = _instance.color;
+    return CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color(
+        local$color, (e) => call(color: e));
+  }
+
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size<TRes>
+      get size {
+    final local$size = _instance.size;
+    return CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size(
+        local$size, (e) => call(size: e));
+  }
+}
+
+class _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel<
+        TRes>
+    implements
+        CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel<TRes> {
+  _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel(
+      this._res);
+
+  TRes _res;
+
+  call({
+    int? size_id,
+    int? color_id,
+    int? quantity,
+    Query$FindFirstProducts$findFirstProducts$ProductModel$color? color,
+    Query$FindFirstProducts$findFirstProducts$ProductModel$size? size,
+    String? $__typename,
+  }) =>
+      _res;
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color<TRes>
+      get color =>
+          CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color
+              .stub(_res);
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size<TRes>
+      get size =>
+          CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size
+              .stub(_res);
+}
+
+class Query$FindFirstProducts$findFirstProducts$ProductModel$color {
+  Query$FindFirstProducts$findFirstProducts$ProductModel$color({
+    required this.color,
+    this.$__typename = 'Colors',
+  });
+
+  factory Query$FindFirstProducts$findFirstProducts$ProductModel$color.fromJson(
+      Map<String, dynamic> json) {
+    final l$color = json['color'];
+    final l$$__typename = json['__typename'];
+    return Query$FindFirstProducts$findFirstProducts$ProductModel$color(
+      color: (l$color as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String color;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$color = color;
+    _resultData['color'] = l$color;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$color = color;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$color,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other
+            is Query$FindFirstProducts$findFirstProducts$ProductModel$color) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$color = color;
+    final lOther$color = other.color;
+    if (l$color != lOther$color) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindFirstProducts$findFirstProducts$ProductModel$color
+    on Query$FindFirstProducts$findFirstProducts$ProductModel$color {
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color<
+          Query$FindFirstProducts$findFirstProducts$ProductModel$color>
+      get copyWith =>
+          CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color<
+    TRes> {
+  factory CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color(
+    Query$FindFirstProducts$findFirstProducts$ProductModel$color instance,
+    TRes Function(Query$FindFirstProducts$findFirstProducts$ProductModel$color)
+        then,
+  ) = _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$color;
+
+  factory CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color.stub(
+          TRes res) =
+      _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$color;
+
+  TRes call({
+    String? color,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$color<
+        TRes>
+    implements
+        CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color<
+            TRes> {
+  _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$color(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindFirstProducts$findFirstProducts$ProductModel$color _instance;
+
+  final TRes Function(
+      Query$FindFirstProducts$findFirstProducts$ProductModel$color) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? color = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindFirstProducts$findFirstProducts$ProductModel$color(
+        color: color == _undefined || color == null
+            ? _instance.color
+            : (color as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$color<
+        TRes>
+    implements
+        CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$color<
+            TRes> {
+  _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$color(
+      this._res);
+
+  TRes _res;
+
+  call({
+    String? color,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Query$FindFirstProducts$findFirstProducts$ProductModel$size {
+  Query$FindFirstProducts$findFirstProducts$ProductModel$size({
+    required this.size,
+    this.$__typename = 'Sizes',
+  });
+
+  factory Query$FindFirstProducts$findFirstProducts$ProductModel$size.fromJson(
+      Map<String, dynamic> json) {
+    final l$size = json['size'];
+    final l$$__typename = json['__typename'];
+    return Query$FindFirstProducts$findFirstProducts$ProductModel$size(
+      size: (l$size as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String size;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$size = size;
+    _resultData['size'] = l$size;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$size = size;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$size,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (!(other
+            is Query$FindFirstProducts$findFirstProducts$ProductModel$size) ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$size = size;
+    final lOther$size = other.size;
+    if (l$size != lOther$size) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$FindFirstProducts$findFirstProducts$ProductModel$size
+    on Query$FindFirstProducts$findFirstProducts$ProductModel$size {
+  CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size<
+          Query$FindFirstProducts$findFirstProducts$ProductModel$size>
+      get copyWith =>
+          CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size<
+    TRes> {
+  factory CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size(
+    Query$FindFirstProducts$findFirstProducts$ProductModel$size instance,
+    TRes Function(Query$FindFirstProducts$findFirstProducts$ProductModel$size)
+        then,
+  ) = _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$size;
+
+  factory CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size.stub(
+          TRes res) =
+      _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$size;
+
+  TRes call({
+    String? size,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$size<
+        TRes>
+    implements
+        CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size<
+            TRes> {
+  _CopyWithImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$size(
+    this._instance,
+    this._then,
+  );
+
+  final Query$FindFirstProducts$findFirstProducts$ProductModel$size _instance;
+
+  final TRes Function(
+      Query$FindFirstProducts$findFirstProducts$ProductModel$size) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? size = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$FindFirstProducts$findFirstProducts$ProductModel$size(
+        size: size == _undefined || size == null
+            ? _instance.size
+            : (size as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$size<
+        TRes>
+    implements
+        CopyWith$Query$FindFirstProducts$findFirstProducts$ProductModel$size<
+            TRes> {
+  _CopyWithStubImpl$Query$FindFirstProducts$findFirstProducts$ProductModel$size(
+      this._res);
+
+  TRes _res;
+
+  call({
+    String? size,
     String? $__typename,
   }) =>
       _res;

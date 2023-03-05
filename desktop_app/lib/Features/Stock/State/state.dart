@@ -3,13 +3,15 @@ import 'package:stock_manager/Domain/Models/product.dart';
 class StockState{
   final List<ProductFamily> productFamillies;
   final List<Product> products;
+
+  final Product? quickSearchProduct;
   
 
   factory StockState.initial(){
     return StockState(productFamillies:[],products: []);
   }
 
-  StockState({required this.productFamillies , required this.products});
+  StockState({this.quickSearchProduct, required this.productFamillies , required this.products});
 
   get productFamilysCount => productFamillies.length;
 
@@ -24,10 +26,11 @@ class StockState{
     return products[index];
   }
 
-  StockState copyWith({ List<Product>? products , List<ProductFamily>? productFamillies}) {
+  StockState copyWith({ List<Product>? products ,Product? quickSearchProduct, List<ProductFamily>? productFamillies}) {
     return StockState(
       products: products ?? this.products,
       productFamillies: productFamillies ?? this.productFamillies,
+      quickSearchProduct: quickSearchProduct ?? this.quickSearchProduct,
     );
   }
 

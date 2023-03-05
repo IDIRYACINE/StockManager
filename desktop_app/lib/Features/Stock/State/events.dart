@@ -1,3 +1,4 @@
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
 
@@ -53,9 +54,30 @@ class UpdateProductFamily extends  StockEvent{
   UpdateProductFamily(this.updateWrapper);
 }
 
-class SearchProduct extends StockEvent{}
+class SearchProducts extends StockEvent{
+  final AppJson query;
 
-class SearchProductFamily extends StockEvent{}
+  SearchProducts(this.query);
+}
+
+class QuickSearchProducts extends StockEvent{
+  final String barcode;
+
+  QuickSearchProducts(this.barcode);
+
+}
+
+class SetQuickSearchProduct extends StockEvent{
+  final Product? product;
+
+  SetQuickSearchProduct(this.product);
+}
+
+class SearchProductFamily extends StockEvent{
+  final AppJson query;
+
+  SearchProductFamily(this.query);
+}
 
 class RefreshProductFamily extends StockEvent{}
 

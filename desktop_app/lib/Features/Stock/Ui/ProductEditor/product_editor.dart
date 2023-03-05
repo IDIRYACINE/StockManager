@@ -42,84 +42,84 @@ class ProductEditor extends StatelessWidget {
         : ProductEditorMode.createModeInstance(product);
 
     return Form(
-        key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(Measures.small),
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  flex: upperRowFlex,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: DefaultDecorator(
-                          child: ProductForm(
-                            productEditorMode: modeDelegate,
-                            editMode: editMode,
-                            product: product,
-
-                          ),
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(Measures.small),
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                flex: upperRowFlex,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DefaultDecorator(
+                        child: ProductForm(
+                          productEditorMode: modeDelegate,
+                          editMode: editMode,
+                          product: product,
                         ),
                       ),
-                      const SizedBox(width: Measures.small),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                                child: DefaultDecorator(
-                              child: BrowseImage(
-                                imageUrl: product.imageUrl,
-                                onImageSelected: modeDelegate.setImage,
-                              ),
-                            )),
-                            Expanded(
+                    ),
+                    const SizedBox(width: Measures.small),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
                               child: DefaultDecorator(
-                                child: ProductModels(
-                                    productEditorMode: modeDelegate,
-                                    product: product),
-                              ),
+                            child: BrowseImage(
+                              imageUrl: product.imageUrl,
+                              onImageSelected: modeDelegate.setImage,
                             ),
-                          ],
-                        ),
+                          )),
+                          Expanded(
+                            child: DefaultDecorator(
+                              child: ProductModels(
+                                  productEditorMode: modeDelegate,
+                                  product: product),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Flexible(
-                  flex: lowerRowFlex,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Flexible(
-                        child: DefaultButton(
-                            label: Translations.of(context)!.cancel,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
-                      ),
-                      Flexible(
-                        child: DefaultButton(
-                          label: confirmLabel,
+              ),
+              Flexible(
+                flex: lowerRowFlex,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Flexible(
+                      child: DefaultButton(
+                          label: Translations.of(context)!.cancel,
                           onPressed: () {
-                            if (editMode) {
-                              modeDelegate.confirm(
-                                editCallback,
-                              );
-                            } else {
-                              modeDelegate.confirm(
-                                createCallback,
-                              );
-                            }
-                          },
-                        ),
+                            Navigator.pop(context);
+                          }),
+                    ),
+                    Flexible(
+                      child: DefaultButton(
+                        label: confirmLabel,
+                        onPressed: () {
+                          if (editMode) {
+                            modeDelegate.confirm(
+                              editCallback,
+                            );
+                          } else {
+                            modeDelegate.confirm(
+                              createCallback,
+                            );
+                          }
+                        },
                       ),
-                    ],
-                  ),
-                )
-              ]),
-        ));
+                    ),
+                  ],
+                ),
+              )
+            ]),
+      ),
+    );
   }
 }

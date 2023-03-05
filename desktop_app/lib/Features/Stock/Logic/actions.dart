@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:stock_manager/Application/ServiceStore/service.dart';
+import 'package:stock_manager/DataModels/type_defs.dart';
 import 'package:stock_manager/Domain/Models/product.dart';
 import 'package:stock_manager/Infrastructure/services_store.dart';
+import 'package:stock_manager/Types/i_database.dart';
 import 'package:stock_manager/Types/i_wrappers.dart';
-import 'package:stock_manager/DataModels/special_enums.dart';
 
 const _requesterId = 'StockBloc';
 
@@ -42,7 +43,22 @@ Future<List<Product>> loadProducts() async {
   return completer.future;
 }
 
-Future<void> searchProducts(Map<ServicesData, dynamic> requestData) async {}
+Future<List<Product>> searchProducts(AppJson query) async {
+  final completer = Completer<List<Product>>();
+
+  void onResponse(ServiceEventResponse response) {
+    completer.complete((response as SearchProductResponse).products);
+  }
+
+  final eventData =
+      SearchProductEventData(searchParams: query, requesterId: _requesterId);
+
+  final event = SearchProductEvent(eventData: eventData, callback: onResponse);
+
+  ServicesGateway.instance().sendEvent(event);
+
+  return completer.future;
+}
 
 Future<void> updateProduct(UpdateRequestWrapper<Product> wrapper) async {
   final eventData =
@@ -93,6 +109,44 @@ Future<List<ProductFamily>> loadProductFamillies() async {
 
   final event =
       LoadProductFamilliesEvent(eventData: eventData, callback: onResponse);
+
+  ServicesGateway.instance().sendEvent(event);
+
+  return completer.future;
+}
+
+Future<List<ProductFamily>> searchProductFamilies(AppJson query) async {
+  final completer = Completer<List<ProductFamily>>();
+
+  void onResponse(ServiceEventResponse response) {
+    completer.complete((response as SearchProductFamilliesResponse).famillies);
+  }
+
+  final familyId = query[r'$query'][ProductFamilyFields.reference];
+
+  final eventData = SearchProductFamilliesEventData(
+      familyId: familyId, requesterId: _requesterId);
+
+  final event =
+      SearchProductFamilliesEvent(eventData: eventData, callback: onResponse);
+
+  ServicesGateway.instance().sendEvent(event);
+
+  return completer.future;
+}
+
+Future<Product?> quickSearchProduct(String barcode) async {
+  final completer = Completer<Product?>();
+
+  void onResponse(ServiceEventResponse response) {
+    completer.complete((response as QuickSearchProductResponse).product);
+  }
+
+  final eventData =
+      QuickSearchProductEventData(searchValue: barcode, requesterId: _requesterId);
+
+  final event =
+      QuickSearchProductEvent(eventData: eventData, callback: onResponse);
 
   ServicesGateway.instance().sendEvent(event);
 

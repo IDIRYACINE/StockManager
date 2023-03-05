@@ -67,6 +67,18 @@ query FindFirstProducts($where: ProductsWhereInput) {
     family {
       name
     }
+
+    ProductModel {
+      size_id
+      color_id
+      quantity
+      color {
+        color
+      }
+      size {
+        size
+      }
+    }
   }
 }
 
