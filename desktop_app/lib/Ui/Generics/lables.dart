@@ -46,7 +46,7 @@ class LogoTextButonLabel extends StatelessWidget{
     children: [
       Icon(icon,color: iconColor,),
       const SizedBox(width: Measures.small,),
-      Text(label,style: Theme.of(context).textTheme.button!.copyWith(
+      Text(label,style: Theme.of(context).textTheme.labelLarge!.copyWith(
         color: textColor,
       ),),
     ],

@@ -1,6 +1,6 @@
 
 import 'package:graphql/client.dart';
-import 'package:stock_manager/secrets.dart';
+import 'package:stock_manager/secrets.dart' as secrets;
 
 GraphQLClient? _graphQlClient;
 
@@ -11,13 +11,13 @@ GraphQLClient getGraphQlClient() {
   }
 
   final httpLink = HttpLink(
-    serverLink,
+    secrets.serverLink,
   );
 
-  const websockeEndpoint = websockeLink;
+  const websockeEndpoint = secrets.websocketLink;
 
   final authLink = AuthLink(
-    getToken: () async => authHeader,
+    getToken: () async => secrets.authHeader,
   );
 
   Link link = authLink.concat(httpLink);

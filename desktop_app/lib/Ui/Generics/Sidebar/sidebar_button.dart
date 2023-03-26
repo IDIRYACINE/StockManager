@@ -32,8 +32,8 @@ class _SidebarButtonState extends State<SidebarButton> {
 
     selectedBackground = Theme.of(context).hoverColor;
     selectedTextStyle =
-        Theme.of(context).textTheme.button!.copyWith(color: Colors.white);
-    unselectedTextStyle = Theme.of(context).textTheme.button!.copyWith(color: Colors.grey);
+        Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white);
+    unselectedTextStyle = Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.grey);
 
     isInitialized = true;
   }

@@ -7,7 +7,6 @@ abstract class AppThemes {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: AppColors.active,
     primarySwatch: Colors.yellow,
-    backgroundColor: AppColors.grey,
     brightness: Brightness.light,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     colorScheme: ColorScheme(
@@ -28,7 +27,6 @@ abstract class AppThemes {
   static final ThemeData darkTheme = ThemeData(
     primaryColor: Colors.yellowAccent,
     primarySwatch: Colors.yellow,
-    backgroundColor: AppColors.grey,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     colorScheme: ColorScheme(
       brightness: Brightness.dark,

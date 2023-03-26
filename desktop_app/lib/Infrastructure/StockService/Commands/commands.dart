@@ -13,7 +13,6 @@ export "register_color.dart";
 export "delete_size.dart";
 export "load_all_colors.dart";
 export "load_all_sizes.dart";
-export "register_color.dart";
 export "register_size.dart";
 export "update_color.dart";
 export "update_size.dart";

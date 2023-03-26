@@ -1,0 +1,5 @@
+build/
+.dart_tool/
+*.lock
+*.flutter-plugins
+*.flutter-plugins-dependencies
